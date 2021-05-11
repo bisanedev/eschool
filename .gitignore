@@ -1,2 +1,5 @@
-
+server/node_modules
+server/vendor
 server/storage/cache
+server/composer.lock
+server/package-lock.json

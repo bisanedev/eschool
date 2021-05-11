@@ -34,6 +34,7 @@ export default {
         }),
         babel({ babelHelpers: 'bundled',compact: false }),
         replace({
+            preventAssignment: true,
             'process.env.NODE_ENV': JSON.stringify('development')
         }),
         commonjs(),

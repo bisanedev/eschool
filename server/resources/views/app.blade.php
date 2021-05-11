@@ -1,5 +1,15 @@
-@extends('layout')
-@section('title', 'Framework')
-@section('content')
-    <div id="root"></div>
-@endsection
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">    
+    <link href="https://fonts.googleapis.com/css2?family=Titillium+Web:wght@200;300&display=swap" rel="stylesheet">
+    <title>Blank</title>       	
+    <!-- Core -->    
+    <link rel="stylesheet" href="assets/css/bundle.min.css">    
+  </head>
+  <body>   
+    <div id="root"></div> 
+    <script type="application/javascript" src="assets/js/bundle.min.js"></script>
+  </body>
+</html>

@@ -88,7 +88,7 @@ export default class Navbar extends React.Component{
               <div className="logout">
                 <a href="#/logout"> 
                   <span>Logout</span>
-                  <i className="las la-sign-out-alt"></i>
+                  <i className="las la-power-off"></i>
                 </a>
               </div>
             </div>

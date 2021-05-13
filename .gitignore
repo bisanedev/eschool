@@ -4,3 +4,9 @@ server/storage/cache
 server/composer.lock
 server/package-lock.json
 inspire
+siswa/Library
+siswa/Logs
+siswa/Packages
+siswa/Temp
+siswa/UserSettings
+

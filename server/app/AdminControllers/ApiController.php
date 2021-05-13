@@ -1,5 +1,5 @@
 <?php
-namespace App\ApiControllers;
+namespace App\AdminControllers;
 use DateTimeZone;
 use Lcobucci\Clock\SystemClock;
 use Lcobucci\JWT\Validation\Constraint\IdentifiedBy;

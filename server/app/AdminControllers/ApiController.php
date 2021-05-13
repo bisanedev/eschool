@@ -28,7 +28,7 @@ class ApiController
             $this->token = $token;  
             $constraints = [
                 new ValidAt($clock),
-                new IdentifiedBy('Framework'),
+                new IdentifiedBy('EschoolLoh'),
                 new PermittedFor($_SERVER['SERVER_NAME']),              
                 new SignedWith($this->jwt->signer(), $this->jwt->signingKey())
             ];
@@ -39,7 +39,7 @@ class ApiController
             }                        
                       
             //-------- cek user
-            $cekUser = $this->database->select( "users",["password"],[
+            $cekUser = $this->database->select("user_admin",["password"],[
                 "expired_token" => $token->claims()->get('exp')->getTimestamp() , "id" => $token->claims()->get('uid')
             ]); 
             

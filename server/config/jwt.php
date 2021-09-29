@@ -10,7 +10,7 @@ return [
             // You may use any HMAC variations (256, 384, and 512)
             new Sha256(),
             // replace the value below with a key of your own!            
-            InMemory::base64Encoded('S2VyYS1LZXJhIERpbWFuYS1NYW5h')             
+            InMemory::base64Encoded('U2F5YSBHYW50ZW5nIFRhcGkgR2FrIFBheXU=')             
     	);
     },
     // end

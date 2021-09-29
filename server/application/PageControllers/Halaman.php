@@ -1,9 +1,9 @@
 <?php
-namespace App\Controllers;
+namespace App\PageControllers;
 use App\Utils\HeaderResponse;
 Use eftec\bladeone\BladeOne;
 
-class PageController
+class Halaman
 {
     public function __construct(HeaderResponse $response)
     {      

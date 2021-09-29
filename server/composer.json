@@ -11,7 +11,7 @@
 		"vlucas/valitron": "^1.4",		
 		"polarising/bcrypt": "^1.0",
 		"notihnio/php-request-parser": "1.0.0",
-		"eftec/bladeone": "^3.52",
+		"eftec/bladeone": "^4",
 		"lcobucci/jwt": "^4.1",
 		"lcobucci/clock": "^2.0"			
 	},

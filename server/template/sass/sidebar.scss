@@ -82,7 +82,10 @@
       .icon-logout{
         background-color: #f00 !important;
         border-right:solid 1px #d9061a !important;                
-      }     
+      }  
+      .icon-disabled{
+        background-color: $disabled-secondaryColor  !important;
+      }   
     }
   }
 }

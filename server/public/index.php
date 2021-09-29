@@ -16,25 +16,26 @@ use FastRoute\RouteCollector;
 //     exit;
 // }
 
-$container = require __DIR__ . '/../bootstrap/bootstrap.php';
+$container = require __DIR__ . '/../application/bootstrap.php';
 
 $dispatcher = FastRoute\simpleDispatcher(function (RouteCollector $r) {
 //$dispatcher = FastRoute\cachedDispatcher(function (RouteCollector $r) { 
     //page
     $r->addRoute('GET', '/', ['App\Controllers\MainController','index']);     
-    // admin Api
-    $r->addGroup('/api/admin', function (RouteCollector $r) {        
-        $r->addRoute('POST', '/auth', ['App\AdminControllers\AuthController','login']);        
-    });
-    // pengajar Api
-    $r->addGroup('/api/pengajar', function (RouteCollector $r) {        
-        $r->addRoute('POST', '/auth', ['App\PengajarControllers\AuthController','login']);        
-    });
-    // siswa Api
-    $r->addGroup('/api/siswa', function (RouteCollector $r) {        
-        $r->addRoute('POST', '/auth', ['App\SiswaControllers\AuthController','login']);        
-    });
-    // ---------
+    // Siswa Api
+    $r->addGroup('/api', function (RouteCollector $r) {
+        //authentikasi
+        $r->addRoute('POST', '/auth', ['App\ApiControllers\AuthController','login']);                      
+        //protected page
+        $r->addRoute('GET', '/protected', ['App\ApiControllers\ProtectController','index']); 
+        $r->addRoute('POST', '/protected', ['App\ApiControllers\ProtectController','indexPost']); 
+        $r->addRoute('PATCH', '/protected', ['App\ApiControllers\ProtectController','indexPatch']); 
+        $r->addRoute('DELETE', '/protected', ['App\ApiControllers\ProtectController','indexDelete']);         
+        //testMongoDB
+        $r->addRoute('GET', '/mongodb', ['App\ApiControllers\MongodbController','index']);      
+        $r->addRoute('GET', '/mongodb/insert', ['App\ApiControllers\MongodbController','insert']);    
+        //-----
+    });       
 },[
     //'cacheFile' => __DIR__ . '/../storage/cache/route/route.cache', /* required */
     //'cacheDisabled' => IS_DEBUG_ENABLED,     /* optional, enabled by default */

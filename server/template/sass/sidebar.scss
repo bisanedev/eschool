@@ -1,0 +1,88 @@
+.sidebar{
+  display: flex;
+  flex-direction: column;  
+  justify-content: center;
+  align-items: center;
+  width: 250.1px;
+  height: 100%;
+  top: 0;
+  background-color: #fff;
+  transform: translateZ(0);
+  visibility: visible;
+  backface-visibility: hidden;
+  position: fixed !important;
+  z-index: 1;
+  overflow: auto;
+  box-shadow: 3px 0px 9px 3px rgba(0, 0, 0, 0.09);  
+  .logo{               
+    padding: 10px;   
+    position: absolute;
+    top: 0; 
+    left: 0;
+    z-index: 9;
+    img{      
+      height: 78px;
+      width: 100%;
+    }
+  }  
+  .nav{    
+    display: block;
+    list-style: none;
+    margin-bottom: 0;
+    padding-left: 0;      
+    .nav-item{
+      display: flex;      
+      margin-bottom: 12px;
+      .nav-button{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;        
+        text-decoration: none;        
+        width: 155px;        
+        padding-left: 10px;
+        position: relative;        
+        cursor: pointer;
+        border-top-right-radius: 5px;
+        border-bottom-right-radius: 5px;       
+        background-color: #f3f3f3;   
+        border-top: 1px solid #eaeaea;
+        border-bottom: 1px solid #eaeaea;
+        border-right: 1px solid #eaeaea;
+      }      
+      span.text{        
+        color: #333;
+        font-size: 18px;        
+        font-weight: 600;
+        line-height: 12px;
+      }
+      span.subtext{
+        color: #333;  
+        font-size: 11px;
+        font-weight: 600;
+        line-height: 16px;
+      }                
+      .nav-icon{
+        width:40px;                              
+        height:48px;        
+        display:flex;
+        align-items: center;
+        justify-content: center;        
+        border-top-left-radius: 5px;
+        border-bottom-left-radius: 5px;
+        background-color: $primary-color;                               
+        img{
+          border-radius: 5%;
+          height: 47px;
+          width: 37px;
+        }
+      }
+      .icon-profile{
+        background-color: #fff !important;        
+      }
+      .icon-logout{
+        background-color: #f00 !important;
+        border-right:solid 1px #d9061a !important;                
+      }     
+    }
+  }
+}

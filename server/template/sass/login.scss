@@ -1,0 +1,71 @@
+.login-alert{    
+    margin-top:20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;   
+}
+.login-page{
+    width: 600px;
+    background-color: white;
+    height: 380px;
+    position: absolute;
+    margin: auto;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    box-shadow:  0 10px 20px rgba(0, 0, 0, 0.06), 0 6px 6px rgba(0, 0, 0, 0.06);
+    border-radius: 6px; 
+    display: flex;   
+    -webkit-flex-direction: row; 
+    flex-direction: row;
+    .logo{
+        flex: 2;
+        align-items: center;
+        justify-content: center;
+        display: flex;
+        background: blanchedalmond;
+        img {
+            width: 200px;
+            height: 200px;
+        }
+    }
+    .form{
+        flex: 2;
+        flex-direction: column;
+        align-items: center;
+        justify-content:center;
+        display: flex; 
+        .viewPassword{
+            position: absolute;
+            top: 25%;
+            right: 6%;
+            cursor: pointer;
+        }
+        .form-control{
+            border: 1px solid #fff;
+            border-radius: 0 !important;
+            border-bottom: 1px solid #ced4da;            
+        }
+        .form-control:focus{
+            box-shadow: 0 0 0 1px #ced4da !important;
+        }
+        .rowButton{
+            flex-direction: row;
+            display: flex;
+            width: 90%;
+            .form-check{
+                flex: 1;
+                align-items: center;
+                display: flex !important;
+                justify-content: center;
+                .form-check-label{
+                    margin-left: 10px;
+                }
+            }
+            .btn-primary{
+                flex: 1;
+            }
+        }    
+    }
+}

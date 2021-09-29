@@ -15,7 +15,7 @@ import json from '@rollup/plugin-json';
 //system – Native format of the SystemJS loader
 
 export default {
-    input: './resources/javascript/main.js',
+    input: './template/javascript/main.js',
     onwarn,
     output: {
         file: './public/assets/js/bundle.min.js',
@@ -45,7 +45,7 @@ export default {
         }),
         copy({
 	      targets: [	        
-	        { src: './resources/assets/*', dest: './public/assets' }
+	        { src: './template/assets/*', dest: './public/assets' }
 	      ]
         })        
     ]

@@ -1,0 +1,36 @@
+$font-stack: "Titillium Web", sans-serif;
+$font-color: #333;
+$backgroundColor: #f3f3f3f3;
+$primary-color: #0d6efd;
+$secondary-color : #1e50b0;
+
+$material-icons-font-path: '../fonts/' !default;
+$material-icons-font-size: 24px !default;
+$material-icons-font-display: block !default;
+
+@import "node_modules/bootstrap/scss/bootstrap.scss";
+@import "node_modules/material-icons/iconfont/material-icons.scss";
+@import "login";
+@import "sidebar";
+
+body {        
+    background-color: $backgroundColor;
+    color: $font-color;
+    font-family: $font-stack;
+    font-style: normal;
+    font-weight: 300;    
+}
+
+/* main stylesheet*/
+.wrapper{
+    width: 100%;
+    max-width: 1920px;
+    margin: 0 auto;  
+    .main{
+        margin-left: 250.1px;  /* jika sidebar ada */
+        width: auto;                      
+        .konten{            
+            height: 3000px;           
+        }   
+    } 
+}

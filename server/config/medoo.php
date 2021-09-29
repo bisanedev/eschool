@@ -6,7 +6,7 @@ return [
     Medoo::class => function() {    	
     	return new Medoo([
 	        'database_type' => 'mysql', // type database
-	        'database_name' => 'eschool', // nama database
+	        'database_name' => 'framework', // nama database
 	        'server' => 'localhost', // host database
 	        'username' => 'root', // username db
 	        'password' => '' // password db

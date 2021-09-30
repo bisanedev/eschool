@@ -6,7 +6,7 @@ export default class Sidebar extends React.Component{
   constructor(props) {
     super(props);
     this.state = {
-      isAdmin:false
+      isAdmin:this.props.superuser
     }    
   }
 

@@ -1,6 +1,6 @@
 <?php
 namespace App\AdminControllers;
-use App\ApiControllers\ApiController;
+use App\AdminControllers\ApiController;
 use Notihnio\RequestParser\RequestParser;
 use App\Utils\HeaderResponse;
 use Medoo\Medoo;
@@ -14,7 +14,7 @@ class ProtectController extends ApiController
     }
 
     public function index()
-    {        
+    {                
         echo $this->response->json_response(200, "Halaman yang dilindungi, GET");
     }
 

@@ -28,22 +28,24 @@ class ApiController
             $this->token = $token;  
             $constraints = [
                 new ValidAt($clock),
-                new IdentifiedBy('Framework'),
+                new IdentifiedBy('eSchool'),
                 new PermittedFor($_SERVER['SERVER_NAME']),              
                 new SignedWith($this->jwt->signer(), $this->jwt->signingKey())
             ];
 
             if (!$this->jwt->validator()->validate($token, ...$constraints )){
-                echo $this->response->json_response(401, "token tidak ter-validasi");
+                echo $this->response->json_response(401,"token tidak ter-validasi");
                 exit;
             }                        
                       
             //-------- cek user
-            $cekUser = $this->database->select( "users",["password"],[
-                "expired_token" => $token->claims()->get('exp')->getTimestamp() , "id" => $token->claims()->get('uid')
+            $cekUser = $this->database->select("users",["username"],[
+                "unique_token" => $token->claims()->get('uniqueToken'),
+                "expired_token" => $token->claims()->get('exp')->getTimestamp(),
+                "id" => $token->claims()->get('uid')
             ]); 
             
-            if(empty($cekUser)){
+            if(empty($cekUser)){                
                 echo $this->response->json_response(401, "Token user tidak ditemukan, Silahkan logout dan login kembali");                
                 exit; 
             }           

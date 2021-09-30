@@ -5,6 +5,7 @@ import {
   Route,  
   Redirect,
 } from "react-router-dom";
+import jwt_decode from "jwt-decode";
 
 /* component */
  import Sidebar from "./components/sidebar";
@@ -32,39 +33,18 @@ export default function RouterApp() {
         </Switch>
     </HashRouter>
   );
-}    
-//-----------
-const Auth = {
-  isAuthenticated(tipe){
-    const data = window.localStorage.getItem('userToken');    
-    if (data){
-    var akses = jwt_decode(data);    
-      if( akses.type === tipe){
-        return true;
-      }
-    }else{
-      return false;
-    }
-  },
-  isAuth(){
-    //const data = true;
-    const data = window.localStorage.getItem('userToken');      
-    if(data){
-      return true;
-    }else{
-      return false;
-    }
-  }
 }
-//privateRouter
+// ----- privateRouter
 function PrivateRoute({ comp: Component, ...rest }) {
+  const authData = window.localStorage.getItem('userToken');
+  var akses = jwt_decode(authData); 
   return (
     <Route
       {...rest}
       render={({ props }) =>
-        Auth.isAuth() ? (         
+      authData ? (       
           <div className="wrapper">                                                     
-            <Sidebar/>          
+            <Sidebar superuser={akses.superuser}/>          
             <div id="main" className="main">              
               <Component {...props}/>
             </div>          

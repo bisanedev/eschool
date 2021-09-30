@@ -26,13 +26,14 @@ class AuthController
         $v = new Validator($_POST);
         $v->rule('required', ['username', 'password']);
         if($v->validate()) {      
-        $cekAuth = $this->database->select("users",["id","username","password","akses_id"],[
+        $cekAuth = $this->database->select("users",["id","username","password","superuser","unique_token"],[
                 "username" => $_POST["username"]
         ]);        
         if(!empty($cekAuth)){            
             if($bcrypt->verify($_POST["password"], $cekAuth[0]['password'])){
                 // create token                
-                $now = new DateTimeImmutable();                       
+                $now = new DateTimeImmutable();   
+                $uniqueToken = uniqid();                    
                 //remember
                 if($_POST['remember'] == 'Yes'){
                     //never expired
@@ -43,10 +44,11 @@ class AuthController
                     ->issuedAt($now)                    
                     ->canOnlyBeUsedAfter($now)
                     ->expiresAt($now->modify('+1 year'))                    
-                    ->withClaim('uid',$cekAuth[0]['id'])  
-                    ->withClaim('akses',$cekAuth[0]['akses_id'])                  
+                    ->withClaim('uid',$cekAuth[0]['id'])
+                    ->withClaim('uniqueToken',$uniqueToken)
+                    ->withClaim('superuser',$cekAuth[0]['superuser'] == "1" ? true:false)                  
                     ->getToken($this->jwt->signer(), $this->jwt->signingKey());
-                    $this->database->update("users",["expired_token" => $now->modify('+1 year')->getTimestamp()],["id" => $cekAuth[0]['id']]);                    
+                    $this->database->update("users",["expired_token" => $now->modify('+1 year')->getTimestamp(),"unique_token" => $uniqueToken],["id" => $cekAuth[0]['id']]);                    
                     $data = array("data" => $token->toString());
                     echo $this->response->json_response(200,$data);
                 }else{
@@ -58,10 +60,11 @@ class AuthController
                     ->issuedAt($now)
                     ->canOnlyBeUsedAfter($now)
                     ->expiresAt($now->modify('+1 day'))
-                    ->withClaim('uid',$cekAuth[0]['id'])                    
-                    ->withClaim('akses',$cekAuth[0]['akses_id'])   
+                    ->withClaim('uid',$cekAuth[0]['id'])
+                    ->withClaim('uniqueToken',$uniqueToken)            
+                    ->withClaim('superuser',$cekAuth[0]['superuser'] == "1" ? true:false)   
                     ->getToken($this->jwt->signer(), $this->jwt->signingKey());
-                    $this->database->update("users",["expired_token" => $now->modify('+1 day')->getTimestamp()],["id" => $cekAuth[0]['id']]);                    
+                    $this->database->update("users",["expired_token" => $now->modify('+1 day')->getTimestamp(),"unique_token" => $uniqueToken],["id" => $cekAuth[0]['id']]);                    
                     $data = array("data" => $token->toString());
                     echo $this->response->json_response(200,$data);
                 }                 

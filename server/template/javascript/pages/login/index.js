@@ -37,7 +37,7 @@ class PageLogin extends React.Component{
     </div>
     <div className="login-page">
         <Helmet>
-          <title>Halaman - Login</title>
+          <title>Login - Nama Sekolah</title>
         </Helmet>
         <div className="logo">
           <img src="assets/images/logo.png" alt="Logo Sekolah"/> 
@@ -60,7 +60,7 @@ class PageLogin extends React.Component{
             <input name="rememberMe" className="form-check-input" type="checkbox" checked={rememberMe} onChange={this.handleInputChange} id="flexCheckDefault"/>
             <label className="form-check-label" htmlFor="flexCheckDefault">Ingat saya</label>
           </div>
-          <button type="button" className="btn btn-primary" style={{width:"90%"}}>Login</button>
+          <button type="button" className="btn btn-primary" style={{width:"90%"}} onClick={this.SubmitLogin}>Login</button>
           </div>
         </div>
     </div>
@@ -79,12 +79,13 @@ class PageLogin extends React.Component{
     this.setState({passwordShown:  !passwordShown  });    
   };
   //submit
-  SubmitLogin() {
+  SubmitLogin = () => {
+    const {username,password,rememberMe} = this.state
     this.setState({inputError:""});     
     var formData = new FormData();
-    formData.append('username', this.state.Username);
-    formData.append('password', this.state.Password);    
-    formData.append('remember', this.state.Remember ? 'Yes' : 'No');  
+    formData.append('username', username);
+    formData.append('password', password);    
+    formData.append('remember', rememberMe ? 'Yes' : 'No');  
     //submit login siswa
     axios({
         method: 'post',

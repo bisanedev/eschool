@@ -55,16 +55,16 @@ function PrivateRoute({ comp: Component, ...rest }) {
             <div className="modal fade" id="logoutModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
               <div className="modal-dialog modal-dialog-centered modal-sm">
                 <div className="modal-content">
-                <div className="modal-header" style={{padding:"5px 10px 5px 10px"}}>
+                <div className="modal-header" style={{padding:"10px"}}>
                     <h5 className="modal-title" id="staticBackdropLabel">Konfirmasi</h5>
                     <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div className="modal-body">
-                    <h5>Apakah Anda Yakin Logout ??</h5>
+                    <h5 style={{textAlign:"center"}}>Apakah Anda Yakin Logout ??</h5>
                 </div>
                 <div className="modal-footer" style={{padding:"0px 5px 0px 5px"}}>
-                    <button type="button" className="btn btn-secondary btn-sm" data-bs-dismiss="modal">Batal</button>
-                    <button type="button" className="btn btn-danger btn-sm" data-bs-dismiss="modal" onClick={logOut}>Logout</button>
+                    <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                    <button type="button" className="btn btn-danger" data-bs-dismiss="modal" onClick={logOut}>Logout</button>
                 </div>
                 </div>
               </div>

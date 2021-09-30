@@ -7,7 +7,8 @@ class PageLogin extends React.Component{
 
   constructor(props) {
     super(props);
-    this.state = {
+    this.state = {      
+      alertMsg:"",
       isLogin:false,
       passwordShown:false,
       rememberMe:false,
@@ -25,16 +26,10 @@ class PageLogin extends React.Component{
   }
 
   render() {
-    const {isLogin,passwordShown,rememberMe} = this.state;
+    const {isLogin,alertMsg,passwordShown,rememberMe} = this.state;
     if(isLogin){return <Redirect to={"/"} />;} 
     return (
     <>
-    <div className="login-alert">
-    <div className="alert alert-warning alert-dismissible fade show" role="alert">
-      <strong>Holy guacamole!</strong> You should check in on some of those fields below.
-      <button type="button" className="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
-    </div>
     <div className="login-page">
         <Helmet>
           <title>Login - Nama Sekolah</title>
@@ -64,6 +59,14 @@ class PageLogin extends React.Component{
           </div>
         </div>
     </div>
+    {alertMsg !="" && 
+      <div className="login-alert">
+      <div className="alert alert-warning alert-dismissible fade show" role="alert">
+        {alertMsg}
+        <button type="button" className="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+      </div>
+    }  
     </> 
     );
   }
@@ -81,7 +84,7 @@ class PageLogin extends React.Component{
   //submit
   SubmitLogin = () => {
     const {username,password,rememberMe} = this.state
-    this.setState({inputError:""});     
+    this.setState({alertMsg:""});     
     var formData = new FormData();
     formData.append('username', username);
     formData.append('password', password);    
@@ -100,13 +103,13 @@ class PageLogin extends React.Component{
         }
     }).catch(error => {        
         if(error.message === "Network Error"){          
-          alert("Jaringan Mati");
+          this.setState({alertMsg: "Jaringan internet tidak tersambung"});
         }
-        if(error.response.status == 401){                             
-          alert(error.response.data.message);
+        if(error.response.status == 401){  
+          this.setState({alertMsg: error.response.data.message});                                     
         }
         if(error.response.status == 400){
-          alert(error.response.data.message);
+          this.setState({alertMsg: error.response.data.message});
         }
     });
   }  

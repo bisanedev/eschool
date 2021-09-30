@@ -21,9 +21,9 @@ export default {
         file: './public/assets/js/bundle.min.js',
         format: 'umd',         
         name: 'bundle.min',
-        // globals: {            
-        //     'jquery': '$',
-        // }     
+        globals: {            
+            'jquery': '$',
+        }    
     },
     plugins: [
         resolve({ 

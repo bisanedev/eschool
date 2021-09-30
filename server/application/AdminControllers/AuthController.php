@@ -45,6 +45,7 @@ class AuthController
                     ->canOnlyBeUsedAfter($now)
                     ->expiresAt($now->modify('+1 year'))                    
                     ->withClaim('uid',$cekAuth[0]['id'])
+                    ->withClaim('username',$cekAuth[0]['username'])
                     ->withClaim('uniqueToken',$uniqueToken)
                     ->withClaim('superuser',$cekAuth[0]['superuser'] == "1" ? true:false)                  
                     ->getToken($this->jwt->signer(), $this->jwt->signingKey());
@@ -61,6 +62,7 @@ class AuthController
                     ->canOnlyBeUsedAfter($now)
                     ->expiresAt($now->modify('+1 day'))
                     ->withClaim('uid',$cekAuth[0]['id'])
+                    ->withClaim('username',$cekAuth[0]['username'])
                     ->withClaim('uniqueToken',$uniqueToken)            
                     ->withClaim('superuser',$cekAuth[0]['superuser'] == "1" ? true:false)   
                     ->getToken($this->jwt->signer(), $this->jwt->signingKey());

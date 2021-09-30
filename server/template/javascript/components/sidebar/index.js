@@ -4,18 +4,14 @@ import { useLocation } from 'react-router-dom';
 export default class Sidebar extends React.Component{
 
   constructor(props) {
-    super(props);
-    this.state = {
-      isAdmin:this.props.superuser
-    }    
+    super(props);    
   }
 
   componentDidMount() {     
 
   }
 
-  render() {  
-    const {isAdmin} = this.state;  
+  render() {      
     return (
     <div id="menu" className="sidebar">
       <div className="logo">
@@ -23,13 +19,13 @@ export default class Sidebar extends React.Component{
       </div>
       <ul className="nav"> 
         <NavItem url="/" title="Aplikasi" ico={<span className="material-icons-outlined" style={{color:"#ffffff"}}>apps</span>}/>
-        {isAdmin ? 
+        {this.props.superuser ? 
         <NavItem url="/sekolah" title="Sekolah" ico={<span className="material-icons-outlined" style={{color:"#ffffff"}}>school</span>}/>
         :
         <NavItemDisabled title="Sekolah" ico={<span className="material-icons-outlined" style={{color:"#ffffff"}}>school</span>} />
         }        
-        <NavItem url="/profile" title="Profil" class="profile" subtext="@zvickyhac" ico={<img src="user.jpg" />}/>  
-        <NavItem url="/keluar" title="Logout" class="logout" ico={<span className="material-icons-outlined" style={{color:"#ffffff"}}>power_settings_new</span>}/>
+        <NavItem url="/profile" title="Profil" class="profile" subtext={"@"+this.props.username} ico={<img src="user.jpg" />}/>  
+        <NavLogout title="Logout" />
       </ul>
     </div>
     );
@@ -38,18 +34,24 @@ export default class Sidebar extends React.Component{
  
   // ---------------------------- end of script
 }
-
+function NavLogout(props){
+  return (
+    <li className="nav-item">
+    <div className="nav-icon icon-logout">
+      <span className="material-icons-outlined" style={{color:"#ffffff"}}>power_settings_new</span>
+    </div>
+    <div className="nav-button" data-bs-toggle="modal" data-bs-target="#logoutModal">      
+      <span className="text">{props.title}</span>      
+    </div>
+    </li>    
+  );
+}
 function NavItem(props){  
   const location = useLocation();
   return (
     <li className={props.url === location.pathname ? "nav-item active":"nav-item"}>  
     {props.class === "profile" && 
       <div className="nav-icon icon-profile">
-      {props.ico}
-      </div>
-    }
-    {props.class === "logout" && 
-      <div className="nav-icon icon-logout">
       {props.ico}
       </div>
     }

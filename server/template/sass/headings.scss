@@ -1,0 +1,16 @@
+.headings{
+    margin-left: 20px;    
+    .title{
+        font-size: 52px;
+        font-weight: bold;                
+        text-transform: uppercase;
+        height: 65px;
+    }
+    .subtitle{
+        font-size: 15px;
+        background-color: white;
+        width: max-content;
+        padding: 0 5px;
+        margin-bottom: 14px;
+    }
+}

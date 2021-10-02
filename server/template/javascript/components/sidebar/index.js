@@ -25,7 +25,7 @@ export default class Sidebar extends React.Component{
         <NavItemDisabled title="Sekolah" ico={<span className="material-icons-outlined" style={{color:"#ffffff"}}>school</span>} />
         }        
         <NavItem url="/profile" title="Profil" class="profile" subtext={"@"+this.props.username} ico={<img src="user.jpg" />}/>  
-        <NavLogout title="Logout" />
+        <NavLogout title="Logout" show={this.props.modalShow}/>
       </ul>
     </div>
     );
@@ -40,7 +40,7 @@ function NavLogout(props){
     <div className="nav-icon icon-logout">
       <span className="material-icons-outlined" style={{color:"#ffffff"}}>power_settings_new</span>
     </div>
-    <div className="nav-button" data-bs-toggle="modal" data-bs-target="#logoutModal">      
+    <div className="nav-button" onClick={props.show}>      
       <span className="text">{props.title}</span>      
     </div>
     </li>    
@@ -80,7 +80,7 @@ function NavItemDisabled(props){
   </div>
   <div className="nav-button" style={{cursor:"not-allowed"}}>      
       <span className="text" style={{color:"#b3b3b3"}}>{props.title}</span>       
-      <div style={{position:"absolute",right:0,height:"22px"}}>
+      <div style={{position:"absolute",right:"5px",height:"22px"}}>
         <span className="material-icons-outlined" style={{color:"#b3b3b3",fontSize:"22px"}}>lock</span>
       </div>
   </div>

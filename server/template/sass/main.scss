@@ -14,6 +14,9 @@ $material-icons-font-display: block !default;
 @import "node_modules/material-icons/iconfont/material-icons.scss";
 @import "login";
 @import "sidebar";
+@import "headings";
+@import "breadcrumb";
+@import "menuCards";
 
 body {        
     background-color: $backgroundColor;
@@ -22,7 +25,10 @@ body {
     font-style: normal;
     font-weight: 300;    
 }
-
+/* 404 page */
+.page-wrap {
+    min-height: 100vh;
+}
 /* main stylesheet*/
 .wrapper{
     width: 100%;
@@ -32,7 +38,7 @@ body {
         margin-left: 250.1px;  /* jika sidebar ada */
         width: auto;                      
         .konten{            
-            height: 3000px;           
+            height: auto;           
         }   
     } 
 }

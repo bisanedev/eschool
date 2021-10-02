@@ -1,4 +1,4 @@
-import React from 'react';
+import React , {useState} from 'react';
 import axios from 'axios';
 import {  
   HashRouter,
@@ -8,27 +8,28 @@ import {
   Redirect,
 } from "react-router-dom";
 import jwt_decode from "jwt-decode";
-
+import { Modal,Button } from 'react-bootstrap';
 /* component */
- import Sidebar from "./components/sidebar"; 
-// import Navbar from "./components/navbar";
+import Sidebar from "./components/sidebar"; 
 /* pages */
 import PageLogin from "./pages/login";
 import Page404 from './pages/other/404';
 //----- Page
 import PageAplikasi from './pages/aplikasi';
-import PageTest from './pages/test';
+import PageSekolah from './pages/sekolah';
+import PageProfile from './pages/profile';
 
 export default function RouterApp() {
     
-  return (  
+  return (
     <HashRouter>
         <Switch>
           <Route exact path="/login">
             <PageLogin />
           </Route>
-          <PrivateRoute exact path="/" comp={PageAplikasi} />          
-          <PrivateRoute exact path="/test" comp={PageTest} /> 
+          <PrivateRoute exact path="/" comp={PageAplikasi} />
+          <PrivateRoute exact path="/sekolah" comp={PageSekolah} />  
+          <PrivateRoute exact path="/profile" comp={PageProfile} /> 
           <Route path="*">
             <Page404 />
           </Route>
@@ -38,10 +39,14 @@ export default function RouterApp() {
 }
 // ----- privateRouter
 function PrivateRoute({ comp: Component, ...rest }) {
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
   let history = useHistory();
   const authData = window.localStorage.getItem('userToken');  
-  var akses = authData ? jwt_decode(authData):false;   
-  function logOut(){    
+  var tokenData = authData ? jwt_decode(authData):false;   
+  const logOut = () => {
+    setShow(false);    
     window.localStorage.removeItem('userToken');
     delete axios.defaults.headers.common['Authorization']; 
     history.push('/');
@@ -50,30 +55,25 @@ function PrivateRoute({ comp: Component, ...rest }) {
     <Route
       {...rest}
       render={({ props }) =>
-      authData ? (       
+      authData ? (            
             <div className="wrapper">
-            <div className="modal fade" id="logoutModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-              <div className="modal-dialog modal-dialog-centered modal-sm">
-                <div className="modal-content">
-                <div className="modal-header" style={{padding:"10px"}}>
-                    <h5 className="modal-title" id="staticBackdropLabel">Konfirmasi</h5>
-                    <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div className="modal-body">
-                    <h5 style={{textAlign:"center"}}>Apakah Anda Yakin Logout ??</h5>
-                </div>
-                <div className="modal-footer" style={{padding:"0px 5px 0px 5px"}}>
-                    <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                    <button type="button" className="btn btn-danger" data-bs-dismiss="modal" onClick={logOut}>Logout</button>
-                </div>
-                </div>
-              </div>
-            </div>
-            <Sidebar superuser={akses.superuser} username={akses.username}/>          
+            <Modal show={show} onHide={handleClose} size="sm" aria-labelledby="contained-modal-title-vcenter" centered>
+              <Modal.Header closeButton>
+                <Modal.Title>Konfirmasi</Modal.Title>
+              </Modal.Header>
+              <Modal.Body>
+                <h5 style={{textAlign:"center"}}>Apakah Anda Yakin Logout ??</h5>
+              </Modal.Body>
+              <Modal.Footer>
+                <Button variant="secondary" onClick={handleClose}>Batal</Button>
+                <Button variant="danger" onClick={logOut}>Logout</Button>
+              </Modal.Footer>
+            </Modal>           
+            <Sidebar superuser={tokenData.superuser} username={tokenData.username} modalShow={handleShow}/>          
             <div id="main" className="main">              
               <Component {...props}/>
             </div>          
-          </div>
+            </div>
         ):(
           <Redirect to={{pathname: "/login"}}/>
         )        

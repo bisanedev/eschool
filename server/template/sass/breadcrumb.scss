@@ -1,0 +1,16 @@
+li.berandaItem{
+    background-color: #0d6efd;
+    height: 24px;
+    a {        
+        display: flex;
+        color: #fff;
+        span.berandaText {
+            padding: 0 8px;
+        }
+    }
+}
+li.breadcrumb-item{
+    a {
+        text-decoration: none;
+    }
+}

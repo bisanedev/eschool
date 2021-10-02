@@ -45,9 +45,9 @@
         border-top-right-radius: 5px;
         border-bottom-right-radius: 5px;       
         background-color: #f3f3f3;   
-        border-top: 1px solid #eaeaea;
-        border-bottom: 1px solid #eaeaea;
-        border-right: 1px solid #eaeaea;
+        border-top: 1px solid rgba(0,0,0,.125);
+        border-bottom: 1px solid rgba(0,0,0,.125);
+        border-right: 1px solid rgba(0,0,0,.125);
       }      
       span.text{        
         color: #333;
@@ -62,7 +62,7 @@
         line-height: 16px;
       }                
       .nav-icon{
-        width:40px;                              
+        width:37px;                              
         height:48px;        
         display:flex;
         align-items: center;
@@ -70,9 +70,8 @@
         border-top-left-radius: 5px;
         border-bottom-left-radius: 5px;
         background-color: $primary-color;                               
-        img{
-          border-radius: 5%;
-          height: 47px;
+        img{          
+          height: 48px;
           width: 37px;
         }
       }

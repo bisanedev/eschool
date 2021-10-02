@@ -2,18 +2,19 @@ import React from 'react';
 import axios from 'axios';
 import {Redirect,withRouter} from "react-router";
 import { Helmet } from 'react-helmet';
+import { Alert } from 'react-bootstrap';
 
 class PageLogin extends React.Component{
 
   constructor(props) {
     super(props);
-    this.state = {      
-      alertMsg:"",
+    this.state = {            
       isLogin:false,
       passwordShown:false,
       rememberMe:false,
       username:"",
-      password:""
+      password:"",
+      alertMsg:"",           
     }
     this.handleInputChange = this.handleInputChange.bind(this);
   }
@@ -59,14 +60,13 @@ class PageLogin extends React.Component{
           </div>
         </div>
     </div>
-    {alertMsg !="" && 
+    {alertMsg != "" &&
       <div className="login-alert">
-      <div className="alert alert-warning alert-dismissible fade show" role="alert">
+      <Alert variant="warning" onClose={() => this.setState({alertMsg:""})} dismissible>
         {alertMsg}
-        <button type="button" className="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </Alert>
       </div>
-      </div>
-    }  
+    }    
     </> 
     );
   }
@@ -101,16 +101,23 @@ class PageLogin extends React.Component{
           axios.defaults.headers.common['Authorization'] = "Bearer "+response.data.message.data;  
           this.props.history.push('/');
         }
-    }).catch(error => {        
+    }).catch(error => {
+        var username = error.response.data.message.username;
+        var password = error.response.data.message.password;
+        if(typeof error.response.data.message === 'object'){
+          if(username === undefined){
+            this.setState({alertMsg: password});
+          }else if(password === undefined){
+            this.setState({alertMsg: username});
+          }else{
+            this.setState({alertMsg: username+" & "+password});
+          }
+        }else{
+          this.setState({alertMsg: error.response.data.message});
+        }        
         if(error.message === "Network Error"){          
           this.setState({alertMsg: "Jaringan internet tidak tersambung"});
-        }
-        if(error.response.status == 401){  
-          this.setState({alertMsg: error.response.data.message});                                     
-        }
-        if(error.response.status == 400){
-          this.setState({alertMsg: error.response.data.message});
-        }
+        }       
     });
   }  
   // ---------------------------- end of script

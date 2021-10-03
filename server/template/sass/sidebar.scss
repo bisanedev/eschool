@@ -20,7 +20,8 @@
     top: 0; 
     left: 0;
     z-index: 9;
-    img{      
+    img{
+      image-rendering: -webkit-optimize-contrast;
       height: 78px;
       width: 100%;
     }
@@ -73,6 +74,7 @@
         img{          
           height: 48px;
           width: 37px;
+          image-rendering: -webkit-optimize-contrast;
         }
       }
       .icon-profile{

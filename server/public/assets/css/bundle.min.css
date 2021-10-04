@@ -11348,6 +11348,11 @@ textarea.form-control-lg {
   margin-bottom: 0;
   padding-left: 0;
 }
+.sidebar .nav .active .nav-button {
+  border-top: 1px solid #686868 !important;
+  border-bottom: 1px solid #686868 !important;
+  border-right: 1px solid #686868 !important;
+}
 .sidebar .nav .nav-item {
   display: flex;
   margin-bottom: 12px;

@@ -24,7 +24,7 @@ export default class Sidebar extends React.Component{
         :
         <NavItemDisabled title="Sekolah" ico={<span className="material-icons-outlined" style={{color:"#ffffff"}}>school</span>} />
         }        
-        <NavItem url="/profile" title="Profil" class="profile" subtext={"@"+this.props.username} ico={<img src="user.jpg" />}/>  
+        <NavItem url="/profile" title="Profil" class="profile" subtext={"@"+this.props.username} ico={<img src="assets/images/cewek.png" />}/>  
         <NavLogout title="Logout" show={this.props.modalShow}/>
       </ul>
     </div>

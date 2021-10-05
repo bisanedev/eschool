@@ -1,7 +1,6 @@
 import React from "react";
 import {withRouter} from "react-router";
 import { Helmet } from "react-helmet";
-import jwt_decode from "jwt-decode";
 import Forbidden from "../other/forbidden";
 import Breadcrumb from '../../components/breadcrumb';
 import MenuCard from '../../components/cards/menuCards';
@@ -11,17 +10,16 @@ class PageSekolah extends React.Component{
   constructor(props) {
     super(props);
     this.state = {
-        tokenData:""
+        
     }    
   }
 
   componentDidMount() {
-    const authData = window.localStorage.getItem('userToken');
-    this.setState({tokenData:jwt_decode(authData)});
+
   }
 
-  render() { 
-    const {tokenData} = this.state;
+  render() {     
+    const {tokenData} = this.props;
     return (  
     <div className="konten"> 
       <Helmet>

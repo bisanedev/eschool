@@ -11,7 +11,8 @@ export default class Sidebar extends React.Component{
 
   }
 
-  render() {      
+  render() {
+    let foto = <img src={"data/users/"+this.props.username+".jpg"} onError={(e)=>{e.target.onerror = null; e.target.src=this.props.jenis==="pria" ? "assets/images/cowok.png":"assets/images/cewek.png"}} />;  
     return (
     <div id="menu" className="sidebar">
       <div className="logo">
@@ -24,7 +25,7 @@ export default class Sidebar extends React.Component{
         :
         <NavItemDisabled title="Sekolah" ico={<span className="material-icons-outlined" style={{color:"#ffffff"}}>school</span>} />
         }        
-        <NavItem url="/profile" title="Profil" class="profile" subtext={"@"+this.props.username} ico={<img src="assets/images/cewek.png" />}/>  
+        <NavItem url="/profile" title="Profil" class="profile" subtext={"@"+this.props.username} ico={foto}/>  
         <NavLogout title="Logout" show={this.props.modalShow}/>
       </ul>
     </div>

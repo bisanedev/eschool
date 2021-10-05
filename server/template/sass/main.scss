@@ -14,9 +14,10 @@ $material-icons-font-display: block !default;
 @import "node_modules/material-icons/iconfont/material-icons.scss";
 @import "login";
 @import "sidebar";
-@import "headings";
+@import "header";
 @import "breadcrumb";
 @import "menuCards";
+@import "cards";
 
 body {        
     background-color: $backgroundColor;

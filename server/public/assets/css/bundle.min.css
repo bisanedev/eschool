@@ -11492,6 +11492,14 @@ div.cardMenu:hover .linkMenu .middle {
   opacity: 1;
 }
 
+.cardTitle {
+  font-size: 20px;
+  display: block;
+  margin-bottom: 18px;
+  border-bottom: 1px solid #d2d2d2;
+  padding-bottom: 8px;
+}
+
 body {
   background-color: #f3f3f3f3;
   color: #333;

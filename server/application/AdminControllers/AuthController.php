@@ -26,7 +26,7 @@ class AuthController
         $v = new Validator($_POST);
         $v->rule('required', ['username', 'password']);
         if($v->validate()) {      
-        $cekAuth = $this->database->select("users",["id","username","password","superuser","unique_token"],[
+        $cekAuth = $this->database->select("users",["id","username","jenis","password","superuser","unique_token"],[
                 "username" => $_POST["username"]
         ]);        
         if(!empty($cekAuth)){            
@@ -46,6 +46,7 @@ class AuthController
                     ->expiresAt($now->modify('+1 year'))                    
                     ->withClaim('uid',$cekAuth[0]['id'])
                     ->withClaim('username',$cekAuth[0]['username'])
+                    ->withClaim('jenis',$cekAuth[0]['jenis'])
                     ->withClaim('uniqueToken',$uniqueToken)
                     ->withClaim('superuser',$cekAuth[0]['superuser'] == "1" ? true:false)                  
                     ->getToken($this->jwt->signer(), $this->jwt->signingKey());
@@ -63,6 +64,7 @@ class AuthController
                     ->expiresAt($now->modify('+1 day'))
                     ->withClaim('uid',$cekAuth[0]['id'])
                     ->withClaim('username',$cekAuth[0]['username'])
+                    ->withClaim('jenis',$cekAuth[0]['jenis'])                    
                     ->withClaim('uniqueToken',$uniqueToken)            
                     ->withClaim('superuser',$cekAuth[0]['superuser'] == "1" ? true:false)   
                     ->getToken($this->jwt->signer(), $this->jwt->signingKey());

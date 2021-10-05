@@ -32,7 +32,7 @@ class PageSekolah extends React.Component{
         <div className="headings">
           <div className="title">Sekolah</div>
           <div className="subtitle">Halaman data informasi sekolah</div>
-          <Breadcrumb homeUrl="/" homeIcon={<div className="material-icons-outlined">school</div>} homeText="Sekolah">            
+          <Breadcrumb homeUrl="/sekolah" homeIcon={<div className="material-icons-outlined">school</div>} homeText="Sekolah">            
             <li className="breadcrumb-item active" aria-current="page">Beranda</li>
           </Breadcrumb>
         </div>        

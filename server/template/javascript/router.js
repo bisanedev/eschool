@@ -44,17 +44,17 @@ function PrivateRoute({ comp: Component, ...rest }) {
   const handleShow = () => setShow(true);
   let history = useHistory();
   const authData = window.localStorage.getItem('userToken');  
-  var tokenData = authData ? jwt_decode(authData):false;   
+  var tokenData = authData ? jwt_decode(authData):false;  
   const logOut = () => {
     setShow(false);    
     window.localStorage.removeItem('userToken');
     delete axios.defaults.headers.common['Authorization']; 
     history.push('/');
   }
-  return (
+  return (    
     <Route
       {...rest}
-      render={({ props }) =>
+      render={({ props={authData:authData,tokenData:tokenData} }) =>
       authData ? (            
             <div className="wrapper">
             <Modal show={show} onHide={handleClose} size="sm" aria-labelledby="contained-modal-title-vcenter" centered>
@@ -69,7 +69,7 @@ function PrivateRoute({ comp: Component, ...rest }) {
                 <Button variant="danger" onClick={logOut}>Logout</Button>
               </Modal.Footer>
             </Modal>           
-            <Sidebar superuser={tokenData.superuser} username={tokenData.username} modalShow={handleShow}/>          
+            <Sidebar superuser={tokenData.superuser} username={tokenData.username} jenis={tokenData.jenis} modalShow={handleShow}/>          
             <div id="main" className="main">              
               <Component {...props}/>
             </div>          

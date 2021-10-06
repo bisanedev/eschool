@@ -26,7 +26,8 @@ class PageProfileFoto extends React.Component{
         <div className="headings">
           <div className="title" style={{fontSize:"44px",textTransform:"capitalize",height:"55px"}}>Ganti foto</div>
           <div className="subtitle">Silahkan untuk mengganti foto profil anda</div>
-          <Breadcrumb homeUrl="/profile" homeIcon={<div className="material-icons-outlined">manage_accounts</div>} homeText="Profil">            
+          <Breadcrumb homeUrl="/profile" homeIcon={<div className="material-icons-outlined">manage_accounts</div>} homeText="Profil">
+            <li className="breadcrumb-item" aria-current="page"><a href="#/profile/foto">Foto</a></li>
             <li className="breadcrumb-item active" aria-current="page">Ganti foto</li>
           </Breadcrumb>
         </div>

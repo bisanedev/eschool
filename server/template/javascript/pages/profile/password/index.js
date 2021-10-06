@@ -26,6 +26,7 @@ class PageProfilePassword extends React.Component{
           <div className="title" style={{fontSize:"44px",textTransform:"capitalize",height:"55px"}}>Ganti password</div>
           <div className="subtitle">Silahkan untuk mengubah kata sandi Anda </div>
           <Breadcrumb homeUrl="/profile" homeIcon={<div className="material-icons-outlined">manage_accounts</div>} homeText="Profil">            
+            <li className="breadcrumb-item" aria-current="page"><a href="#/profile/password">Password</a></li>
             <li className="breadcrumb-item active" aria-current="page">Ganti password</li>
           </Breadcrumb>
         </div>

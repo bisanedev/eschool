@@ -1,16 +1,21 @@
 li.berandaItem{
     background-color: $primary-color;
     height: 24px;
-    a {        
+    a.berandaLink { 
+        color: white !important;       
         display: flex;
-        color: #fff;
+        div.material-icons-outlined{
+            padding-left: 5px;
+        }        
         span.berandaText {
-            padding: 0 8px;
+            padding-right: 8px;  
+            padding-left: 3px;         
         }
     }
 }
 li.breadcrumb-item{
     a {
         text-decoration: none;
+        color:$primary-color;
     }
 }

@@ -15,7 +15,7 @@ export default class Breadcrumb extends React.Component{
     <nav aria-label="breadcrumb">
      <ol className="breadcrumb">
         <li className="breadcrumb-item berandaItem">
-         <a href={"#"+this.props.homeUrl}>
+         <a className="berandaLink" href={"#"+this.props.homeUrl}>
           {this.props.homeIcon}          
           <span className="berandaText">{this.props.homeText}</span>
          </a>

@@ -42,7 +42,7 @@ class PageAplikasi extends React.Component{
           ):(
             <MenuCardDisable icon="assets/images/menuButton.png" text="Pengumuman"/>
           )}          
-          <MenuCard url="/analisis" icon="assets/images/menuButton.png" text="Analisis"/>
+          <MenuCard url="/analisis" icon="assets/images/menuButton.png" text="Analisis siswa"/>
           {tokenData.superuser ? (
             <MenuCard url="/permainan" icon="assets/images/menuButton.png" text="Permainan"/>
           ):(

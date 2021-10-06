@@ -24,7 +24,7 @@ class PageProfile extends React.Component{
         </Helmet>   
         <div className="headings">
           <div className="title" style={{fontSize:"44px",textTransform:"capitalize",height:"55px"}}>Halo, {this.props.tokenData.username} !</div>
-          <div className="subtitle">Selamat datang di halaman menu profil pengajar, statistik belajar siswa & kedisiplinan siswa</div>
+          <div className="subtitle">Selamat datang di halaman menu profil & analisis berdasarkan pengajar tiap kelas </div>
           <Breadcrumb homeUrl="/profile" homeIcon={<div className="material-icons-outlined">manage_accounts</div>} homeText="Profil">            
             <li className="breadcrumb-item active" aria-current="page">Beranda</li>
           </Breadcrumb>
@@ -38,7 +38,7 @@ class PageProfile extends React.Component{
           </div>
           <div className="col-md-7">
             <div className="card p-3">
-            <span className="cardTitle">Statistik belajar & kedisiplinan siswa didikan anda</span>
+            <span className="cardTitle">Analisis belajar & kehadiran siswa didikan anda</span>
             </div>
           </div>  
         </div>        

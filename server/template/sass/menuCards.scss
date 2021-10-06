@@ -22,8 +22,8 @@ div.cardMenu{
         span {
             color: $font-color;
             font-size: 16;
-            font-weight: bold;
-            text-transform: uppercase;
+            font-weight: bold;            
+            text-transform: capitalize;
         }
         
         .middle {

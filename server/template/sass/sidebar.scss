@@ -32,9 +32,9 @@
     padding-left: 0; 
     .active{
       .nav-button{
-        border-top: 1px solid #686868 !important;
-        border-bottom: 1px solid #686868 !important;
-        border-right: 1px solid #686868 !important;
+        border-top: 2px solid rgba(0,0,0,.125) !important;
+        border-bottom: 2px solid rgba(0,0,0,.125) !important;
+        border-right: 2px solid rgba(0,0,0,.125) !important;
       }
     }     
     .nav-item{

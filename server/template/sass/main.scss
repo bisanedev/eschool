@@ -1,6 +1,6 @@
 $font-stack: "Titillium Web", sans-serif;
 $font-color: #333;
-$backgroundColor: #f3f3f3f3;
+$backgroundColor: #f3f3f3;
 $primary-color: #0d6efd;
 $secondary-color : #1e50b0;
 $disabled-primaryColor : #9d9999;
@@ -12,12 +12,14 @@ $material-icons-font-display: block !default;
 
 @import "node_modules/bootstrap/scss/bootstrap.scss";
 @import "node_modules/material-icons/iconfont/material-icons.scss";
-@import "login";
+@import "node_modules/react-image-crop/src/ReactCrop.scss";
 @import "sidebar";
 @import "header";
 @import "breadcrumb";
 @import "menuCards";
-@import "cards";
+@import "button";
+@import "login";
+@import "profile";
 
 body {        
     background-color: $backgroundColor;

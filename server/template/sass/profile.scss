@@ -1,0 +1,17 @@
+.profile{
+    .profile-foto{
+        justify-content: center;
+        align-items: center;
+        display: flex;
+        flex-direction: column;
+        img{
+            width: 220px;
+            height: 300px;
+        }        
+    }
+    .profile-button{
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+    }    
+}

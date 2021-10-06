@@ -17,6 +17,7 @@ class PageProfile extends React.Component{
   }
 
   render() {
+    let foto = <img src={"data/users/"+this.props.tokenData.username+".jpg"} onError={(e)=>{e.target.onerror = null; e.target.src=this.props.tokenData.jenis==="pria" ? "assets/images/cowok.png":"assets/images/cewek.png"}} />;
     return (  
     <div className="konten"> 
         <Helmet>
@@ -29,16 +30,23 @@ class PageProfile extends React.Component{
             <li className="breadcrumb-item active" aria-current="page">Beranda</li>
           </Breadcrumb>
         </div>
-        <div className="container">
+        <div className="container profile">
           <div className="row">          
-          <div className="col-md-5">
-            <div className="card p-3">
-            <span className="cardTitle">Pengaturan profil</span>
+          <div className="col-md-3">
+            <div className="card p-2">
+              <span className="cardTitle mb-3">Pengaturan profil</span>
+              <div className="profile-foto">
+                {foto}
+              </div>
+              <div className="profile-button mt-3">
+                <a href="#/profile/foto" className="btn btn-primary me-2" role="button">Ganti foto</a>
+                <a href="#/profile/password" className="btn btn-secondary" role="button">Ganti password</a>
+              </div>                    
             </div>
           </div>
-          <div className="col-md-7">
-            <div className="card p-3">
-            <span className="cardTitle">Analisis belajar & kehadiran siswa didikan anda</span>
+          <div className="col-md-9">
+            <div className="card p-2">
+            <span className="cardTitle mb-3">Analisis belajar & kehadiran siswa didikan anda</span>
             </div>
           </div>  
         </div>        

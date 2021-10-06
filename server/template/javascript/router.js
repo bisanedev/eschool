@@ -18,6 +18,8 @@ import Page404 from './pages/other/404';
 import PageAplikasi from './pages/aplikasi';
 import PageSekolah from './pages/sekolah';
 import PageProfile from './pages/profile';
+import PageProfileFoto from './pages/profile/foto';
+import PageProfilePassword from './pages/profile/password';
 
 export default function RouterApp() {
     
@@ -30,6 +32,8 @@ export default function RouterApp() {
           <PrivateRoute exact path="/" comp={PageAplikasi} />
           <PrivateRoute exact path="/sekolah" comp={PageSekolah} />  
           <PrivateRoute exact path="/profile" comp={PageProfile} /> 
+          <PrivateRoute exact path="/profile/foto" comp={PageProfileFoto} />
+          <PrivateRoute exact path="/profile/password" comp={PageProfilePassword} />
           <Route path="*">
             <Page404 />
           </Route>

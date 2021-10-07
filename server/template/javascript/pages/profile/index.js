@@ -34,11 +34,11 @@ class PageProfile extends React.Component{
           <div className="row">          
           <div className="col-md-3">
             <div className="card p-2">
-              <span className="cardTitle mb-3">Pengaturan profil</span>
-              <div className="profile-foto">
+              <span className="cardTitle mb-1">Pengaturan profil</span>
+              <div className="profile-foto p-2">
                 {foto}
               </div>
-              <div className="profile-button mt-3">
+              <div className="profile-button mt-1">
                 <a href="#/profile/foto" className="btn btn-primary me-2" role="button">Ganti foto</a>
                 <a href="#/profile/password" className="btn btn-secondary" role="button">Ganti password</a>
               </div>                    

@@ -13,7 +13,7 @@ export default class MenuCardDisable extends React.Component{
   render() {
     return(
     <div className="col-md-3">
-        <div className="card p-3 mb-4 cardMenu">
+        <div className="card p-4 mb-4 cardMenu">
             <div className="cardMenuLocked">
                 <div className="material-icons-outlined" style={{fontSize:"32px"}}>lock</div>
             </div>                     

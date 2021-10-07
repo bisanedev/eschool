@@ -32,7 +32,7 @@ export default {
             mainFields: ['browser'],
             browser: true
         }),
-        babel({ babelHelpers: 'bundled',compact: false }),
+        babel({ babelHelpers: 'runtime',compact: false , skipPreflightCheck: true}),
         replace({
             preventAssignment: true,
             'process.env.NODE_ENV': JSON.stringify('development')

@@ -31,8 +31,8 @@ export default {
             preferBuiltins: true ,
             mainFields: ['browser'],
             browser: true
-        }), 
-        babel({ babelHelpers: 'bundled' }),          	
+        }),        
+        babel({ babelHelpers: 'runtime',compact: true , skipPreflightCheck: true}),
         replace({
             preventAssignment: true,
             'process.env.NODE_ENV': JSON.stringify('production')

@@ -11,9 +11,10 @@ class PageProfileFoto extends React.Component{
     this.state = {
       src: null,
       crop: {
-        unit: '%',
-        width: 30,
-        aspect: 3 / 4
+        unit: 'px',        
+        aspect: 3 / 4,
+        with:108,
+        height:128
       }
     }    
   }
@@ -38,28 +39,36 @@ class PageProfileFoto extends React.Component{
             <li className="breadcrumb-item active" aria-current="page">Ganti foto</li>
           </Breadcrumb>
         </div>
-        <div className="container">
-          <div className="row">          
+        <div className="container">                   
           <div className="col-md-12">
             <div className="card p-2">
-              <span className="cardTitle mb-3">Masukan foto baru anda</span>
-              <input type="file" accept="image/*" onChange={this.onSelectFile} />
-              {src && (
-                <ReactCrop
-                  src={src}
-                  crop={crop}
-                  ruleOfThirds
-                  onImageLoaded={this.onImageLoaded}
-                  onComplete={this.onCropComplete}
-                  onChange={this.onCropChange}
-                />
+              <span className="cardTitle mb-3">Pilih foto dan bingkai Anda </span>              
+              <div className="row">
+              <div className="col-md-9">                
+                <input className="form-control mb-3" type="file" accept="image/*" onChange={this.onSelectFile}/>
+                {src && (
+                  <ReactCrop
+                    src={src}
+                    crop={crop}
+                    ruleOfThirds
+                    minHeight={108}
+                    minWidth={128} 
+                    zoom                                                
+                    onImageLoaded={this.onImageLoaded}
+                    onComplete={this.onCropComplete}
+                    onChange={this.onCropChange}
+                  />
+                )}
+              </div> 
+              <div className="col-md-3" style={{display:"flex",flexDirection:"column"}}>
+              <button type="button" className="btn btn-primary mb-3" disabled={croppedImageUrl ? false:true}>Upload</button>
+              {croppedImageUrl && (                
+                <img alt="Crop" style={{ maxWidth: '100%' }} src={croppedImageUrl} />                
               )}
-              {croppedImageUrl && (
-                <img alt="Crop" style={{ maxWidth: '100%' }} src={croppedImageUrl} />
-              )}
+              </div>             
+              </div>             
             </div>
-          </div>          
-        </div>        
+          </div>
         </div>                    
     </div>
     );
@@ -83,8 +92,7 @@ class PageProfileFoto extends React.Component{
   };
 
   onCropChange = (crop, percentCrop) => {
-    // You could also use percentCrop:
-    // this.setState({ crop: percentCrop });
+    // You could also use percentCrop:    
     this.setState({ crop });
   };
 
@@ -121,7 +129,7 @@ class PageProfileFoto extends React.Component{
       0,
       0,
       crop.width * scaleX,
-      crop.height * scaleY
+      crop.height * scaleY     
     );
 
     return new Promise((resolve, reject) => {

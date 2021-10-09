@@ -17,7 +17,7 @@ class PageProfile extends React.Component{
   }
 
   render() {
-    let foto = <img src={"data/users/"+this.props.tokenData.username+".jpg"} onError={(e)=>{e.target.onerror = null; e.target.src=this.props.tokenData.jenis==="pria" ? "assets/images/cowok.png":"assets/images/cewek.png"}} />;
+    let foto = <img src={"data/users/"+this.props.tokenData.username+".jpg?nocache="+Date.now()} onError={(e)=>{e.target.onerror = null; e.target.src=this.props.tokenData.jenis==="pria" ? "assets/images/cowok.png":"assets/images/cewek.png"}} />;
     return (  
     <div className="konten"> 
         <Helmet>

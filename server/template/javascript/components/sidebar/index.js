@@ -12,7 +12,7 @@ export default class Sidebar extends React.Component{
   }
 
   render() {
-    let foto = <img src={"data/users/"+this.props.username+".jpg"} onError={(e)=>{e.target.onerror = null; e.target.src=this.props.jenis==="pria" ? "assets/images/cowok.png":"assets/images/cewek.png"}} />;  
+    let foto = <img src={"data/users/"+this.props.username+".jpg?nocache="+Date.now()} onError={(e)=>{e.target.onerror = null; e.target.src=this.props.jenis==="pria" ? "assets/images/cowok.png":"assets/images/cewek.png"}} />;  
     return (
     <div id="menu" className="sidebar">
       <div className="logo">

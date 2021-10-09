@@ -1,4 +1,6 @@
 import React from 'react';
+import axios from 'axios';
+import { Toast } from 'react-bootstrap';
 import { withRouter } from "react-router";
 import { Helmet } from 'react-helmet';
 import ReactCrop from 'react-image-crop';
@@ -11,24 +13,26 @@ class PageProfileFoto extends React.Component{
     this.state = {
       src: null,
       croppedImageUrl:"",
+      blobFile:"",
       errorSelect:"",
+      errorMsg:"",
       crop: {
         unit: 'px',        
         aspect: 3 / 4,
-        width:260,
-        height:320
+        height:320,
+        width:260
       }
     }    
   }
 
   componentDidMount() {     
-
+    axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.props.authData;
   }
 
-  render() {
-    let foto = <img src={"data/users/"+this.props.tokenData.username+".jpg"} onError={(e)=>{e.target.onerror = null; e.target.src=this.props.tokenData.jenis==="pria" ? "assets/images/cowok.png":"assets/images/cewek.png"}} />;
-    const { crop, croppedImageUrl, src ,errorSelect } = this.state;
-    return (  
+  render() {    
+    const { crop, croppedImageUrl, src ,errorSelect,errorMsg } = this.state;
+    return (
+    <> 
     <div className="konten"> 
         <Helmet>
           <title>Ganti foto - Nama Sekolah</title>
@@ -43,7 +47,7 @@ class PageProfileFoto extends React.Component{
         </div>
         <div className="container">                   
           <div className="col-md-12">
-            <div className="card p-2">
+            <div className="card p-2 mb-3">
               <span className="cardTitle mb-3">Pilih foto dan bingkai Anda </span>              
               <div className="row">
               <div className="col-md-9">                
@@ -53,8 +57,8 @@ class PageProfileFoto extends React.Component{
                     src={src}
                     crop={crop}
                     ruleOfThirds
-                    minHeight={320}
-                    minWidth={260}                                                                 
+                    minHeight={300}
+                    minWidth={200}                                                                 
                     onImageLoaded={this.onImageLoaded}
                     onComplete={this.onCropComplete}
                     onChange={this.onCropChange}
@@ -62,7 +66,7 @@ class PageProfileFoto extends React.Component{
                 ):(<h5 className="p-5" style={{display:"flex",alignItems:"center",justifyContent:"center"}}>{errorSelect}</h5>)}
               </div> 
               <div className="col-md-3" style={{display:"flex",flexDirection:"column"}}>
-              <button type="button" className="btn btn-primary mb-3" disabled={croppedImageUrl ? false:true}>Upload</button>
+              <button type="button" className="btn btn-primary mb-3" disabled={croppedImageUrl ? false:true} onClick={this.uploadImages}>Upload</button>
               {croppedImageUrl && (                
                 <img alt="Crop" style={{ maxWidth: '100%' }} src={croppedImageUrl} />                
               )}
@@ -70,11 +74,50 @@ class PageProfileFoto extends React.Component{
               </div>             
             </div>
           </div>
-        </div>                    
+        </div>
     </div>
+    <div style={{position:"fixed",bottom:20,right:20}}>
+      <Toast show={errorMsg == "" ? false:true} onClose={this.toggleShow}>
+        <Toast.Header>              
+          <strong className="me-auto">Peringatan !!!</strong>          
+        </Toast.Header>
+        <Toast.Body>{errorMsg}</Toast.Body>
+      </Toast>
+    </div>
+    </>
     );
   }
   // ---------------------------- script 
+  toggleShow = () => {
+    this.setState({errorMsg: !this.state.errorMsg});
+  }
+
+  uploadImages = () => {    
+    const { blobFile } = this.state;
+    var formData = new FormData();    
+    formData.append('file',blobFile);
+    axios({
+      method: 'post',
+      url: window.location.origin +'/api/pengajar/profile/upload',
+      data: formData,
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    }).then(response => {
+      if(response.data.status == true)
+      {
+        this.props.history.push('/profile');
+      }
+    }).catch(error => {
+      if(error.response.status == 401){
+        this.logout();
+      }
+      if(error.response.status == 400){
+        this.setState({errorMsg:error.response.data.message}); 
+        console.log(error.response.data.message);            
+      }
+    });
+  }
   onSelectFile = (e) => {
     let wow = this; 
     if (e.target.files && e.target.files.length > 0) {      
@@ -86,11 +129,9 @@ class PageProfileFoto extends React.Component{
           var height = this.height;
           var width = this.width;
           console.log(`height: ${this.height}, width: ${this.width}`);          
-          if (height >= 320 && width >= 260) {
-            console.log("berhasil");
+          if (height >= 320 && width >= 260) {            
             wow.setState({ src: reader.result });                                    
-          }else{
-            console.log("gagal");
+          }else{            
             wow.setState({ src: null,croppedImageUrl:"",errorSelect:"Gambar foto dimensi minimal 320x260" }); 
           }
         });        
@@ -125,10 +166,10 @@ class PageProfileFoto extends React.Component{
 
   getCroppedImg(image, crop, fileName) {
     const canvas = document.createElement('canvas');
-    const pixelRatio = window.devicePixelRatio;
+    const pixelRatio = window.devicePixelRatio;    
     const scaleX = image.naturalWidth / image.width;
     const scaleY = image.naturalHeight / image.height;
-    const ctx = canvas.getContext('2d');
+    const ctx = canvas.getContext('2d');      
 
     canvas.width = crop.width * pixelRatio * scaleX;
     canvas.height = crop.height * pixelRatio * scaleY;
@@ -146,7 +187,7 @@ class PageProfileFoto extends React.Component{
       0,
       crop.width * scaleX,
       crop.height * scaleY     
-    );
+    );        
 
     return new Promise((resolve, reject) => {
       canvas.toBlob(
@@ -157,6 +198,7 @@ class PageProfileFoto extends React.Component{
             return;
           }
           blob.name = fileName;
+          this.setState({blobFile:blob});
           window.URL.revokeObjectURL(this.fileUrl);
           this.fileUrl = window.URL.createObjectURL(blob);
           resolve(this.fileUrl);
@@ -164,9 +206,14 @@ class PageProfileFoto extends React.Component{
         'image/jpeg',
         1
       );
-    });
-  }
+    });    
+  }  
 
+  logout = () => {   
+    window.localStorage.clear();
+    delete axios.defaults.headers.common['Authorization']; 
+    this.props.history.push('/');
+  }
   // ---------------------------- end of script
 }
 

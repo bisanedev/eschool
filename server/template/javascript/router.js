@@ -54,7 +54,7 @@ function PrivateRoute({ comp: Component, ...rest }) {
     window.localStorage.removeItem('userToken');
     delete axios.defaults.headers.common['Authorization']; 
     history.push('/');
-  }
+  }  
   return (    
     <Route
       {...rest}
@@ -76,7 +76,7 @@ function PrivateRoute({ comp: Component, ...rest }) {
             <Sidebar superuser={tokenData.superuser} username={tokenData.username} jenis={tokenData.jenis} modalShow={handleShow}/>          
             <div id="main" className="main">              
               <Component {...props}/>
-            </div>          
+            </div>                   
             </div>
         ):(
           <Redirect to={{pathname: "/login"}}/>

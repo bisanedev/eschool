@@ -1,5 +1,5 @@
 <?php
-namespace App\AdminControllers;
+namespace App\PengajarControllers;
 use DateTimeZone;
 use Lcobucci\Clock\SystemClock;
 use Lcobucci\JWT\Validation\Constraint\IdentifiedBy;
@@ -8,12 +8,12 @@ use Lcobucci\JWT\Validation\Constraint\PermittedFor;
 use Lcobucci\JWT\Validation\Constraint\SignedWith;
 
 class ApiController
-{
+{    
 	public function __construct($response,$database,$jwt)
     {        
         $this->response = $response;
         $this->database = $database;        
-        $this->jwt = $jwt;    
+        $this->jwt = $jwt;          
         
         $headers=array_change_key_case(apache_request_headers(),CASE_LOWER);
     	if (empty($headers['authorization'])){
@@ -25,7 +25,7 @@ class ApiController
         //cek token jwt	                	                 
         if (preg_match('/Bearer\s(\S+)/', $auth, $matches)) {
             $token = $this->jwt->parser()->parse($matches[1]);
-            $this->token = $token;  
+            $this->token = $token;
             $constraints = [
                 new ValidAt($clock),
                 new IdentifiedBy('eSchool'),
@@ -54,6 +54,23 @@ class ApiController
         	exit;
         }
 
-    }    
+    }
+    
+    public function compressImage($source, $destination, $quality) {
+    
+      $info = getimagesize($source);
+    
+      if ($info['mime'] == 'image/jpeg') {
+        $image = imagecreatefromjpeg($source);
+      } elseif ($info['mime'] == 'image/png') {
+        $image = imagecreatefrompng($source);
+      } else {
+        return 0;
+      }      
+    
+      imagejpeg($image, $destination, $quality);
+      imagedestroy($image);
+      return 1;
+    }
 //--- end
 }

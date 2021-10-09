@@ -1,5 +1,5 @@
 <?php
-namespace App\AdminControllers;
+namespace App\PengajarControllers;
 use Bcrypt\Bcrypt;
 use App\Utils\HeaderResponse;
 use Valitron\Validator;

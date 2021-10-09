@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 05, 2021 at 10:08 PM
+-- Generation Time: Oct 09, 2021 at 02:10 AM
 -- Server version: 10.4.19-MariaDB
 -- PHP Version: 8.0.7
 
@@ -31,7 +31,6 @@ CREATE TABLE `users` (
   `id` int(11) NOT NULL,
   `nama` varchar(300) NOT NULL,
   `jenis` varchar(20) NOT NULL,
-  `foto` varchar(50) DEFAULT NULL,
   `username` varchar(30) NOT NULL,
   `password` varchar(300) NOT NULL,
   `mapel_id` varchar(300) DEFAULT NULL,
@@ -45,9 +44,9 @@ CREATE TABLE `users` (
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `nama`, `jenis`, `foto`, `username`, `password`, `mapel_id`, `superuser`, `expired_token`, `unique_token`, `device_token`) VALUES
-(1, 'Administrator', 'pria', '', 'admin', '$2a$12$K/vRFyhWiIwitDqY5fcqQOIZvWGlfplnOJPbkOYuJm8RshDC5V9gG', NULL, 1, 1633538316, '615c7f8c46aac', ''),
-(2, 'Marbuah', 'perempuan', '', 'marbuah', '$2a$12$K/vRFyhWiIwitDqY5fcqQOIZvWGlfplnOJPbkOYuJm8RshDC5V9gG', NULL, 0, 1633538331, '615c7f9b6f682', '');
+INSERT INTO `users` (`id`, `nama`, `jenis`, `username`, `password`, `mapel_id`, `superuser`, `expired_token`, `unique_token`, `device_token`) VALUES
+(1, 'Administrator', 'pria', 'admin', '$2a$12$K/vRFyhWiIwitDqY5fcqQOIZvWGlfplnOJPbkOYuJm8RshDC5V9gG', NULL, 1, 1665148552, '615ef308889a5', ''),
+(2, 'Marbuah', 'perempuan', 'marbuah', '$2a$12$K/vRFyhWiIwitDqY5fcqQOIZvWGlfplnOJPbkOYuJm8RshDC5V9gG', NULL, 0, 1633699122, '615ef3b277436', '');
 
 --
 -- Indexes for dumped tables

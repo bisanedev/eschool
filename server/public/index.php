@@ -21,15 +21,17 @@ $container = require __DIR__ . '/../application/bootstrap.php';
 $dispatcher = FastRoute\simpleDispatcher(function (RouteCollector $r) {
     //page
     $r->addRoute('GET', '/', ['App\PageControllers\BootBlade','index']);     
-    // Siswa Api
-    $r->addGroup('/api', function (RouteCollector $r) {
+    // admin Api
+    $r->addGroup('/api/pengajar', function (RouteCollector $r) {
         //authentikasi
-        $r->addRoute('POST', '/auth', ['App\AdminControllers\AuthController','login']);                      
+        $r->addRoute('POST', '/auth', ['App\PengajarControllers\AuthController','login']);
+        //profile
+        $r->addRoute('POST', '/profile/upload', ['App\PengajarControllers\ProfileController','uploadFoto']);
         //protected page
-        $r->addRoute('GET', '/protected', ['App\AdminControllers\ProtectController','index']); 
-        $r->addRoute('POST', '/protected', ['App\AdminControllers\ProtectController','indexPost']); 
-        $r->addRoute('PATCH', '/protected', ['App\AdminControllers\ProtectController','indexPatch']); 
-        $r->addRoute('DELETE', '/protected', ['App\AdminControllers\ProtectController','indexDelete']);
+        $r->addRoute('GET', '/protected', ['App\PengajarControllers\ProtectController','index']); 
+        $r->addRoute('POST', '/protected', ['App\PengajarControllers\ProtectController','indexPost']); 
+        $r->addRoute('PATCH', '/protected', ['App\PengajarControllers\ProtectController','indexPatch']); 
+        $r->addRoute('DELETE', '/protected', ['App\PengajarControllers\ProtectController','indexDelete']);
         //-----
     });       
 });

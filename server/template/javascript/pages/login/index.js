@@ -92,7 +92,7 @@ class PageLogin extends React.Component{
     //submit login siswa
     axios({
         method: 'post',
-        url: '/api/auth',
+        url: '/api/pengajar/auth',
         data: formData
     }).then(response => {                 
         if(response.data.status == true)

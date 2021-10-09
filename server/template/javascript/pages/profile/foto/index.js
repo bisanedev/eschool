@@ -91,7 +91,7 @@ class PageProfileFoto extends React.Component{
             wow.setState({ src: reader.result });                                    
           }else{
             console.log("gagal");
-            wow.setState({ src: null,croppedImageUrl:"",errorSelect:"Gambar foto resolusi minimal 320x260" }); 
+            wow.setState({ src: null,croppedImageUrl:"",errorSelect:"Gambar foto dimensi minimal 320x260" }); 
           }
         });        
       });

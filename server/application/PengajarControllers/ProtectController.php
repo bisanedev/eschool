@@ -1,6 +1,6 @@
 <?php
-namespace App\AdminControllers;
-use App\AdminControllers\ApiController;
+namespace App\PengajarControllers;
+use App\PengajarControllers\ApiController;
 use Notihnio\RequestParser\RequestParser;
 use App\Utils\HeaderResponse;
 use Medoo\Medoo;

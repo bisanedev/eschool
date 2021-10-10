@@ -6,12 +6,42 @@ use App\Utils\HeaderResponse;
 use Medoo\Medoo;
 use Lcobucci\JWT\Configuration;
 use Valitron\Validator;
+use Bcrypt\Bcrypt;
 
 class ProfileController extends ApiController
 {                 
     public function __construct(HeaderResponse $response,Medoo $database,Configuration $jwt)
     {        
         parent::__construct($response,$database,$jwt);        
+    }
+
+    public function gantiPassword()
+    {
+        $id = $this->token->claims()->get('uid');
+        $bcrypt = new Bcrypt();
+        $_PATCH = RequestParser::parse()->params;
+        $v = new Validator($_PATCH);
+        $v->rule('required', ['curPassword','newPassword','rePassword']);        
+        if($v->validate()) {
+            $cekAuth = $this->database->select("users",["password"],["id" => $id]);
+            if(!$bcrypt->verify($_PATCH["curPassword"],  $cekAuth[0]['password'])){
+                echo $this->response->json_response(400, "Password saat ini tidak sesuai!");
+                exit;
+            }
+            if($_PATCH["newPassword"] != $_PATCH["rePassword"]){
+                echo $this->response->json_response(400, "Password baru dan password konfirmasi tidak sama!"); 
+                exit;
+            }            
+            $ciphertext = $bcrypt->encrypt($_PATCH["rePassword"],"2a");
+            $update = $this->database->update("users",["password" => $ciphertext],["id" => $id]);
+            if($update->rowCount() == 0){
+                echo $this->response->json_response(400, "Data tidak ditemukan");
+            }else{
+                echo $this->response->json_response(200, "berhasil");
+            }            
+        }else{
+            echo $this->response->json_response(400, $v->errors()); 
+        } 
     }
 
     public function uploadFoto()

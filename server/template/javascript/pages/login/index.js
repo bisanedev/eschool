@@ -71,7 +71,7 @@ class PageLogin extends React.Component{
     );
   }
   // ---------------------------- script 
-  handleInputChange(event) {
+  handleInputChange = (event) => {
     const target = event.target;
     const value = target.type === 'checkbox' ? target.checked : target.value;
     const name = target.name;
@@ -97,8 +97,7 @@ class PageLogin extends React.Component{
     }).then(response => {                 
         if(response.data.status == true)
         {           
-          window.localStorage.setItem("userToken", response.data.message.data);            
-          axios.defaults.headers.common['Authorization'] = "Bearer "+response.data.message.data;  
+          window.localStorage.setItem("userToken", response.data.message.data);
           this.props.history.push('/');
         }
     }).catch(error => {

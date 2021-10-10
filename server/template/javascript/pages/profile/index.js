@@ -33,19 +33,19 @@ class PageProfile extends React.Component{
         <div className="container profile">
           <div className="row">          
           <div className="col-md-3">
-            <div className="card p-2">
+            <div className="card p-3">
               <span className="cardTitle mb-1">Pengaturan profil</span>
-              <div className="profile-foto p-2">
+              <div className="profile-foto mt-2 mb-3">
                 {foto}
               </div>
-              <div className="profile-button mt-1">
-                <a href="#/profile/foto" className="btn btn-primary me-2" role="button">Ganti foto</a>
-                <a href="#/profile/password" className="btn btn-secondary" role="button">Ganti password</a>
+              <div className="profile-button">
+                <a href="#/profile/foto" className="btn btn-primary btn-sm me-2" role="button">Ganti foto</a>
+                <a href="#/profile/password" className="btn btn-secondary btn-sm " role="button">Ganti password</a>
               </div>                    
             </div>
           </div>
           <div className="col-md-9">
-            <div className="card p-2">
+            <div className="card p-3">
             <span className="cardTitle mb-3">Analisis belajar & kehadiran siswa didikan anda</span>
             </div>
           </div>  

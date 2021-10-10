@@ -1,4 +1,4 @@
-import React , {useState} from 'react';
+import React , {useState,useEffect} from 'react';
 import axios from 'axios';
 import {  
   HashRouter,
@@ -43,18 +43,24 @@ export default function RouterApp() {
 }
 // ----- privateRouter
 function PrivateRoute({ comp: Component, ...rest }) {
+
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
-  let history = useHistory();
-  const authData = window.localStorage.getItem('userToken');  
-  var tokenData = authData ? jwt_decode(authData):false;  
+  const handleShow = () => setShow(true);    
+  const authData = window.localStorage.getItem('userToken');
+  const tokenData = authData ? jwt_decode(authData):false; 
+
+  useEffect(() => {
+    axios.defaults.headers.common['Authorization'] = 'Bearer ' + authData;    
+  });
+
   const logOut = () => {
     setShow(false);    
     window.localStorage.removeItem('userToken');
     delete axios.defaults.headers.common['Authorization']; 
-    history.push('/');
-  }  
+    useHistory().push('/');
+  }
+
   return (    
     <Route
       {...rest}
@@ -84,4 +90,5 @@ function PrivateRoute({ comp: Component, ...rest }) {
       }
     />
   );
+
 }

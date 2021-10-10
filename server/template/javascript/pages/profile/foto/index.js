@@ -26,8 +26,8 @@ class PageProfileFoto extends React.Component{
     }    
   }
 
-  componentDidMount() {     
-    axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.props.authData;
+  componentDidMount() {
+        
   }
 
   render() {    
@@ -47,7 +47,7 @@ class PageProfileFoto extends React.Component{
         </div>
         <div className="container">                   
           <div className="col-md-12">
-            <div className="card p-2 mb-3">
+            <div className="card p-3 mb-3">
               <span className="cardTitle mb-3">Pilih foto dan bingkai Anda </span>              
               <div className="row">
               <div className="col-md-9">                

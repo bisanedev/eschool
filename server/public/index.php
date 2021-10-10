@@ -27,6 +27,7 @@ $dispatcher = FastRoute\simpleDispatcher(function (RouteCollector $r) {
         $r->addRoute('POST', '/auth', ['App\PengajarControllers\AuthController','login']);
         //profile
         $r->addRoute('POST', '/profile/upload', ['App\PengajarControllers\ProfileController','uploadFoto']);
+        $r->addRoute('PATCH', '/profile/password', ['App\PengajarControllers\ProfileController','gantiPassword']);
         //protected page
         $r->addRoute('GET', '/protected', ['App\PengajarControllers\ProtectController','index']); 
         $r->addRoute('POST', '/protected', ['App\PengajarControllers\ProtectController','indexPost']); 

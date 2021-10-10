@@ -1,6 +1,6 @@
 import React from 'react';
 import axios from 'axios';
-import { Toast } from 'react-bootstrap';
+import { Alert } from 'react-bootstrap';
 import { withRouter } from "react-router";
 import { Helmet } from 'react-helmet';
 import ReactCrop from 'react-image-crop';
@@ -16,6 +16,7 @@ class PageProfileFoto extends React.Component{
       blobFile:"",
       errorSelect:"",
       errorMsg:"",
+      uploadProgress:false,
       crop: {
         unit: 'px',        
         aspect: 3 / 4,
@@ -30,9 +31,8 @@ class PageProfileFoto extends React.Component{
   }
 
   render() {    
-    const { crop, croppedImageUrl, src ,errorSelect,errorMsg } = this.state;
-    return (
-    <> 
+    const { crop, croppedImageUrl, src ,errorSelect,errorMsg,uploadProgress } = this.state;
+    return (    
     <div className="konten"> 
         <Helmet>
           <title>Ganti foto - Nama Sekolah</title>
@@ -66,34 +66,30 @@ class PageProfileFoto extends React.Component{
                 ):(<h5 className="p-5" style={{display:"flex",alignItems:"center",justifyContent:"center"}}>{errorSelect}</h5>)}
               </div> 
               <div className="col-md-3" style={{display:"flex",flexDirection:"column"}}>
-              <button type="button" className="btn btn-primary mb-3" disabled={croppedImageUrl ? false:true} onClick={this.uploadImages}>Upload</button>
+              <button type="button" className={uploadProgress ? "btn btn-primary mb-3 progress-active":"btn btn-primary mb-3"} disabled={croppedImageUrl ? false:true} onClick={this.uploadImages}>Upload</button>
               {croppedImageUrl && (                
                 <img alt="Crop" style={{ maxWidth: '100%' }} src={croppedImageUrl} />                
               )}
+              {errorMsg != "" &&
+              <div className="mt-3">
+                <Alert variant="warning" onClose={() => this.setState({errorMsg:""})} dismissible>
+                  {errorMsg}
+                </Alert>
+              </div>
+              }
               </div>             
               </div>             
             </div>
           </div>
         </div>
     </div>
-    <div style={{position:"fixed",bottom:20,right:20}}>
-      <Toast show={errorMsg == "" ? false:true} onClose={this.toggleShow}>
-        <Toast.Header>              
-          <strong className="me-auto">Peringatan !!!</strong>          
-        </Toast.Header>
-        <Toast.Body>{errorMsg}</Toast.Body>
-      </Toast>
-    </div>
-    </>
     );
   }
   // ---------------------------- script 
-  toggleShow = () => {
-    this.setState({errorMsg: !this.state.errorMsg});
-  }
 
   uploadImages = () => {    
     const { blobFile } = this.state;
+    this.setState({uploadProgress:true});
     var formData = new FormData();    
     formData.append('file',blobFile);
     axios({
@@ -113,8 +109,7 @@ class PageProfileFoto extends React.Component{
         this.logout();
       }
       if(error.response.status == 400){
-        this.setState({errorMsg:error.response.data.message}); 
-        console.log(error.response.data.message);            
+        this.setState({errorMsg:error.response.data.message,uploadProgress:false});        
       }
     });
   }

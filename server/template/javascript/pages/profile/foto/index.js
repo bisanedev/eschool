@@ -31,7 +31,7 @@ class PageProfileFoto extends React.Component{
   }
 
   render() {    
-    const { crop, croppedImageUrl, src ,errorSelect,errorMsg,uploadProgress } = this.state;
+    const { crop, croppedImageUrl, src ,errorSelect,errorMsg,uploadProgress } = this.state;    
     return (    
     <div className="konten"> 
         <Helmet>
@@ -71,10 +71,10 @@ class PageProfileFoto extends React.Component{
                 <img alt="Crop" style={{ maxWidth: '100%' }} src={croppedImageUrl} />                
               )}
               {errorMsg != "" &&
-              <div className="mt-3">
+              <div className="mt-3 animate__animated animate__bounceIn">
                 <Alert variant="warning" onClose={() => this.setState({errorMsg:""})} dismissible>
                   {errorMsg}
-                </Alert>
+                </Alert>                
               </div>
               }
               </div>             

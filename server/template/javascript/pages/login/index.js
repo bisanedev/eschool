@@ -2,7 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import {Redirect,withRouter} from "react-router";
 import { Helmet } from 'react-helmet';
-import { Alert } from 'react-bootstrap';
+import { ToastContainer, toast } from 'react-toastify';
 
 class PageLogin extends React.Component{
 
@@ -13,8 +13,7 @@ class PageLogin extends React.Component{
       passwordShown:false,
       rememberMe:false,
       username:"",
-      password:"",
-      alertMsg:"",           
+      password:"",                 
     }
     this.handleInputChange = this.handleInputChange.bind(this);
   }
@@ -27,7 +26,7 @@ class PageLogin extends React.Component{
   }
 
   render() {
-    const {isLogin,alertMsg,passwordShown,rememberMe} = this.state;
+    const {isLogin,passwordShown,rememberMe} = this.state;
     if(isLogin){return <Redirect to={"/"} />;} 
     return (
     <>
@@ -39,34 +38,25 @@ class PageLogin extends React.Component{
           <img src="assets/images/logo.png" alt="Logo Sekolah"/> 
         </div>
         <div className="form">
-          <h4 className="mb-3">Pengajar Login</h4>
-          <div className="form-floating mb-2" style={{width:"90%"}}>
-            <input name="username" type="username" className="form-control" onChange={this.handleInputChange} id="floatingInput" placeholder="username"/>
-            <label htmlFor="floatingInput">Username</label>
+          <h4 className="fw4" style={{fontSize:"22px",lineHeight:0}}>Pengajar Login</h4>
+          <div className="w-100 ph3 mb2">
+            <label className="f5 fw4 db mb2">Username</label>
+            <input name="username" className="input-reset ba b--black-20 pa2 db w-100" type="text" onChange={this.handleInputChange}/>           
           </div>
-          <div className="form-floating mb-3" style={{width:"90%"}}>
-            <input name="password" type={passwordShown ? "text" : "password"} className="form-control" onChange={this.handleInputChange} id="floatingPassword" placeholder="Password"/>
-            <label htmlFor="floatingPassword">Password</label>
+          <div className="w-100 ph3 pr3 mb3" style={{position:"relative"}}>
+            <label className="f5 fw4 db mb2">Password</label>
+            <input name="password" className="input-reset ba b--black-20 pa2 db w-100"  type={passwordShown ? "text" : "password"} onChange={this.handleInputChange} />           
             <div className="viewPassword" onClick={this.togglePasswordVisiblity}>
-              {passwordShown ? <div className="material-icons-outlined" style={{fontSize:"32px"}}>visibility_off</div>:<div className="material-icons-outlined" style={{fontSize:"32px"}}>visibility</div>}              
-            </div>            
+              {passwordShown ? <i className="far fa-eye" style={{fontSize:"20px"}}/>:<i className="far fa-eye-slash" style={{fontSize:"20px"}}/>}              
+            </div> 
           </div>
-          <div className="rowButton">
-          <div className="form-check">
-            <input name="rememberMe" className="form-check-input" type="checkbox" checked={rememberMe} onChange={this.handleInputChange} id="flexCheckDefault"/>
-            <label className="form-check-label" htmlFor="flexCheckDefault">Ingat saya</label>
-          </div>
-          <button type="button" className="btn btn-primary" style={{width:"90%"}} onClick={this.SubmitLogin}>Login</button>
-          </div>
+          <div className="rowButton w-100 ph3">
+            <label className="pa0 ma0 lh-copy f6 pointer"><input name="rememberMe" type="checkbox" checked={rememberMe} onChange={this.handleInputChange}/> Ingat saya</label>    
+            <button type="submit" style={{cursor: "pointer"}} className="w4 tc ml4 f6 link dim br2 ba ph3 pv2 mb2 dib white bg-primary" onClick={this.SubmitLogin}>Login</button>
+          </div>                 
         </div>
     </div>
-    {alertMsg != "" &&
-      <div className="login-alert">
-      <Alert variant="warning" onClose={() => this.setState({alertMsg:""})} dismissible>
-        {alertMsg}
-      </Alert>
-      </div>
-    }    
+    <ToastContainer />
     </> 
     );
   }
@@ -83,8 +73,22 @@ class PageLogin extends React.Component{
   };
   //submit
   SubmitLogin = () => {
-    const {username,password,rememberMe} = this.state
-    this.setState({alertMsg:""});     
+    const {username,password,rememberMe} = this.state    
+    /* ---- validation ---- */
+    if(username == "" && password == "") {
+      toast.warn("Input username dan password kosong");
+      //return false;
+    }
+    else if(username == "" ) {
+      toast.warn("Input username kosong");
+      //return false;
+    }
+    else if(password == "" ) {
+      toast.warn("Input password kosong");
+      //return false;
+    }
+
+    /* ---- end validation ---- */
     var formData = new FormData();
     formData.append('username', username);
     formData.append('password', password);    
@@ -101,21 +105,11 @@ class PageLogin extends React.Component{
           this.props.history.push('/');
         }
     }).catch(error => {
-        var username = error.response.data.message.username;
-        var password = error.response.data.message.password;
-        if(typeof error.response.data.message === 'object'){
-          if(username === undefined){
-            this.setState({alertMsg: password});
-          }else if(password === undefined){
-            this.setState({alertMsg: username});
-          }else{
-            this.setState({alertMsg: username+" & "+password});
-          }
-        }else{
-          this.setState({alertMsg: error.response.data.message});
+        if(error.response.status == 401){
+          toast.warn(error.response.data.message);         
         }        
-        if(error.message === "Network Error"){          
-          this.setState({alertMsg: "Jaringan internet tidak tersambung"});
+        if(error.message === "Network Error"){ 
+          toast.error("Jaringan internet tidak tersambung");                    
         }       
     });
   }  

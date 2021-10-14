@@ -7,7 +7,7 @@
     <!-- Core -->    
     <link rel="stylesheet" href="assets/css/bundle.min.css">    
   </head>
-  <body >   
+  <body>   
     <div id="root"></div>       
     <script type="application/javascript" src="assets/js/bundle.min.js"></script>
   </body>

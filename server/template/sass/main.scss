@@ -1,19 +1,22 @@
 $font-stack: "Titillium Web", sans-serif;
 $font-color: #333;
 $backgroundColor: #f3f3f3;
-$primary-color: #0d6efd;
-$secondary-color : #1e50b0;
-$disabled-primaryColor : #9d9999;
-$disabled-secondaryColor : #b3b3b3;
+$primary-color: #0191d7;
+$secondary-color : #085074;
+$disable-primaryColor : #9d9999;
+$disable-secondaryColor : #b3b3b3;
 
-$material-icons-font-path: '../fonts/' !default;
-$material-icons-font-size: 24px !default;
-$material-icons-font-display: block !default;
+$fa-font-path:"../fonts/" !default;
 
-@import "node_modules/bootstrap/scss/bootstrap.scss";
-@import "node_modules/material-icons/iconfont/material-icons.scss";
+@import "./tachyons/tachyons";
+@import "./fontawesome/fontawesome";
+@import "./fontawesome/regular";
+@import "./fontawesome/solid";
+
 @import "node_modules/react-image-crop/src/ReactCrop.scss";
+@import "node_modules/react-toastify/scss/main.scss";
 @import "sidebar";
+@import "dialog";
 @import "button";
 @import "header";
 @import "breadcrumb";
@@ -27,7 +30,15 @@ body {
     color: $font-color;
     font-family: $font-stack;
     font-style: normal;
-    font-weight: 300;    
+    font-weight: 300;   
+    font-size: 15px; 
+}
+/* input */
+input {
+    outline: none;
+}
+input:focus {
+    border: 1px solid $primary-color;
 }
 /* 404 page */
 .page-wrap {

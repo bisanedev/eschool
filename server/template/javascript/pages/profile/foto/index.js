@@ -1,6 +1,5 @@
 import React from 'react';
 import axios from 'axios';
-import { Alert } from 'react-bootstrap';
 import { withRouter } from "react-router";
 import { Helmet } from 'react-helmet';
 import ReactCrop from 'react-image-crop';
@@ -70,13 +69,7 @@ class PageProfileFoto extends React.Component{
               {croppedImageUrl && (                
                 <img alt="Crop" style={{ maxWidth: '100%' }} src={croppedImageUrl} />                
               )}
-              {errorMsg != "" &&
-              <div className="mt-3 animate__animated animate__bounceIn">
-                <Alert variant="warning" onClose={() => this.setState({errorMsg:""})} dismissible>
-                  {errorMsg}
-                </Alert>                
-              </div>
-              }
+       
               </div>             
               </div>             
             </div>

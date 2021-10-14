@@ -10,8 +10,7 @@
   transform: translateZ(0);
   visibility: visible;
   backface-visibility: hidden;
-  position: fixed !important;
-  z-index: 1;
+  position: fixed !important;  
   overflow: auto;
   box-shadow: 3px 0px 9px 3px rgba(0, 0, 0, 0.09);  
   .logo{               
@@ -91,7 +90,7 @@
         border-right:solid 1px #d9061a !important;                
       }  
       .icon-disabled{
-        background-color: $disabled-secondaryColor  !important;
+        background-color: $disable-secondaryColor  !important;
       }   
     }
   }

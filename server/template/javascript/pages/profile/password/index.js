@@ -3,8 +3,6 @@ import axios from 'axios';
 import { withRouter } from "react-router";
 import { Helmet } from 'react-helmet';
 import Breadcrumb from '../../../components/breadcrumb';
-import { Alert } from 'react-bootstrap';
-
 
 class PageProfilePassword extends React.Component{
 
@@ -13,11 +11,14 @@ class PageProfilePassword extends React.Component{
     this.state = {
       curPassword:"",
       curPasswordT:false,
+      curPasswordE:"",
       newPassword:"",
       newPasswordT:false,
+      newPasswordE:"",
       rePassword:"",
       rePasswordT:false,
-      alertMsg:"",
+      rePasswordE:"",
+      validated:false
     }
     this.handleInputChange = this.handleInputChange.bind(this);    
   }
@@ -27,7 +28,7 @@ class PageProfilePassword extends React.Component{
   }
 
   render() {
-    const {alertMsg,curPasswordT,newPasswordT,rePasswordT} = this.state;    
+    const {validated,curPassword,curPasswordT,curPasswordE,newPassword,newPasswordT,newPasswordE,rePassword,rePasswordT,rePasswordE} = this.state;    
     return (  
     <div className="konten"> 
         <Helmet>
@@ -41,49 +42,13 @@ class PageProfilePassword extends React.Component{
             <li className="breadcrumb-item active" aria-current="page">Ganti password</li>
           </Breadcrumb>
         </div>
-        <div className="container profile">
-          <div className="row">          
+        <div className="container">          
           <div className="col-md-6">
             <div className="card p-3 mb-3">
               <span className="cardTitle mb-3">Masukan password baru anda</span>              
-              <div className="p-1">
-                <label className="form-label">Password saat ini</label>
-                <div className="input-group">
-                <input type={curPasswordT ? "text" : "password"}  name="curPassword" className="form-control" onChange={this.handleInputChange} required/>
-                <div className="input-group-text" style={{cursor:"pointer"}} onClick={() =>  this.toggleShowCur()}>
-                  {curPasswordT ? <div className="material-icons-outlined">visibility_off</div>:<div className="material-icons-outlined">visibility</div>}              
-                </div>
-                </div>
-              </div>
-              <div className="p-1">
-                <label className="form-label">Password baru</label>
-                <div className="input-group">
-                <input type={newPasswordT ? "text" : "password"} name="newPassword" className="form-control" onChange={this.handleInputChange} required/>
-                <div className="input-group-text" style={{cursor:"pointer"}} onClick={() =>  this.toggleShowNew()}>
-                  {newPasswordT ? <div className="material-icons-outlined">visibility_off</div>:<div className="material-icons-outlined">visibility</div>}              
-                </div>
-                </div>                
-              </div>
-              <div className="p-1 mb-3">
-                <label className="form-label">Ketik ulang password baru </label>
-                <div className="input-group">
-                <input type={rePasswordT ? "text" : "password"} name="rePassword" className="form-control" onChange={this.handleInputChange} required/>
-                <div className="input-group-text" style={{cursor:"pointer"}} onClick={() => this.toggleShowRe()}>
-                  {rePasswordT ? <div className="material-icons-outlined">visibility_off</div>:<div className="material-icons-outlined">visibility</div>}              
-                </div>
-                </div>                            
-              </div>
-              <div className="p-1 mb-3">
-                <button type="submit" className="btn btn-primary" onClick={() => this.changePassword()}>Ganti password</button>
-              </div>
-              {alertMsg != "" &&                
-                <Alert variant="warning" onClose={() => this.setState({alertMsg:""})} dismissible>
-                  {alertMsg}
-                </Alert>                
-              }                         
+              
             </div>
-          </div>          
-        </div>        
+          </div>                          
         </div>                    
     </div>
     );
@@ -111,13 +76,19 @@ class PageProfilePassword extends React.Component{
     this.setState({rePasswordT:  !rePasswordT });
   };
 
-  changePassword = () => {   
-    const {curPassword,newPassword,rePassword} = this.state;     
-    this.setState({alertMsg:""});
-    if(newPassword != rePassword){
-      this.setState({alertMsg:"Password baru dan password konfirmasi tidak sama !"});
-      return false;
+  changePassword = (event) => {   
+    const {curPassword,newPassword,rePassword} = this.state;    
+    const form = event.currentTarget;    
+    event.preventDefault();
+    event.stopPropagation();
+
+    this.setState({curPasswordE:"",newPasswordE:"",rePasswordE:"",validated:true});
+    console.log(form.checkValidity());    
+
+    if (form.checkValidity() === true) {
+      console.log("berhasil")
     }
+
     var formData = new FormData();
     formData.append('curPassword', curPassword);
     formData.append('newPassword', newPassword);    
@@ -130,15 +101,27 @@ class PageProfilePassword extends React.Component{
     }).then(response => {                 
         if(response.data.status == true)
         {                                
-          this.setState({curPassword:"",newPassword:"",rePassword:"",alertMsg:""},() => this.props.history.push('/profile'));
+          this.props.history.push('/profile');
         }
-    }).catch(error => {
-      this.setState({alertMsg: error.response.data.message}); 
+    }).catch(error => {      
+      if(error.response.status == 400){
+        console.log(error.response.data.message);
+        console.log(form.checkValidity());
+        // if(typeof error.response.data.message === 'object'){                
+        //   this.setState({          
+        //     curPasswordE: error.response.data.message.curPassword,
+        //     newPasswordE: error.response.data.message.newPassword,
+        //     rePasswordE: error.response.data.message.rePassword          
+        //   });
+        // }else{
+        //   console.log(error.response.data.message);
+        // }
+      }  
       if(error.response.status == 401){
         this.logout();
       }                    
       if(error.message === "Network Error"){          
-        this.setState({alertMsg: "Jaringan internet tidak tersambung"});
+        this.setState({validated:false,rePasswordE: "Jaringan internet tidak tersambung"});
       }       
     });
   }

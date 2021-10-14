@@ -19,12 +19,12 @@ export default class Sidebar extends React.Component{
         <img src="assets/images/logo_harizontal.png"/>
       </div>
       <ul className="nav"> 
-        <NavItem url="/" title="Aplikasi" ico={<span className="material-icons-outlined" style={{color:"#ffffff"}}>apps</span>}/>
+        <NavItem url="/" title="Aplikasi" ico={<i className="fas fa-th" style={{fontSize:"20px",color:"white"}}/>}/>
         {this.props.superuser ? 
-        <NavItem url="/sekolah" title="Sekolah" ico={<span className="material-icons-outlined" style={{color:"#ffffff"}}>school</span>}/>
+        <NavItem url="/sekolah" title="Sekolah" ico={<i className="fas fa-school" style={{fontSize:"20px",color:"white"}}/>}/>
         :
-        <NavItemDisabled title="Sekolah" ico={<span className="material-icons-outlined" style={{color:"#ffffff"}}>school</span>} />
-        }        
+        <NavItemDisabled title="Sekolah" ico={<i className="fas fa-school" style={{fontSize:"20px",color:"white"}}/>} />
+        }       
         <NavItem url="/profile" title="Profil" class="profile" subtext={"@"+this.props.username} ico={foto}/>  
         <NavLogout title="Logout" show={this.props.modalShow}/>
       </ul>
@@ -39,7 +39,7 @@ function NavLogout(props){
   return (
     <li className="nav-item">
     <div className="nav-icon icon-logout">
-      <span className="material-icons-outlined" style={{color:"#ffffff"}}>power_settings_new</span>
+      <i className="fas fa-power-off" style={{fontSize:"20px",color:"white"}}/>      
     </div>
     <div className="nav-button" onClick={props.show}>      
       <span className="text">{props.title}</span>      
@@ -81,8 +81,8 @@ function NavItemDisabled(props){
   </div>
   <div className="nav-button" style={{cursor:"not-allowed"}}>      
       <span className="text" style={{color:"#b3b3b3"}}>{props.title}</span>       
-      <div style={{position:"absolute",right:"5px",height:"22px"}}>
-        <span className="material-icons-outlined" style={{color:"#b3b3b3",fontSize:"22px"}}>lock</span>
+      <div style={{position:"absolute",right:"10px"}}>
+        <i className="fas fa-lock" style={{color:"#b3b3b3",fontSize:"15px"}}/>        
       </div>
   </div>
   </li>

@@ -7,8 +7,8 @@ import {
   useHistory, 
   Redirect,
 } from "react-router-dom";
+import Modal from 'react-modal';
 import jwt_decode from "jwt-decode";
-import { Modal,Button } from 'react-bootstrap';
 /* component */
 import Sidebar from "./components/sidebar"; 
 /* pages */
@@ -20,6 +20,8 @@ import PageSekolah from './pages/sekolah';
 import PageProfile from './pages/profile';
 import PageProfileFoto from './pages/profile/foto';
 import PageProfilePassword from './pages/profile/password';
+
+Modal.setAppElement('#root');
 
 export default function RouterApp() {
     
@@ -61,24 +63,34 @@ function PrivateRoute({ comp: Component, ...rest }) {
     useHistory().push('/');
   }
 
+  const afterOpenModal = () => {
+    // references are now sync'd and can be accessed.
+    subtitle.style.color = '#f00';
+  }
+
   return (    
     <Route
       {...rest}
       render={({ props={authData:authData,tokenData:tokenData} }) =>
       authData ? (            
             <div className="wrapper">
-            <Modal show={show} onHide={handleClose} size="sm" aria-labelledby="contained-modal-title-vcenter" centered>
-              <Modal.Header closeButton>
-                <Modal.Title>Konfirmasi</Modal.Title>
-              </Modal.Header>
-              <Modal.Body>
-                <h5 style={{textAlign:"center"}}>Apakah Anda Yakin Logout ??</h5>
-              </Modal.Body>
-              <Modal.Footer>
-                <Button variant="secondary" onClick={handleClose}>Batal</Button>
-                <Button variant="danger" onClick={logOut}>Logout</Button>
-              </Modal.Footer>
-            </Modal>           
+            <Modal isOpen={show} onAfterOpen={afterOpenModal} closeTimeoutMS={500}
+              className={{base: 'dialog',afterOpen: 'dialog-base_after-open',beforeClose: 'dialog-base_before-close'}}
+              overlayClassName={{base: 'overlay-base',afterOpen: 'overlay-base_after-open',beforeClose: 'overlay-base_before-close'}}
+            >
+              <i className="fas fa-power-off dialog-icon bg-dark-red"/>
+              <div className="dialog-close dim" onClick={handleClose}><i className="fas fa-times"/></div>
+              <div className="dialog-data fr">
+                  <div className="dialog-body">
+                    <span className="dialog-title pb2">Logout</span>
+                    <span className="dialog-subtitle">Apakah anda yakin logout ??</span>                    
+                  </div>                  
+                  <div className="dialog-button">
+                    <button type="button" style={{cursor: "pointer"}} className="w3 tc f7 link dim br2 ba ph3 pv2 dib bg-grey" onClick={handleClose}>BATAL</button>
+                    <button type="button" style={{cursor: "pointer"}} className="w4 tc b ml2 f7 link dim br2 ba ph3 pv2 dib white bg-dark-red" onClick={logOut}>LOGOUT</button>
+                  </div>
+              </div>
+            </Modal>
             <Sidebar superuser={tokenData.superuser} username={tokenData.username} jenis={tokenData.jenis} modalShow={handleShow}/>          
             <div id="main" className="main">              
               <Component {...props}/>

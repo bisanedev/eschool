@@ -12,7 +12,8 @@ export default class Sidebar extends React.Component{
   }
 
   render() {
-    let foto = <img src={"data/users/"+this.props.username+".jpg?nocache="+Date.now()} onError={(e)=>{e.target.onerror = null; e.target.src=this.props.jenis==="pria" ? "assets/images/cowok.png":"assets/images/cewek.png"}} />;  
+    let foto = <img src={"data/users/"+this.props.username+".jpg?nocache="+Date.now()} onError={(e)=>{e.target.onerror = null; e.target.src=this.props.jenis==="pria" ? "assets/images/cowok.png":"assets/images/cewek.png"}} />;
+    let sekolah = this.props.superuser ? <NavItem url="/sekolah" title="Sekolah" ico={<i className="fas fa-school" style={{fontSize:"20px",color:"white"}}/>}/>:<NavItemDisabled title="Sekolah" ico={<i className="fas fa-school" style={{fontSize:"20px",color:"white"}}/>} />;    
     return (
     <div id="menu" className="sidebar">
       <div className="logo">
@@ -20,11 +21,7 @@ export default class Sidebar extends React.Component{
       </div>
       <ul className="nav"> 
         <NavItem url="/" title="Aplikasi" ico={<i className="fas fa-th" style={{fontSize:"20px",color:"white"}}/>}/>
-        {this.props.superuser ? 
-        <NavItem url="/sekolah" title="Sekolah" ico={<i className="fas fa-school" style={{fontSize:"20px",color:"white"}}/>}/>
-        :
-        <NavItemDisabled title="Sekolah" ico={<i className="fas fa-school" style={{fontSize:"20px",color:"white"}}/>} />
-        }       
+        {sekolah}        
         <NavItem url="/profile" title="Profil" class="profile" subtext={"@"+this.props.username} ico={foto}/>  
         <NavLogout title="Logout" show={this.props.modalShow}/>
       </ul>

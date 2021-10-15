@@ -15,15 +15,13 @@ $fa-font-path:"../fonts/" !default;
 
 @import "node_modules/react-image-crop/src/ReactCrop.scss";
 @import "node_modules/react-toastify/scss/main.scss";
-@import "sidebar";
-@import "dialog";
-@import "button";
-@import "header";
-@import "breadcrumb";
-@import "menuCards";
-@import "custom";
-@import "login";
-@import "profile";
+@import "./base/sidebar";
+@import "./base/dialog";
+@import "./base/button";
+@import "./base/heading";
+@import "./base/menuCards";
+@import "./base/login";
+@import "./base/profile";
 
 body {        
     background-color: $backgroundColor;

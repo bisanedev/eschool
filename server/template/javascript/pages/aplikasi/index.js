@@ -28,12 +28,12 @@ class PageAplikasi extends React.Component{
         <div className="headings">
           <div className="title">Aplikasi</div>
           <div className="subtitle">Halaman aplikasi penunjang sekolah & belajar</div>
-          <Breadcrumb homeUrl="/" homeIcon={<div className="material-icons-outlined">apps</div>} homeText="Aplikasi">            
-            <li className="breadcrumb-item active" aria-current="page">Beranda</li>
+          <Breadcrumb homeUrl="/" homeText="Aplikasi">                                
+            <li><a href="#"><span>Beranda</span></a></li>  
           </Breadcrumb>
         </div>        
-        <div className="container">
-        <div className="row">        
+        <div className="mw9 center">
+        <div className="cf ph2">
           <MenuCard url="/quiz" icon="assets/images/menuButton.png" text="Kuis platform"/>
           <MenuCard url="/absensi" icon="assets/images/menuButton.png" text="Absensi"/>
           <MenuCard url="/ebook" icon="assets/images/menuButton.png" text="Buku Elektronik"/>

@@ -26,8 +26,8 @@ class PageProfile extends React.Component{
         <div className="headings">
           <div className="title">Halo, {this.props.tokenData.username} !</div>
           <div className="subtitle">Selamat datang di halaman menu profil & analisis berdasarkan pengajar tiap kelas </div>
-          <Breadcrumb homeUrl="/profile" homeIcon={<div className="material-icons-outlined">manage_accounts</div>} homeText="Profil">            
-            <li className="breadcrumb-item active" aria-current="page">Beranda</li>
+          <Breadcrumb homeUrl="/profile" homeText="Profil">            
+            <li><a href="#"><span>Beranda</span></a></li> 
           </Breadcrumb>
         </div>
         <div className="container profile">

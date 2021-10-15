@@ -5881,6 +5881,14 @@ code, .code {
    it is focused or hovered over.
 
  */
+.hover-primary:hover, .hover-primary:focus {
+  color: #0191d7;
+}
+
+.hover-secondary:hover, .hover-secondary:focus {
+  color: #085074;
+}
+
 .hover-black:hover,
 .hover-black:focus {
   color: var(--black);
@@ -17482,20 +17490,81 @@ readers do not read off random characters that represent icons */
   }
 }
 .headings {
-  margin-left: 20px;
+  margin-left: 25px;
 }
 .headings .title {
-  font-size: 52px;
+  font-size: 70px;
   font-weight: bold;
-  text-transform: capitalize;
-  height: 65px;
+  text-transform: uppercase;
+  height: 88px;
 }
 .headings .subtitle {
-  font-size: 15px;
+  font-size: 20px;
   background-color: white;
   width: max-content;
-  padding: 0 5px;
+  padding: 5px;
   margin-bottom: 14px;
+}
+.headings .breadcrumb {
+  list-style-type: none;
+  padding: 0;
+  margin-left: 5px;
+}
+.headings .breadcrumb li {
+  display: inline-block;
+  position: relative;
+}
+.headings .breadcrumb li:last-child a {
+  cursor: default;
+  color: #0191d7;
+  font-weight: 500;
+}
+.headings .breadcrumb li:not(:last-child):hover::before, .headings .breadcrumb li:not(:last-child):hover::after {
+  background: #0191d7;
+}
+.headings .breadcrumb li::before, .headings .breadcrumb li::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  height: 55%;
+  width: 100%;
+  background: white;
+  border-left: 1px solid rgba(0, 0, 0, 0.125);
+  border-right: 1px solid rgba(0, 0, 0, 0.125);
+  z-index: -2;
+}
+.headings .breadcrumb li::before {
+  top: -2px;
+  transform: skew(30deg);
+  border-top: 1px solid rgba(0, 0, 0, 0.125);
+}
+.headings .breadcrumb li::after {
+  bottom: -2px;
+  transform: skew(-30deg);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+}
+.headings .breadcrumb a {
+  display: inline-block;
+  position: relative;
+  line-height: 2.3;
+  padding: 0 20px;
+  color: #333;
+  text-decoration: none;
+}
+.headings .breadcrumb a:hover {
+  color: white;
+}
+.headings .breadcrumb li:first-child {
+  background-color: white;
+  border-left: 1px solid rgba(0, 0, 0, 0.125);
+  left: -5px;
+  box-sizing: content-box;
+}
+.headings .breadcrumb li:first-child:hover {
+  background-color: #0191d7;
+}
+.headings .breadcrumb li:first-child::before, .headings .breadcrumb li:first-child::after {
+  left: 5px;
 }
 
 .cardTitle {
@@ -17504,31 +17573,11 @@ readers do not read off random characters that represent icons */
   border-bottom: 1px solid #d2d2d2;
 }
 
-li.berandaItem {
-  background-color: #0191d7;
-  height: 24px;
-}
-li.berandaItem a.berandaLink {
-  color: white !important;
-  display: flex;
-}
-li.berandaItem a.berandaLink div.material-icons-outlined {
-  padding-left: 5px;
-}
-li.berandaItem a.berandaLink span.berandaText {
-  padding-right: 8px;
-  padding-left: 3px;
-}
-
-li.breadcrumb-item a {
-  text-decoration: none;
-  color: #0191d7;
-}
-
 div.cardMenu div.cardMenuLocked {
   position: absolute;
   top: 5px;
   right: 5px;
+  color: #b3b3b3;
 }
 div.cardMenu .linkMenu {
   display: flex;
@@ -17570,11 +17619,6 @@ div.cardMenu:hover .linkMenu img {
 }
 div.cardMenu:hover .linkMenu .middle {
   opacity: 1;
-}
-
-.btn-primary {
-  background-color: #0191d7 !important;
-  border-color: #0191d7 !important;
 }
 
 .login-alert {

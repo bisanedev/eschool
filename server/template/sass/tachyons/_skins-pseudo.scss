@@ -6,7 +6,8 @@
    it is focused or hovered over.
  
  */
-
+.hover-primary:hover,.hover-primary:focus{color:$primary-color;}
+.hover-secondary:hover,.hover-secondary:focus{color:$secondary-color;}
 .hover-black:hover, 
 .hover-black:focus { color: var(--black); }
 .hover-near-black:hover, 

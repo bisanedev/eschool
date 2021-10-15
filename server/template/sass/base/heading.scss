@@ -1,0 +1,104 @@
+.headings{
+    margin-left: 25px;    
+    .title{
+        font-size: 70px;
+        font-weight: bold;                
+        text-transform: uppercase;
+        height: 88px;
+    }
+    .subtitle{
+        font-size: 20px;
+        background-color: white;
+        width: max-content;
+        padding: 5px;
+        margin-bottom: 14px;
+    }
+    .breadcrumb {
+        list-style-type: none;
+        padding: 0;
+        margin-left: 5px;
+        li {
+            display: inline-block;
+            position: relative;
+                // Last child
+            &:last-child {
+                a {
+                    cursor: default;
+                    color: $primary-color;
+                    font-weight: 500;
+                }
+                 
+            }
+            
+            // :Hover
+            &:not(:last-child):hover {
+                &::before,
+                &::after {
+                    background: $primary-color;                
+                }
+            }
+            
+            &::before,
+            &::after{
+                content: '';
+                position: absolute;
+                left: 0;
+                height: 55%;
+                width: 100%;
+                background: white;
+                border-left: 1px solid rgba(0,0,0,.125);
+                border-right: 1px solid rgba(0,0,0,.125);
+                z-index: -2;
+            }
+            
+            &::before {
+                top: -2px;
+                transform: skew(30deg);
+                border-top: 1px solid rgba(0,0,0,.125);
+            }
+            
+            &::after {
+                bottom: -2px;
+                transform: skew(-30deg);
+                border-bottom: 1px solid rgba(0,0,0,.125);
+            }
+        }
+        
+        a {
+            display: inline-block;
+            position: relative;
+            line-height: 2.3;
+            padding: 0 20px;
+            color: #333;
+            text-decoration: none;
+        }
+    
+        a:hover{
+            color: white;
+        }
+        
+        li {
+            &:first-child {
+                background-color: white;
+                border-left: 1px solid rgba(0,0,0,.125);
+                left: -5px;
+                box-sizing: content-box;
+        
+                &:hover {
+                     background-color: $primary-color;                 		
+                }
+        
+                &::before,
+                &::after {
+                        left: 5px;    
+                    }
+                }
+        }
+    }
+}
+
+.cardTitle{
+    font-size: 20px;
+    padding-bottom: 5px;        
+    border-bottom: 1px solid rgb(210, 210, 210);    
+}

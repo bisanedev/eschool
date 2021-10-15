@@ -13,15 +13,14 @@ export default class Breadcrumb extends React.Component{
   render() {      
     return (
     <nav aria-label="breadcrumb">
-     <ol className="breadcrumb">
-        <li className="breadcrumb-item berandaItem">
-         <a className="berandaLink" href={"#"+this.props.homeUrl}>
-          {this.props.homeIcon}          
-          <span className="berandaText">{this.props.homeText}</span>
-         </a>
+      <ol className="breadcrumb">                
+        <li>
+          <a href={"#"+this.props.homeUrl}>          
+          <span>{this.props.homeText}</span>
+          </a>
         </li>
-        {this.props.children}
-     </ol>
+        {this.props.children}                 
+      </ol>   
     </nav>
     );
   }

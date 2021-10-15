@@ -12,11 +12,11 @@ export default class MenuCard extends React.Component{
 
   render() {
     return(
-    <div className="col-md-3">
-        <div className="card p-4 mb-4 cardMenu">                   
+    <div className="fl w-25 pa3">
+        <div className="bg-white tc pa3 cardMenu br2" style={{border:"1px solid rgba(0,0,0,.125)"}}>                   
             <a className="linkMenu" href={"#"+this.props.url}>
                 <img src={this.props.icon}/>
-                <span>{this.props.text}</span>               
+                <span className="pt1">{this.props.text}</span>               
             </a>
         </div>
     </div>

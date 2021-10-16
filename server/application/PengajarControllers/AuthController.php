@@ -79,8 +79,12 @@ class AuthController
             echo $this->response->json_response(401, "User tidak di temukan"); 
         }
         } else {
-            // Errors                       
-            echo $this->response->json_response(400,$v->errors());            
+            // Errors  
+            if($v->errors('username')){
+                echo $this->response->json_response(401,"Input username kosong"); 
+            }elseif($v->errors('password')){
+                echo $this->response->json_response(401,"Input password kosong"); 
+            }                                             
         }           
     }   
 }

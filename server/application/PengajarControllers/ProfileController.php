@@ -40,7 +40,13 @@ class ProfileController extends ApiController
                 echo $this->response->json_response(200, "berhasil");
             }            
         }else{
-            echo $this->response->json_response(400, $v->errors()); 
+            if($v->errors('curPassword')){
+                echo $this->response->json_response(400,"Input password saat ini kosong"); 
+            }elseif($v->errors('newPassword')){
+                echo $this->response->json_response(400,"Input password baru kosong"); 
+            }elseif($v->errors('rePassword')){
+                echo $this->response->json_response(400,"Input ketik ulang password baru kosong");
+            }            
         } 
     }
 

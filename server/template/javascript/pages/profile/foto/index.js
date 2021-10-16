@@ -4,6 +4,7 @@ import { withRouter } from "react-router";
 import { Helmet } from 'react-helmet';
 import ReactCrop from 'react-image-crop';
 import Breadcrumb from '../../../components/breadcrumb';
+import { ToastContainer, toast } from 'react-toastify';
 
 class PageProfileFoto extends React.Component{
 
@@ -13,9 +14,9 @@ class PageProfileFoto extends React.Component{
       src: null,
       croppedImageUrl:"",
       blobFile:"",
-      errorSelect:"",
-      errorMsg:"",
+      errorSelect:"",      
       uploadProgress:false,
+      uploadDisable:true,
       crop: {
         unit: 'px',        
         aspect: 3 / 4,
@@ -30,8 +31,11 @@ class PageProfileFoto extends React.Component{
   }
 
   render() {    
-    const { crop, croppedImageUrl, src ,errorSelect,errorMsg,uploadProgress } = this.state;    
-    return (    
+    const { crop, croppedImageUrl, src ,errorSelect,uploadProgress,uploadDisable } = this.state; 
+    const uploadClass = uploadProgress ? "progress-active":"";
+    const uploadAction = croppedImageUrl ? "w-100 tc b f7 link br2 ba ph3 pv2 dib white bg-primary mb3":"w-100 tc b f7 link br2 ba ph3 pv2 dib disable-primary bg-disableSecondary mb3"
+    return (
+    <>
     <div className="konten"> 
         <Helmet>
           <title>Ganti foto - Nama Sekolah</title>
@@ -39,50 +43,53 @@ class PageProfileFoto extends React.Component{
         <div className="headings">
           <div className="title">Ganti foto</div>
           <div className="subtitle">Silahkan untuk mengganti foto profil anda</div>
-          <Breadcrumb homeUrl="/profile" homeIcon={<div className="material-icons-outlined">manage_accounts</div>} homeText="Profil">
-            <li className="breadcrumb-item" aria-current="page"><a href="#/profile/foto">Foto</a></li>
-            <li className="breadcrumb-item active" aria-current="page">Ganti foto</li>
-          </Breadcrumb>
+          <Breadcrumb homeUrl="/profile" homeText="Profil"> 
+            <li><a href="#/profile/foto"><span>Foto</span></a></li>            
+            <li><a href="#"><span>Ganti foto</span></a></li> 
+          </Breadcrumb>    
         </div>
-        <div className="container">                   
-          <div className="col-md-12">
-            <div className="card p-3 mb-3">
-              <span className="cardTitle mb-3">Pilih foto dan bingkai Anda </span>              
-              <div className="row">
-              <div className="col-md-9">                
-                <input className="form-control mb-3" type="file" accept="image/*" onChange={this.onSelectFile}/>
-                {src != null ? (
-                  <ReactCrop
-                    src={src}
-                    crop={crop}
-                    ruleOfThirds
-                    minHeight={300}
-                    minWidth={200}                                                                 
-                    onImageLoaded={this.onImageLoaded}
-                    onComplete={this.onCropComplete}
-                    onChange={this.onCropChange}
-                  />
-                ):(<h5 className="p-5" style={{display:"flex",alignItems:"center",justifyContent:"center"}}>{errorSelect}</h5>)}
-              </div> 
-              <div className="col-md-3" style={{display:"flex",flexDirection:"column"}}>
-              <button type="button" className={uploadProgress ? "btn btn-primary mb-3 progress-active":"btn btn-primary mb-3"} disabled={croppedImageUrl ? false:true} onClick={this.uploadImages}>Upload</button>
-              {croppedImageUrl && (                
-                <img alt="Crop" style={{ maxWidth: '100%' }} src={croppedImageUrl} />                
-              )}
-       
-              </div>             
-              </div>             
+        <div className="mw9 center cf ph3 mb3">
+          <div className="bg-white mr2 br2 mb2" style={{border:"1px solid rgba(0, 0, 0, 0.125)"}}>
+            <div className="pa3 bg-primary white">
+                <span className="f4">Pilih foto dan bingkai Anda</span>
             </div>
+            <div className="flex">
+              <div className="w-70 pa3 flex justify-center flex-column">
+              <input className="tc f7 link br2 ba ph3 pv2 dib black bg-light-gray ba b--light-silver mb3" type="file" accept="image/*" onChange={this.onSelectFile}/>
+                {src != null ? (
+                    <ReactCrop
+                      src={src}
+                      crop={crop}
+                      ruleOfThirds
+                      minHeight={300}
+                      minWidth={200}                                                                 
+                      onImageLoaded={this.onImageLoaded}
+                      onComplete={this.onCropComplete}
+                      onChange={this.onCropChange}
+                    />
+                ):(<h5 className="p-5" style={{display:"flex",alignItems:"center",justifyContent:"center"}}>{errorSelect}</h5>)}
+              </div>
+              <div className="w-30 pa3">
+                <button type="button" className={`${uploadClass} ${uploadAction}`} disabled={uploadDisable} onClick={this.uploadImages} style={{cursor:"pointer"}}>Upload</button>
+                {croppedImageUrl && ( 
+                  <div className="mb3 pa2" style={{border:"3px dashed rgba(0, 0, 0, 0.125)"}}>
+                    <img alt="Crop" style={{ maxWidth: '100%' }} src={croppedImageUrl} /> 
+                  </div>                                 
+                )}
+              </div>                            
+            </div>            
           </div>
         </div>
     </div>
+    <ToastContainer />
+    </>
     );
   }
   // ---------------------------- script 
 
   uploadImages = () => {    
     const { blobFile } = this.state;
-    this.setState({uploadProgress:true});
+    this.setState({uploadProgress:true,uploadDisable:true});
     var formData = new FormData();    
     formData.append('file',blobFile);
     axios({
@@ -101,9 +108,12 @@ class PageProfileFoto extends React.Component{
       if(error.response.status == 401){
         this.logout();
       }
-      if(error.response.status == 400){
-        this.setState({errorMsg:error.response.data.message,uploadProgress:false});        
+      if(error.response.status == 400){        
+        this.setState({uploadProgress:false,uploadDisable:false},() => toast.warn(error.response.data.message));        
       }
+      if(error.message === "Network Error"){ 
+        this.setState({uploadProgress:false,uploadDisable:false},() => toast.error("Jaringan internet tidak tersambung"));
+      } 
     });
   }
   onSelectFile = (e) => {
@@ -148,7 +158,7 @@ class PageProfileFoto extends React.Component{
         crop,
         'newFile.jpeg'
       );
-      this.setState({ croppedImageUrl });
+      this.setState({ croppedImageUrl:croppedImageUrl,uploadDisable:false });
     }
   }
 

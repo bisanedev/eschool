@@ -5397,7 +5397,7 @@ code, .code {
 }
 
 .disable-primary {
-  color: #9d9999;
+  color: #8c8c8c;
 }
 
 .disable-secondary {
@@ -5638,7 +5638,7 @@ code, .code {
 }
 
 .bg-disablePrimary {
-  background-color: #9d9999;
+  background-color: #8c8c8c;
 }
 
 .bg-disableSecondary {
@@ -17271,9 +17271,9 @@ readers do not read off random characters that represent icons */
   padding-left: 0;
 }
 .sidebar .nav .active .nav-button {
-  border-top: 2px solid rgba(0, 0, 0, 0.125) !important;
-  border-bottom: 2px solid rgba(0, 0, 0, 0.125) !important;
-  border-right: 2px solid rgba(0, 0, 0, 0.125) !important;
+  border-top: 1px solid rgba(0, 0, 0, 0.125) !important;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.125) !important;
+  border-right: 1px solid rgba(0, 0, 0, 0.125) !important;
 }
 .sidebar .nav .nav-item {
   display: flex;
@@ -17291,9 +17291,6 @@ readers do not read off random characters that represent icons */
   border-top-right-radius: 5px;
   border-bottom-right-radius: 5px;
   background-color: #f3f3f3;
-  border-top: 1px solid rgba(0, 0, 0, 0.125);
-  border-bottom: 1px solid rgba(0, 0, 0, 0.125);
-  border-right: 1px solid rgba(0, 0, 0, 0.125);
 }
 .sidebar .nav .nav-item span.text {
   color: #333;
@@ -17346,7 +17343,6 @@ readers do not read off random characters that represent icons */
   width: 420px;
   height: 200px;
   padding: 1rem;
-  border: 1px solid rgba(0, 0, 0, 0.125);
   opacity: 0;
   -webkit-transition: all 0.4s ease-in-out;
   transition: all 0.4s ease-in-out;
@@ -17489,14 +17485,51 @@ readers do not read off random characters that represent icons */
     background-position: 0 0;
   }
 }
+/* input */
+input[type=text] {
+  outline: none;
+  border: 1px solid rgba(0, 0, 0, 0.125);
+  background-color: #f3f3f3;
+}
+
+input[type=text]:focus {
+  border: 1px solid #0191d7;
+}
+
+.input-password:focus-within {
+  border: 1px solid #0191d7;
+}
+
+.input-password {
+  border: 1px solid rgba(0, 0, 0, 0.125);
+  display: flex;
+  background-color: #f3f3f3;
+}
+.input-password input[type=text], .input-password input[type=password] {
+  width: 88%;
+  background: transparent;
+  border: none;
+  outline: none;
+}
+.input-password .view-password {
+  width: 12%;
+  cursor: pointer;
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  cursor: pointer;
+}
+.input-password .view-password i {
+  font-size: 18px !important;
+}
+
 .headings {
   margin-left: 25px;
 }
 .headings .title {
-  font-size: 70px;
+  font-size: 60px;
   font-weight: bold;
   text-transform: uppercase;
-  height: 72px;
 }
 .headings .subtitle {
   font-size: 20px;
@@ -17565,12 +17598,6 @@ readers do not read off random characters that represent icons */
 }
 .headings .breadcrumb li:first-child::before, .headings .breadcrumb li:first-child::after {
   left: 5px;
-}
-
-.cardTitle {
-  font-size: 20px;
-  padding-bottom: 5px;
-  border-bottom: 1px solid #d2d2d2;
 }
 
 div.cardMenu div.cardMenuLocked {
@@ -17651,7 +17678,7 @@ div.cardMenu:hover .linkMenu .middle {
   align-items: center;
   justify-content: center;
   display: flex;
-  background: blanchedalmond;
+  background: #0191d7;
 }
 .login-page .logo img {
   width: 200px;
@@ -17664,12 +17691,6 @@ div.cardMenu:hover .linkMenu .middle {
   justify-content: center;
   display: flex;
 }
-.login-page .form .viewPassword {
-  position: absolute;
-  top: 37px;
-  right: 26px;
-  cursor: pointer;
-}
 .login-page .form .rowButton {
   flex-direction: row;
   display: flex;
@@ -17677,11 +17698,16 @@ div.cardMenu:hover .linkMenu .middle {
   align-items: baseline;
 }
 
+.profile {
+  width: 25%;
+  border: 1px solid rgba(0, 0, 0, 0.125);
+}
 .profile .profile-foto {
   justify-content: center;
   align-items: center;
   display: flex;
   flex-direction: column;
+  border: 3px dashed rgba(0, 0, 0, 0.125);
 }
 .profile .profile-foto img {
   width: 100%;
@@ -17692,6 +17718,11 @@ div.cardMenu:hover .linkMenu .middle {
   justify-content: center;
 }
 
+.profile-analisis {
+  width: 75%;
+  border: 1px solid rgba(0, 0, 0, 0.125);
+}
+
 body {
   background-color: #f3f3f3;
   color: #333;
@@ -17699,15 +17730,6 @@ body {
   font-style: normal;
   font-weight: 300;
   font-size: 15px;
-}
-
-/* input */
-input {
-  outline: none;
-}
-
-input:focus {
-  border: 1px solid #0191d7;
 }
 
 /* 404 page */

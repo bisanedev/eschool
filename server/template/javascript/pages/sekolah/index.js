@@ -30,12 +30,12 @@ class PageSekolah extends React.Component{
         <div className="headings">
           <div className="title">Sekolah</div>
           <div className="subtitle">Halaman data informasi sekolah</div>
-          <Breadcrumb homeUrl="/sekolah" homeText="Aplikasi">                                
+          <Breadcrumb homeUrl="/sekolah" homeText="Sekolah">                                
             <li><a href="#"><span>Beranda</span></a></li>  
           </Breadcrumb>    
         </div>        
         <div className="mw9 center">
-        <div className="cf ph2">       
+        <div className="cf ph2 flex flex-wrap">       
           <MenuCard url="/sekolah/kelas" icon="assets/images/menuButton.png" text="Kelas"/>
           <MenuCard url="/sekolah/semester" icon="assets/images/menuButton.png" text="Semester"/>
           <MenuCard url="/sekolah/mapel" icon="assets/images/menuButton.png" text="Mata pelajaran"/>    

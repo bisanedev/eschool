@@ -26,7 +26,7 @@
         align-items: center;
         justify-content: center;
         display: flex;
-        background: blanchedalmond;
+        background: $primary-color;
         img {
             width: 200px;
             height: 200px;
@@ -37,13 +37,7 @@
         flex-direction: column;
         align-items: center;
         justify-content:center;
-        display: flex; 
-        .viewPassword{
-            position: absolute;
-            top: 37px;
-            right: 26px;
-            cursor: pointer;
-        }       
+        display: flex;               
         .rowButton{          
             flex-direction: row;
             display: flex;

@@ -43,7 +43,7 @@ function PrivateRoute({ component: Component, ...rest }) {
                       <span className="dialog-subtitle">Apakah anda yakin logout ??</span>                    
                     </div>                  
                     <div className="dialog-button">
-                      <button type="button" style={{cursor: "pointer"}} className="w3 tc f7 link dim br2 ba ph3 pv2 dib bg-grey" onClick={handleClose}>BATAL</button>
+                      <button type="button" style={{cursor: "pointer"}} className="w3 tc f7 link dim br2 ba ph3 pv2 dib" onClick={handleClose}>BATAL</button>
                       <button type="button" style={{cursor: "pointer"}} className="w4 tc b ml2 f7 link dim br2 ba ph3 pv2 dib white bg-dark-red" onClick={logOut}>LOGOUT</button>
                     </div>
                 </div>

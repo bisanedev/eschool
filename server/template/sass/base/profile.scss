@@ -1,9 +1,12 @@
 .profile{
+    width: 25%;
+    border:1px solid rgba(0, 0, 0, 0.125);
     .profile-foto{
         justify-content: center;
         align-items: center;
         display: flex;
         flex-direction: column;
+        border:3px dashed rgba(0, 0, 0, 0.125);
         img{
             width: 100%;            
         }        
@@ -13,4 +16,9 @@
         flex-direction: row;
         justify-content: center;
     }    
+}
+ 
+.profile-analisis{
+    width: 75%;
+    border: 1px solid rgba(0, 0, 0, 0.125);
 }

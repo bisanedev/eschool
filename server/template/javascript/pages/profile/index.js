@@ -30,27 +30,31 @@ class PageProfile extends React.Component{
             <li><a href="#"><span>Beranda</span></a></li> 
           </Breadcrumb>
         </div>
-        <div className="container profile">
-          <div className="row">          
-          <div className="col-md-3">
-            <div className="card p-3">
-              <span className="cardTitle mb-1">Pengaturan profil</span>
-              <div className="profile-foto mt-2 mb-3">
-                {foto}
+        <div className="mw9 center">
+        <div className="cf ph3 mb3 flex">
+          <div className="profile bg-white mr2 br2">
+              <div className="pa3 bg-primary white">
+                <span className="f4">Profil anda</span>
               </div>
-              <div className="profile-button">
-                <a href="#/profile/foto" className="btn btn-primary btn-sm me-2" role="button">Ganti foto</a>
-                <a href="#/profile/password" className="btn btn-secondary btn-sm " role="button">Ganti password</a>
-              </div>                    
-            </div>
+              <div className="pa3">
+                <div className="profile-foto mb3 pa2">
+                  {foto}
+                </div>
+                <div className="profile-button">                
+                  <a href="#/profile/foto" className="w5 tc f7 link dim br2 ba ph3 pv2 dib black bg-light-gray mr1 ba b--light-silver" role="button">Ganti foto</a>
+                  <a href="#/profile/password" className="w5 tc f7 link dim br2 ba ph3 pv2 dib black bg-light-gray ml1 ba b--light-silver" role="button">Ganti password</a>
+                </div>
+              </div>              
           </div>
-          <div className="col-md-9">
-            <div className="card p-3">
-            <span className="cardTitle mb-3">Analisis belajar & kehadiran siswa didikan anda</span>
-            </div>
-          </div>  
-        </div>        
-        </div>                    
+          <div className="profile-analisis bg-white br2">
+              <div className="pa3 bg-primary white">
+                <span className="f4">Analisis belajar & kehadiran siswa didikan anda</span>
+              </div>
+              <div className="pa3">
+              </div>              
+          </div>
+        </div>
+        </div>             
     </div>
     );
   }

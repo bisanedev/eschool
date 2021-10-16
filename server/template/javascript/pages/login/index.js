@@ -43,12 +43,14 @@ class PageLogin extends React.Component{
             <label className="f5 fw4 db mb2">Username</label>
             <input name="username" className="input-reset ba b--black-20 pa2 db w-100" type="text" onChange={this.handleInputChange}/>           
           </div>
-          <div className="w-100 ph3 pr3 mb3" style={{position:"relative"}}>
+          <div className="w-100 ph3 pr3 mb3">
             <label className="f5 fw4 db mb2">Password</label>
-            <input name="password" className="input-reset ba b--black-20 pa2 db w-100"  type={passwordShown ? "text" : "password"} onChange={this.handleInputChange} />           
-            <div className="viewPassword" onClick={this.togglePasswordVisiblity}>
-              {passwordShown ? <i className="far fa-eye" style={{fontSize:"20px"}}/>:<i className="far fa-eye-slash" style={{fontSize:"20px"}}/>}              
-            </div> 
+            <div className="input-password">
+              <input name="password" className="input-reset ba b--black-20 pa2 db w-100"  type={passwordShown ? "text" : "password"} onChange={this.handleInputChange} />           
+              <div className="view-password" onClick={this.togglePasswordVisiblity}>
+                {passwordShown ? <i className="far fa-eye"/>:<i className="far fa-eye-slash"/>}              
+              </div> 
+            </div>
           </div>
           <div className="rowButton w-100 ph3">
             <label className="pa0 ma0 lh-copy f6 pointer"><input name="rememberMe" type="checkbox" checked={rememberMe} onChange={this.handleInputChange}/> Ingat saya</label>    
@@ -73,22 +75,7 @@ class PageLogin extends React.Component{
   };
   //submit
   SubmitLogin = () => {
-    const {username,password,rememberMe} = this.state    
-    /* ---- validation ---- */
-    if(username == "" && password == "") {
-      toast.warn("Input username dan password kosong");
-      //return false;
-    }
-    else if(username == "" ) {
-      toast.warn("Input username kosong");
-      //return false;
-    }
-    else if(password == "" ) {
-      toast.warn("Input password kosong");
-      //return false;
-    }
-
-    /* ---- end validation ---- */
+    const {username,password,rememberMe} = this.state;    
     var formData = new FormData();
     formData.append('username', username);
     formData.append('password', password);    

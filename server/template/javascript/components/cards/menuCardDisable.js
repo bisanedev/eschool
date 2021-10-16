@@ -12,7 +12,7 @@ export default class MenuCardDisable extends React.Component{
 
   render() {
     return(
-    <div className="fl w-25 pa3">    
+    <div className="w-25 ph3 mb4">    
     <div className="bg-white tc pa3 cardMenu relative br2" style={{border:"1px solid rgba(0,0,0,.125)"}}>
             <div className="cardMenuLocked">
                 <i className="fas fa-lock" style={{fontSize:"20px"}}/>                  

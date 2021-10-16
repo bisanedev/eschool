@@ -33,7 +33,7 @@ class PageAplikasi extends React.Component{
           </Breadcrumb>
         </div>        
         <div className="mw9 center">
-        <div className="cf ph2">
+        <div className="cf ph2 flex flex-wrap">
           <MenuCard url="/quiz" icon="assets/images/menuButton.png" text="Kuis platform"/>
           <MenuCard url="/absensi" icon="assets/images/menuButton.png" text="Absensi"/>
           <MenuCard url="/ebook" icon="assets/images/menuButton.png" text="Buku Elektronik"/>

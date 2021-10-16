@@ -52,9 +52,12 @@ class PageLogin extends React.Component{
               </div> 
             </div>
           </div>
-          <div className="rowButton w-100 ph3">
-            <label className="pa0 ma0 lh-copy f6 pointer"><input name="rememberMe" type="checkbox" checked={rememberMe} onChange={this.handleInputChange}/> Ingat saya</label>    
-            <button type="submit" style={{cursor: "pointer"}} className="w4 tc ml4 f6 link dim br2 ba ph3 pv2 mb2 dib white bg-primary" onClick={this.SubmitLogin}>Login</button>
+          <div className="rowButton w-100 ph3">            
+            <label className="container">Ingat saya
+              <input name="rememberMe" type="checkbox" checked="checked" checked={rememberMe} onChange={this.handleInputChange}/>
+              <span className="checkmark"></span>
+            </label>               
+            <button type="submit" style={{cursor: "pointer"}} className="w4 tc ml4 f6 link dim br2 ba ph3 pv2 dib white bg-primary" onClick={this.SubmitLogin}>Login</button>
           </div>                 
         </div>
     </div>

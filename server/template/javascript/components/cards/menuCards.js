@@ -12,7 +12,7 @@ export default class MenuCard extends React.Component{
 
   render() {
     return(
-    <div className="w-25 ph3 mb3">
+    <div className="w-25 ph3 mb4">
         <div className="bg-white tc pa3 cardMenu br2" style={{border:"1px solid rgba(0,0,0,.125)"}}>                   
             <a className="linkMenu" href={"#"+this.props.url}>
                 <img src={this.props.icon}/>

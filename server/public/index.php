@@ -22,17 +22,17 @@ $dispatcher = FastRoute\simpleDispatcher(function (RouteCollector $r) {
     //page
     $r->addRoute('GET', '/', ['App\PageControllers\BootBlade','index']);     
     // admin Api
-    $r->addGroup('/api/pengajar', function (RouteCollector $r) {
+    $r->addGroup('/api/pendidik', function (RouteCollector $r) {
         //authentikasi
-        $r->addRoute('POST', '/auth', ['App\PengajarControllers\AuthController','login']);
+        $r->addRoute('POST', '/auth', ['App\PendidikControllers\AuthController','login']);
         //profile
-        $r->addRoute('POST', '/profile/upload', ['App\PengajarControllers\ProfileController','uploadFoto']);
-        $r->addRoute('PATCH', '/profile/password', ['App\PengajarControllers\ProfileController','gantiPassword']);
+        $r->addRoute('POST', '/profile/upload', ['App\PendidikControllers\ProfileController','uploadFoto']);
+        $r->addRoute('PATCH', '/profile/password', ['App\PendidikControllers\ProfileController','gantiPassword']);
         //protected page
-        $r->addRoute('GET', '/protected', ['App\PengajarControllers\ProtectController','index']); 
-        $r->addRoute('POST', '/protected', ['App\PengajarControllers\ProtectController','indexPost']); 
-        $r->addRoute('PATCH', '/protected', ['App\PengajarControllers\ProtectController','indexPatch']); 
-        $r->addRoute('DELETE', '/protected', ['App\PengajarControllers\ProtectController','indexDelete']);
+        $r->addRoute('GET', '/protected', ['App\PendidikControllers\ProtectController','index']); 
+        $r->addRoute('POST', '/protected', ['App\PendidikControllers\ProtectController','indexPost']); 
+        $r->addRoute('PATCH', '/protected', ['App\PendidikControllers\ProtectController','indexPatch']); 
+        $r->addRoute('DELETE', '/protected', ['App\PendidikControllers\ProtectController','indexDelete']);
         //-----
     });       
 });

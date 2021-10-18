@@ -6,7 +6,10 @@ import PageLogin from "./pages/login";
 import Page404 from './pages/other/404';
 //----- Page
 import PageAplikasi from './pages/aplikasi';
+//---- sekolah
 import PageSekolah from './pages/sekolah';
+import PageSekolahKelas from './pages/sekolah/kelas';
+//----- profile
 import PageProfile from './pages/profile';
 import PageProfileFoto from './pages/profile/foto';
 import PageProfilePassword from './pages/profile/password';
@@ -20,6 +23,7 @@ export default function RouterApp() {
           </Route>
           <PrivateRoute exact path="/" component={PageAplikasi} />
           <PrivateRoute exact path="/sekolah" component={PageSekolah} />  
+          <PrivateRoute exact path="/sekolah/kelas" component={PageSekolahKelas} /> 
           <PrivateRoute exact path="/profile" component={PageProfile} /> 
           <PrivateRoute exact path="/profile/foto" component={PageProfileFoto} />
           <PrivateRoute exact path="/profile/password" component={PageProfilePassword} />          

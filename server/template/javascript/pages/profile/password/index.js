@@ -3,6 +3,8 @@ import axios from 'axios';
 import { withRouter } from "react-router";
 import { Helmet } from 'react-helmet';
 import Breadcrumb from '../../../components/breadcrumb';
+import Cards from '../../../components/cards';
+import InputPassword from '../../../components/forms/password';
 import { ToastContainer, toast } from 'react-toastify';
 
 class PageProfilePassword extends React.Component{
@@ -10,15 +12,9 @@ class PageProfilePassword extends React.Component{
   constructor(props) {
     super(props);
     this.state = {
-      curPassword:"",
-      curPasswordT:false,
-      curPasswordE:"",
-      newPassword:"",
-      newPasswordT:false,
-      newPasswordE:"",
-      rePassword:"",
-      rePasswordT:false,
-      rePasswordE:"",
+      curPassword:"",            
+      newPassword:"",      
+      rePassword:"",      
       validated:false
     }
     this.handleInputChange = this.handleInputChange.bind(this);    
@@ -28,8 +24,7 @@ class PageProfilePassword extends React.Component{
 
   }
 
-  render() {
-    const {curPasswordT,newPasswordT,rePasswordT} = this.state;    
+  render() {       
     return (
     <>  
     <div className="konten"> 
@@ -44,43 +39,23 @@ class PageProfilePassword extends React.Component{
             <li><a href="#"><span>Ganti password</span></a></li> 
           </Breadcrumb>   
         </div>
-        <div className="mw9 center cf ph3 mb3 profile-password">
-          <div className="bg-white mr2 br2 mb2" style={{border:"1px solid rgba(0, 0, 0, 0.125)"}}>
-            <div className="pa3 white bg-primary">
-                <span className="f4">Masukan password baru anda</span>
-            </div>
-            <div className="pa3">
+        <div className="mw9 center cf ph3 mb3">
+          <Cards title="Masukan password baru anda">
               <div className="w-30 pr3 mb3">
                 <label className="f5 fw4 db mb2">Password saat ini</label>
-                <div className="input-password">
-                  <input name="curPassword" className="input-reset ba b--black-20 pa2 db w-100"  type={curPasswordT ? "text" : "password"} onChange={this.handleInputChange} />           
-                  <div className="view-password" onClick={this.toggleShowCur}>
-                    {curPasswordT ? <i className="far fa-eye"/>:<i className="far fa-eye-slash"/>}              
-                  </div> 
-                </div>
+                <InputPassword name="curPassword" onChange={this.handleInputChange}/>
               </div>
               <div className="w-30 pr3 mb3">
                 <label className="f5 fw4 db mb2">Password baru</label>
-                <div className="input-password ba b--black-20">
-                  <input name="newPassword" className="input-reset pa2 db w-100"  type={newPasswordT ? "text" : "password"} onChange={this.handleInputChange} />           
-                  <div className="view-password" onClick={this.toggleShowNew}>
-                    {newPasswordT ? <i className="far fa-eye"/>:<i className="far fa-eye-slash"/>}              
-                  </div>
-                </div> 
+                <InputPassword name="newPassword" onChange={this.handleInputChange}/>
               </div>
               <div className="w-30 pr3 mb3">
                 <label className="f5 fw4 db mb2">Ketik ulang password baru</label>
-                <div className="input-password">
-                  <input name="rePassword" className="input-reset ba b--black-20 pa2 db w-100"  type={rePasswordT ? "text" : "password"} onChange={this.handleInputChange} />           
-                  <div className="view-password" onClick={this.toggleShowRe}>
-                    {rePasswordT  ? <i className="far fa-eye"/>:<i className="far fa-eye-slash"/>}              
-                  </div>
-                </div>
+                <InputPassword name="rePassword" onChange={this.handleInputChange}/>                
               </div>
               <button type="submit" style={{cursor: "pointer"}} className="w-20 tc f6 link dim br2 ba ph3 pv2 mb2 mt2 dib white bg-primary" onClick={this.changePassword}>Ganti Password</button>
-            </div>
-          </div>
-        </div>                          
+          </Cards>
+        </div>                              
     </div>
     <ToastContainer />
     </>
@@ -92,22 +67,7 @@ class PageProfilePassword extends React.Component{
     const value = target.type === 'checkbox' ? target.checked : target.value;
     const name = target.name;
     this.setState({[name]: value});
-  }
-
-  toggleShowCur = () => {
-    const {curPasswordT} = this.state; 
-    this.setState({curPasswordT:  !curPasswordT });
-  };
-
-  toggleShowNew = () => {
-    const {newPasswordT} = this.state; 
-    this.setState({newPasswordT:  !newPasswordT });
-  };
-
-  toggleShowRe = () => {
-    const {rePasswordT} = this.state; 
-    this.setState({rePasswordT:  !rePasswordT });
-  };
+  }  
 
   changePassword = () => {   
     const {curPassword,newPassword,rePassword} = this.state;    
@@ -121,7 +81,7 @@ class PageProfilePassword extends React.Component{
     //submit login siswa
     axios({
         method: 'patch',
-        url: '/api/pengajar/profile/password',
+        url: '/api/pendidik/profile/password',
         data: formData
     }).then(response => {                 
         if(response.data.status == true)

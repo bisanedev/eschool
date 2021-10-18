@@ -45,7 +45,11 @@ body {
     .main{
         margin-left: 250.1px;  /* jika sidebar ada */
         width: auto;                      
-        .konten{            
+        .konten{
+            background-image: url(../images/sample.png);
+            background-repeat: no-repeat;
+            background-size:450px 200px;
+            background-position: right 0px top 0px;
             height: auto;           
         }   
     } 

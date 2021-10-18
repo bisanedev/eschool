@@ -1,6 +1,9 @@
 import React from 'react';
 import axios from 'axios';
 import {Redirect,withRouter} from "react-router";
+import InputText from '../../components/forms/text';
+import InputPassword from '../../components/forms/password';
+import Checkbox from '../../components/forms/checkbox';
 import { Helmet } from 'react-helmet';
 import { ToastContainer, toast } from 'react-toastify';
 
@@ -9,8 +12,7 @@ class PageLogin extends React.Component{
   constructor(props) {
     super(props);
     this.state = {            
-      isLogin:false,
-      passwordShown:false,
+      isLogin:false,      
       rememberMe:false,
       username:"",
       password:"",                 
@@ -26,7 +28,7 @@ class PageLogin extends React.Component{
   }
 
   render() {
-    const {isLogin,passwordShown,rememberMe} = this.state;
+    const {isLogin,rememberMe} = this.state;
     if(isLogin){return <Redirect to={"/"} />;} 
     return (
     <>
@@ -41,22 +43,14 @@ class PageLogin extends React.Component{
           <h4 className="fw4" style={{fontSize:"22px",lineHeight:0}}>Pengajar Login</h4>
           <div className="w-100 ph3 mb2">
             <label className="f5 fw4 db mb2">Username</label>
-            <input name="username" className="input-reset ba b--black-20 pa2 db w-100" type="text" onChange={this.handleInputChange}/>           
+            <InputText name="username" onChange={this.handleInputChange} />                      
           </div>
           <div className="w-100 ph3 pr3 mb3">
             <label className="f5 fw4 db mb2">Password</label>
-            <div className="input-password">
-              <input name="password" className="input-reset ba b--black-20 pa2 db w-100"  type={passwordShown ? "text" : "password"} onChange={this.handleInputChange} />           
-              <div className="view-password" onClick={this.togglePasswordVisiblity}>
-                {passwordShown ? <i className="far fa-eye"/>:<i className="far fa-eye-slash"/>}              
-              </div> 
-            </div>
+            <InputPassword name="password" onChange={this.handleInputChange}/>           
           </div>
           <div className="rowButton w-100 ph3">            
-            <label className="container">Ingat saya
-              <input name="rememberMe" type="checkbox" checked="checked" checked={rememberMe} onChange={this.handleInputChange}/>
-              <span className="checkmark"></span>
-            </label>               
+            <Checkbox name="rememberMe" text="Ingat saya" checked={rememberMe} onChange={this.handleInputChange} />
             <button type="submit" style={{cursor: "pointer"}} className="w4 tc ml4 f6 link dim br2 ba ph3 pv2 dib white bg-primary" onClick={this.SubmitLogin}>Login</button>
           </div>                 
         </div>
@@ -71,11 +65,7 @@ class PageLogin extends React.Component{
     const value = target.type === 'checkbox' ? target.checked : target.value;
     const name = target.name;
     this.setState({[name]: value});
-  }
-  togglePasswordVisiblity = () => {  
-    const {passwordShown} = this.state;  
-    this.setState({passwordShown:  !passwordShown  });    
-  };
+  } 
   //submit
   SubmitLogin = () => {
     const {username,password,rememberMe} = this.state;    
@@ -86,7 +76,7 @@ class PageLogin extends React.Component{
     //submit login siswa
     axios({
         method: 'post',
-        url: '/api/pengajar/auth',
+        url: '/api/pendidik/auth',
         data: formData
     }).then(response => {                 
         if(response.data.status == true)

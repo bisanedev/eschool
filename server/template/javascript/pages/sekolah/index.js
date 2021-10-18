@@ -34,12 +34,12 @@ class PageSekolah extends React.Component{
             <li><a href="#"><span>Beranda</span></a></li>  
           </Breadcrumb>    
         </div>        
-        <div className="mw9 center">
-        <div className="cf ph2 flex flex-wrap">       
+        <div className="mw9 center">        
+        <div className="cf ph3 mb3 flex flex-wrap">
           <MenuCard url="/sekolah/kelas" icon="assets/images/menuButton.png" text="Kelas"/>
           <MenuCard url="/sekolah/semester" icon="assets/images/menuButton.png" text="Semester"/>
           <MenuCard url="/sekolah/mapel" icon="assets/images/menuButton.png" text="Mata pelajaran"/>    
-          <MenuCard url="/sekolah/users" icon="assets/images/menuButton.png" text="Users & Pengajar"/>
+          <MenuCard url="/sekolah/users" icon="assets/images/menuButton.png" text="Users & Pendidik"/>
           <MenuCard url="/sekolah/siswa" icon="assets/images/menuButton.png" text="Siswa"/>
         </div>
         </div>

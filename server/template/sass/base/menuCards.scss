@@ -1,58 +1,63 @@
-div.cardMenu{
-    div.cardMenuLocked{
-        position: absolute;
-        top:5px;
-        right:5px;
-        color:$disable-secondaryColor;
-    }
-    .linkMenu{
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;    
-        text-decoration: none;
-    
-        img {            
-            width: 100%;
-            transition: .5s ease;
-            backface-visibility: hidden;
-            opacity: 1;
-        }
-        
-        span {
-            color: $font-color;
-            font-size: 16;
-            font-weight: bold;            
-            text-transform: capitalize;
-        }
-        
-        .middle {
-            transition: .5s ease;
-            opacity: 0;
+div.wrapCard{
+    width:22%;
+    margin-right:18px;
+    margin-bottom:18px;
+    div.cardMenu{
+        div.cardMenuLocked{
             position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            -ms-transform: translate(-50%, -50%);
-            text-align: center;
+            top:5px;
+            right:5px;
+            color:$disable-secondaryColor;
         }
-
-        .text {
-            background-color: $primary-color;
-            color: white;
-            font-size: 16px;            
-        }
+        .linkMenu{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;    
+            text-decoration: none;
         
+            img {            
+                width: 100%;
+                transition: .5s ease;
+                backface-visibility: hidden;
+                opacity: 1;
+            }
+            
+            span {
+                color: $font-color;
+                font-size: 16px;
+                font-weight: bold;            
+                text-transform: capitalize;
+            }
+            
+            .middle {
+                transition: .5s ease;
+                opacity: 0;
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                -ms-transform: translate(-50%, -50%);
+                text-align: center;
+            }
+    
+            .text {
+                background-color: $primary-color;
+                color: white;
+                font-size: 16px;            
+            }
+            
+        }
     }
-}
-
-div.cardMenu:hover{
-    .linkMenu{
-        img{
-            opacity: 0.3;
-        }
-        .middle{
-            opacity: 1;
-        }
-    }    
+    
+    div.cardMenu:hover{
+        .linkMenu{
+            img{
+                opacity: 0.3;
+            }
+            .middle{
+                opacity: 1;
+            }
+        }    
+    }
 }

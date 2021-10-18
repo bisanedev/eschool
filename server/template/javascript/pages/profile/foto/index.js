@@ -4,6 +4,7 @@ import { withRouter } from "react-router";
 import { Helmet } from 'react-helmet';
 import ReactCrop from 'react-image-crop';
 import Breadcrumb from '../../../components/breadcrumb';
+import Cards from '../../../components/cards';
 import { ToastContainer, toast } from 'react-toastify';
 
 class PageProfileFoto extends React.Component{
@@ -11,7 +12,7 @@ class PageProfileFoto extends React.Component{
   constructor(props) {
     super(props);
     this.state = {
-      src: null,
+      src: "",
       croppedImageUrl:"",
       blobFile:"",
       errorSelect:"",      
@@ -49,14 +50,11 @@ class PageProfileFoto extends React.Component{
           </Breadcrumb>    
         </div>
         <div className="mw9 center cf ph3 mb3">
-          <div className="bg-white mr2 br2 mb2" style={{border:"1px solid rgba(0, 0, 0, 0.125)"}}>
-            <div className="pa3 bg-primary white">
-                <span className="f4">Pilih foto dan bingkai Anda</span>
-            </div>
+          <Cards title="Pilih foto dan bingkai Anda">
             <div className="flex">
               <div className="w-70 pa3 flex justify-center flex-column">
               <input className="tc f7 link br2 ba ph3 pv2 dib black bg-light-gray ba b--light-silver mb3" type="file" accept="image/*" onChange={this.onSelectFile}/>
-                {src != null ? (
+                {src != null && src != "" && (
                     <ReactCrop
                       src={src}
                       crop={crop}
@@ -67,7 +65,10 @@ class PageProfileFoto extends React.Component{
                       onComplete={this.onCropComplete}
                       onChange={this.onCropChange}
                     />
-                ):(<h5 className="p-5" style={{display:"flex",alignItems:"center",justifyContent:"center"}}>{errorSelect}</h5>)}
+                )}
+                {src === null && (
+                  <h5 className="p-5" style={{display:"flex",alignItems:"center",justifyContent:"center"}}>{errorSelect}</h5>
+                )}                
               </div>
               <div className="w-30 pa3">
                 <button type="button" className={`${uploadClass} ${uploadAction}`} disabled={uploadDisable} onClick={this.uploadImages} style={{cursor:"pointer"}}>Upload</button>
@@ -77,8 +78,8 @@ class PageProfileFoto extends React.Component{
                   </div>                                 
                 )}
               </div>                            
-            </div>            
-          </div>
+            </div>  
+          </Cards>         
         </div>
     </div>
     <ToastContainer />
@@ -94,7 +95,7 @@ class PageProfileFoto extends React.Component{
     formData.append('file',blobFile);
     axios({
       method: 'post',
-      url: window.location.origin +'/api/pengajar/profile/upload',
+      url: window.location.origin +'/api/pendidik/profile/upload',
       data: formData,
       headers: {
         'Content-Type': 'multipart/form-data'

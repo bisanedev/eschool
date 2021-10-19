@@ -41,15 +41,15 @@ class PageProfilePassword extends React.Component{
         </div>
         <div className="mw9 center cf ph3 mb3">
           <Cards title="Masukan password baru anda">
-              <div className="w-30 pr3 mb3">
+              <div className="w-40 pr3 mb3">
                 <label className="f5 fw4 db mb2">Password saat ini</label>
                 <InputPassword name="curPassword" onChange={this.handleInputChange}/>
               </div>
-              <div className="w-30 pr3 mb3">
+              <div className="w-40 pr3 mb3">
                 <label className="f5 fw4 db mb2">Password baru</label>
                 <InputPassword name="newPassword" onChange={this.handleInputChange}/>
               </div>
-              <div className="w-30 pr3 mb3">
+              <div className="w-40 pr3 mb3">
                 <label className="f5 fw4 db mb2">Ketik ulang password baru</label>
                 <InputPassword name="rePassword" onChange={this.handleInputChange}/>                
               </div>

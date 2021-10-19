@@ -38,8 +38,8 @@ class PageProfile extends React.Component{
               {foto}
             </div>
             <div className="profile-button">                
-              <a href="#/profile/foto" className="w5 tc f7 link dim br2 ba ph3 pv2 dib black bg-light-gray mr1 ba b--light-silver" role="button">Ganti foto</a>
-              <a href="#/profile/password" className="w5 tc f7 link dim br2 ba ph3 pv2 dib black bg-light-gray ml1 ba b--light-silver" role="button">Ganti password</a>
+              <a href="#/profile/foto" className="w-100 tc f7 link dim br2 ba ph3 pv2 dib black bg-light-gray mb1 ba b--light-silver" role="button">Ganti foto</a>
+              <a href="#/profile/password" className="w-100 tc f7 link dim br2 ba ph3 pv2 dib black bg-light-gray ba b--light-silver" role="button">Ganti password</a>
             </div>
           </Cards>  
           <Cards custom="profile-analisis" title="Analisis belajar & kehadiran siswa didikan anda"> 

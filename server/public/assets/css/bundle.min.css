@@ -17523,6 +17523,17 @@ input[type=text]:focus {
   font-size: 18px !important;
 }
 
+/* select */
+select {
+  outline: none;
+  border: 1px solid rgba(0, 0, 0, 0.125);
+  background-color: #f3f3f3;
+}
+
+select:focus {
+  border: 1px solid #0191d7;
+}
+
 /* checkbox */
 input[type=checkbox] {
   visibility: hidden;
@@ -17791,7 +17802,7 @@ div.wrapCard div.cardMenu:hover .linkMenu .middle {
 }
 .profile .profile-button {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: center;
 }
 

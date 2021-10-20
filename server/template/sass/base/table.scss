@@ -1,0 +1,23 @@
+div.wrapDataCell{   
+    width: 19%;
+    margin-right: 10px;
+    margin-bottom: 10px;    
+    border: 1px solid rgba(0, 0, 0, 0.125);
+    height: 11rem;
+    div.dataInfo{
+        height: 70%;
+    }
+    div.dataAction{
+        height: 30%;
+        border-top: 1px solid rgba(0,0,0,.125);     
+    }
+    .checkbox-container {
+        padding-left: 0 !important;
+    }    
+}
+@media only screen and (max-width: 1080px) {
+    div.wrapDataCell{
+        width: 18%;
+        height: 7rem !important;
+    }
+}

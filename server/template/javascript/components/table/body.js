@@ -1,11 +1,11 @@
 import React from 'react';
 
-function TableData(props) {
+function TableBody(props) {
     return (
-        <div className="flex flex-wrap">
+        <div className="flex flex-wrap pa3">
           {props.children}           
         </div>
     );
 }
 
-export default TableData;
+export default TableBody;

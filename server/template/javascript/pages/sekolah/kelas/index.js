@@ -5,9 +5,10 @@ import Forbidden from "../../other/forbidden";
 import Breadcrumb from '../../../components/breadcrumb';
 import Table from "../../../components/table";
 import TableHeader from "../../../components/table/header";
-import TableData from "../../../components/table/body";
+import TableBody from "../../../components/table/body";
 import TableFooter from "../../../components/table/footer";
 import Pagination from "../../../components/pagination";
+import TableCell from "../../../components/table/data";
 
 
 class PageSekolahKelas extends React.Component{
@@ -46,14 +47,17 @@ class PageSekolahKelas extends React.Component{
           <TableHeader>
             <div className="w-50 ph2">
               <button type="submit" style={{cursor: "pointer",borderColor:"#0191d7"}} className="link dim br1 ba pa2 dib white bg-primary" onClick={this.tambahkan}>
-                <i className="fas fa-plus" style={{fontSize:"18px"}}/> 
+                <i className="fas fa-plus" style={{fontSize:"18px"}}/>
               </button>
             </div>
-            <div className="w-50 ph2 flex" style={{justifyContent:"flex-end"}}>                                                        
-              <select id="types" className="pa2 db gray" name="">
-                <option label="5" value="5"/>
+            <div className="w-50 ph2 flex" style={{justifyContent:"flex-end"}}> 
+              <button type="submit" style={{cursor: "pointer",border:"1px solid rgba(0, 0, 0, 0.125)"}} className="link dim br1 ba pa2 dib bg-white" onClick={this.tambahkan}>
+                <i className="fas fa-ellipsis-v" style={{fontSize:"18px"}}/>
+              </button>                                                       
+              <select id="types" className="pa2 db gray ml2" name="">
                 <option label="10" value="10"/>
-                <option label="15" value="15"/>
+                <option label="20" value="20"/>
+                <option label="30" value="30"/>
               </select>
               <div className="flex ml2">                
                 <input name="search" className="input-reset gray pa2 db w-100" type="text" onChange={this.handleInputChange}/>             
@@ -63,9 +67,14 @@ class PageSekolahKelas extends React.Component{
               </div>
             </div> 
           </TableHeader>       
-          <TableData>
-
-          </TableData>
+          <TableBody>
+            <TableCell title="Kelas 7"/>
+            <TableCell title="Kelas 8"/>
+            <TableCell title="Kelas 9"/>
+            <TableCell title="Kelas 10"/>
+            <TableCell title="Kelas 11"/>
+            <TableCell title="Kelas 12"/>
+          </TableBody>
           <TableFooter>
             <div className="w-50 ph2">
               <span className="f6" style={{fontStyle:"italic"}}>Total data : 30 entri</span>

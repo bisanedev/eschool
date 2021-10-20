@@ -49,20 +49,37 @@ class PageSekolahKelas extends React.Component{
               <button type="submit" style={{cursor: "pointer",borderColor:"#0191d7"}} className="link dim br1 ba pa2 dib white bg-primary" onClick={this.tambahkan}>
                 <i className="fas fa-plus" style={{fontSize:"18px"}}/>
               </button>
+              <div className="dropdown ml2">
+                <button type="submit" style={{cursor: "pointer",border:"1px solid rgba(0, 0, 0, 0.125)"}} className="link dim br1 ba pa2 dib bg-white" onClick={this.tambahkan}>
+                  <i className="fas fa-sort-alpha-up" style={{fontSize:"18px",color:"#474747"}}/>
+                </button>
+                <div className="dropdown-content">                  
+                  <div>
+                    <span>Kelas</span>
+                    <i className="fas fa-check primary" style={{fontSize:"14px"}}/>
+                  </div>
+                </div>   
+              </div> 
             </div>
-            <div className="w-50 ph2 flex" style={{justifyContent:"flex-end"}}> 
+            <div className="w-50 ph2 flex" style={{justifyContent:"flex-end"}}>              
               <button type="submit" style={{cursor: "pointer",fontSize:"13px",border:"1px solid rgba(0, 0, 0, 0.125)"}} className="link dim br1 ba pa2 dib bg-white" onClick={this.tambahkan}>
               BATAL PILIH SEMUA
               </button>
-              <div className="dropdown ml2">
+              <div className="dropdown">
                 <button type="submit" style={{cursor: "pointer",border:"1px solid rgba(0, 0, 0, 0.125)"}} className="link dim br1 ba pa2 dib bg-white" onClick={this.tambahkan}>
                   <i className="fas fa-ellipsis-v" style={{fontSize:"25px",color:"#474747"}}/>
                 </button>
                 <div className="dropdown-content">                  
-                  <span>Edit</span>
-                  <span>Hapus</span>
+                  <div>
+                    <span>Edit</span>
+                    <i className="fas fa-pen primary" style={{fontSize:"14px"}}/>
+                  </div>
+                  <div>
+                    <span>Hapus</span>
+                    <i className="fas fa-trash" style={{color:"red",fontSize:"14px"}}/>
+                  </div>
                 </div>   
-              </div>                                                    
+              </div>                                                                          
               <select id="types" className="pa2 db gray ml2" name="">
                 <option label="10" value="10"/>
                 <option label="20" value="20"/>

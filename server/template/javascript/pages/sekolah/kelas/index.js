@@ -49,17 +49,6 @@ class PageSekolahKelas extends React.Component{
               <button type="submit" style={{cursor: "pointer",borderColor:"#0191d7"}} className="link dim br1 ba pa2 dib white bg-primary" onClick={this.tambahkan}>
                 <i className="fas fa-plus" style={{fontSize:"18px"}}/>
               </button>
-              <div className="dropdown ml2">
-                <button type="submit" style={{cursor: "pointer",border:"1px solid rgba(0, 0, 0, 0.125)"}} className="link dim br1 ba pa2 dib bg-white" onClick={this.tambahkan}>
-                  <i className="fas fa-sort-alpha-up" style={{fontSize:"18px",color:"#474747"}}/>
-                </button>
-                <div className="dropdown-content">                  
-                  <div>
-                    <span>Kelas</span>
-                    <i className="fas fa-check primary" style={{fontSize:"14px"}}/>
-                  </div>
-                </div>   
-              </div> 
             </div>
             <div className="w-50 ph2 flex" style={{justifyContent:"flex-end"}}>              
               <button type="submit" style={{cursor: "pointer",fontSize:"13px",border:"1px solid rgba(0, 0, 0, 0.125)"}} className="link dim br1 ba pa2 dib bg-white" onClick={this.tambahkan}>

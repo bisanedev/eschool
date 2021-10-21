@@ -2,9 +2,8 @@ import React from 'react';
 import axios from 'axios';
 import { withRouter } from "react-router";
 import { Helmet } from 'react-helmet';
-import Breadcrumb from '../../../components/breadcrumb';
-import Cards from '../../../components/cards';
-import InputPassword from '../../../components/forms/password';
+import { Breadcrumb } from '../../../components/menu';
+import { InputPassword,Cards } from '../../../components/forms';
 import { ToastContainer, toast } from 'react-toastify';
 
 class PageProfilePassword extends React.Component{

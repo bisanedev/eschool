@@ -1,8 +1,8 @@
 import React from 'react';
 import { withRouter } from "react-router";
 import { Helmet } from 'react-helmet';
-import Breadcrumb from '../../components/breadcrumb';
-import Cards from '../../components/cards';
+import { Breadcrumb } from '../../components/menu';
+import { Cards } from '../../components/forms';
 
 class PageProfile extends React.Component{
 

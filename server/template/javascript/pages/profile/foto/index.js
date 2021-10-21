@@ -3,8 +3,8 @@ import axios from 'axios';
 import { withRouter } from "react-router";
 import { Helmet } from 'react-helmet';
 import ReactCrop from 'react-image-crop';
-import Breadcrumb from '../../../components/breadcrumb';
-import Cards from '../../../components/cards';
+import { Cards } from '../../../components/forms';
+import {Breadcrumb} from '../../../components/menu';
 import { ToastContainer, toast } from 'react-toastify';
 
 class PageProfileFoto extends React.Component{

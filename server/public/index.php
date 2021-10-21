@@ -28,6 +28,8 @@ $dispatcher = FastRoute\simpleDispatcher(function (RouteCollector $r) {
         //profile
         $r->addRoute('POST', '/profile/upload', ['App\PendidikControllers\ProfileController','uploadFoto']);
         $r->addRoute('PATCH', '/profile/password', ['App\PendidikControllers\ProfileController','gantiPassword']);
+        //sekolah
+        $r->addRoute('GET', '/sekolah/kelas/tingkatan', ['App\PendidikControllers\SekolahController','tingkatan']); 
         //protected page
         $r->addRoute('GET', '/protected', ['App\PendidikControllers\ProtectController','index']); 
         $r->addRoute('POST', '/protected', ['App\PendidikControllers\ProtectController','indexPost']); 

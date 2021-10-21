@@ -1,9 +1,7 @@
 import React from 'react';
 import {withRouter} from "react-router";
 import { Helmet } from 'react-helmet';
-import MenuCard from '../../components/cards/menuCards';
-import MenuCardDisable from '../../components/cards/menuCardDisable';
-import Breadcrumb from '../../components/breadcrumb';
+import {Breadcrumb,MenuCard,MenuCardDisable} from '../../components/menu';
 
 class PageAplikasi extends React.Component{
 

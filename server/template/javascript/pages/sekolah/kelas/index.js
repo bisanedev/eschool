@@ -1,14 +1,10 @@
 import React from "react";
 import {withRouter} from "react-router";
 import { Helmet } from "react-helmet";
+import axios from "axios";
 import Forbidden from "../../other/forbidden";
-import Breadcrumb from '../../../components/breadcrumb';
-import Table from "../../../components/table";
-import TableHeader from "../../../components/table/header";
-import TableBody from "../../../components/table/body";
-import TableFooter from "../../../components/table/footer";
-import Pagination from "../../../components/pagination";
-import TableCell from "../../../components/table/data";
+import {Breadcrumb} from '../../../components/menu';
+import {Table,TableHeader,TableBody,TableCell,TableFooter,TablePagination} from "../../../components/table";
 
 
 class PageSekolahKelas extends React.Component{
@@ -16,17 +12,25 @@ class PageSekolahKelas extends React.Component{
   constructor(props) {
     super(props);
     this.state = {
-        
+      nextPage:undefined,
+      total:1,
+      totalData:undefined,
+      cari:undefined,
+      isLoading:false,
+      data:[],
+      pages:1,
+      currPage:undefined
     }    
     this.handleInputChange = this.handleInputChange.bind(this);
   }
 
   componentDidMount() {
-
+    this.fetchData();    
   }
 
   render() {     
     const {tokenData} = this.props;
+    const {data,totalData,pages,currPage,total} = this.state;
     return (  
     <div className="konten"> 
       <Helmet>
@@ -69,13 +73,13 @@ class PageSekolahKelas extends React.Component{
                   </div>
                 </div>   
               </div>                                                                          
-              <select id="types" className="pa2 db gray ml2" name="">
-                <option label="10" value="10"/>
+              <select className="pa2 db gray ml2" value={total} onChange={this.handleSelectChange}>
+                <option label="1" value="1"/>
                 <option label="20" value="20"/>
                 <option label="30" value="30"/>
               </select>
               <div className="flex ml2">                
-                <input name="search" className="input-reset gray pa2 db w-100" type="text" onChange={this.handleInputChange}/>             
+                <input name="search" className="input-reset gray pa2 db w-100" type="text" placeholder="Cari..." onChange={this.handleInputChange}/>             
                 <button type="submit" style={{cursor: "pointer",borderColor:"#0191d7"}} className="link dim br1 ba pa2 dib white bg-primary" onClick={this.tambahkan}>
                   <i className="fas fa-search" style={{fontSize:"18px"}}/> 
                 </button>
@@ -83,19 +87,16 @@ class PageSekolahKelas extends React.Component{
             </div> 
           </TableHeader>       
           <TableBody>
-            <TableCell title="Kelas 7"/>
-            <TableCell title="Kelas 8"/>
-            <TableCell title="Kelas 9"/>
-            <TableCell title="Kelas 10"/>
-            <TableCell title="Kelas 11"/>
-            <TableCell title="Kelas 12"/>
+          {data.length > 0 && data.map((value,k) => (
+              <TableCell key={k} title={value.nama} />     
+          ))}  
           </TableBody>
           <TableFooter>
             <div className="w-50 ph2">
-              <span className="f6" style={{fontStyle:"italic"}}>Total data : 30 entri</span>
+              <span className="f6" style={{fontStyle:"italic"}}>Total data : {totalData} entri</span>
             </div>
             <div className="w-50 ph2 flex" style={{justifyContent:"flex-end"}}>
-              <Pagination/>              
+              <TablePagination pages={pages} current={currPage} pageSize={3} pilihPage={this.pilihPage} />              
             </div>
           </TableFooter>          
         </Table>
@@ -113,8 +114,43 @@ class PageSekolahKelas extends React.Component{
     this.setState({[name]: value});
   } 
 
+  handleSelectChange = (event) => {    
+    this.setState({total: event.target.value},() => this.fetchData());
+  }
+
   tambahkan = () => {
     console.log("tambahkan");
+  }
+
+  pilihPage = (nomor) =>{    
+    this.setState({page: nomor},() => this.fetchData());
+  }
+
+  fetchData = () => { 
+    const {page,total,cari} = this.state;
+    this.setState({isLoading:true});
+    axios.get(
+      window.location.origin + `/api/pendidik/sekolah/kelas/tingkatan?`+ `${total ? 'total=' + total : ''}` + `${page ? '&page=' + page : ''}`+ `${cari ? '&cari=' + cari : ''}` +"&nocache="+Date.now()
+    ).then(response => {          
+      //---setstate
+      this.setState({
+        data:response.data.message.data,
+        totalData:response.data.message.totaldata,        
+        currPage:response.data.message.current,
+        pages:response.data.message.pages,        
+        isLoading:false
+      });
+    }).catch(error => {
+      if(error.response.status == 401){                             
+        this.logout();
+      }
+    });
+  }
+
+  logout = () => {   
+    window.localStorage.clear();
+    delete axios.defaults.headers.common['Authorization']; 
+    this.props.history.push('/');
   }
   // ---------------------------- end of script
 }

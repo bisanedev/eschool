@@ -1,9 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import {Redirect,withRouter} from "react-router";
-import InputText from '../../components/forms/text';
-import InputPassword from '../../components/forms/password';
-import Checkbox from '../../components/forms/checkbox';
+import { InputText,InputPassword,Checkbox } from '../../components/forms';
 import { Helmet } from 'react-helmet';
 import { ToastContainer, toast } from 'react-toastify';
 

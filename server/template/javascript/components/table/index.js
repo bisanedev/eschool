@@ -1,11 +1,15 @@
-import React from 'react';
+import Table from "./table";
+import TableHeader from "./header";
+import TableBody from "./body";
+import TableFooter from "./footer";
+import TableCell from "./data";
+import TablePagination from "./pagination";
 
-function Table(props) {
-    return (
-        <div className="bg-white mr2 br2 mb2" style={{border:"1px solid rgba(0, 0, 0, 0.125)"}}>
-            {props.children}
-        </div>
-    );
+export {
+    Table,
+    TableHeader,
+    TableBody,
+    TableCell,
+    TableFooter,
+    TablePagination,    
 }
-
-export default Table;

@@ -56,10 +56,9 @@ class ApiController
 
     }
     
-    public function compressImage($source, $destination, $quality) {
-    
+    public function compressImage($source, $destination, $quality) {    
       $info = getimagesize($source);
-    
+
       if ($info['mime'] == 'image/jpeg') {
         $image = imagecreatefromjpeg($source);
       } elseif ($info['mime'] == 'image/png') {
@@ -71,6 +70,14 @@ class ApiController
       imagejpeg($image, $destination, $quality);
       imagedestroy($image);
       return 1;
+    }
+
+    public function hasSuperuser()
+    {
+        if($this->token->claims()->get('superuser') != true){        
+            echo $this->response->json_response(401, "Akses Superuser Dibutuhkan");
+            exit;
+        }
     }
 //--- end
 }

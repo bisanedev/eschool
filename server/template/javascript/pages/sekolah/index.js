@@ -2,8 +2,7 @@ import React from "react";
 import {withRouter} from "react-router";
 import { Helmet } from "react-helmet";
 import Forbidden from "../other/forbidden";
-import Breadcrumb from '../../components/breadcrumb';
-import MenuCard from '../../components/cards/menuCards';
+import {Breadcrumb,MenuCard} from '../../components/menu';
 
 class PageSekolah extends React.Component{
 

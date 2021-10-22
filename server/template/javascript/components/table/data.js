@@ -13,7 +13,7 @@ function TableCell(props) {
                 <div className="w-50">                    
                     <div className="pv2">
                     <label className="checkbox-container">Pilih
-                        <input type="checkbox"/>
+                        <input type="checkbox" checked={props.checked} onChange={props.onChecked}/>
                         <span className="checkmark"></span>
                     </label>                       
                     </div>                    

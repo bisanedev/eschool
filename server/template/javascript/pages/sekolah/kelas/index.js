@@ -4,6 +4,7 @@ import { Helmet } from "react-helmet";
 import axios from "axios";
 import Forbidden from "../../other/forbidden";
 import {Breadcrumb} from '../../../components/menu';
+import {InputSearch} from '../../../components/forms';
 import {Table,TableHeader,TableBody,TableCell,TableFooter,TablePagination} from "../../../components/table";
 
 
@@ -19,7 +20,8 @@ class PageSekolahKelas extends React.Component{
       isLoading:false,
       data:[],
       pages:1,
-      currPage:undefined
+      currPage:undefined,      
+      selected:[],
     }    
     this.handleInputChange = this.handleInputChange.bind(this);
   }
@@ -30,7 +32,7 @@ class PageSekolahKelas extends React.Component{
 
   render() {     
     const {tokenData} = this.props;
-    const {data,totalData,pages,currPage,total} = this.state;
+    const {data,totalData,pages,currPage,total,cari,selected} = this.state;
     return (  
     <div className="konten"> 
       <Helmet>
@@ -55,17 +57,17 @@ class PageSekolahKelas extends React.Component{
               </button>
             </div>
             <div className="w-50 ph2 flex" style={{justifyContent:"flex-end"}}>              
-              <button type="submit" style={{cursor: "pointer",fontSize:"13px",border:"1px solid rgba(0, 0, 0, 0.125)"}} className="link dim br1 ba pa2 dib bg-white" onClick={this.tambahkan}>
-              BATAL PILIH SEMUA
+              <button type="submit" style={{cursor: "pointer",fontSize:"13px",border:"1px solid rgba(0, 0, 0, 0.125)"}} className="link dim br1 ba pa2 dib bg-white" onClick={() => this.selectAll()}>
+                {data.length === selected.length ? "BATAL PILIH SEMUA":"PILIH SEMUA"}
               </button>
               <div className="dropdown">
                 <button type="submit" style={{cursor: "pointer",border:"1px solid rgba(0, 0, 0, 0.125)"}} className="link dim br1 ba pa2 dib bg-white" onClick={this.tambahkan}>
                   <i className="fas fa-ellipsis-v" style={{fontSize:"25px",color:"#474747"}}/>
                 </button>
                 <div className="dropdown-content">                  
-                  <div>
+                  <div className="disable">
                     <span>Edit</span>
-                    <i className="fas fa-pen primary" style={{fontSize:"14px"}}/>
+                    <i className="fas fa-pen" style={{fontSize:"14px"}}/>
                   </div>
                   <div>
                     <span>Hapus</span>
@@ -79,16 +81,13 @@ class PageSekolahKelas extends React.Component{
                 <option label="30" value="30"/>
               </select>
               <div className="flex ml2">                
-                <input name="search" className="input-reset gray pa2 db w-100" type="text" placeholder="Cari..." onChange={this.handleInputChange}/>             
-                <button type="submit" style={{cursor: "pointer",borderColor:"#0191d7"}} className="link dim br1 ba pa2 dib white bg-primary" onClick={this.tambahkan}>
-                  <i className="fas fa-search" style={{fontSize:"18px"}}/> 
-                </button>
+                <InputSearch name="cari" value={cari ? cari:""} placeholder={cari ? "":"Cari Nama Kelas"} onChange={this.handleInputChange} onReset={this.resetCari} onClick={this.handleCari} onKeyPress={this.handleKeyPress}/>
               </div>
             </div> 
           </TableHeader>       
           <TableBody>
           {data.length > 0 && data.map((value,k) => (
-              <TableCell key={k} title={value.nama} />     
+              <TableCell key={k} title={value.nama} checked={selected.includes(value.id)} onChecked={() => this.onChecked(value.id)}/>     
           ))}  
           </TableBody>
           <TableFooter>
@@ -96,7 +95,7 @@ class PageSekolahKelas extends React.Component{
               <span className="f6" style={{fontStyle:"italic"}}>Total data : {totalData} entri</span>
             </div>
             <div className="w-50 ph2 flex" style={{justifyContent:"flex-end"}}>
-              <TablePagination pages={pages} current={currPage} pageSize={3} pilihPage={this.pilihPage} />              
+              <TablePagination pages={pages} current={currPage} pageSize={3} pilihPage={this.pilihPagination} disable={cari ? true:false} />              
             </div>
           </TableFooter>          
         </Table>
@@ -107,32 +106,70 @@ class PageSekolahKelas extends React.Component{
     );
   }
   // ---------------------------- script 
+  
   handleInputChange = (event) => {
     const target = event.target;
     const value = target.type === 'checkbox' ? target.checked : target.value;
     const name = target.name;
     this.setState({[name]: value});
   } 
-
+  /*--- select ALL ---*/
+  selectAll = () => {    
+    const {selected,data} =  this.state;   
+    var selectedx = [];
+    if (selected.length != data.length) {
+      data.forEach(function (data) {
+        selectedx.push(data.id);
+      });
+      this.setState({selected:selectedx});
+    }else{
+      this.setState({selected:[]});
+    }  
+  }
+  onChecked = (id) => {
+    const {selected} =  this.state;    
+    var index = selected.indexOf(id);             
+    if (index !== -1) {
+      console.log("value ada");
+      selected.splice(index, 1);
+      this.setState({selected});
+    }else{
+      console.log("value tidak ada");
+      selected.push(id);
+      this.setState({selected});      
+    }                 
+  }
+  /*--- menu cari ---*/
+  handleCari = () => {
+    const {cari} = this.state;
+    if(cari != undefined){
+      this.fetchData();
+    }    
+  }  
+  handleKeyPress = (event) => {   
+    const {cari} = this.state;    
+    if (event.key === 'Enter' && cari != undefined) {
+        this.fetchData();
+    }
+  }
+  resetCari = () => {
+    this.setState({cari: undefined},() => this.fetchData());
+  }
+  /*--- Select jumlah data ---*/
   handleSelectChange = (event) => {    
-    this.setState({total: event.target.value},() => this.fetchData());
-  }
-
-  tambahkan = () => {
-    console.log("tambahkan");
-  }
-
-  pilihPage = (nomor) =>{    
+    this.setState({total: event.target.value,page:1,selected:[]},() => this.fetchData());
+  } 
+  /*--- pagination ---*/
+  pilihPagination = (nomor) =>{    
     this.setState({page: nomor},() => this.fetchData());
   }
-
+  /*--- fetch data ---*/
   fetchData = () => { 
     const {page,total,cari} = this.state;
     this.setState({isLoading:true});
     axios.get(
       window.location.origin + `/api/pendidik/sekolah/kelas/tingkatan?`+ `${total ? 'total=' + total : ''}` + `${page ? '&page=' + page : ''}`+ `${cari ? '&cari=' + cari : ''}` +"&nocache="+Date.now()
-    ).then(response => {          
-      //---setstate
+    ).then(response => {      
       this.setState({
         data:response.data.message.data,
         totalData:response.data.message.totaldata,        
@@ -146,7 +183,11 @@ class PageSekolahKelas extends React.Component{
       }
     });
   }
-
+  /*--- Menambahkan data ---*/
+  tambahkan = () => {
+    console.log("tambahkan");
+  }  
+  /*--- Logout ---*/
   logout = () => {   
     window.localStorage.clear();
     delete axios.defaults.headers.common['Authorization']; 

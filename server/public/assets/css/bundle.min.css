@@ -17547,6 +17547,29 @@ input[type=text]:focus {
   font-size: 18px !important;
 }
 
+.input-search {
+  border: 1px solid rgba(0, 0, 0, 0.125);
+  display: flex;
+  background-color: #f3f3f3;
+}
+.input-search input[type=text] {
+  background: transparent;
+  border: none;
+  outline: none;
+}
+.input-search .reset {
+  width: 15%;
+  cursor: pointer;
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  cursor: pointer;
+}
+.input-search .reset i {
+  font-size: 18px !important;
+  color: gray;
+}
+
 /* select */
 select {
   outline: none;
@@ -17643,9 +17666,12 @@ input[type=checkbox] {
   box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
   z-index: 1;
 }
+.dropdown-content .disable {
+  color: #b3b3b3 !important;
+  cursor: default !important;
+}
 
 .dropdown-content div {
-  color: black;
   padding: 12px 16px;
   text-decoration: none;
   display: flex;

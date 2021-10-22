@@ -9,7 +9,22 @@ function TablePagination(props) {
 
     return (
     <div className="dib overflow-hidden ba br2 bg-white" style={{border:"1px solid rgba(0, 0, 0, 0.125)"}}>
-      <nav className="cf">
+    {props.disable ?  
+    <nav className="cf">
+        <span className="fl dib moon-gray pa2" style={{borderRight:"1px solid rgba(0, 0, 0, 0.125)"}}>
+            <i className="fas fa-angle-double-left" style={{fontSize:"14px"}}/> 
+        </span>
+        <span className="fl dib moon-gray pa2">
+            <i className="fas fa-angle-left" style={{fontSize:"14px"}}/> 
+        </span>
+        <span className="fr moon-gray pa2" style={{borderLeft:"1px solid rgba(0, 0, 0, 0.125)"}}>
+            <i className="fas fa-angle-double-right" style={{fontSize:"14px"}}/>                   
+        </span>
+        <span className="fr moon-gray pa2" style={{borderLeft:"1px solid rgba(0, 0, 0, 0.125)"}}>
+            <i className="fas fa-angle-right" style={{fontSize:"14px"}}/>                   
+        </span>
+    </nav>
+    :<nav className="cf">
         {props.current === 1 ?
         <>
         <span className="fl dib moon-gray pa2" style={{borderRight:"1px solid rgba(0, 0, 0, 0.125)"}}>
@@ -56,6 +71,7 @@ function TablePagination(props) {
         )}        
         </div>
       </nav>
+    }
     </div>
     );
 }

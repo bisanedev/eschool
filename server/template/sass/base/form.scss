@@ -32,6 +32,28 @@ input[type=text]:focus {
         }
     }
 }
+.input-search{
+  border: 1px solid rgba(0, 0, 0, 0.125);
+  display: flex;
+  background-color: #f3f3f3;
+  input[type=text]{    
+    background: transparent;
+    border: none; 
+    outline: none;
+  }
+  .reset{        
+    width: 15%;
+    cursor: pointer;
+    align-items: center;
+    display: flex;
+    justify-content: center;    
+    cursor: pointer;
+    i {
+        font-size: 18px !important;
+        color:gray;
+    }
+  }
+}
 /* select */
 select{
   outline: none; 
@@ -124,21 +146,21 @@ input[type=checkbox] {
     min-width: 160px;
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
     z-index: 1;
+    .disable{
+      color: $disable-secondaryColor !important;      
+      cursor: default !important;      
+    }
   }
   
-  .dropdown-content div {
-    color: black;
+  .dropdown-content div {    
     padding: 12px 16px;
     text-decoration: none;
     display: flex;
     justify-content: space-between;
     cursor: pointer;
   }
-  
   .dropdown-content div:hover {background-color: #ddd;}
-  
-  .dropdown:hover .dropdown-content {display: block;}
-  
+  .dropdown:hover .dropdown-content {display: block;}  
   .dropdown:hover button {
     background-color: $primary-color;    
     i {

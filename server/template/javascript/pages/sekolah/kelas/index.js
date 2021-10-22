@@ -5,8 +5,8 @@ import axios from "axios";
 import Forbidden from "../../other/forbidden";
 import {Breadcrumb} from '../../../components/menu';
 import {InputSearch} from '../../../components/forms';
-import {Table,TableHeader,TableBody,TableCell,TableFooter,TablePagination} from "../../../components/table";
-
+import {Table,TableHeader,TableBody,TableDataSimple,TableFooter,TablePagination} from "../../../components/table";
+import {DeleteDialog} from '../../../components/dialog';
 
 class PageSekolahKelas extends React.Component{
 
@@ -22,6 +22,9 @@ class PageSekolahKelas extends React.Component{
       pages:1,
       currPage:undefined,      
       selected:[],
+      showDelete:false,
+      showSingleDelete:false,
+      singleData:[]
     }    
     this.handleInputChange = this.handleInputChange.bind(this);
   }
@@ -32,7 +35,7 @@ class PageSekolahKelas extends React.Component{
 
   render() {     
     const {tokenData} = this.props;
-    const {data,totalData,pages,currPage,total,cari,selected} = this.state;
+    const {data,totalData,pages,currPage,total,cari,selected,showDelete,showSingleDelete,singleData} = this.state;
     return (  
     <div className="konten"> 
       <Helmet>
@@ -67,11 +70,11 @@ class PageSekolahKelas extends React.Component{
                 <div className="dropdown-content">                  
                   <div className="disable">
                     <span>Edit</span>
-                    <i className="fas fa-pen" style={{fontSize:"14px"}}/>
+                    <i className="fas fa-pen"/>
                   </div>
-                  <div>
+                  <div className={selected.length === 0 ? "disable":""} onClick={ e => selected.length === 0 ? e.preventDefault() : this.setState({showDelete:true})}>
                     <span>Hapus</span>
-                    <i className="fas fa-trash" style={{color:"red",fontSize:"14px"}}/>
+                    <i className="fas fa-trash red"/>
                   </div>
                 </div>   
               </div>                                                                          
@@ -87,7 +90,11 @@ class PageSekolahKelas extends React.Component{
           </TableHeader>       
           <TableBody>
           {data.length > 0 && data.map((value,k) => (
-              <TableCell key={k} title={value.nama} checked={selected.includes(value.id)} onChecked={() => this.onChecked(value.id)}/>     
+              <TableDataSimple key={k} data={value} 
+              checked={selected.includes(value.id)} 
+              onChecked={() => this.onChecked(value.id)}
+              onDelete={() => this.onDelete(value)}
+              />     
           ))}  
           </TableBody>
           <TableFooter>
@@ -100,7 +107,17 @@ class PageSekolahKelas extends React.Component{
           </TableFooter>          
         </Table>
         </div>
-      </>
+        <DeleteDialog show={showDelete} 
+          title="Hapus semua" subtitle={"Yakin hapus "+selected.length+" data yang anda pilih ??"} 
+          close={() => this.setState({showDelete:false})} 
+          onClick={this.multiDelete}
+        />
+        <DeleteDialog show={showSingleDelete} 
+          title="Hapus" subtitle={"Yakin hapus data "+singleData.nama+" ??"} 
+          close={() => this.setState({showSingleDelete:false})}        
+          onClick={() => this.singleDelete(singleData.id)}
+        />
+      </>      
       )}        
     </div>
     );
@@ -129,12 +146,10 @@ class PageSekolahKelas extends React.Component{
   onChecked = (id) => {
     const {selected} =  this.state;    
     var index = selected.indexOf(id);             
-    if (index !== -1) {
-      console.log("value ada");
+    if (index !== -1) {      
       selected.splice(index, 1);
       this.setState({selected});
-    }else{
-      console.log("value tidak ada");
+    }else{      
       selected.push(id);
       this.setState({selected});      
     }                 
@@ -186,7 +201,19 @@ class PageSekolahKelas extends React.Component{
   /*--- Menambahkan data ---*/
   tambahkan = () => {
     console.log("tambahkan");
-  }  
+  }
+  /*--- Hapus single data ---*/
+  onDelete = (data) => {
+    this.setState({showSingleDelete:true,singleData:data})
+  }
+  singleDelete = (id) => {
+    console.log("hapus "+id);
+  }
+  /*--- Hapus data ---*/
+  multiDelete = () => {
+    const {selected} = this.state;
+    console.log("hapus "+selected);
+  }
   /*--- Logout ---*/
   logout = () => {   
     window.localStorage.clear();

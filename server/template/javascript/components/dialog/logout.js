@@ -1,8 +1,6 @@
 import React from 'react';
 import Modal from 'react-modal';
 
-Modal.setAppElement('#root');
-
 function LogoutDialog(props) {
     return (
     <Modal isOpen={props.show} closeTimeoutMS={500}

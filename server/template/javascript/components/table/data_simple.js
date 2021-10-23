@@ -20,7 +20,7 @@ function TableCell(props) {
                     </div>                    
                 </div>                
                 <div className="flex w-50" style={{justifyContent:"flex-end"}}>
-                    <button type="button" style={{cursor: "pointer",border:"1px solid rgba(0,0,0,.125)"}} className="ml1 link dim pa2 dib primary bg-light-gray">
+                    <button type="button" onClick={() => props.onEdit()} style={{cursor: "pointer",border:"1px solid rgba(0,0,0,.125)"}} className="ml1 link dim pa2 dib primary bg-light-gray">
                         <i className="fas fa-pen" style={{fontSize:"14px"}}/> 
                     </button>
                     <button type="button" onClick={() => props.onDelete()} style={{cursor: "pointer",border:"1px solid rgba(0,0,0,.125)"}} className="ml1 link dim pa2 dib red bg-light-gray">

@@ -1,5 +1,6 @@
 import React from 'react';
 import {HashRouter,Switch,Route } from "react-router-dom";
+import Modal from 'react-modal';
 import PrivateRoute from "./components/privateRouter"; 
 /* pages */
 import PageLogin from "./pages/login";
@@ -13,6 +14,8 @@ import PageSekolahKelas from './pages/sekolah/kelas';
 import PageProfile from './pages/profile';
 import PageProfileFoto from './pages/profile/foto';
 import PageProfilePassword from './pages/profile/password';
+//----------- end
+Modal.setAppElement('#root');
 
 export default function RouterApp() {    
   return (

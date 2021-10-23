@@ -1,6 +1,6 @@
 import React from 'react';
 
-function TableBody(props) {
+function Body(props) {
     return (
         <div className="flex flex-wrap pa3">
           {props.children}           
@@ -8,4 +8,4 @@ function TableBody(props) {
     );
 }
 
-export default TableBody;
+export default Body;

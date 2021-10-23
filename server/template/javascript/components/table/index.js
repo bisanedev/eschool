@@ -1,15 +1,14 @@
-import Table from "./table";
-import TableHeader from "./header";
-import TableBody from "./body";
-import TableFooter from "./footer";
-import TableDataSimple from "./data_simple";
-import TablePagination from "./pagination";
+import Table from './table';
+import Header from "./header";
+import Body from "./body";
+import Footer from "./footer";
+import DataSimple from "./data_simple";
+import Pagination from "./pagination";
 
-export {
-    Table,
-    TableHeader,
-    TableBody,
-    TableDataSimple,
-    TableFooter,
-    TablePagination,    
-}
+export default Object.assign(Table, {
+    Header,
+    Body,
+    DataSimple,
+    Pagination,
+    Footer
+});

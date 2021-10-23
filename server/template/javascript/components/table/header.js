@@ -1,6 +1,6 @@
 import React from 'react';
 
-function TableHeader(props) {
+function Header(props) {
     return (
         <div className="flex items-center bg-white" style={{borderBottom:"1px solid rgba(0, 0, 0, 0.125)",height:"58px"}}>
           {props.children}           
@@ -8,4 +8,4 @@ function TableHeader(props) {
     );
 }
 
-export default TableHeader;
+export default Header;

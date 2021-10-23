@@ -1,6 +1,6 @@
 import React from 'react';
 
-function TablePagination(props) { 
+function Pagination(props) { 
         
     const halaman = Array(props.pages).fill(1).map((x, y) => x + y);
     const last = props.pages - props.pageSize;
@@ -76,4 +76,4 @@ function TablePagination(props) {
     );
 }
 
-export default TablePagination;
+export default Pagination;

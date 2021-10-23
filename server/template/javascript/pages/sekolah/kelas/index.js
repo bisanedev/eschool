@@ -5,7 +5,7 @@ import axios from "axios";
 import Forbidden from "../../other/forbidden";
 import {Breadcrumb} from '../../../components/menu';
 import {InputSearch,InputText} from '../../../components/forms';
-import {Table,TableHeader,TableBody,TableDataSimple,TableFooter,TablePagination} from "../../../components/table";
+import Table from "../../../components/table";
 import {DeleteDialog} from '../../../components/dialog';
 import {AddModal,EditModal} from '../../../components/modal';
 
@@ -57,7 +57,7 @@ class PageSekolahKelas extends React.Component{
         </div>                
         <div className="mw9 center cf ph3 mb3">
         <Table>
-          <TableHeader>
+          <Table.Header>
             <div className="w-50 ph2">
               <button type="submit" style={{cursor: "pointer",borderColor:"#0191d7"}} className="link dim br1 ba pa2 dib white bg-primary" onClick={() => this.setState({showAdd:true})}>
                 <i className="fas fa-plus" style={{fontSize:"18px"}}/>
@@ -91,25 +91,25 @@ class PageSekolahKelas extends React.Component{
                 <InputSearch name="cari" value={cari ? cari:""} placeholder={cari ? "":"Cari Tingkatan kelas"} onChange={this.handleInputChange} onReset={this.resetCari} onClick={this.handleCari} onKeyPress={this.handleKeyPress}/>
               </div>
             </div> 
-          </TableHeader>       
-          <TableBody>
+          </Table.Header>       
+          <Table.Body>
           {data.length > 0 && data.map((value,k) => (
-              <TableDataSimple key={k} data={value} 
+              <Table.DataSimple key={k} data={value} 
               checked={selected.includes(value.id)} 
               onChecked={() => this.onChecked(value.id)}
               onDelete={() => this.onDelete(value)}
               onEdit={() => this.onEdit(value)}
               />     
           ))}  
-          </TableBody>
-          <TableFooter>
+          </Table.Body>
+          <Table.Footer>
             <div className="w-50 ph2">
               <span className="f6" style={{fontStyle:"italic"}}>Total data : {totalData} entri</span>
             </div>
             <div className="w-50 ph2 flex" style={{justifyContent:"flex-end"}}>
-              <TablePagination pages={pages} current={currPage} pageSize={3} pilihPage={this.pilihPagination} disable={cari ? true:false} />              
+              <Table.Pagination pages={pages} current={currPage} pageSize={3} pilihPage={this.pilihPagination} disable={cari ? true:false} />              
             </div>
-          </TableFooter>          
+          </Table.Footer>          
         </Table>
         </div>
         <DeleteDialog show={showDelete} 

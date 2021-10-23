@@ -1,6 +1,6 @@
 import React from 'react';
 
-function TableCell(props) { 
+function DataSimple(props) { 
     return (
         <>
         <div className="wrapDataCell bg-white tc cardMenu br2">
@@ -33,4 +33,4 @@ function TableCell(props) {
     );
 }
 
-export default TableCell;
+export default DataSimple;

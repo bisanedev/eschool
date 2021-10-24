@@ -5,7 +5,7 @@ function InputSearch(props) {
     return (
     <>
     <div className="input-search">
-        <input name={props.name} value={props.value} className="input-reset gray pa2 db" style={props.value != "" ?{width:"85%"}:{width:"100%"}} type="text" placeholder={props.placeholder} onChange={props.onChange} onKeyPress={props.onKeyPress}/>        
+        <input name={props.name} value={props.value}  className="input-reset gray pa2 db" style={props.value != "" ?{width:"85%"}:{width:"100%"}} type="text" placeholder={props.placeholder} onChange={props.onChange} onKeyPress={props.onKeyPress}/>        
         {props.value != "" && 
             <div className="reset" onClick={props.onReset}>
                 <i className="fas fa-times"/>  

@@ -133,8 +133,8 @@ class PageSekolahKelas extends React.Component{
             onClick={() => this.tambahkan()}
         >
           <div className="w-100 pa3">
-            <label className="f5 fw4 db mb2">Tingkat Kelas</label>
-            <InputText name="tingkat" onChange={this.handleInputChange} />                      
+            <label className="f5 fw4 db mb2">Tingkat kelas</label>
+            <InputText name="tingkat" placeholder="ketik disini" onChange={this.handleInputChange} />                      
           </div>
         </AddModal>
         <EditModal
@@ -146,8 +146,8 @@ class PageSekolahKelas extends React.Component{
           onClick={() => this.ubahData()}
         >
           <div className="w-100 pa3">
-            <label className="f5 fw4 db mb2">Tingkat Kelas</label>
-            <InputText value={singleData.nama} onChange={this.handleEditChange}/>                      
+            <label className="f5 fw4 db mb2">Tingkat kelas</label>
+            <InputText value={singleData.nama} placeholder="ketik disini" onChange={this.handleEditChange}/>                      
           </div>
         </EditModal>        
       </>      

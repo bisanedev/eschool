@@ -4,11 +4,15 @@ import Body from "./body";
 import Footer from "./footer";
 import DataSimple from "./data_simple";
 import Pagination from "./pagination";
+import Loading from "./loading";
+import Empty from "./empty";
 
 export default Object.assign(Table, {
     Header,
     Body,
     DataSimple,
     Pagination,
-    Footer
+    Footer,
+    Loading,
+    Empty
 });

@@ -34,7 +34,7 @@ class PageProfileFoto extends React.Component{
   render() {    
     const { crop, croppedImageUrl, src ,errorSelect,uploadProgress,uploadDisable } = this.state; 
     const uploadClass = uploadProgress ? "progress-active":"";
-    const uploadAction = croppedImageUrl ? "w-100 tc b f7 link br2 ba ph3 pv2 dib white bg-primary mb3":"w-100 tc b f7 link br2 ba ph3 pv2 dib disable-primary bg-disableSecondary mb3"
+    const uploadAction = croppedImageUrl ? "w-100 tc b f7 link br2 ba ph3 pv2 dib white bg-primary b--primary mb3":"w-100 tc b f7 link br2 ba ph3 pv2 dib disable-primary bg-disableSecondary mb3"
     return (
     <>
     <div className="konten"> 

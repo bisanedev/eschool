@@ -10,7 +10,7 @@ import {DeleteDialog} from '../../../components/dialog';
 import {AddModal,EditModal} from '../../../components/modal';
 import { ToastContainer, toast } from 'react-toastify';
 
-class PageSekolahKelas extends React.Component{
+class PageSekolahKelasSub extends React.Component{
 
   constructor(props) {
     super(props);
@@ -29,18 +29,20 @@ class PageSekolahKelas extends React.Component{
       showAdd:false,
       showEdit:false,
       singleData:[],
-      tingkat:""
+      kelas:"",
+      tingkatanNama:"",
     }    
     this.handleInputChange = this.handleInputChange.bind(this);
+    this.kelasID = this.props.match.params.kelasID;
   }
 
   componentDidMount() {
-    this.fetchData();    
+    this.fetchData(this.kelasID);
   }
 
-  render() {     
-    const {tokenData} = this.props;
-    const {data,totalData,pages,currPage,total,cari,selected,showDelete,showSingleDelete,singleData,showAdd,showEdit,isLoading} = this.state;
+  render() {           
+    const {tokenData} = this.props;        
+    const {data,totalData,pages,currPage,total,cari,selected,showDelete,showSingleDelete,singleData,showAdd,showEdit,isLoading,tingkatanNama} = this.state;
     return (  
     <div className="konten"> 
       <Helmet>
@@ -52,9 +54,10 @@ class PageSekolahKelas extends React.Component{
           <div className="title">Kelas</div>
           <div className="subtitle">Halaman informasi untuk kelas</div>
           <Breadcrumb homeUrl="/sekolah" homeText="Sekolah">
-            <li><a href="#/sekolah/kelas"><span>Tingkatan kelas</span></a></li>   
-            <li><a href="#"><span>Data tingkatan</span></a></li>  
-          </Breadcrumb>    
+            <li><a href="#/sekolah/kelas"><span>Tingkatan kelas</span></a></li>
+            <li><a href={"#/sekolah/kelas/"+this.kelasID}><span>{tingkatanNama !="" ? tingkatanNama:"memuat..."}</span></a></li>   
+            <li><a href="#"><span>Data kelas</span></a></li>  
+          </Breadcrumb>
         </div>                
         <div className="mw9 center cf ph3 mb3">
         <Table>
@@ -89,21 +92,21 @@ class PageSekolahKelas extends React.Component{
                 <option label="30" value="30"/>
               </select>
               <div className="flex ml2">                
-                <InputSearch name="cari" value={cari ? cari:""} placeholder={cari ? "":"Cari Tingkatan kelas"} onChange={this.handleInputChange} onReset={this.resetCari} onClick={this.handleCari} onKeyPress={this.handleKeyPress}/>
+                <InputSearch name="cari" value={cari ? cari:""} placeholder={cari ? "":"Cari nama kelas"} onChange={this.handleInputChange} onReset={this.resetCari} onClick={this.handleCari} onKeyPress={this.handleKeyPress}/>
               </div>
             </div> 
           </Table.Header>       
           <Table.Body>
-          {data.length > 0 && !isLoading && data.map((value,k) => (
-              <Table.DataSimple link={true} key={k} data={value} 
-              checked={selected.includes(value.id)} 
-              onChecked={() => this.onChecked(value.id)}
-              onDelete={() => this.onDelete(value)}
-              onEdit={() => this.onEdit(value)}
-              />     
-          ))} 
-          {isLoading && <Table.Loading nama="tingkatan" /> } 
-          {data.length === 0 && !isLoading && <Table.Empty nama="tingkatan" /> } 
+            {data.length > 0 && !isLoading && data.map((value,k) => (
+                <Table.DataSimple key={k} data={value} 
+                checked={selected.includes(value.id)} 
+                onChecked={() => this.onChecked(value.id)}
+                onDelete={() => this.onDelete(value)}
+                onEdit={() => this.onEdit(value)}
+                />     
+            ))} 
+            {isLoading && <Table.Loading nama="kelas" /> } 
+            {data.length === 0 && !isLoading && <Table.Empty nama="kelas" /> }
           </Table.Body>
           <Table.Footer>
             <div className="w-50 ph2">
@@ -128,28 +131,28 @@ class PageSekolahKelas extends React.Component{
         <AddModal show={showAdd}
             height="200px"
             width="400px" 
-            title="Menambahkan tingkat kelas" 
+            title="Menambahkan kelas" 
             close={() => this.setState({showAdd:false})}        
             onClick={() => this.tambahkan()}
         >
           <div className="w-100 pa3">
-            <label className="f5 fw4 db mb2">Tingkat Kelas</label>
-            <InputText name="tingkat" onChange={this.handleInputChange} />                      
+            <label className="f5 fw4 db mb2">Nama Kelas</label>
+            <InputText name="kelas" onChange={this.handleInputChange} />                      
           </div>
         </AddModal>
         <EditModal
           show={showEdit}
           height="200px"
           width="400px" 
-          title="Merubah data tingkat kelas" 
+          title="Merubah data kelas" 
           close={() => this.setState({showEdit:false})}        
           onClick={() => this.ubahData()}
         >
           <div className="w-100 pa3">
-            <label className="f5 fw4 db mb2">Tingkat Kelas</label>
+            <label className="f5 fw4 db mb2">Kelas</label>
             <InputText value={singleData.nama} onChange={this.handleEditChange}/>                      
           </div>
-        </EditModal>        
+        </EditModal>
       </>      
       )}
       <ToastContainer />        
@@ -201,38 +204,39 @@ class PageSekolahKelas extends React.Component{
   handleCari = () => {
     const {cari} = this.state;
     if(cari != undefined){
-      this.fetchData();
+      this.fetchData(this.kelasID);
     }    
   }  
   handleKeyPress = (event) => {   
     const {cari} = this.state;    
     if (event.key === 'Enter' && cari != undefined) {
-        this.fetchData();
+        this.fetchData(this.kelasID);
     }
   }
   resetCari = () => {
-    this.setState({cari: undefined},() => this.fetchData());
+    this.setState({cari: undefined},() => this.fetchData(this.kelasID));
   }
   /*--- Select jumlah data ---*/
   handleSelectChange = (event) => {    
-    this.setState({total: event.target.value,page:1,selected:[]},() => this.fetchData());
+    this.setState({total: event.target.value,page:1,selected:[]},() => this.fetchData(this.kelasID));
   } 
   /*--- pagination ---*/
   pilihPagination = (nomor) =>{    
-    this.setState({page: nomor},() => this.fetchData());
+    this.setState({page: nomor},() => this.fetchData(this.kelasID));
   }
   /*--- fetch data ---*/
-  fetchData = () => { 
+  fetchData = (id) => { 
     const {page,total,cari} = this.state;
     this.setState({isLoading:true});
     axios.get(
-      window.location.origin + `/api/pendidik/sekolah/tingkatan?`+ `${total ? 'total=' + total : ''}` + `${page ? '&page=' + page : ''}`+ `${cari ? '&cari=' + cari : ''}` +"&nocache="+Date.now()
+      window.location.origin + `/api/pendidik/sekolah/tingkatan/kelas/${id}?`+ `${total ? 'total=' + total : ''}` + `${page ? '&page=' + page : ''}`+ `${cari ? '&cari=' + cari : ''}` +"&nocache="+Date.now()
     ).then(response => {      
       this.setState({
         data:response.data.message.data,
         totalData:response.data.message.totaldata,        
         currPage:response.data.message.current,
-        pages:response.data.message.pages,        
+        pages:response.data.message.pages,  
+        tingkatanNama:response.data.message.tingkatan,
         isLoading:false
       });
     }).catch(error => {
@@ -242,18 +246,18 @@ class PageSekolahKelas extends React.Component{
     });
   }
   /*--- Menambahkan data ---*/
-  tambahkan = () => {
-    const {tingkat} = this.state;
+  tambahkan = () => {    
+    const {kelas} = this.state;
     var formData = new FormData();
-    formData.append('nama', tingkat );
+    formData.append('nama', kelas );
     axios({
       method: 'post',
-      url: window.location.origin +'/api/pendidik/sekolah/tingkatan',
+      url: window.location.origin +'/api/pendidik/sekolah/tingkatan/kelas/'+this.kelasID,
       data: formData
     }).then(response => {
       if(response.data.status == true)
       {        
-        this.setState({showAdd:false},() => this.fetchData());        
+        this.setState({showAdd:false},() => this.fetchData(this.kelasID));        
       }
     }).catch(error => {
       if(error.response.status == 401){
@@ -268,19 +272,19 @@ class PageSekolahKelas extends React.Component{
   onEdit = (data) => {
     this.setState({showEdit:true,singleData:data})
   }
-  ubahData = () => {    
+  ubahData = () => {
     const {singleData} = this.state;
     var formData = new FormData();
     formData.append('id', singleData.id );
     formData.append('nama', singleData.nama );
     axios({
       method: 'patch',
-      url: window.location.origin +'/api/pendidik/sekolah/tingkatan',
+      url: window.location.origin +'/api/pendidik/sekolah/tingkatan/kelas/'+this.kelasID,
       data: formData
     }).then(response => {
       if(response.data.status == true)
       {        
-        this.setState({showEdit:false},() => this.fetchData());        
+        this.setState({showEdit:false},() => this.fetchData(this.kelasID));        
       }
     }).catch(error => {
       if(error.response.status == 401){
@@ -295,17 +299,17 @@ class PageSekolahKelas extends React.Component{
   onDelete = (data) => {
     this.setState({showSingleDelete:true,singleData:data})
   }
-  singleDelete = (id) => {        
+  singleDelete = (id) => {    
     var formData = new FormData();
     formData.append('delete', id);    
     axios({
       method: 'delete',
-      url: window.location.origin +'/api/pendidik/sekolah/tingkatan',
+      url: window.location.origin +'/api/pendidik/sekolah/tingkatan/kelas/'+this.kelasID,
       data: formData
     }).then(response => {
       if(response.data.status == true)
       {        
-        this.setState({showSingleDelete:false},() => this.fetchData());        
+        this.setState({showSingleDelete:false},() => this.fetchData(this.kelasID));        
       }
     }).catch(error => {
       if(error.response.status == 401){
@@ -317,18 +321,18 @@ class PageSekolahKelas extends React.Component{
     });
   }
   /*--- Hapus data ---*/
-  multiDelete = () => {
+  multiDelete = () => {    
     const {selected} = this.state;    
     var formData = new FormData();
     formData.append('delete', JSON.stringify(selected));    
     axios({
       method: 'delete',
-      url: window.location.origin +'/api/pendidik/sekolah/tingkatan',
+      url: window.location.origin +'/api/pendidik/sekolah/tingkatan/kelas/'+this.kelasID,
       data: formData
     }).then(response => {
       if(response.data.status == true)
       {        
-        this.setState({showDelete:false},() => this.fetchData());        
+        this.setState({showDelete:false},() => this.fetchData(this.kelasID));        
       }
     }).catch(error => {
       if(error.response.status == 401){
@@ -348,4 +352,4 @@ class PageSekolahKelas extends React.Component{
   // ---------------------------- end of script
 }
 
-export default withRouter(PageSekolahKelas);
+export default withRouter(PageSekolahKelasSub);

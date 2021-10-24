@@ -1,15 +1,21 @@
 import React from 'react';
 
-function DataSimple(props) { 
+function DataSimple(props) {     
     return (
         <>
         <div className="wrapDataCell bg-white tc cardMenu br2">
-            <div className="pa2 flex items-center justify-center bg-primary relative dataInfo" style={{cursor:"pointer"}}>
+            {props.link ?
+            <a className="pa2 flex items-center justify-center bg-primary relative dataInfo link pointer" href={`#/sekolah/kelas/${props.data.id}`}>
                 <span className="f3 white">{props.data.nama}</span>   
                 <div className="absolute pa1 top-0 right-0">
                     <i className="fas fa-folder-open" style={{fontSize:"18px",color:"white"}}/>                 
                 </div>
+            </a>
+            :
+            <div className="pa2 flex items-center justify-center bg-primary relative dataInfo link">
+                <span className="f3 white">{props.data.nama}</span>               
             </div>
+            }
             <div className="h2 flex pa2 dataAction">
                 <div className="w-50">                    
                     <div className="pv2">

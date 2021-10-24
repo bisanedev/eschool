@@ -17,7 +17,7 @@
    --color-name = each color variable name is also a border color name
 
 */
-
+.b--primary {      border-color: $primary-color; }
 .b--black {        border-color: var(--black); }
 .b--near-black {   border-color: var(--near-black); }
 .b--dark-gray {    border-color: var(--dark-gray); }

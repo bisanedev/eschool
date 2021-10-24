@@ -52,7 +52,7 @@ class PageProfilePassword extends React.Component{
                 <label className="f5 fw4 db mb2">Ketik ulang password baru</label>
                 <InputPassword name="rePassword" onChange={this.handleInputChange}/>                
               </div>
-              <button type="submit" style={{cursor: "pointer"}} className="w-20 tc f6 link dim br2 ba ph3 pv2 mb2 mt2 dib white bg-primary" onClick={this.changePassword}>Ganti Password</button>
+              <button type="submit" style={{cursor: "pointer"}} className="w-20 tc f6 link dim br2 ba ph3 pv2 mb2 mt2 dib white bg-primary b--primary" onClick={this.changePassword}>Ganti Password</button>
           </Cards>
         </div>                              
     </div>

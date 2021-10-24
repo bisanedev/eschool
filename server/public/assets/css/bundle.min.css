@@ -1048,6 +1048,10 @@ img {
    --color-name = each color variable name is also a border color name
 
 */
+.b--primary {
+  border-color: #0191d7;
+}
+
 .b--black {
   border-color: var(--black);
 }
@@ -17330,6 +17334,34 @@ readers do not read off random characters that represent icons */
   background-color: #b3b3b3 !important;
 }
 
+.loader {
+  border: 5px solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 5px solid #0191d7;
+  width: 50px;
+  height: 50px;
+  -webkit-animation: spin 1s linear infinite;
+  /* Safari */
+  animation: spin 1s linear infinite;
+}
+
+/* Safari */
+@-webkit-keyframes spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+  }
+}
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
 .dialog {
   position: absolute;
   top: 50%;
@@ -17560,10 +17592,10 @@ div.wrapDataCell {
   border: 1px solid rgba(0, 0, 0, 0.125);
   height: 11rem;
 }
-div.wrapDataCell div.dataInfo {
+div.wrapDataCell .dataInfo {
   height: 70%;
 }
-div.wrapDataCell div.dataAction {
+div.wrapDataCell .dataAction {
   height: 30%;
   border-top: 1px solid rgba(0, 0, 0, 0.125);
 }

@@ -95,7 +95,7 @@ class PageSekolahKelas extends React.Component{
           </Table.Header>       
           <Table.Body>
           {data.length > 0 && !isLoading && data.map((value,k) => (
-              <Table.DataSimple link={true} key={k} data={value}
+              <Table.DataSimple link={true} key={k} title={value.nama}
               href={`#/sekolah/kelas/${value.id}`} 
               checked={selected.includes(value.id)} 
               onChecked={() => this.onChecked(value.id)}

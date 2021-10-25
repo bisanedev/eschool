@@ -98,7 +98,7 @@ class PageSekolahKelasSub extends React.Component{
           </Table.Header>       
           <Table.Body>
             {data.length > 0 && !isLoading && data.map((value,k) => (
-                <Table.DataSimple key={k} data={value} 
+                <Table.DataSimple key={k} title={value.nama}
                 checked={selected.includes(value.id)} 
                 onChecked={() => this.onChecked(value.id)}
                 onDelete={() => this.onDelete(value)}

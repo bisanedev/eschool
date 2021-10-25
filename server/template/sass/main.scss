@@ -35,7 +35,10 @@ body {
     font-weight: 300;   
     font-size: 15px; 
 }
-
+/* calendar */
+.react-datepicker__day--selected,.react-datepicker__day--in-selecting-range,.react-datepicker__day--in-range{
+    background-color: $primary-color !important;
+}
 /* 404 page */
 .page-wrap {
     min-height: 100vh;

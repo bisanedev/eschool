@@ -29,7 +29,7 @@ class PageSekolahSemester extends React.Component{
       showAdd:false,
       showEdit:false,
       singleData:[],
-      tahun:""
+      tahun:"" 
     }    
     this.handleInputChange = this.handleInputChange.bind(this);
   }
@@ -40,7 +40,7 @@ class PageSekolahSemester extends React.Component{
 
   render() {     
     const {tokenData} = this.props;
-    const {data,totalData,pages,currPage,total,cari,selected,showDelete,showSingleDelete,singleData,showAdd,showEdit,isLoading} = this.state;
+    const {data,totalData,pages,currPage,total,cari,selected,showDelete,showSingleDelete,singleData,showAdd,showEdit,isLoading,tahun} = this.state;
     return (  
     <div className="konten"> 
       <Helmet>
@@ -95,7 +95,7 @@ class PageSekolahSemester extends React.Component{
           </Table.Header>       
           <Table.Body>
           {data.length > 0 && !isLoading && data.map((value,k) => (
-              <Table.DataSimple link={true} key={k} data={value}
+              <Table.DataSimple link={true} key={k} title={value.nama}
               href={`#/sekolah/semester/${value.id}`} 
               checked={selected.includes(value.id)} 
               onChecked={() => this.onChecked(value.id)}
@@ -135,7 +135,7 @@ class PageSekolahSemester extends React.Component{
         >
           <div className="w-100 pa3">
             <label className="f5 fw4 db mb2">Tahun ajaran</label>
-            <InputText name="tahun" placeholder="ketik disini" onChange={this.handleInputChange} />                      
+            <InputText name="tahun" placeholder="ketik disini" onChange={this.handleInputChange} />             
           </div>
         </AddModal>
         <EditModal
@@ -148,7 +148,7 @@ class PageSekolahSemester extends React.Component{
         >
           <div className="w-100 pa3">
             <label className="f5 fw4 db mb2">Tahun ajaran</label>
-            <InputText value={singleData.nama} placeholder="ketik disini" onChange={this.handleEditChange}/>                      
+            <InputText value={singleData.nama} placeholder="ketik disini" onChange={this.handleEditChange}/>             
           </div>
         </EditModal>        
       </>
@@ -158,7 +158,8 @@ class PageSekolahSemester extends React.Component{
     );
   }
   // ---------------------------- script 
-   handleInputChange = (event) => {
+    
+  handleInputChange = (event) => {
     const target = event.target;
     const value = target.type === 'checkbox' ? target.checked : target.value;
     const name = target.name;

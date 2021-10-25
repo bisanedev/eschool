@@ -38,7 +38,7 @@ class PageSekolah extends React.Component{
           <MenuCard url="/sekolah/kelas" icon="assets/images/menuButton.png" text="Kelas"/>
           <MenuCard url="/sekolah/semester" icon="assets/images/menuButton.png" text="Semester"/>
           <MenuCard url="/sekolah/mapel" icon="assets/images/menuButton.png" text="Mata pelajaran"/>    
-          <MenuCard url="/sekolah/users" icon="assets/images/menuButton.png" text="Users & Pendidik"/>
+          <MenuCard url="/sekolah/pendidik" icon="assets/images/menuButton.png" text="Users & Pendidik"/>
           <MenuCard url="/sekolah/siswa" icon="assets/images/menuButton.png" text="Siswa"/>
         </div>
         </div>

@@ -11,6 +11,11 @@ import PageAplikasi from './pages/aplikasi';
 import PageSekolah from './pages/sekolah';
 import PageSekolahKelas from './pages/sekolah/kelas';
 import PageSekolahKelasSub from './pages/sekolah/kelas/subkelas';
+import PageSekolahSemester from './pages/sekolah/semester';
+import PageSekolahSemesterSub from './pages/sekolah/semester/subsemester';
+import PageSekolahMapel from './pages/sekolah/mapel';
+import PageSekolahPendidik from './pages/sekolah/pendidik';
+import PageSekolahSiswa from './pages/sekolah/siswa';
 //----- profile
 import PageProfile from './pages/profile';
 import PageProfileFoto from './pages/profile/foto';
@@ -29,6 +34,11 @@ export default function RouterApp() {
           <PrivateRoute exact path="/sekolah" component={PageSekolah} />  
           <PrivateRoute exact path="/sekolah/kelas" component={PageSekolahKelas} /> 
           <PrivateRoute exact path="/sekolah/kelas/:kelasID" component={PageSekolahKelasSub} /> 
+          <PrivateRoute exact path="/sekolah/semester" component={PageSekolahSemester} /> 
+          <PrivateRoute exact path="/sekolah/semester/:semesterID" component={PageSekolahSemesterSub} /> 
+          <PrivateRoute exact path="/sekolah/mapel" component={PageSekolahMapel} />
+          <PrivateRoute exact path="/sekolah/pendidik" component={PageSekolahPendidik} />
+          <PrivateRoute exact path="/sekolah/siswa" component={PageSekolahSiswa} />
           <PrivateRoute exact path="/profile" component={PageProfile} /> 
           <PrivateRoute exact path="/profile/foto" component={PageProfileFoto} />
           <PrivateRoute exact path="/profile/password" component={PageProfilePassword} />          

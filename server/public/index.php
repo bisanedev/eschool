@@ -37,6 +37,14 @@ $dispatcher = FastRoute\simpleDispatcher(function (RouteCollector $r) {
         $r->addRoute('POST', '/sekolah/tingkatan/kelas/{id}', ['App\PendidikControllers\SekolahController','kelasAdd']);
         $r->addRoute('PATCH', '/sekolah/tingkatan/kelas/{id}', ['App\PendidikControllers\SekolahController','kelasUpdate']);
         $r->addRoute('DELETE', '/sekolah/tingkatan/kelas/{id}', ['App\PendidikControllers\SekolahController','kelasDelete']); 
+        $r->addRoute('GET', '/sekolah/tahun', ['App\PendidikControllers\SekolahController','tahun']); 
+        $r->addRoute('POST', '/sekolah/tahun', ['App\PendidikControllers\SekolahController','tahunAdd']);
+        $r->addRoute('PATCH', '/sekolah/tahun', ['App\PendidikControllers\SekolahController','tahunUpdate']);
+        $r->addRoute('DELETE', '/sekolah/tahun', ['App\PendidikControllers\SekolahController','tahunDelete']); 
+        $r->addRoute('GET', '/sekolah/tahun/semester/{id}', ['App\PendidikControllers\SekolahController','semester']); 
+        $r->addRoute('POST', '/sekolah/tahun/semester/{id}', ['App\PendidikControllers\SekolahController','semesterAdd']);
+        $r->addRoute('PATCH', '/sekolah/tahun/semester/{id}', ['App\PendidikControllers\SekolahController','semesterUpdate']);
+        $r->addRoute('DELETE', '/sekolah/tahun/semester/{id}', ['App\PendidikControllers\SekolahController','semesterDelete']); 
         //protected page
         $r->addRoute('GET', '/protected', ['App\PendidikControllers\ProtectController','index']); 
         $r->addRoute('POST', '/protected', ['App\PendidikControllers\ProtectController','indexPost']); 

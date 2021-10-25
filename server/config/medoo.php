@@ -9,7 +9,8 @@ return [
 	        'database_name' => 'eschool', // nama database
 	        'server' => 'localhost', // host database
 	        'username' => 'root', // username db
-	        'password' => '' // password db
+	        'password' => '', // password db
+			'error' => PDO::ERRMODE_SILENT,
     	]);
 	}
     // end

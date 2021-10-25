@@ -3,14 +3,14 @@ import {withRouter} from "react-router";
 import { Helmet } from "react-helmet";
 import axios from "axios";
 import Forbidden from "../../other/forbidden";
-import {Breadcrumb} from '../../../components/menu';
+import {Breadcrumb} from "../../../components/menu";
 import {InputSearch,InputText} from '../../../components/forms';
 import Table from "../../../components/table";
 import {DeleteDialog} from '../../../components/dialog';
 import {AddModal,EditModal} from '../../../components/modal';
 import { ToastContainer, toast } from 'react-toastify';
 
-class PageSekolahKelas extends React.Component{
+class PageSekolahSemester extends React.Component{
 
   constructor(props) {
     super(props);
@@ -29,7 +29,7 @@ class PageSekolahKelas extends React.Component{
       showAdd:false,
       showEdit:false,
       singleData:[],
-      tingkat:""
+      tahun:""
     }    
     this.handleInputChange = this.handleInputChange.bind(this);
   }
@@ -44,18 +44,18 @@ class PageSekolahKelas extends React.Component{
     return (  
     <div className="konten"> 
       <Helmet>
-        <title>Kelas - Nama Sekolah</title>
+        <title>Semester - Nama Sekolah</title>
       </Helmet>
       {!tokenData.superuser ? (<Forbidden location={this.props.location}/>):(
       <>
         <div className="headings">
-          <div className="title">Kelas</div>
-          <div className="subtitle">Halaman informasi untuk kelas</div>
-          <Breadcrumb homeUrl="/sekolah" homeText="Sekolah">
-            <li><a href="#/sekolah/kelas"><span>Tingkatan kelas</span></a></li>   
-            <li><a href="#"><span>Data tingkatan</span></a></li>  
+          <div className="title">Semester</div>
+          <div className="subtitle">Halaman informasi untuk semester</div>
+          <Breadcrumb homeUrl="/sekolah" homeText="Sekolah"> 
+            <li><a href="#/sekolah/semester"><span>Semester</span></a></li>                                 
+            <li><a href="#"><span>Data tahun ajaran</span></a></li>  
           </Breadcrumb>    
-        </div>                
+        </div>                       
         <div className="mw9 center cf ph3 mb3">
         <Table>
           <Table.Header>
@@ -89,22 +89,22 @@ class PageSekolahKelas extends React.Component{
                 <option label="30" value="30"/>
               </select>
               <div className="flex ml2">                
-                <InputSearch name="cari" value={cari ? cari:""} placeholder={cari ? "":"Cari Tingkatan kelas"} onChange={this.handleInputChange} onReset={this.resetCari} onClick={this.handleCari} onKeyPress={this.handleKeyPress}/>
+                <InputSearch name="cari" value={cari ? cari:""} placeholder={cari ? "":"Cari Tahun ajaran"} onChange={this.handleInputChange} onReset={this.resetCari} onClick={this.handleCari} onKeyPress={this.handleKeyPress}/>
               </div>
             </div> 
           </Table.Header>       
           <Table.Body>
           {data.length > 0 && !isLoading && data.map((value,k) => (
               <Table.DataSimple link={true} key={k} data={value}
-              href={`#/sekolah/kelas/${value.id}`} 
+              href={`#/sekolah/semester/${value.id}`} 
               checked={selected.includes(value.id)} 
               onChecked={() => this.onChecked(value.id)}
               onDelete={() => this.onDelete(value)}
               onEdit={() => this.onEdit(value)}
               />     
           ))} 
-          {isLoading && <Table.Loading nama="tingkatan" /> } 
-          {data.length === 0 && !isLoading && <Table.Empty nama="tingkatan" /> } 
+          {isLoading && <Table.Loading nama="tahun ajaran" /> } 
+          {data.length === 0 && !isLoading && <Table.Empty nama="tahun ajaran" /> } 
           </Table.Body>
           <Table.Footer>
             <div className="w-50 ph2">
@@ -115,7 +115,7 @@ class PageSekolahKelas extends React.Component{
             </div>
           </Table.Footer>          
         </Table>
-        </div>
+        </div> 
         <DeleteDialog show={showDelete} 
           title="Hapus semua" subtitle={"Yakin hapus "+selected.length+" data yang anda pilih ??"} 
           close={() => this.setState({showDelete:false})} 
@@ -129,36 +129,36 @@ class PageSekolahKelas extends React.Component{
         <AddModal show={showAdd}
             height="200px"
             width="400px" 
-            title="Menambahkan tingkat kelas" 
+            title="Menambahkan tahun ajaran" 
             close={() => this.setState({showAdd:false})}        
             onClick={() => this.tambahkan()}
         >
           <div className="w-100 pa3">
-            <label className="f5 fw4 db mb2">Tingkat kelas</label>
-            <InputText name="tingkat" placeholder="ketik disini" onChange={this.handleInputChange} />                      
+            <label className="f5 fw4 db mb2">Tahun ajaran</label>
+            <InputText name="tahun" placeholder="ketik disini" onChange={this.handleInputChange} />                      
           </div>
         </AddModal>
         <EditModal
           show={showEdit}
           height="200px"
           width="400px" 
-          title="Merubah data tingkat kelas" 
+          title="Merubah tahun ajaran" 
           close={() => this.setState({showEdit:false})}        
           onClick={() => this.ubahData()}
         >
           <div className="w-100 pa3">
-            <label className="f5 fw4 db mb2">Tingkat kelas</label>
+            <label className="f5 fw4 db mb2">Tahun ajaran</label>
             <InputText value={singleData.nama} placeholder="ketik disini" onChange={this.handleEditChange}/>                      
           </div>
         </EditModal>        
-      </>      
+      </>
       )}
-      <ToastContainer />        
+      <ToastContainer />         
     </div>
     );
   }
-  // ---------------------------- script   
-  handleInputChange = (event) => {
+  // ---------------------------- script 
+   handleInputChange = (event) => {
     const target = event.target;
     const value = target.type === 'checkbox' ? target.checked : target.value;
     const name = target.name;
@@ -226,7 +226,7 @@ class PageSekolahKelas extends React.Component{
     const {page,total,cari} = this.state;
     this.setState({isLoading:true});
     axios.get(
-      window.location.origin + `/api/pendidik/sekolah/tingkatan?`+ `${total ? 'total=' + total : ''}` + `${page ? '&page=' + page : ''}`+ `${cari ? '&cari=' + cari : ''}` +"&nocache="+Date.now()
+      window.location.origin + `/api/pendidik/sekolah/tahun?`+ `${total ? 'total=' + total : ''}` + `${page ? '&page=' + page : ''}`+ `${cari ? '&cari=' + cari : ''}` +"&nocache="+Date.now()
     ).then(response => {      
       this.setState({
         data:response.data.message.data,
@@ -243,12 +243,12 @@ class PageSekolahKelas extends React.Component{
   }
   /*--- Menambahkan data ---*/
   tambahkan = () => {
-    const {tingkat} = this.state;
+    const {tahun} = this.state;
     var formData = new FormData();
-    formData.append('nama', tingkat );
+    formData.append('nama', tahun );
     axios({
       method: 'post',
-      url: window.location.origin +'/api/pendidik/sekolah/tingkatan',
+      url: window.location.origin +'/api/pendidik/sekolah/tahun',
       data: formData
     }).then(response => {
       if(response.data.status == true)
@@ -275,7 +275,7 @@ class PageSekolahKelas extends React.Component{
     formData.append('nama', singleData.nama );
     axios({
       method: 'patch',
-      url: window.location.origin +'/api/pendidik/sekolah/tingkatan',
+      url: window.location.origin +'/api/pendidik/sekolah/tahun',
       data: formData
     }).then(response => {
       if(response.data.status == true)
@@ -300,7 +300,7 @@ class PageSekolahKelas extends React.Component{
     formData.append('delete', id);    
     axios({
       method: 'delete',
-      url: window.location.origin +'/api/pendidik/sekolah/tingkatan',
+      url: window.location.origin +'/api/pendidik/sekolah/tahun',
       data: formData
     }).then(response => {
       if(response.data.status == true)
@@ -323,7 +323,7 @@ class PageSekolahKelas extends React.Component{
     formData.append('delete', JSON.stringify(selected));    
     axios({
       method: 'delete',
-      url: window.location.origin +'/api/pendidik/sekolah/tingkatan',
+      url: window.location.origin +'/api/pendidik/sekolah/tahun',
       data: formData
     }).then(response => {
       if(response.data.status == true)
@@ -348,4 +348,4 @@ class PageSekolahKelas extends React.Component{
   // ---------------------------- end of script
 }
 
-export default withRouter(PageSekolahKelas);
+export default withRouter(PageSekolahSemester);

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 21, 2021 at 09:32 AM
+-- Generation Time: Oct 25, 2021 at 06:22 PM
 -- Server version: 10.4.19-MariaDB
 -- PHP Version: 8.0.7
 
@@ -24,46 +24,97 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `kelas`
+-- Table structure for table `kelas_nama`
 --
 
-CREATE TABLE `kelas` (
+CREATE TABLE `kelas_nama` (
   `id` int(11) NOT NULL,
   `tingkatan_id` int(11) NOT NULL,
   `nama` varchar(30) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data for table `kelas`
+-- Dumping data for table `kelas_nama`
 --
 
-INSERT INTO `kelas` (`id`, `tingkatan_id`, `nama`) VALUES
+INSERT INTO `kelas_nama` (`id`, `tingkatan_id`, `nama`) VALUES
 (1, 1, '7A'),
 (2, 1, '7B'),
 (3, 2, '8A'),
 (4, 2, '8B'),
-(5, 3, '9A'),
-(6, 3, '9B');
+(15, 15, '9A');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tingkatan`
+-- Table structure for table `kelas_tingkatan`
 --
 
-CREATE TABLE `tingkatan` (
+CREATE TABLE `kelas_tingkatan` (
   `id` int(11) NOT NULL,
   `nama` varchar(30) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data for table `tingkatan`
+-- Dumping data for table `kelas_tingkatan`
 --
 
-INSERT INTO `tingkatan` (`id`, `nama`) VALUES
+INSERT INTO `kelas_tingkatan` (`id`, `nama`) VALUES
 (1, 'Kelas 7'),
 (2, 'Kelas 8'),
-(3, 'Kelas 9');
+(15, 'Kelas 9');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `mapel`
+--
+
+CREATE TABLE `mapel` (
+  `id` int(11) NOT NULL,
+  `nama` varchar(300) NOT NULL,
+  `color` varchar(30) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `semester_nama`
+--
+
+CREATE TABLE `semester_nama` (
+  `id` int(11) NOT NULL,
+  `semester_tahun_id` int(11) NOT NULL,
+  `semester` int(6) NOT NULL,
+  `semester_start` date NOT NULL,
+  `semester_end` date NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `semester_nama`
+--
+
+INSERT INTO `semester_nama` (`id`, `semester_tahun_id`, `semester`, `semester_start`, `semester_end`) VALUES
+(1, 3, 1, '2021-07-01', '2021-12-25'),
+(2, 3, 2, '2022-01-01', '2022-07-10');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `semester_tahun`
+--
+
+CREATE TABLE `semester_tahun` (
+  `id` int(11) NOT NULL,
+  `nama` varchar(80) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `semester_tahun`
+--
+
+INSERT INTO `semester_tahun` (`id`, `nama`) VALUES
+(3, 'TA 2021/2022');
 
 -- --------------------------------------------------------
 
@@ -89,7 +140,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `nama`, `jenis`, `username`, `password`, `mapel_id`, `superuser`, `expired_token`, `unique_token`, `device_token`) VALUES
-(1, 'Administrator', 'pria', 'admin', '$2a$10$uJWzRaqj52lXZGP6yeG0..g6S8EfynirIddkDM3XdmbfGY5x5vrti', NULL, 1, 1666333828, '61710904e490a', ''),
+(1, 'Administrator', 'pria', 'admin', '$2a$10$uJWzRaqj52lXZGP6yeG0..g6S8EfynirIddkDM3XdmbfGY5x5vrti', NULL, 1, 1666627035, '6175825be382a', ''),
 (2, 'Marbuah Almakaroni', 'perempuan', 'marbuah', '$2a$12$K/vRFyhWiIwitDqY5fcqQOIZvWGlfplnOJPbkOYuJm8RshDC5V9gG', NULL, 0, 1666331797, '61710115a6eff', '');
 
 --
@@ -97,16 +148,35 @@ INSERT INTO `users` (`id`, `nama`, `jenis`, `username`, `password`, `mapel_id`, 
 --
 
 --
--- Indexes for table `kelas`
+-- Indexes for table `kelas_nama`
 --
-ALTER TABLE `kelas`
+ALTER TABLE `kelas_nama`
   ADD PRIMARY KEY (`id`),
   ADD KEY `tingkatan_id` (`tingkatan_id`);
 
 --
--- Indexes for table `tingkatan`
+-- Indexes for table `kelas_tingkatan`
 --
-ALTER TABLE `tingkatan`
+ALTER TABLE `kelas_tingkatan`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `mapel`
+--
+ALTER TABLE `mapel`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `semester_nama`
+--
+ALTER TABLE `semester_nama`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `semester_tahun` (`semester_tahun_id`);
+
+--
+-- Indexes for table `semester_tahun`
+--
+ALTER TABLE `semester_tahun`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -121,16 +191,34 @@ ALTER TABLE `users`
 --
 
 --
--- AUTO_INCREMENT for table `kelas`
+-- AUTO_INCREMENT for table `kelas_nama`
 --
-ALTER TABLE `kelas`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+ALTER TABLE `kelas_nama`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
--- AUTO_INCREMENT for table `tingkatan`
+-- AUTO_INCREMENT for table `kelas_tingkatan`
 --
-ALTER TABLE `tingkatan`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+ALTER TABLE `kelas_tingkatan`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+
+--
+-- AUTO_INCREMENT for table `mapel`
+--
+ALTER TABLE `mapel`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `semester_nama`
+--
+ALTER TABLE `semester_nama`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT for table `semester_tahun`
+--
+ALTER TABLE `semester_tahun`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT for table `users`
@@ -143,10 +231,16 @@ ALTER TABLE `users`
 --
 
 --
--- Constraints for table `kelas`
+-- Constraints for table `kelas_nama`
 --
-ALTER TABLE `kelas`
-  ADD CONSTRAINT `FK_kelas_tingkatan` FOREIGN KEY (`tingkatan_id`) REFERENCES `tingkatan` (`id`);
+ALTER TABLE `kelas_nama`
+  ADD CONSTRAINT `FK_kelas_tingkatan` FOREIGN KEY (`tingkatan_id`) REFERENCES `kelas_tingkatan` (`id`);
+
+--
+-- Constraints for table `semester_nama`
+--
+ALTER TABLE `semester_nama`
+  ADD CONSTRAINT `FK_semester_nama_semester_tahun` FOREIGN KEY (`semester_tahun_id`) REFERENCES `semester_tahun` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

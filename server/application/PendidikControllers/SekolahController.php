@@ -331,5 +331,79 @@ class SekolahController extends ApiController
         }
     }
 
+    public function mapel()
+    {                
+        $cari = isset($_GET['cari'])? (string)$_GET["cari"]:"%";        
+        $totalData = isset($_GET['total'])? (int)$_GET["total"]:1;             
+        $page = isset($_GET['page'])? (int)$_GET["page"]:1;        
+        $mulai = ($page>1) ? ($page * $totalData) - $totalData :0;        
+        $totalRow = $this->database->count("mapel");
+        if(isset($_GET['cari'])){
+            $tingkatan = $this->database->select("mapel",["id","nama","color"],["nama[~]" => $cari]);
+            $data = array("data" => $tingkatan,"totaldata"=>$totalRow ,"nextpage"=> false );
+        }else{
+            $tingkatan = $this->database->select("mapel",["id","nama","color"],["LIMIT" => [$mulai,$totalData],"ORDER" => ["id" => "DESC"]]);            
+            $pages = ceil($totalRow/$totalData);
+            $nextpage = ($page < $pages) ? $page+1 : false;
+            $data = array("data" => $tingkatan,"totaldata"=>$totalRow,"pages" => $pages,"current" => $page,"nextpage"=> $nextpage );
+        }  
+        echo $this->response->json_response(200, $data);   
+    }
+
+    public function mapelAdd()
+    {        
+        $v = new Validator($_POST);
+        $v->rule('required', ['nama','color']);
+        if($v->validate()) {            
+            $this->database->insert("mapel",["nama" => $_POST["nama"],"color" => $_POST["color"]]);           
+            echo $this->response->json_response(200, "berhasil");
+        }else{
+            if($v->errors('nama')){
+                echo $this->response->json_response(400,"Input nama kosong"); 
+            }            
+        }
+    }
+
+    public function mapelUpdate()
+    {                                            
+        $_PATCH = RequestParser::parse()->params;
+        $v = new Validator($_PATCH);
+        $v->rule('required', ['id','nama','color']);
+        if($v->validate()) {                      
+            $update=$this->database->update("mapel",["nama" => $_PATCH["nama"],"color" => $_PATCH["color"]],["id" => $_PATCH["id"]]);
+            if($update->rowCount() === 0){
+                echo $this->response->json_response(400,"Data tidak ditemukan");
+            }else{
+                echo $this->response->json_response(200,"berhasil");
+            }
+        }else{
+            if($v->errors('nama')){
+                echo $this->response->json_response(400,"Input nama kosong"); 
+            }
+            elseif($v->errors('id')){
+                echo $this->response->json_response(400,"id data kosong");
+            }            
+        }
+    }
+
+    public function mapelDelete()
+    {   
+        $_DELETE = RequestParser::parse()->params;        
+        $v = new Validator($_DELETE);
+        $v->rule('required', ['delete']);
+        if($v->validate()) {                                         
+            $hapus=$this->database->delete("mapel",["AND" => ["id" => json_decode($_DELETE['delete'])]]);           
+            if($hapus->rowCount() === 0){
+                echo $this->response->json_response(400,"Data tidak ditemukan");
+            }else{                
+                echo $this->response->json_response(200,"berhasil");
+            }                        
+        }else{
+            if($v->errors('delete')){
+                echo $this->response->json_response(400,"delete id kosong"); 
+            }
+        }
+    }
+
 //---- end
 }

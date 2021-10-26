@@ -5,14 +5,14 @@ function DataSimple(props) {
         <>
         <div className="wrapDataCell bg-white tc cardMenu br2">
             {props.link ?
-            <a className="pa2 flex items-center justify-center bg-primary relative dataInfo link pointer" href={props.href}>
+            <a className="pa2 flex items-center justify-center bg-primary relative dataInfo link pointer" href={props.href} style={props.style}>
                 <span className="f3 white">{props.title}</span>   
                 <div className="absolute pa1 top-0 right-0">
                     <i className="fas fa-folder-open" style={{fontSize:"18px",color:"white"}}/>                 
                 </div>
             </a>
             :
-            <div className="pa2 flex items-center justify-center bg-primary relative dataInfo link flex-column">
+            <div className="pa2 flex items-center justify-center bg-primary relative dataInfo link flex-column" style={props.style}>
                 <span className="f3 white">{props.title}</span>               
                 <span className="f6 white">{props.subtitle}</span>  
             </div>

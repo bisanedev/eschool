@@ -4,6 +4,7 @@ import InputPassword from "./password";
 import InputText from "./text";
 import InputNumber from "./number";
 import InputSearch from "./search";
+import InputColor from "./color";
 
 export {
     Cards,
@@ -12,4 +13,5 @@ export {
     InputText,
     InputSearch,  
     InputNumber,
+    InputColor,
 }

@@ -45,6 +45,10 @@ $dispatcher = FastRoute\simpleDispatcher(function (RouteCollector $r) {
         $r->addRoute('POST', '/sekolah/tahun/semester/{id}', ['App\PendidikControllers\SekolahController','semesterAdd']);
         $r->addRoute('PATCH', '/sekolah/tahun/semester/{id}', ['App\PendidikControllers\SekolahController','semesterUpdate']);
         $r->addRoute('DELETE', '/sekolah/tahun/semester/{id}', ['App\PendidikControllers\SekolahController','semesterDelete']); 
+        $r->addRoute('GET', '/sekolah/mapel', ['App\PendidikControllers\SekolahController','mapel']); 
+        $r->addRoute('POST', '/sekolah/mapel', ['App\PendidikControllers\SekolahController','mapelAdd']);
+        $r->addRoute('PATCH', '/sekolah/mapel', ['App\PendidikControllers\SekolahController','mapelUpdate']);
+        $r->addRoute('DELETE', '/sekolah/mapel', ['App\PendidikControllers\SekolahController','mapelDelete']); 
         //protected page
         $r->addRoute('GET', '/protected', ['App\PendidikControllers\ProtectController','index']); 
         $r->addRoute('POST', '/protected', ['App\PendidikControllers\ProtectController','indexPost']); 

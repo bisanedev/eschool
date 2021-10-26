@@ -6,6 +6,7 @@ use App\Utils\HeaderResponse;
 use Medoo\Medoo;
 use Valitron\Validator;
 use Lcobucci\JWT\Configuration;
+use stdClass;
 
 class SekolahController extends ApiController
 {
@@ -302,10 +303,13 @@ class SekolahController extends ApiController
                 echo $this->response->json_response(200,"berhasil");
             }
         }else{
-            if($v->errors('tahun')){
-                echo $this->response->json_response(400,"Input tahun ajaran kosong"); 
-            }                                        
-            elseif($v->errors('id')){
+            if($v->errors('semester')){
+                echo $this->response->json_response(400,"pilih semester kosong"); 
+            }elseif($v->errors('semester_start')){
+                echo $this->response->json_response(400,"Tanggal semester awal kosong"); 
+            }elseif($v->errors('semester_end')){
+                echo $this->response->json_response(400,"Tanggal semester akhir kosong");
+            }elseif($v->errors('id')){
                 echo $this->response->json_response(400,"id data kosong");
             }            
         }
@@ -339,13 +343,13 @@ class SekolahController extends ApiController
         $mulai = ($page>1) ? ($page * $totalData) - $totalData :0;        
         $totalRow = $this->database->count("mapel");
         if(isset($_GET['cari'])){
-            $tingkatan = $this->database->select("mapel",["id","nama","color"],["nama[~]" => $cari]);
-            $data = array("data" => $tingkatan,"totaldata"=>$totalRow ,"nextpage"=> false );
+            $mapel = $this->database->select("mapel",["id","nama","color"],["nama[~]" => $cari]);
+            $data = array("data" => $mapel,"totaldata"=>$totalRow ,"nextpage"=> false );
         }else{
-            $tingkatan = $this->database->select("mapel",["id","nama","color"],["LIMIT" => [$mulai,$totalData],"ORDER" => ["id" => "DESC"]]);            
+            $mapel = $this->database->select("mapel",["id","nama","color"],["LIMIT" => [$mulai,$totalData],"ORDER" => ["id" => "DESC"]]);            
             $pages = ceil($totalRow/$totalData);
             $nextpage = ($page < $pages) ? $page+1 : false;
-            $data = array("data" => $tingkatan,"totaldata"=>$totalRow,"pages" => $pages,"current" => $page,"nextpage"=> $nextpage );
+            $data = array("data" => $mapel,"totaldata"=>$totalRow,"pages" => $pages,"current" => $page,"nextpage"=> $nextpage );
         }  
         echo $this->response->json_response(200, $data);   
     }
@@ -360,7 +364,9 @@ class SekolahController extends ApiController
         }else{
             if($v->errors('nama')){
                 echo $this->response->json_response(400,"Input nama kosong"); 
-            }            
+            }elseif($v->errors('color')){
+                echo $this->response->json_response(400,"Input color kosong");
+            }              
         }
     }
 
@@ -379,8 +385,9 @@ class SekolahController extends ApiController
         }else{
             if($v->errors('nama')){
                 echo $this->response->json_response(400,"Input nama kosong"); 
-            }
-            elseif($v->errors('id')){
+            }elseif($v->errors('color')){
+                echo $this->response->json_response(400,"Input color kosong");
+            }elseif($v->errors('id')){
                 echo $this->response->json_response(400,"id data kosong");
             }            
         }
@@ -405,5 +412,156 @@ class SekolahController extends ApiController
         }
     }
 
+    public function pendidik()
+    {                
+        $cari = isset($_GET['cari'])? (string)$_GET["cari"]:"%";        
+        $totalData = isset($_GET['total'])? (int)$_GET["total"]:1;             
+        $page = isset($_GET['page'])? (int)$_GET["page"]:1;        
+        $mulai = ($page>1) ? ($page * $totalData) - $totalData :0;        
+        $totalRow = $this->database->count("users");
+        $mapel = $this->database->select("mapel",["id","nama","color"]);
+        $cari = $this->database->select("users",["id","nama","jenis","username","mapel_id[JSON]","superuser"],["nama[~]" => $cari]);
+        $pagi = $this->database->select("users",["id","nama","jenis","username","mapel_id[JSON]","superuser"],["LIMIT" => [$mulai,$totalData],"ORDER" => ["id" => "DESC"]]);
+        if(isset($_GET['cari'])){
+            $users = $this->reMapwithMapel($cari,$mapel);
+            $data = array("data" => $users,"totaldata"=>$totalRow ,"nextpage"=> false );
+        }else{
+            $users = $this->reMapwithMapel($pagi,$mapel);
+            $pages = ceil($totalRow/$totalData);
+            $nextpage = ($page < $pages) ? $page+1 : false;
+            $data = array("data" => $users,"totaldata"=>$totalRow,"pages" => $pages,"current" => $page,"nextpage"=> $nextpage );
+        }  
+        echo $this->response->json_response(200, $data);   
+    }
+
+    public function pendidikAdd()
+    {        
+        $v = new Validator($_POST);
+        $v->rule('required', ['nama','jenis','username','password','mapel_id','superuser']);
+        if($v->validate()) {            
+            $this->database->insert("users",
+                ["nama" => $_POST["nama"],"jenis" => $_POST["jenis"],"username" => $_POST["username"],"password" => $_POST["password"],"mapel_id" => $_POST["mapel_id"],"superuser" => $_POST["superuser"]]
+            );           
+            echo $this->response->json_response(200, "berhasil");
+        }else{
+            if($v->errors('nama')){
+                echo $this->response->json_response(400,"Input nama kosong"); 
+            }  
+            elseif($v->errors('jenis')){
+                echo $this->response->json_response(400,"Input jenis kosong");
+            } 
+            elseif($v->errors('username')){
+                echo $this->response->json_response(400,"Input username kosong");
+            }
+            elseif($v->errors('password')){
+                echo $this->response->json_response(400,"Input password kosong");
+            }  
+            elseif($v->errors('mapel_id')){
+                echo $this->response->json_response(400,"Input mapel_id kosong");
+            } 
+            elseif($v->errors('superuser')){
+                echo $this->response->json_response(400,"Input superuser kosong");
+            }           
+        }
+    }
+
+    public function pendidikUpdate()
+    {                                            
+        $_PATCH = RequestParser::parse()->params;
+        $v = new Validator($_PATCH);
+        $v->rule('required', ['id','nama','jenis','username','password','mapel_id','superuser']);
+        if($v->validate()) {                      
+            $update=$this->database->update("users",
+                ["nama" => $_PATCH["nama"],"jenis" => $_PATCH["jenis"],"username" => $_PATCH["username"],"password" => $_PATCH["password"],"mapel_id" => $_PATCH["mapel_id"],"superuser" => $_PATCH["superuser"]],
+                ["id" => $_PATCH["id"]]
+            );
+            if($update->rowCount() === 0){
+                echo $this->response->json_response(400,"Data tidak ditemukan");
+            }else{
+                echo $this->response->json_response(200,"berhasil");
+            }
+        }else{
+            if($v->errors('nama')){
+                echo $this->response->json_response(400,"Input nama kosong"); 
+            }
+            elseif($v->errors('id')){
+                echo $this->response->json_response(400,"id data kosong");
+            }
+            elseif($v->errors('jenis')){
+                echo $this->response->json_response(400,"Input jenis kosong");
+            } 
+            elseif($v->errors('username')){
+                echo $this->response->json_response(400,"Input username kosong");
+            }
+            elseif($v->errors('password')){
+                echo $this->response->json_response(400,"Input password kosong");
+            }  
+            elseif($v->errors('mapel_id')){
+                echo $this->response->json_response(400,"Input mapel_id kosong");
+            } 
+            elseif($v->errors('superuser')){
+                echo $this->response->json_response(400,"Input superuser kosong");
+            } 
+                          
+        }
+    }
+
+    public function pendidikDelete()
+    {   
+        $_DELETE = RequestParser::parse()->params;        
+        $v = new Validator($_DELETE);
+        $v->rule('required', ['delete']);
+        if($v->validate()) {  
+            if(in_array("1",json_decode($_DELETE['delete']))){
+                echo $this->response->json_response(400,"Administrator tidak bisa dihapus");
+                exit;
+            }                                       
+            $hapus=$this->database->delete("users",["AND" => ["id" => json_decode($_DELETE['delete'])]]);           
+            if($hapus->rowCount() === 0){
+                echo $this->response->json_response(400,"Data tidak ditemukan");
+            }else{                
+                echo $this->response->json_response(200,"berhasil");
+            }                        
+        }else{
+            if($v->errors('delete')){
+                echo $this->response->json_response(400,"delete id kosong"); 
+            }
+        }
+    }
+
+    public function reMapwithMapel($data,$mapel)
+    {
+        if ((is_array($data) && is_array($mapel)) || (is_object($data) && is_object($mapel))){
+            $recollect = array();
+            foreach ($data as $val) {
+                $object = new stdClass();                
+                $object->id = $val["id"];               
+                $object->nama = $val["nama"];                
+                $object->jenis = $val["jenis"];                                        
+                $object->username = $val["username"]; 
+                $object->superuser = $val["superuser"] === "1" ? true:false;
+                if($val["mapel_id"] != null){
+                    $mapelCollect = array();
+                    foreach($mapel as $mapelval){
+                        $subObject = new stdClass(); 
+                        if( in_array($mapelval["id"], $val["mapel_id"]) ){   
+                            $subObject->id = $mapelval["id"];
+                            $subObject->nama = $mapelval["nama"];
+                            $subObject->color = $mapelval["color"];
+                            $mapelCollect[] = $subObject;               
+                        }                   
+                    }
+                    $object->mapel = $mapelCollect;
+                }else{
+                    $object->mapel = "";
+                }                
+              
+                $recollect[] = $object;
+            }
+            return $recollect;
+        }else{
+            return false;
+        }
+    }
 //---- end
 }

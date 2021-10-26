@@ -78,6 +78,6 @@ class ApiController
             echo $this->response->json_response(401, "Akses Superuser Dibutuhkan");
             exit;
         }
-    }
+    }   
 //--- end
 }

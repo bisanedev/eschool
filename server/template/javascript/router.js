@@ -38,6 +38,8 @@ export default function RouterApp() {
           <PrivateRoute exact path="/sekolah/semester/:semesterID" component={PageSekolahSemesterSub} /> 
           <PrivateRoute exact path="/sekolah/mapel" component={PageSekolahMapel} />
           <PrivateRoute exact path="/sekolah/pendidik" component={PageSekolahPendidik} />
+          <PrivateRoute exact path="/sekolah/pendidik/tambah" component={PageSekolahPendidik} />
+          <PrivateRoute exact path="/sekolah/pendidik/users/:userID" component={PageSekolahPendidik} />
           <PrivateRoute exact path="/sekolah/siswa" component={PageSekolahSiswa} />
           <PrivateRoute exact path="/profile" component={PageProfile} /> 
           <PrivateRoute exact path="/profile/foto" component={PageProfileFoto} />

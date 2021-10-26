@@ -1,9 +1,8 @@
 import React from 'react';
 
 function DataSimple(props) {     
-    return (
-        <>
-        <div className="wrapDataCell bg-white tc cardMenu br2">
+    return (        
+        <div className="wrapDataSimple bg-white tc br2">
             {props.link ?
             <a className="pa2 flex items-center justify-center bg-primary relative dataInfo link pointer" href={props.href} style={props.style}>
                 <span className="f3 white">{props.title}</span>   
@@ -35,8 +34,7 @@ function DataSimple(props) {
                     </button>
                 </div>                
             </div>
-        </div>
-        </>
+        </div>        
     );
 }
 

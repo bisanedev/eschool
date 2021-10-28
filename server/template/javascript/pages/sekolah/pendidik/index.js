@@ -33,12 +33,16 @@ class PageSekolahPendidik extends React.Component{
   }
 
   componentDidMount() {
-    this.fetchData();    
+    this.timer = setTimeout(() => this.fetchData(),300);       
   }
-
+  
+  componentWillUnmount() {
+    clearTimeout(this.timer);
+  }
+  
   render() {     
     const {tokenData} = this.props;
-    const {data,totalData,pages,currPage,total,cari,selected,showDelete,isLoading} = this.state;
+    const {data,totalData,pages,currPage,total,cari,selected,showDelete,isLoading,singleData,showSingleDelete} = this.state;
     return (  
     <div className="konten"> 
       <Helmet>
@@ -58,7 +62,7 @@ class PageSekolahPendidik extends React.Component{
         <Table>
           <Table.Header>
             <div className="w-50 ph2">
-              <a type="submit" href="#/sekolah/pendidik/tambah" style={{cursor: "pointer",borderColor:"#0191d7"}} className="link dim br1 ba pa2 dib white bg-primary">
+              <a type="submit" href="#/sekolah/pendidik/add" style={{cursor: "pointer",borderColor:"#0191d7"}} className="link dim br1 ba pa2 dib white bg-primary">
                 <i className="fas fa-plus" style={{fontSize:"18px"}}/>
               </a>
             </div>
@@ -94,9 +98,10 @@ class PageSekolahPendidik extends React.Component{
           <Table.Body>
           {data.length > 0 && !isLoading && data.map((value,k) => (
               <Table.DataProfile key={k} data={value} 
-                href={`#/sekolah/pendidik/${value.id}`}
+                href={`#/sekolah/pendidik/edit/${value.id}`}
                 checked={selected.includes(value.id)} 
-                onChecked={() => this.onChecked(value.id)}                            
+                onChecked={() => this.onChecked(value.id)}   
+                onDelete={() => this.onDelete(value)}                         
               >
                 {value.mapel.length > 0 && value.mapel.map((wow,i) => (
                   <span key={i} style={{color:wow.color,marginRight:5}}>{wow.nama}</span>
@@ -116,6 +121,11 @@ class PageSekolahPendidik extends React.Component{
           </Table.Footer>          
         </Table>
         </div>
+        <DeleteDialog show={showSingleDelete} 
+          title="Hapus" subtitle={"Yakin hapus user "+singleData.nama+" ??"} 
+          close={() => this.setState({showSingleDelete:false})}        
+          onClick={() => this.singleDelete(singleData.id)}
+        />
         <DeleteDialog show={showDelete} 
           title="Hapus semua" subtitle={"Yakin hapus "+selected.length+" data yang anda pilih ??"} 
           close={() => this.setState({showDelete:false})} 
@@ -214,7 +224,28 @@ class PageSekolahPendidik extends React.Component{
   /*--- Hapus single data ---*/
   onDelete = (data) => {
     this.setState({showSingleDelete:true,singleData:data})
-  } 
+  }
+  singleDelete = (id) => {        
+    var formData = new FormData();
+    formData.append('delete', id);    
+    axios({
+      method: 'delete',
+      url: window.location.origin +'/api/pendidik/sekolah/users',
+      data: formData
+    }).then(response => {
+      if(response.data.status == true)
+      {        
+        this.setState({showSingleDelete:false},() => this.fetchData());        
+      }
+    }).catch(error => {
+      if(error.response.status == 401){
+        this.logout();
+      }
+      if(error.response.status == 400){       
+        toast.warn(error.response.data.message);  
+      }
+    });
+  }
   /*--- Hapus data ---*/
   multiDelete = () => {
     const {selected} = this.state;    

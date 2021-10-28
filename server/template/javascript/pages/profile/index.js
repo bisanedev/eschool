@@ -33,7 +33,7 @@ class PageProfile extends React.Component{
         </div>
         <div className="mw9 center">
         <div className="cf ph3 mb3 flex">
-          <Cards custom="profile" title="Profil anda">
+          <Cards custom="profile" title="Profil anda" bodyClass="pa3">
             <div className="profile-foto mb3 pa2">
               {foto}
             </div>

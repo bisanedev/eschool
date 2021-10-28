@@ -15,6 +15,8 @@ import PageSekolahSemester from './pages/sekolah/semester';
 import PageSekolahSemesterSub from './pages/sekolah/semester/subsemester';
 import PageSekolahMapel from './pages/sekolah/mapel';
 import PageSekolahPendidik from './pages/sekolah/pendidik';
+import PageSekolahPendidikAdd from './pages/sekolah/pendidik/add';
+import PageSekolahPendidikEdit from './pages/sekolah/pendidik/edit';
 import PageSekolahSiswa from './pages/sekolah/siswa';
 //----- profile
 import PageProfile from './pages/profile';
@@ -38,8 +40,8 @@ export default function RouterApp() {
           <PrivateRoute exact path="/sekolah/semester/:semesterID" component={PageSekolahSemesterSub} /> 
           <PrivateRoute exact path="/sekolah/mapel" component={PageSekolahMapel} />
           <PrivateRoute exact path="/sekolah/pendidik" component={PageSekolahPendidik} />
-          <PrivateRoute exact path="/sekolah/pendidik/tambah" component={PageSekolahPendidik} />
-          <PrivateRoute exact path="/sekolah/pendidik/users/:userID" component={PageSekolahPendidik} />
+          <PrivateRoute exact path="/sekolah/pendidik/add" component={PageSekolahPendidikAdd} />
+          <PrivateRoute exact path="/sekolah/pendidik/edit/:userID" component={PageSekolahPendidikEdit} />
           <PrivateRoute exact path="/sekolah/siswa" component={PageSekolahSiswa} />
           <PrivateRoute exact path="/profile" component={PageProfile} /> 
           <PrivateRoute exact path="/profile/foto" component={PageProfileFoto} />

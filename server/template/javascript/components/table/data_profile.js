@@ -12,10 +12,15 @@ function DataProfile(props) {
                 <span className="info">{props.children}</span>                               
             </a>
             {props.data.id != 1 &&
+            <>
             <label className="checkbox-profile">            
                 <input type="checkbox" checked={props.checked} onChange={props.onChecked}/>
                 <span className="checkmark"></span>
-            </label> 
+            </label>
+            <div onClick={() => props.onDelete()} className="link dim deleteButton">
+                <i className="fas fa-times" style={{fontSize:"11px"}}/>
+            </div>
+            </>
             }
                        
         </div>        

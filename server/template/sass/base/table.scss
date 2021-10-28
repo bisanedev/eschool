@@ -30,8 +30,8 @@ div.wrapDataProfile{
     border: 1px solid rgba(0, 0, 0, 0.125);
     width: 15%;
     height: 14rem;
-    margin-right: 10px;
-    margin-bottom: 10px; 
+    margin-right: 15px;
+    margin-bottom: 15px;
     position: relative;
     background-color: #f7f7f5;   
     .foto{                
@@ -63,6 +63,18 @@ div.wrapDataProfile{
             font-size: 11px;
             display: flex;
         }    
+    }
+    .deleteButton{
+        cursor: pointer;
+        border: 1px solid rgba(0, 0, 0, 0.125);
+        height: 20px;
+        width: 20px;
+        border-radius: 10px;
+        color: #505050;
+        position: absolute;
+        top: -8px;
+        right: -8px;
+        background-color: #f7f7f5;
     }
     .checkbox-profile{
         position: absolute;

@@ -51,6 +51,7 @@ $dispatcher = FastRoute\simpleDispatcher(function (RouteCollector $r) {
         $r->addRoute('DELETE', '/sekolah/mapel', ['App\PendidikControllers\SekolahController','mapelDelete']);
         $r->addRoute('GET', '/sekolah/users', ['App\PendidikControllers\SekolahController','pendidik']); 
         $r->addRoute('POST', '/sekolah/users', ['App\PendidikControllers\SekolahController','pendidikAdd']);
+        $r->addRoute('GET', '/sekolah/users/{id}', ['App\PendidikControllers\SekolahController','pendidikView']);
         $r->addRoute('PATCH', '/sekolah/users', ['App\PendidikControllers\SekolahController','pendidikUpdate']);
         $r->addRoute('DELETE', '/sekolah/users', ['App\PendidikControllers\SekolahController','pendidikDelete']);
          

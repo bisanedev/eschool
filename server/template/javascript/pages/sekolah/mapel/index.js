@@ -34,9 +34,13 @@ class PageSekolahMapel extends React.Component{
     }    
     this.handleInputChange = this.handleInputChange.bind(this);
   }
-
+ 
   componentDidMount() {
-    this.fetchData();    
+    this.timer = setTimeout(() => this.fetchData(),300);       
+  }
+  
+  componentWillUnmount() {
+    clearTimeout(this.timer);
   }
 
   render() {     
@@ -272,7 +276,7 @@ class PageSekolahMapel extends React.Component{
     }).then(response => {
       if(response.data.status == true)
       {        
-        this.setState({showAdd:false},() => this.fetchData());        
+        this.setState({showAdd:false,page:1},() => this.fetchData());        
       }
     }).catch(error => {
       if(error.response.status == 401){

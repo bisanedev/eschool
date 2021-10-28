@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import RouterApp from './router';
 import "../sass/main.scss";
-import "react-toastify/dist/ReactToastify.css";
+import "cropperjs/dist/cropper.css";
 import "react-datepicker/dist/react-datepicker.css";
 
 // dooooommmm

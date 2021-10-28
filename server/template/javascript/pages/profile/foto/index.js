@@ -1,11 +1,12 @@
 import React from 'react';
 import axios from 'axios';
+import Cropper from "react-cropper";
 import { withRouter } from "react-router";
 import { Helmet } from 'react-helmet';
-import ReactCrop from 'react-image-crop';
 import { Cards } from '../../../components/forms';
 import {Breadcrumb} from '../../../components/menu';
 import { ToastContainer, toast } from 'react-toastify';
+
 
 class PageProfileFoto extends React.Component{
 
@@ -13,18 +14,12 @@ class PageProfileFoto extends React.Component{
     super(props);
     this.state = {
       src: "",
-      croppedImageUrl:"",
-      blobFile:"",
+      croppedImageUrl:"",      
       errorSelect:"",      
       uploadProgress:false,
-      uploadDisable:true,
-      crop: {
-        unit: 'px',        
-        aspect: 3 / 4,
-        height:320,
-        width:260
-      }
-    }    
+      uploadDisable:true,           
+    }  
+    this.cropper = React.createRef();  
   }
 
   componentDidMount() {
@@ -32,7 +27,7 @@ class PageProfileFoto extends React.Component{
   }
 
   render() {    
-    const { crop, croppedImageUrl, src ,errorSelect,uploadProgress,uploadDisable } = this.state; 
+    const { croppedImageUrl, src ,errorSelect,uploadProgress,uploadDisable } = this.state; 
     const uploadClass = uploadProgress ? "progress-active":"";
     const uploadAction = croppedImageUrl ? "w-100 tc b f7 link br2 ba ph3 pv2 dib white bg-primary b--primary mb3":"w-100 tc b f7 link br2 ba ph3 pv2 dib disable-primary bg-disableSecondary mb3"
     return (
@@ -50,21 +45,24 @@ class PageProfileFoto extends React.Component{
           </Breadcrumb>    
         </div>
         <div className="mw9 center cf ph3 mb3">
-          <Cards title="Pilih foto dan bingkai Anda">
+          <Cards title="Pilih foto dan bingkai Anda" bodyClass="pa3">
             <div className="flex">
               <div className="w-70 pa3 flex justify-center flex-column">
               <input className="tc f7 link br2 ba ph3 pv2 dib black bg-light-gray ba b--light-silver mb3" type="file" accept="image/*" onChange={this.onSelectFile}/>
                 {src != null && src != "" && (
-                    <ReactCrop
+                  <Cropper
                       src={src}
-                      crop={crop}
-                      ruleOfThirds
-                      minHeight={300}
-                      minWidth={200}                                                                 
-                      onImageLoaded={this.onImageLoaded}
-                      onComplete={this.onCropComplete}
-                      onChange={this.onCropChange}
-                    />
+                      style={{ height: 500, width: "100%" }}                      
+                      initialAspectRatio={3 / 4}
+                      minCropBoxWidth={255}    
+                      minCropBoxHeight={330}
+                      guides={false}
+                      crop={this._crop.bind(this)}
+                      onInitialized={this.onCropperInit.bind(this)} 
+                      ref={this.cropper}
+                      cropBoxResizable={false}
+                      dragMode={'move'}                     
+                  />
                 )}
                 {src === null && (
                   <h5 className="p-5" style={{display:"flex",alignItems:"center",justifyContent:"center"}}>{errorSelect}</h5>
@@ -87,9 +85,36 @@ class PageProfileFoto extends React.Component{
     );
   }
   // ---------------------------- script 
+  _crop = () => {         
+    const foto = this.cropper.getCroppedCanvas({
+      width: 354,
+      height: 472,
+      fillColor: '#fff',
+      imageSmoothingEnabled: false,
+      imageSmoothingQuality: 'high',
+    }).toDataURL(); 
+    this.setState({croppedImageUrl:foto,uploadDisable:false});
+  }
 
+  onCropperInit = (cropper) => {
+    this.cropper = cropper;
+  }
+
+  b64toBlob(dataURI) {    
+    var byteString = atob(dataURI.split(',')[1]);
+    var ab = new ArrayBuffer(byteString.length);
+    var ia = new Uint8Array(ab);
+    
+    for (var i = 0; i < byteString.length; i++) {
+        ia[i] = byteString.charCodeAt(i);
+    }
+    return new Blob([ab], { type: 'image/jpeg' });
+  }
+  // -----------------------
   uploadImages = () => {    
-    const { blobFile } = this.state;
+    console.log("klik");
+    const { croppedImageUrl } = this.state;
+    var blobFile = this.b64toBlob(croppedImageUrl);    
     this.setState({uploadProgress:true,uploadDisable:true});
     var formData = new FormData();    
     formData.append('file',blobFile);
@@ -117,6 +142,7 @@ class PageProfileFoto extends React.Component{
       } 
     });
   }
+
   onSelectFile = (e) => {
     let wow = this; 
     if (e.target.files && e.target.files.length > 0) {      
@@ -138,76 +164,7 @@ class PageProfileFoto extends React.Component{
       reader.readAsDataURL(e.target.files[0]);   
     }
   };
-
-  onImageLoaded = (image) => {
-    this.imageRef = image;
-  };
-
-  onCropComplete = (crop) => {
-    this.makeClientCrop(crop);
-  };
-
-  onCropChange = (crop, percentCrop) => {
-    // You could also use percentCrop:    
-    this.setState({ crop });
-  };
-
-  async makeClientCrop(crop) {
-    if (this.imageRef && crop.width && crop.height) {
-      const croppedImageUrl = await this.getCroppedImg(
-        this.imageRef,
-        crop,
-        'newFile.jpeg'
-      );
-      this.setState({ croppedImageUrl:croppedImageUrl,uploadDisable:false });
-    }
-  }
-
-  getCroppedImg(image, crop, fileName) {
-    const canvas = document.createElement('canvas');
-    const pixelRatio = window.devicePixelRatio;    
-    const scaleX = image.naturalWidth / image.width;
-    const scaleY = image.naturalHeight / image.height;
-    const ctx = canvas.getContext('2d');      
-
-    canvas.width = crop.width * pixelRatio * scaleX;
-    canvas.height = crop.height * pixelRatio * scaleY;
-
-    ctx.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
-    ctx.imageSmoothingQuality = 'high';
-
-    ctx.drawImage(
-      image,
-      crop.x * scaleX,
-      crop.y * scaleY,
-      crop.width * scaleX,
-      crop.height * scaleY,
-      0,
-      0,
-      crop.width * scaleX,
-      crop.height * scaleY     
-    );        
-
-    return new Promise((resolve, reject) => {
-      canvas.toBlob(
-        (blob) => {
-          if (!blob) {
-            //reject(new Error('Canvas is empty'));
-            console.error('Canvas is empty');
-            return;
-          }
-          blob.name = fileName;
-          this.setState({blobFile:blob});
-          window.URL.revokeObjectURL(this.fileUrl);
-          this.fileUrl = window.URL.createObjectURL(blob);
-          resolve(this.fileUrl);
-        },
-        'image/jpeg',
-        1
-      );
-    });    
-  }  
-
+  
   logout = () => {   
     window.localStorage.clear();
     delete axios.defaults.headers.common['Authorization']; 

@@ -16,7 +16,7 @@ export default class Cards extends React.Component{
         <div className="pa3 bg-primary white">
             <span className="f4">{this.props.title}</span>
         </div>
-        <div className="pa3">
+        <div className={this.props.bodyClass}>
             {this.props.children}
         </div>
     </div>

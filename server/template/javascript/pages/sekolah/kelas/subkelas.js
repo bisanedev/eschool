@@ -37,8 +37,12 @@ class PageSekolahKelasSub extends React.Component{
   }
 
   componentDidMount() {
-    this.fetchData(this.kelasID);
+    this.timer = setTimeout(() => this.fetchData(this.kelasID),300);       
   }
+  
+  componentWillUnmount() {
+    clearTimeout(this.timer);
+  }  
 
   render() {           
     const {tokenData} = this.props;        
@@ -257,7 +261,7 @@ class PageSekolahKelasSub extends React.Component{
     }).then(response => {
       if(response.data.status == true)
       {        
-        this.setState({showAdd:false},() => this.fetchData(this.kelasID));        
+        this.setState({showAdd:false,page:1},() => this.fetchData(this.kelasID));        
       }
     }).catch(error => {
       if(error.response.status == 401){

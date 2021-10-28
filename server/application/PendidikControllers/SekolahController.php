@@ -6,6 +6,7 @@ use App\Utils\HeaderResponse;
 use Medoo\Medoo;
 use Valitron\Validator;
 use Lcobucci\JWT\Configuration;
+use Bcrypt\Bcrypt;
 use stdClass;
 
 class SekolahController extends ApiController
@@ -258,7 +259,7 @@ class SekolahController extends ApiController
         $totalRow = $this->database->count("semester_nama",["semester_tahun_id" => $id]);
         $tahun = $this->database->select("semester_tahun",["nama"],["id" => $id]);
         if(isset($_GET['cari'])){
-            $semester = $this->database->select("semester_nama",["id","semester","semester_start","semester_end"],["semester_tahun_id" => $id,"nama[~]" => $cari]);
+            $semester = $this->database->select("semester_nama",["id","semester","semester_start","semester_end"],["semester_tahun_id" => $id,"semester[~]" => $cari]);
             $data = array("data" => $semester,"tahun"=> $tahun[0]["nama"],"totaldata"=>$totalRow ,"nextpage"=> false );
         }else{
             $semester = $this->database->select("semester_nama",["id","semester","semester_start","semester_end"],["semester_tahun_id" => $id,"LIMIT" => [$mulai,$totalData],"ORDER" => ["semester_start" => "DESC"]]);            
@@ -434,15 +435,59 @@ class SekolahController extends ApiController
         echo $this->response->json_response(200, $data);   
     }
 
+    public function pendidikView($id)
+    {
+        $data = $this->database->select("users",["id","nama","jenis","username","mapel_id[JSON]","superuser[Bool]"],["id" => $id]);
+        echo $this->response->json_response(200, $data[0]);
+    }
+
     public function pendidikAdd()
     {        
+        $bcrypt = new Bcrypt();
         $v = new Validator($_POST);
-        $v->rule('required', ['nama','jenis','username','password','mapel_id','superuser']);
-        if($v->validate()) {            
-            $this->database->insert("users",
-                ["nama" => $_POST["nama"],"jenis" => $_POST["jenis"],"username" => $_POST["username"],"password" => $_POST["password"],"mapel_id" => $_POST["mapel_id"],"superuser" => $_POST["superuser"]]
-            );           
-            echo $this->response->json_response(200, "berhasil");
+        $v->rule('required', ['nama','jenis','username','password','rePassword','superuser']);
+        if($v->validate()) { 
+            if($_POST["password"] != $_POST["rePassword"]){
+                echo $this->response->json_response(400,"Password konfirmasi tidak sama");
+                exit;
+            }
+            $ciphertext = $bcrypt->encrypt($_POST["password"],"2a");
+            // if ada foto            
+            if (!empty($_FILES["file"])) {
+                $fileinfo = getimagesize($_FILES["file"]["tmp_name"]);
+                $width = $fileinfo[0];
+                $height = $fileinfo[1];
+                $file_type = $_FILES['file']['type'];
+                $allowed = array("image/jpeg","image/png");
+                $location = __DIR__ ."/../../public/data/users/".$_POST["username"].".jpg";
+                if(!in_array($file_type, $allowed)) {
+                    echo $this->response->json_response(400, "Hanya file png, jpeg dan jpg yang bisa di upload");
+                    exit;
+                }
+                if ($_FILES["file"]["size"] > 2000000) {
+                    echo $this->response->json_response(400, "Ukuran gambar melebihi 2MB");
+                    exit;      
+                }        
+                if ($width < "260" || $height < "320") {
+                    echo $this->response->json_response(400, "Gambar foto dimensi minimal 320x260");
+                    exit; 
+                }
+                if ($this->compressImage($_FILES['file']['tmp_name'],$location,60)) {
+                    // insert new users to database       
+                    $this->database->insert("users",
+                        ["nama" => $_POST["nama"],"jenis" => $_POST["jenis"],"username" => $_POST["username"],"password" => $ciphertext ,"mapel_id" => $_POST["mapel_id"],"superuser" => $_POST["superuser"]]
+                    );
+                    echo $this->response->json_response(200,"berhasil");
+                }else{                
+                    echo $this->response->json_response(400, "Maaf, terjadi kesalahan saat mengunggah file Anda");
+                }
+            }else{
+                // insert new users to database       
+                $this->database->insert("users",
+                    ["nama" => $_POST["nama"],"jenis" => $_POST["jenis"],"username" => $_POST["username"],"password" => $ciphertext ,"mapel_id" => $_POST["mapel_id"],"superuser" => $_POST["superuser"]]
+                );        
+                echo $this->response->json_response(200, "berhasil");
+            }
         }else{
             if($v->errors('nama')){
                 echo $this->response->json_response(400,"Input nama kosong"); 
@@ -455,10 +500,10 @@ class SekolahController extends ApiController
             }
             elseif($v->errors('password')){
                 echo $this->response->json_response(400,"Input password kosong");
-            }  
-            elseif($v->errors('mapel_id')){
-                echo $this->response->json_response(400,"Input mapel_id kosong");
             } 
+            elseif($v->errors('rePassword')){
+                echo $this->response->json_response(400,"Input rePassword kosong");
+            }  
             elseif($v->errors('superuser')){
                 echo $this->response->json_response(400,"Input superuser kosong");
             }           
@@ -466,20 +511,76 @@ class SekolahController extends ApiController
     }
 
     public function pendidikUpdate()
-    {                                            
+    {          
+        $bcrypt = new Bcrypt();                                  
         $_PATCH = RequestParser::parse()->params;
         $v = new Validator($_PATCH);
-        $v->rule('required', ['id','nama','jenis','username','password','mapel_id','superuser']);
-        if($v->validate()) {                      
-            $update=$this->database->update("users",
-                ["nama" => $_PATCH["nama"],"jenis" => $_PATCH["jenis"],"username" => $_PATCH["username"],"password" => $_PATCH["password"],"mapel_id" => $_PATCH["mapel_id"],"superuser" => $_PATCH["superuser"]],
-                ["id" => $_PATCH["id"]]
-            );
-            if($update->rowCount() === 0){
-                echo $this->response->json_response(400,"Data tidak ditemukan");
-            }else{
-                echo $this->response->json_response(200,"berhasil");
+        $v->rule('required', ['id','nama','jenis','username','mapel_id','superuser']);
+        if($v->validate()) {
+            if( !empty($_PATCH["password"]) && $_PATCH["password"] != $_PATCH["rePassword"]){
+                echo $this->response->json_response(400,"Password konfirmasi tidak sama");
+                exit;
             }
+            if($_PATCH["username"] != $_PATCH["lastUsername"]){
+                unlink(__DIR__ ."/../../public/data/users/".$_PATCH["lastUsername"].".jpg");                
+            }
+            // if ada foto
+            if (!empty($_FILES["file"])) {
+                $fileinfo = getimagesize($_FILES["file"]["tmp_name"]);
+                $width = $fileinfo[0];
+                $height = $fileinfo[1];
+                $file_type = $_FILES['file']['type'];
+                $allowed = array("image/jpeg","image/png");
+                $location = __DIR__ ."/../../public/data/users/".$_PATCH["username"].".jpg";
+                if(!in_array($file_type, $allowed)) {
+                    echo $this->response->json_response(400, "Hanya file png, jpeg dan jpg yang bisa di upload");
+                    exit;
+                }
+                if ($_FILES["file"]["size"] > 5000000) {
+                    echo $this->response->json_response(400, "Ukuran gambar melebihi 3MB adalah ".$_FILES["file"]["size"]);
+                    exit;      
+                }        
+                if ($width < "260" || $height < "320") {
+                    echo $this->response->json_response(400, "Gambar foto dimensi minimal 320x260");
+                    exit; 
+                }
+                if ($this->compressImage($_FILES['file']['tmp_name'],$location,60)) {
+                    // jika password kosong
+                    if(empty($_PATCH["password"])){
+                        $this->database->update("users",
+                            ["nama" => $_PATCH["nama"],"jenis" => $_PATCH["jenis"],"username" => $_PATCH["username"],"mapel_id" => $_PATCH["mapel_id"],"superuser" => $_PATCH["superuser"]],
+                            ["id" => $_PATCH["id"]]
+                        );
+                        echo $this->response->json_response(200, "berhasil");
+                    }else{
+                        $ciphertext = $bcrypt->encrypt($_PATCH["password"],"2a");
+                        $this->database->update("users",
+                            ["nama" => $_PATCH["nama"],"jenis" => $_PATCH["jenis"],"username" => $_PATCH["username"],"password" => $ciphertext,"mapel_id" => $_PATCH["mapel_id"],"superuser" => $_PATCH["superuser"]],
+                            ["id" => $_PATCH["id"]]
+                        );
+                        echo $this->response->json_response(200, "berhasil");
+                    }
+                }else{                
+                    echo $this->response->json_response(400, "Maaf, terjadi kesalahan saat mengunggah file Anda");
+                }
+            }else{
+                // jika password kosong
+                if(empty($_PATCH["password"])){
+                    $this->database->update("users",
+                        ["nama" => $_PATCH["nama"],"jenis" => $_PATCH["jenis"],"username" => $_PATCH["username"],"mapel_id" => $_PATCH["mapel_id"],"superuser" => $_PATCH["superuser"]],
+                        ["id" => $_PATCH["id"]]
+                    );
+                    echo $this->response->json_response(200, "berhasil");
+                }else{
+                    $ciphertext = $bcrypt->encrypt($_PATCH["password"],"2a");
+                    $this->database->update("users",
+                        ["nama" => $_PATCH["nama"],"jenis" => $_PATCH["jenis"],"username" => $_PATCH["username"],"password" => $ciphertext,"mapel_id" => $_PATCH["mapel_id"],"superuser" => $_PATCH["superuser"]],
+                        ["id" => $_PATCH["id"]]
+                    );
+                    echo $this->response->json_response(200, "berhasil");
+                }
+
+            }                      
         }else{
             if($v->errors('nama')){
                 echo $this->response->json_response(400,"Input nama kosong"); 
@@ -495,10 +596,7 @@ class SekolahController extends ApiController
             }
             elseif($v->errors('password')){
                 echo $this->response->json_response(400,"Input password kosong");
-            }  
-            elseif($v->errors('mapel_id')){
-                echo $this->response->json_response(400,"Input mapel_id kosong");
-            } 
+            }             
             elseif($v->errors('superuser')){
                 echo $this->response->json_response(400,"Input superuser kosong");
             } 

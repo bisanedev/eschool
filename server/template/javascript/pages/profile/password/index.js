@@ -13,8 +13,7 @@ class PageProfilePassword extends React.Component{
     this.state = {
       curPassword:"",            
       newPassword:"",      
-      rePassword:"",      
-      validated:false
+      rePassword:""      
     }
     this.handleInputChange = this.handleInputChange.bind(this);    
   }
@@ -39,20 +38,22 @@ class PageProfilePassword extends React.Component{
           </Breadcrumb>   
         </div>
         <div className="mw9 center cf ph3 mb3">
-          <Cards title="Masukan password baru anda">
-              <div className="w-40 pr3 mb3">
+          <Cards title="Masukan password baru anda" custom="w-50" bodyClass="pa3">
+              <div className="w-100 mb3">
                 <label className="f5 fw4 db mb2">Password saat ini</label>
                 <InputPassword name="curPassword" onChange={this.handleInputChange}/>
               </div>
-              <div className="w-40 pr3 mb3">
+              <div className="w-100 mb3">
                 <label className="f5 fw4 db mb2">Password baru</label>
                 <InputPassword name="newPassword" onChange={this.handleInputChange}/>
               </div>
-              <div className="w-40 pr3 mb3">
+              <div className="w-100 mb3">
                 <label className="f5 fw4 db mb2">Ketik ulang password baru</label>
                 <InputPassword name="rePassword" onChange={this.handleInputChange}/>                
               </div>
-              <button type="submit" style={{cursor: "pointer"}} className="w-20 tc f6 link dim br2 ba ph3 pv2 mb2 mt2 dib white bg-primary b--primary" onClick={this.changePassword}>Ganti Password</button>
+              <div className="w-100 mb3 flex justify-end">
+                <button type="submit" style={{cursor: "pointer"}} className="w-30 tc f6 link dim br2 ba ph3 pv2 mb2 mt2 dib white bg-primary b--primary" onClick={this.changePassword}>Ganti Password</button>
+              </div>
           </Cards>
         </div>                              
     </div>
@@ -69,9 +70,7 @@ class PageProfilePassword extends React.Component{
   }  
 
   changePassword = () => {   
-    const {curPassword,newPassword,rePassword} = this.state;    
-
-    this.setState({curPasswordE:"",newPasswordE:"",rePasswordE:""});        
+    const {curPassword,newPassword,rePassword} = this.state;           
 
     var formData = new FormData();
     formData.append('curPassword', curPassword);

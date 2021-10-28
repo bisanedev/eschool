@@ -43,7 +43,11 @@ class PageSekolahSemesterSub extends React.Component{
   }
 
   componentDidMount() {
-    this.fetchData(this.semesterID);
+    this.timer = setTimeout(() => this.fetchData(this.semesterID),300);       
+  }
+  
+  componentWillUnmount() {
+    clearTimeout(this.timer);
   }
 
   render() {           
@@ -326,7 +330,7 @@ class PageSekolahSemesterSub extends React.Component{
     }).then(response => {
       if(response.data.status == true)
       {        
-        this.setState({showAdd:false},() => this.fetchData(this.semesterID));        
+        this.setState({showAdd:false,page:1},() => this.fetchData(this.semesterID));        
       }
     }).catch(error => {
       if(error.response.status == 401){

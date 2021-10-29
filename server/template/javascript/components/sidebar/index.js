@@ -4,7 +4,9 @@ import { useLocation } from 'react-router-dom';
 export default class Sidebar extends React.Component{
 
   constructor(props) {
-    super(props);    
+    super(props); 
+    this.state = {     
+    }        
   }
 
   componentDidMount() {     

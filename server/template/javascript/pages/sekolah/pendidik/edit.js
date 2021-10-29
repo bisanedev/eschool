@@ -62,7 +62,7 @@ class PageSekolahPendidikEdit extends React.Component{
           <div className="subtitle">Halaman informasi untuk users & pendidik</div>
           <Breadcrumb homeUrl="/sekolah" homeText="Sekolah">
             <li><a href="#/sekolah/pendidik"><span>Users & pendidik</span></a></li>   
-            <li><a href={"#/sekolah/pendidik/edit/"+this.userID}><span>{rawUsername === "" ? "memuat":rawUsername}</span></a></li> 
+            <li><a href={"#/sekolah/pendidik/edit/"+this.userID}><span style={{textTransform:"capitalize"}}>{rawUsername === "" ? "memuat":rawUsername}</span></a></li> 
             <li><a href="#"><span>Mengubah data</span></a></li>  
           </Breadcrumb>     
         </div>

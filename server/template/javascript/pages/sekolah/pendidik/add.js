@@ -116,7 +116,7 @@ class PageSekolahPendidikAdd extends React.Component{
                 <InputPassword name="rePassword" onChange={this.handleInputChange}/>                
               </div>
               <div className="w-100 mb3">
-                <label className="f5 fw4 db mb2">Foto profil</label>
+                <label className="f5 fw4 db mb2">Foto profil (Opsional)</label>
                 <div className="flex justify-between mb3">
                   <input className="link br2 ba ph3 pv2 dib black bg-light-gray ba b--light-silver " type="file" accept="image/*" onChange={this.onSelectFile}/>
                   <button type="submit" style={{cursor: "pointer"}} className="link dim br2 ba pa2 dib bg-white" onClick={() => this.setState({croppedImageUrl:"",src:""})}>

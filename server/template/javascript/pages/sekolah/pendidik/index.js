@@ -99,8 +99,8 @@ class PageSekolahPendidik extends React.Component{
           {data.length > 0 && !isLoading && data.map((value,k) => (
               <Table.DataProfile key={k} data={value} 
                 href={`#/sekolah/pendidik/edit/${value.id}`}
-                checked={selected.includes(value.id)} 
-                onChecked={() => this.onChecked(value.id)}   
+                checked={selected.includes(value)} 
+                onChecked={() => this.onChecked(value)}   
                 onDelete={() => this.onDelete(value)}                         
               >
                 {value.mapel.length > 0 && value.mapel.map((wow,i) => (
@@ -124,7 +124,7 @@ class PageSekolahPendidik extends React.Component{
         <DeleteDialog show={showSingleDelete} 
           title="Hapus" subtitle={"Yakin hapus user "+singleData.nama+" ??"} 
           close={() => this.setState({showSingleDelete:false})}        
-          onClick={() => this.singleDelete(singleData.id)}
+          onClick={() => this.singleDelete(singleData)}
         />
         <DeleteDialog show={showDelete} 
           title="Hapus semua" subtitle={"Yakin hapus "+selected.length+" data yang anda pilih ??"} 
@@ -144,7 +144,6 @@ class PageSekolahPendidik extends React.Component{
     const name = target.name;
     this.setState({[name]: value});
   } 
-
   handleEditChange = (e) => {
     this.setState(prevState => ({
       singleData: {
@@ -159,21 +158,21 @@ class PageSekolahPendidik extends React.Component{
     var selectedx = [];
     if (selected.length != data.length) {
       data.forEach(function (data) {
-        selectedx.push(data.id);
+        selectedx.push(data);
       });
       this.setState({selected:selectedx});
     }else{
       this.setState({selected:[]});
     }  
   }
-  onChecked = (id) => {
-    const {selected} =  this.state;    
-    var index = selected.indexOf(id);             
+  onChecked = (data) => {
+    const {selected} =  this.state;       
+    var index = selected.indexOf(data);             
     if (index !== -1) {      
       selected.splice(index, 1);
       this.setState({selected});
-    }else{      
-      selected.push(id);
+    }else{ 
+      selected.push(data);
       this.setState({selected});      
     }                 
   }
@@ -225,9 +224,10 @@ class PageSekolahPendidik extends React.Component{
   onDelete = (data) => {
     this.setState({showSingleDelete:true,singleData:data})
   }
-  singleDelete = (id) => {        
+  singleDelete = (data) => {        
     var formData = new FormData();
-    formData.append('delete', id);    
+    formData.append('metode', 'single');
+    formData.append('delete', JSON.stringify(data));    
     axios({
       method: 'delete',
       url: window.location.origin +'/api/pendidik/sekolah/users',
@@ -250,6 +250,7 @@ class PageSekolahPendidik extends React.Component{
   multiDelete = () => {
     const {selected} = this.state;    
     var formData = new FormData();
+    formData.append('metode', 'multi');
     formData.append('delete', JSON.stringify(selected));    
     axios({
       method: 'delete',

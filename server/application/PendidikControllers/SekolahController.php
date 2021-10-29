@@ -437,8 +437,24 @@ class SekolahController extends ApiController
 
     public function pendidikView($id)
     {
-        $data = $this->database->select("users",["id","nama","jenis","username","mapel_id[JSON]","superuser[Bool]"],["id" => $id]);
+        $data = $this->database->select("users",["id","nama","jenis","foto[Bool]","username","mapel_id[JSON]","superuser[Bool]"],["id" => $id]);
         echo $this->response->json_response(200, $data[0]);
+    }
+
+    public function pendidikFotoDelete($username)
+    {
+        $_DELETE = RequestParser::parse()->params; 
+        $v = new Validator($_DELETE);
+        $v->rule('required', ['delete']);
+        if($v->validate()) {
+            unlink(__DIR__ ."/../../public/data/users/".$username.".jpg");
+            $this->database->update("users",["foto" => "0"],["id" => $_DELETE["delete"]]);
+            echo $this->response->json_response(200,"berhasil");     
+        }else{
+            if($v->errors('delete')){
+                echo $this->response->json_response(400,"id data kosong"); 
+            }  
+        }
     }
 
     public function pendidikAdd()
@@ -473,9 +489,9 @@ class SekolahController extends ApiController
                     exit; 
                 }
                 if ($this->compressImage($_FILES['file']['tmp_name'],$location,60)) {
-                    // insert new users to database       
+                    // insert new users with foto to database       
                     $this->database->insert("users",
-                        ["nama" => $_POST["nama"],"jenis" => $_POST["jenis"],"username" => $_POST["username"],"password" => $ciphertext ,"mapel_id" => $_POST["mapel_id"],"superuser" => $_POST["superuser"]]
+                        ["nama" => $_POST["nama"],"jenis" => $_POST["jenis"],"username" => $_POST["username"],"foto" => "1","password" => $ciphertext ,"mapel_id" => $_POST["mapel_id"],"superuser" => $_POST["superuser"]]
                     );
                     echo $this->response->json_response(200,"berhasil");
                 }else{                
@@ -512,17 +528,16 @@ class SekolahController extends ApiController
 
     public function pendidikUpdate()
     {          
-        $bcrypt = new Bcrypt();                                  
-        $_PATCH = RequestParser::parse()->params;
-        $v = new Validator($_PATCH);
+        $bcrypt = new Bcrypt();                                          
+        $v = new Validator($_POST);
         $v->rule('required', ['id','nama','jenis','username','mapel_id','superuser']);
         if($v->validate()) {
-            if( !empty($_PATCH["password"]) && $_PATCH["password"] != $_PATCH["rePassword"]){
+            if( !empty($_POST["password"]) && $_POST["password"] != $_POST["rePassword"]){
                 echo $this->response->json_response(400,"Password konfirmasi tidak sama");
                 exit;
             }
-            if($_PATCH["username"] != $_PATCH["lastUsername"]){
-                unlink(__DIR__ ."/../../public/data/users/".$_PATCH["lastUsername"].".jpg");                
+            if($_POST["username"] != $_POST["lastUsername"]){
+                unlink(__DIR__ ."/../../public/data/users/".$_POST["lastUsername"].".jpg");                
             }
             // if ada foto
             if (!empty($_FILES["file"])) {
@@ -531,13 +546,13 @@ class SekolahController extends ApiController
                 $height = $fileinfo[1];
                 $file_type = $_FILES['file']['type'];
                 $allowed = array("image/jpeg","image/png");
-                $location = __DIR__ ."/../../public/data/users/".$_PATCH["username"].".jpg";
+                $location = __DIR__ ."/../../public/data/users/".$_POST["username"].".jpg";
                 if(!in_array($file_type, $allowed)) {
                     echo $this->response->json_response(400, "Hanya file png, jpeg dan jpg yang bisa di upload");
                     exit;
                 }
-                if ($_FILES["file"]["size"] > 5000000) {
-                    echo $this->response->json_response(400, "Ukuran gambar melebihi 3MB adalah ".$_FILES["file"]["size"]);
+                if ($_FILES["file"]["size"] > 2000000) {
+                    echo $this->response->json_response(400, "Ukuran gambar melebihi 2MB");
                     exit;      
                 }        
                 if ($width < "260" || $height < "320") {
@@ -546,17 +561,17 @@ class SekolahController extends ApiController
                 }
                 if ($this->compressImage($_FILES['file']['tmp_name'],$location,60)) {
                     // jika password kosong
-                    if(empty($_PATCH["password"])){
+                    if(empty($_POST["password"])){
                         $this->database->update("users",
-                            ["nama" => $_PATCH["nama"],"jenis" => $_PATCH["jenis"],"username" => $_PATCH["username"],"mapel_id" => $_PATCH["mapel_id"],"superuser" => $_PATCH["superuser"]],
-                            ["id" => $_PATCH["id"]]
+                            ["nama" => $_POST["nama"],"jenis" => $_POST["jenis"],"username" => $_POST["username"],"foto" => "1","mapel_id" => $_POST["mapel_id"],"superuser" => $_POST["superuser"]],
+                            ["id" => $_POST["id"]]
                         );
                         echo $this->response->json_response(200, "berhasil");
                     }else{
-                        $ciphertext = $bcrypt->encrypt($_PATCH["password"],"2a");
+                        $ciphertext = $bcrypt->encrypt($_POST["password"],"2a");
                         $this->database->update("users",
-                            ["nama" => $_PATCH["nama"],"jenis" => $_PATCH["jenis"],"username" => $_PATCH["username"],"password" => $ciphertext,"mapel_id" => $_PATCH["mapel_id"],"superuser" => $_PATCH["superuser"]],
-                            ["id" => $_PATCH["id"]]
+                            ["nama" => $_POST["nama"],"jenis" => $_POST["jenis"],"username" => $_POST["username"],"foto" => "1","password" => $ciphertext,"mapel_id" => $_POST["mapel_id"],"superuser" => $_POST["superuser"]],
+                            ["id" => $_POST["id"]]
                         );
                         echo $this->response->json_response(200, "berhasil");
                     }
@@ -564,22 +579,21 @@ class SekolahController extends ApiController
                     echo $this->response->json_response(400, "Maaf, terjadi kesalahan saat mengunggah file Anda");
                 }
             }else{
-                // jika password kosong
-                if(empty($_PATCH["password"])){
+                // tanpa foto dan jika password kosong
+                if(empty($_POST["password"])){
                     $this->database->update("users",
-                        ["nama" => $_PATCH["nama"],"jenis" => $_PATCH["jenis"],"username" => $_PATCH["username"],"mapel_id" => $_PATCH["mapel_id"],"superuser" => $_PATCH["superuser"]],
-                        ["id" => $_PATCH["id"]]
+                        ["nama" => $_POST["nama"],"jenis" => $_POST["jenis"],"username" => $_POST["username"],"mapel_id" => $_POST["mapel_id"],"superuser" => $_POST["superuser"]],
+                        ["id" => $_POST["id"]]
                     );
                     echo $this->response->json_response(200, "berhasil");
                 }else{
-                    $ciphertext = $bcrypt->encrypt($_PATCH["password"],"2a");
+                    $ciphertext = $bcrypt->encrypt($_POST["password"],"2a");
                     $this->database->update("users",
-                        ["nama" => $_PATCH["nama"],"jenis" => $_PATCH["jenis"],"username" => $_PATCH["username"],"password" => $ciphertext,"mapel_id" => $_PATCH["mapel_id"],"superuser" => $_PATCH["superuser"]],
-                        ["id" => $_PATCH["id"]]
+                        ["nama" => $_POST["nama"],"jenis" => $_POST["jenis"],"username" => $_POST["username"],"password" => $ciphertext,"mapel_id" => $_POST["mapel_id"],"superuser" => $_POST["superuser"]],
+                        ["id" => $_POST["id"]]
                     );
                     echo $this->response->json_response(200, "berhasil");
                 }
-
             }                      
         }else{
             if($v->errors('nama')){
@@ -608,18 +622,30 @@ class SekolahController extends ApiController
     {   
         $_DELETE = RequestParser::parse()->params;        
         $v = new Validator($_DELETE);
-        $v->rule('required', ['delete']);
-        if($v->validate()) {  
-            if(in_array("1",json_decode($_DELETE['delete']))){
-                echo $this->response->json_response(400,"Administrator tidak bisa dihapus");
-                exit;
-            }                                       
-            $hapus=$this->database->delete("users",["AND" => ["id" => json_decode($_DELETE['delete'])]]);           
-            if($hapus->rowCount() === 0){
-                echo $this->response->json_response(400,"Data tidak ditemukan");
-            }else{                
-                echo $this->response->json_response(200,"berhasil");
-            }                        
+        $v->rule('required', ['delete','metode']);
+        if($v->validate()) {
+            $data = json_decode($_DELETE["delete"],true);
+            if($_DELETE["metode"] === "single"){
+                unlink(__DIR__ ."/../../public/data/users/".$data["username"].".jpg");
+                $hapus = $this->database->delete("users",["AND" => ["id" => $data["id"]]]);                
+                if($hapus->rowCount() === 0){
+                    echo $this->response->json_response(400,"Data tidak ditemukan".$data["id"]);
+                }else{                
+                    echo $this->response->json_response(200,"berhasil");
+                } 
+            }
+            if($_DELETE["metode"] === "multi"){
+                $arrayData = $this->reMapToArrayIDuserName($data);
+                foreach ($arrayData[1] as $username) {
+                    unlink(__DIR__ ."/../../public/data/users/".$username.".jpg");
+                }                
+                $hapus = $this->database->delete("users",["AND" => ["id" => $arrayData[0]]]);                
+                if($hapus->rowCount() === 0){
+                    echo $this->response->json_response(400,"Data tidak ditemukan");
+                }else{                
+                    echo $this->response->json_response(200,"berhasil");
+                }
+            }                                                                   
         }else{
             if($v->errors('delete')){
                 echo $this->response->json_response(400,"delete id kosong"); 
@@ -627,7 +653,18 @@ class SekolahController extends ApiController
         }
     }
 
-    public function reMapwithMapel($data,$mapel)
+    function reMapToArrayIDuserName($obj)
+    {
+        $userID = array();        
+        $userName = array();   
+        foreach ($obj as $val) {            
+            $userID[] = $val['id'];
+            $userName[] = $val['username'];
+        }        
+        return [$userID,$userName];
+    }
+
+    function reMapwithMapel($data,$mapel)
     {
         if ((is_array($data) && is_array($mapel)) || (is_object($data) && is_object($mapel))){
             $recollect = array();

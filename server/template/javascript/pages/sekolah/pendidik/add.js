@@ -2,6 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import { withRouter } from "react-router";
 import { Helmet } from 'react-helmet';
+import Forbidden from "../../other/forbidden";
 import { Breadcrumb } from '../../../components/menu';
 import { InputText,InputPassword,Cards } from '../../../components/forms';
 import { ToastContainer, toast } from 'react-toastify';
@@ -95,10 +96,12 @@ class PageSekolahPendidikAdd extends React.Component{
               </div>
               <div className="w-100 mb3">
                 <label className="f5 fw4 db mb2">Superuser akses</label>
-                <label className="toggle">
-                  <input name="superuser" type="checkbox" checked={superuser} onChange={this.handleInputChange}/>                  
-                  <label for="switch">Toggle</label>
-                </label>
+                <div className="toggle"> 
+                  <label className="switch" htmlFor="checkbox" onClick={() => this.handleSwitchChangeSuperuser()}>
+                    <input type="checkbox" checked={superuser} value={superuser} onChange={(e) => console.log(e.target.value)}/>
+                    <div className="slider round"></div>
+                  </label>                                   
+                </div>
               </div>
               <div className="w-100 mb3">
                 <label className="f5 fw4 db mb2">Username</label>
@@ -161,10 +164,13 @@ class PageSekolahPendidikAdd extends React.Component{
   handleInputChange = (event) => {
     const target = event.target;
     const value = target.type === 'checkbox' ? target.checked : target.value;
-    const name = target.name;
+    const name = target.name;    
     this.setState({[name]: value});
-  } 
-
+  }
+  handleSwitchChangeSuperuser = () => {
+    const {superuser} =  this.state;  
+    this.setState({superuser:!superuser});
+  }
   _crop = () => {         
     const foto = this.cropper.getCroppedCanvas({
       width: 354,
@@ -216,11 +222,6 @@ class PageSekolahPendidikAdd extends React.Component{
     this.setState({jenis: event.target.value});
   } 
   /*--- multiselect mata pelajaran ---*/
-  handleMultiSelect = (selectedOption) => {    
-    this.setState({ mapel:selectedOption }, () =>
-      console.log(`Option selected:`, selectedOption)
-    );
-  }
   handleMapelChecked = (id) => {
     const {mapel} =  this.state;    
     var index = mapel.indexOf(id);             

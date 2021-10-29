@@ -49,11 +49,13 @@ $dispatcher = FastRoute\simpleDispatcher(function (RouteCollector $r) {
         $r->addRoute('POST', '/sekolah/mapel', ['App\PendidikControllers\SekolahController','mapelAdd']);
         $r->addRoute('PATCH', '/sekolah/mapel', ['App\PendidikControllers\SekolahController','mapelUpdate']);
         $r->addRoute('DELETE', '/sekolah/mapel', ['App\PendidikControllers\SekolahController','mapelDelete']);
+        //-----pendidik
         $r->addRoute('GET', '/sekolah/users', ['App\PendidikControllers\SekolahController','pendidik']); 
         $r->addRoute('POST', '/sekolah/users', ['App\PendidikControllers\SekolahController','pendidikAdd']);
-        $r->addRoute('GET', '/sekolah/users/{id}', ['App\PendidikControllers\SekolahController','pendidikView']);
-        $r->addRoute('PATCH', '/sekolah/users', ['App\PendidikControllers\SekolahController','pendidikUpdate']);
-        $r->addRoute('DELETE', '/sekolah/users', ['App\PendidikControllers\SekolahController','pendidikDelete']);
+        $r->addRoute('POST', '/sekolah/users/edit/{id}', ['App\PendidikControllers\SekolahController','pendidikUpdate']);
+        $r->addRoute('GET', '/sekolah/users/view/{id}', ['App\PendidikControllers\SekolahController','pendidikView']);                
+        $r->addRoute('DELETE', '/sekolah/users/foto/{username}', ['App\PendidikControllers\SekolahController','pendidikFotoDelete']);
+        $r->addRoute('DELETE', '/sekolah/users', ['App\PendidikControllers\SekolahController','pendidikDelete']);        
          
         //protected page
         $r->addRoute('GET', '/protected', ['App\PendidikControllers\ProtectController','index']); 

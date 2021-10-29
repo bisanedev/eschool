@@ -2,8 +2,10 @@ import React from 'react';
 import axios from 'axios';
 import { withRouter } from "react-router";
 import { Helmet } from 'react-helmet';
+import Forbidden from "../../other/forbidden";
 import { Breadcrumb } from '../../../components/menu';
 import { InputText,InputPassword,Cards } from '../../../components/forms';
+import {DeleteDialog} from '../../../components/dialog';
 import { ToastContainer, toast } from 'react-toastify';
 import Cropper from "react-cropper";
 
@@ -14,6 +16,7 @@ class PageSekolahPendidikEdit extends React.Component{
     this.state = {
       id:"",
       nama:"",
+      foto:false,
       jenis:"pria",
       src: "",
       errorSelect:"",
@@ -26,7 +29,8 @@ class PageSekolahPendidikEdit extends React.Component{
       mapelData:[],
       superuser:false,
       uploadProgress:false,
-      uploadDisable:false,       
+      uploadDisable:false,  
+      showHapusFoto:false,         
     }
     this.handleInputChange = this.handleInputChange.bind(this);  
     this.cropper = React.createRef(); 
@@ -43,8 +47,8 @@ class PageSekolahPendidikEdit extends React.Component{
 
   render() { 
     const {tokenData} = this.props;
-    const {jenis,mapelData,mapel,nama,username,superuser,isLoading,src,croppedImageUrl,errorSelect,uploadProgress,uploadDisable,rawUsername} = this.state;
-    let foto = <img src={"data/users/"+rawUsername+".jpg?nocache="+Date.now()} onError={(e)=>{e.target.onerror = null; e.target.src=jenis==="pria" ? "assets/images/cowok.png":"assets/images/cewek.png"}} />;
+    const {jenis,mapelData,mapel,nama,username,superuser,isLoading,src,croppedImageUrl,errorSelect,uploadProgress,uploadDisable,rawUsername,showHapusFoto,foto} = this.state;
+    //let foto = <img src={"data/users/"+rawUsername+".jpg?nocache="+Date.now()} onError={(e)=>{e.target.onerror = null;e.target.src=jenis==="pria" ? "assets/images/cowok.png":"assets/images/cewek.png"}} />;    
     const uploadClass = uploadProgress ? "progress-active":"";    
     return (
     <>  
@@ -99,8 +103,8 @@ class PageSekolahPendidikEdit extends React.Component{
               <div className="w-100 mb3">
                 <label className="f5 fw4 db mb2">Superuser akses</label>
                 <div className="toggle"> 
-                  <label className="switch" htmlfor="checkbox">
-                    <input name="superuser" type="checkbox" checked={superuser} onChange={this.handleInputChange}/>
+                  <label className="switch" htmlFor="checkbox" onClick={() => this.handleSwitchChangeSuperuser()}>
+                    <input type="checkbox" checked={superuser} value={superuser} onChange={(e) => console.log(e.target.value)} />
                     <div className="slider round"></div>
                   </label>                                   
                 </div>
@@ -148,13 +152,28 @@ class PageSekolahPendidikEdit extends React.Component{
             <div className="w-30 pa3">              
               <button type="submit" style={{cursor: "pointer"}} className={`${uploadClass} w-100 tc b f7 link br2 ba ph3 pv2 dib white bg-primary b--primary mb3`} disabled={uploadDisable} onClick={this.updateUserPendidik}>Ubah data</button>              
               <div className="mb3 pa2 " style={{border:"3px dashed rgba(0, 0, 0, 0.125)"}}>
-                {croppedImageUrl ? (
-                  <img alt="Crop" style={{ maxWidth: '100%' }} src={croppedImageUrl} />
-                ):foto}      
+                {croppedImageUrl ? (                  
+                  <img alt="Crop" style={{ maxWidth: '100%' }} src={croppedImageUrl} />                                   
+                ):( 
+                  foto ?                  
+                  <div className="relative">
+                    <div className="link dim deleteFotoButton" onClick={() => this.setState({showHapusFoto:true})}>
+                      <i className="fas fa-times" style={{fontSize: "11px"}}/>
+                    </div>
+                    <img src={"data/users/"+rawUsername+".jpg?nocache="+Date.now()}/>
+                  </div>
+                  :
+                  <img src={jenis==="pria" ? "assets/images/cowok.png":"assets/images/cewek.png"}/> 
+                )}
               </div>                           
             </div>                  
           </Cards>
-        </div>                              
+        </div> 
+        <DeleteDialog show={showHapusFoto} 
+          title="Hapus" subtitle={"Yakin hapus foto profil ??"} 
+          close={() => this.setState({showHapusFoto:false})}        
+          onClick={() => this.profileFotoDelete()}
+        />                             
         </>
         )}
         <ToastContainer />
@@ -166,10 +185,13 @@ class PageSekolahPendidikEdit extends React.Component{
   handleInputChange = (event) => {
     const target = event.target;
     const value = target.type === 'checkbox' ? target.checked : target.value;
-    const name = target.name;
+    const name = target.name;    
     this.setState({[name]: value});
   } 
-
+  handleSwitchChangeSuperuser = () => {    
+    const {superuser} =  this.state;    
+    this.setState({superuser:!superuser});
+  }
   _crop = () => {         
     const foto = this.cropper.getCroppedCanvas({
       width: 354,
@@ -221,11 +243,6 @@ class PageSekolahPendidikEdit extends React.Component{
     this.setState({jenis: event.target.value});
   } 
   /*--- multiselect mata pelajaran ---*/
-  handleMultiSelect = (selectedOption) => {    
-    this.setState({ mapel:selectedOption }, () =>
-      console.log(`Option selected:`, selectedOption)
-    );
-  }
   handleMapelChecked = (id) => {
     const {mapel} =  this.state;    
     var index = mapel.indexOf(id);             
@@ -240,14 +257,15 @@ class PageSekolahPendidikEdit extends React.Component{
   /*--- fetch data ---*/
   fetchData = () => {     
     axios.get(
-      window.location.origin + `/api/pendidik/sekolah/users/`+this.userID+"&nocache="+Date.now()
+      window.location.origin + `/api/pendidik/sekolah/users/view/`+this.userID+"&nocache="+Date.now()
     ).then(response => { 
-    var data = response.data.message;     
+    var data = response.data.message;         
       this.setState({
         id:data.id,
         nama:data.nama,
         jenis:data.jenis,                 
-        mapel:data.mapel_id,      
+        mapel:data.mapel_id,
+        foto:data.foto,   
         username:data.username, 
         rawUsername:data.username,        
         superuser:data.superuser
@@ -282,7 +300,8 @@ class PageSekolahPendidikEdit extends React.Component{
     if(src != null && src != "" && croppedImageUrl != ""){
       var blobFile = this.b64toBlob(croppedImageUrl); 
       formData.append('file',blobFile);
-    }    
+    }
+
     formData.append('id', this.userID);
     formData.append('nama', nama);
     formData.append('jenis', jenis);    
@@ -294,8 +313,8 @@ class PageSekolahPendidikEdit extends React.Component{
     formData.append('superuser', superuser ? "1":"0");    
     
     axios({
-        method: 'patch',
-        url: '/api/pendidik/sekolah/users',
+        method: 'post',
+        url: '/api/pendidik/sekolah/users/edit/'+this.userID,
         data: formData
     }).then(response => {                 
         if(response.data.status == true)
@@ -314,7 +333,30 @@ class PageSekolahPendidikEdit extends React.Component{
       }     
     });
   }
-
+  //---- delete profile
+  profileFotoDelete = () => { 
+    const {rawUsername} = this.state;       
+    var formData = new FormData();
+    formData.append('delete', this.userID);    
+    axios({
+      method: 'delete',
+      url: window.location.origin +'/api/pendidik/sekolah/users/foto/'+rawUsername,
+      data: formData
+    }).then(response => {
+      if(response.data.status == true)
+      {        
+        this.props.history.push('/sekolah/pendidik');     
+      }
+    }).catch(error => {
+      if(error.response.status == 401){
+        this.logout();
+      }
+      if(error.response.status == 400){       
+        toast.warn(error.response.data.message);  
+      }
+    });
+  }
+  //---
   logout = () => {   
     window.localStorage.clear();
     delete axios.defaults.headers.common['Authorization']; 

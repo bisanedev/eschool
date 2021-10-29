@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 29, 2021 at 11:08 AM
+-- Generation Time: Oct 29, 2021 at 05:00 PM
 -- Server version: 10.4.19-MariaDB
 -- PHP Version: 8.0.7
 
@@ -82,9 +82,13 @@ CREATE TABLE `mapel` (
 
 INSERT INTO `mapel` (`id`, `nama`, `color`) VALUES
 (1, 'Matematika', '#426131'),
-(2, 'IPA', '#e07a08'),
+(2, 'IPA', '#a02ba5'),
 (3, 'Fisika', '#5f4d92'),
-(6, 'Biologi', '#1047c2');
+(6, 'Biologi', '#1047c2'),
+(7, 'Kimia', '#1acf5d'),
+(8, 'Bahasa Inggris', '#11d2cd'),
+(9, 'Bahasa Indonesia', '#9fd211'),
+(10, 'Seni dan Prakarya', '#d24811');
 
 -- --------------------------------------------------------
 
@@ -129,6 +133,25 @@ INSERT INTO `semester_tahun` (`id`, `nama`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `siswa`
+--
+
+CREATE TABLE `siswa` (
+  `id` int(11) NOT NULL,
+  `nama` varchar(300) NOT NULL,
+  `jenis` varchar(20) NOT NULL,
+  `username` varchar(30) NOT NULL,
+  `foto` tinyint(1) NOT NULL,
+  `kelas_id` int(11) NOT NULL,
+  `password` varchar(300) NOT NULL,
+  `expired_token` int(11) NOT NULL,
+  `unique_token` varchar(15) NOT NULL,
+  `device_token` varchar(300) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `users`
 --
 
@@ -151,9 +174,9 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `nama`, `jenis`, `username`, `password`, `foto`, `mapel_id`, `superuser`, `expired_token`, `unique_token`, `device_token`) VALUES
-(1, 'Administrator', 'pria', 'admin', '$2a$10$uJWzRaqj52lXZGP6yeG0..g6S8EfynirIddkDM3XdmbfGY5x5vrti', 1, '[]', 1, 1667033624, '617bb6981fe29', ''),
+(1, 'Administrator', 'pria', 'admin', '$2a$10$uJWzRaqj52lXZGP6yeG0..g6S8EfynirIddkDM3XdmbfGY5x5vrti', 1, '[]', 1, 1667039576, '617bcdd83e069', ''),
 (2, 'Marbuah Almakaroni', 'perempuan', 'marbuah', '$2a$12$K/vRFyhWiIwitDqY5fcqQOIZvWGlfplnOJPbkOYuJm8RshDC5V9gG', 1, '[\"1\"]', 1, 1667033990, '617bb80669824', ''),
-(15, 'Adhisti Arisha ', 'perempuan', 'adhisti', '$2a$10$F/T0Q2n9I6blfK4YsY9FYO6xQxOOnoYdmLAnlZKnwBUmLCz8Psc7.', 1, '[\"6\"]', 0, NULL, '', NULL);
+(15, 'Adhisti Arisha ', 'perempuan', 'adhisti', '$2a$10$F/T0Q2n9I6blfK4YsY9FYO6xQxOOnoYdmLAnlZKnwBUmLCz8Psc7.', 1, '[\"10\"]', 0, NULL, '', NULL);
 
 --
 -- Indexes for dumped tables
@@ -192,6 +215,14 @@ ALTER TABLE `semester_tahun`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `siswa`
+--
+ALTER TABLE `siswa`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `username` (`username`),
+  ADD KEY `kelas_id` (`kelas_id`);
+
+--
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
@@ -218,7 +249,7 @@ ALTER TABLE `kelas_tingkatan`
 -- AUTO_INCREMENT for table `mapel`
 --
 ALTER TABLE `mapel`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `semester_nama`
@@ -231,6 +262,12 @@ ALTER TABLE `semester_nama`
 --
 ALTER TABLE `semester_tahun`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+
+--
+-- AUTO_INCREMENT for table `siswa`
+--
+ALTER TABLE `siswa`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `users`

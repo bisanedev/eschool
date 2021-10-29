@@ -171,51 +171,96 @@ input[type=checkbox] {
     i {
       color:white !important;
     }
-  }   
-  /* toggle */  
-  .toggle {       
-    .switch {
-      display: inline-block;
-      height: 34px;
-      position: relative;
-      width: 60px;
-    }    
-    .switch input {
-      display:none;
-    }    
-    .slider {
-      background-color: #ccc;
-      bottom: 0;
-      cursor: pointer;
-      left: 0;
-      position: absolute;
-      right: 0;
-      top: 0;
-      transition: .4s;
-    }    
-    .slider:before {
-      background-color: #fff;
-      bottom: 4px;
-      content: "";
-      height: 26px;
-      left: 4px;
-      position: absolute;
-      transition: .4s;
-      width: 26px;
-    }    
-    input:checked + .slider {
-      background-color: $primary-color;
-    }    
-    input:checked + .slider:before {
-      transform: translateX(26px);
-    }    
-    .slider.round {
-      border-radius: 34px;
-    }    
-    .slider.round:before {
-      border-radius: 50%;
+  } 
+  /* switcher */
+  .switcher {
+    height: 41px;
+    .switch-disable{
+      background: $disable-primaryColor !important;
+      label[for=yes] {
+        color: $disable-secondaryColor !important;
+      }
+      label[for="no"] {
+        color: $disable-secondaryColor  !important;
+      }
+      span{
+        background: $disable-secondaryColor  !important;
+      }
+      span:after {
+        background: $disable-secondaryColor  !important;
+      }
     }
-  }
+    .switch {
+      position: absolute;
+      width: 180px;
+      height: 41px;
+      text-align: center;      
+      background: $primary-color;
+      transition: all 0.2s ease;
+      border-radius: 5px;
+    }
+    .switch span {
+      position: absolute;
+      width: 20px;
+      height: 4px;
+      top: 50%;
+      left: 50%;
+      margin: -2px 0px 0px -4px;
+      background: #fff;
+      display: block;
+      transform: rotate(-45deg);
+      transition: all 0.2s ease;
+    }
+    .switch span:after {
+      content: "";
+      display: block;
+      position: absolute;
+      width: 4px;
+      height: 12px;
+      margin-top: -8px;
+      background: #fff;
+      transition: all 0.2s ease;
+    }
+    input[type=radio] {
+      display: none;
+    }
+    .switch label {
+      cursor: pointer;
+      color: rgba(0,0,0,0.2);
+      width: 60px;
+      line-height: 40px;
+      transition: all 0.2s ease;
+    }
+    label[for=yes] {
+      position: absolute;
+      left: 0px;
+      height: 20px;
+      color: #fb6969;
+    }
+    label[for=no] {
+      position: absolute;
+      right: 0px;
+    }
+    #no:checked ~ .switch {
+      background: #f00;
+    }
+    #no:checked ~ .switch span {
+      background: #fff;
+      margin-left: -8px;
+    }
+    #no:checked ~ .switch span:after {
+      background: #fff;
+      height: 20px;
+      margin-top: -8px;
+      margin-left: 8px;
+    }
+    #yes:checked ~ .switch label[for=yes] {
+      color: #fff;
+    }
+    #no:checked ~ .switch label[for=no] {
+      color: #fff;
+    }  
+  }    
 /* delete form */
 .deleteFotoButton {
   cursor: pointer;

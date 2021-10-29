@@ -4,7 +4,7 @@ import { withRouter } from "react-router";
 import { Helmet } from 'react-helmet';
 import Forbidden from "../../other/forbidden";
 import { Breadcrumb } from '../../../components/menu';
-import { InputText,InputPassword,Cards } from '../../../components/forms';
+import { InputText,InputPassword,Cards,Switcher } from '../../../components/forms';
 import { ToastContainer, toast } from 'react-toastify';
 import Cropper from "react-cropper";
 
@@ -70,7 +70,7 @@ class PageSekolahPendidikAdd extends React.Component{
               </div>
               <div className="w-100 mb3">
                 <label className="f5 fw4 db mb2">Jenis kelamin</label>
-                <select className="pa2 db w-100" value={jenis} onChange={this.handleSelectJenis}>
+                <select className="pa2 db w-30" value={jenis} onChange={this.handleSelectJenis}>
                   <option label="Pria" value="pria"/>
                   <option label="Perempuan" value="perempuan"/>
                 </select>                
@@ -87,7 +87,7 @@ class PageSekolahPendidikAdd extends React.Component{
                 )}
                 <div className="flex flex-wrap pa3" style={{background:"#f3f3f3",border:"1px solid rgba(0, 0, 0, 0.125)"}}>
                 {mapelData.length > 0 && !isLoading && mapelData.map((value,k) => (
-                  <label key={k} className="checkbox-container mr4" style={{color:value.color}}>{value.nama}                    
+                  <label key={k} className="checkbox-container mr4 mb3" style={{color:value.color}}>{value.nama}                    
                     <input type="checkbox" onChange={() => this.handleMapelChecked(value.id)}/>
                     <span className="checkmark"></span>
                   </label>  
@@ -96,12 +96,7 @@ class PageSekolahPendidikAdd extends React.Component{
               </div>
               <div className="w-100 mb3">
                 <label className="f5 fw4 db mb2">Superuser akses</label>
-                <div className="toggle"> 
-                  <label className="switch" htmlFor="checkbox" onClick={() => this.handleSwitchChangeSuperuser()}>
-                    <input type="checkbox" checked={superuser} value={superuser} onChange={(e) => console.log(e.target.value)}/>
-                    <div className="slider round"></div>
-                  </label>                                   
-                </div>
+                <Switcher value={superuser} yesClick={() => this.setState({superuser:true})} noClick={() => this.setState({superuser:false})} yesLabel="Aktif" noLabel="Tidak"/>
               </div>
               <div className="w-100 mb3">
                 <label className="f5 fw4 db mb2">Username</label>
@@ -144,7 +139,7 @@ class PageSekolahPendidikAdd extends React.Component{
               </div>              
             </div>
             <div className="w-30 pa3">              
-              <button type="submit" style={{cursor: "pointer"}} className={`${uploadClass} w-100 tc b f7 link br2 ba ph3 pv2 dib white bg-primary b--primary mb3`} disabled={uploadDisable} onClick={this.newUserPendidik}>Tambahkan</button>              
+              <button type="submit" style={{cursor: "pointer"}} className={`${uploadClass} dim w-100 tc b f7 link br2 ba ph3 pv2 dib white bg-primary b--primary mb3`} disabled={uploadDisable} onClick={this.newUserPendidik}>Tambahkan</button>              
               <div className="mb3 pa2 " style={{border:"3px dashed rgba(0, 0, 0, 0.125)"}}>
                 {croppedImageUrl ? (
                   <img alt="Crop" style={{ maxWidth: '100%' }} src={croppedImageUrl} />
@@ -170,10 +165,6 @@ class PageSekolahPendidikAdd extends React.Component{
     }else{
       this.setState({ [name]: value});
     }    
-  }
-  handleSwitchChangeSuperuser = () => {
-    const {superuser} =  this.state;  
-    this.setState({superuser:!superuser});
   }
   _crop = () => {         
     const foto = this.cropper.getCroppedCanvas({

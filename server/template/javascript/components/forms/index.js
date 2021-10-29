@@ -5,6 +5,7 @@ import InputText from "./text";
 import InputNumber from "./number";
 import InputSearch from "./search";
 import InputColor from "./color";
+import Switcher from "./switch";
 
 export {
     Cards,
@@ -14,4 +15,5 @@ export {
     InputSearch,  
     InputNumber,
     InputColor,
+    Switcher,
 }

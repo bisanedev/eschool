@@ -85,7 +85,7 @@ class PageSekolahPendidikAdd extends React.Component{
                   </span>
                 </header> 
                 )}
-                <div className="flex flex-wrap pa3" style={{background:"#f3f3f3",border:"1px solid rgba(0, 0, 0, 0.125)"}}>
+                <div className="flex flex-wrap ph3 pt3" style={{background:"#f3f3f3",border:"1px solid rgba(0, 0, 0, 0.125)"}}>
                 {mapelData.length > 0 && !isLoading && mapelData.map((value,k) => (
                   <label key={k} className="checkbox-container mr4 mb3" style={{color:value.color}}>{value.nama}                    
                     <input type="checkbox" onChange={() => this.handleMapelChecked(value.id)}/>

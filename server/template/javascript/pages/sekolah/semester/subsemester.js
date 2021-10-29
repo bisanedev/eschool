@@ -175,7 +175,7 @@ class PageSekolahSemesterSub extends React.Component{
           show={showEdit}
           height="360px"
           width="400px" 
-          title="Merubah data semester" 
+          title="Mengubah data semester" 
           close={() => this.setState({showEdit:false})}        
           onClick={() => this.ubahData()}
         >

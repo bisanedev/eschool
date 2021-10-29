@@ -61,8 +61,12 @@ class PageLogin extends React.Component{
   handleInputChange = (event) => {
     const target = event.target;
     const value = target.type === 'checkbox' ? target.checked : target.value;
-    const name = target.name;
-    this.setState({[name]: value});
+    const name = target.name;    
+    if(name === "username"){
+      this.setState({ [name]: value.split(" ").join("")});
+    }else{
+      this.setState({ [name]: value});
+    } 
   } 
   //submit
   SubmitLogin = () => {

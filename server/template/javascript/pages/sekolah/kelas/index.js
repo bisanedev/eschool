@@ -146,7 +146,7 @@ class PageSekolahKelas extends React.Component{
           show={showEdit}
           height="200px"
           width="400px" 
-          title="Merubah data tingkat kelas" 
+          title="Mengubah data tingkat kelas" 
           close={() => this.setState({showEdit:false})}        
           onClick={() => this.ubahData()}
         >

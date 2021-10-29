@@ -62,12 +62,12 @@ class PageSekolahPendidikEdit extends React.Component{
           <div className="subtitle">Halaman informasi untuk users & pendidik</div>
           <Breadcrumb homeUrl="/sekolah" homeText="Sekolah">
             <li><a href="#/sekolah/pendidik"><span>Users & pendidik</span></a></li>   
-            <li><a href={"#/sekolah/pendidik/edit/"+this.userID}><span>Merubah data</span></a></li> 
-            <li><a href="#"><span>Users & pendidik</span></a></li>  
+            <li><a href={"#/sekolah/pendidik/edit/"+this.userID}><span>{rawUsername === "" ? "memuat":rawUsername}</span></a></li> 
+            <li><a href="#"><span>Mengubah data</span></a></li>  
           </Breadcrumb>     
         </div>
         <div className="mw9 center cf ph3 mb3">
-          <Cards title="Merubah informasi users & pendidik" bodyClass="flex">
+          <Cards title="Mengubah informasi users & pendidik" bodyClass="flex">
             <div className="w-70 pa3">
               <div className="w-100 mb3">
                 <label className="f5 fw4 db mb2">Nama lengkap</label>
@@ -184,8 +184,12 @@ class PageSekolahPendidikEdit extends React.Component{
   handleInputChange = (event) => {
     const target = event.target;
     const value = target.type === 'checkbox' ? target.checked : target.value;
-    const name = target.name;    
-    this.setState({[name]: value});
+    const name = target.name;
+    if(name === "username"){
+      this.setState({ [name]: value.split(" ").join("")});
+    }else{
+      this.setState({ [name]: value});
+    }    
   } 
   handleSwitchChangeSuperuser = () => {    
     const {superuser} =  this.state;    

@@ -149,7 +149,7 @@ class PageSekolahMapel extends React.Component{
           show={showEdit}
           height="410px"
           width="400px" 
-          title="Merubah data mata pelajaran" 
+          title="Mengubah data mata pelajaran" 
           close={() => this.setState({showEdit:false})}        
           onClick={() => this.ubahData()}
         >

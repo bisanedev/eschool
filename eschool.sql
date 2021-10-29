@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 25, 2021 at 06:22 PM
+-- Generation Time: Oct 29, 2021 at 11:08 AM
 -- Server version: 10.4.19-MariaDB
 -- PHP Version: 8.0.7
 
@@ -72,9 +72,19 @@ INSERT INTO `kelas_tingkatan` (`id`, `nama`) VALUES
 
 CREATE TABLE `mapel` (
   `id` int(11) NOT NULL,
-  `nama` varchar(300) NOT NULL,
+  `nama` varchar(60) NOT NULL,
   `color` varchar(30) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `mapel`
+--
+
+INSERT INTO `mapel` (`id`, `nama`, `color`) VALUES
+(1, 'Matematika', '#426131'),
+(2, 'IPA', '#e07a08'),
+(3, 'Fisika', '#5f4d92'),
+(6, 'Biologi', '#1047c2');
 
 -- --------------------------------------------------------
 
@@ -128,6 +138,7 @@ CREATE TABLE `users` (
   `jenis` varchar(20) NOT NULL,
   `username` varchar(30) NOT NULL,
   `password` varchar(300) NOT NULL,
+  `foto` tinyint(1) NOT NULL,
   `mapel_id` varchar(300) DEFAULT NULL,
   `superuser` tinyint(1) NOT NULL,
   `expired_token` int(11) DEFAULT NULL,
@@ -139,9 +150,10 @@ CREATE TABLE `users` (
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `nama`, `jenis`, `username`, `password`, `mapel_id`, `superuser`, `expired_token`, `unique_token`, `device_token`) VALUES
-(1, 'Administrator', 'pria', 'admin', '$2a$10$uJWzRaqj52lXZGP6yeG0..g6S8EfynirIddkDM3XdmbfGY5x5vrti', NULL, 1, 1666627035, '6175825be382a', ''),
-(2, 'Marbuah Almakaroni', 'perempuan', 'marbuah', '$2a$12$K/vRFyhWiIwitDqY5fcqQOIZvWGlfplnOJPbkOYuJm8RshDC5V9gG', NULL, 0, 1666331797, '61710115a6eff', '');
+INSERT INTO `users` (`id`, `nama`, `jenis`, `username`, `password`, `foto`, `mapel_id`, `superuser`, `expired_token`, `unique_token`, `device_token`) VALUES
+(1, 'Administrator', 'pria', 'admin', '$2a$10$uJWzRaqj52lXZGP6yeG0..g6S8EfynirIddkDM3XdmbfGY5x5vrti', 1, '[]', 1, 1667033624, '617bb6981fe29', ''),
+(2, 'Marbuah Almakaroni', 'perempuan', 'marbuah', '$2a$12$K/vRFyhWiIwitDqY5fcqQOIZvWGlfplnOJPbkOYuJm8RshDC5V9gG', 1, '[\"1\"]', 1, 1667033990, '617bb80669824', ''),
+(15, 'Adhisti Arisha ', 'perempuan', 'adhisti', '$2a$10$F/T0Q2n9I6blfK4YsY9FYO6xQxOOnoYdmLAnlZKnwBUmLCz8Psc7.', 1, '[\"6\"]', 0, NULL, '', NULL);
 
 --
 -- Indexes for dumped tables
@@ -194,25 +206,25 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `kelas_nama`
 --
 ALTER TABLE `kelas_nama`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `kelas_tingkatan`
 --
 ALTER TABLE `kelas_tingkatan`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `mapel`
 --
 ALTER TABLE `mapel`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `semester_nama`
 --
 ALTER TABLE `semester_nama`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `semester_tahun`
@@ -224,7 +236,7 @@ ALTER TABLE `semester_tahun`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- Constraints for dumped tables

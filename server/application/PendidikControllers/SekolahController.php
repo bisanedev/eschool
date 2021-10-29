@@ -467,6 +467,7 @@ class SekolahController extends ApiController
                 echo $this->response->json_response(400,"Password konfirmasi tidak sama");
                 exit;
             }
+            
             $ciphertext = $bcrypt->encrypt($_POST["password"],"2a");
             // if ada foto            
             if (!empty($_FILES["file"])) {
@@ -493,6 +494,10 @@ class SekolahController extends ApiController
                     $this->database->insert("users",
                         ["nama" => $_POST["nama"],"jenis" => $_POST["jenis"],"username" => $_POST["username"],"foto" => "1","password" => $ciphertext ,"mapel_id" => $_POST["mapel_id"],"superuser" => $_POST["superuser"]]
                     );
+                    if($this->database->error){
+                        echo $this->response->json_response(400,"Username sudah ada");
+                        exit;
+                    }
                     echo $this->response->json_response(200,"berhasil");
                 }else{                
                     echo $this->response->json_response(400, "Maaf, terjadi kesalahan saat mengunggah file Anda");
@@ -501,7 +506,11 @@ class SekolahController extends ApiController
                 // insert new users to database       
                 $this->database->insert("users",
                     ["nama" => $_POST["nama"],"jenis" => $_POST["jenis"],"username" => $_POST["username"],"password" => $ciphertext ,"mapel_id" => $_POST["mapel_id"],"superuser" => $_POST["superuser"]]
-                );        
+                );  
+                if($this->database->error){
+                    echo $this->response->json_response(400,"Username sudah ada");
+                    exit;
+                }      
                 echo $this->response->json_response(200, "berhasil");
             }
         }else{
@@ -566,6 +575,10 @@ class SekolahController extends ApiController
                             ["nama" => $_POST["nama"],"jenis" => $_POST["jenis"],"username" => $_POST["username"],"foto" => "1","mapel_id" => $_POST["mapel_id"],"superuser" => $_POST["superuser"]],
                             ["id" => $_POST["id"]]
                         );
+                        if($this->database->error){
+                            echo $this->response->json_response(400,"Username sudah ada");
+                            exit;
+                        }
                         echo $this->response->json_response(200, "berhasil");
                     }else{
                         $ciphertext = $bcrypt->encrypt($_POST["password"],"2a");
@@ -573,6 +586,10 @@ class SekolahController extends ApiController
                             ["nama" => $_POST["nama"],"jenis" => $_POST["jenis"],"username" => $_POST["username"],"foto" => "1","password" => $ciphertext,"mapel_id" => $_POST["mapel_id"],"superuser" => $_POST["superuser"]],
                             ["id" => $_POST["id"]]
                         );
+                        if($this->database->error){
+                            echo $this->response->json_response(400,"Username sudah ada");
+                            exit;
+                        }
                         echo $this->response->json_response(200, "berhasil");
                     }
                 }else{                
@@ -585,6 +602,10 @@ class SekolahController extends ApiController
                         ["nama" => $_POST["nama"],"jenis" => $_POST["jenis"],"username" => $_POST["username"],"mapel_id" => $_POST["mapel_id"],"superuser" => $_POST["superuser"]],
                         ["id" => $_POST["id"]]
                     );
+                    if($this->database->error){
+                        echo $this->response->json_response(400,"Username sudah ada");
+                        exit;
+                    }
                     echo $this->response->json_response(200, "berhasil");
                 }else{
                     $ciphertext = $bcrypt->encrypt($_POST["password"],"2a");
@@ -592,6 +613,10 @@ class SekolahController extends ApiController
                         ["nama" => $_POST["nama"],"jenis" => $_POST["jenis"],"username" => $_POST["username"],"password" => $ciphertext,"mapel_id" => $_POST["mapel_id"],"superuser" => $_POST["superuser"]],
                         ["id" => $_POST["id"]]
                     );
+                    if($this->database->error){
+                        echo $this->response->json_response(400,"Username sudah ada");
+                        exit;
+                    }
                     echo $this->response->json_response(200, "berhasil");
                 }
             }                      

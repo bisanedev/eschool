@@ -47,8 +47,7 @@ class PageSekolahPendidikEdit extends React.Component{
 
   render() { 
     const {tokenData} = this.props;
-    const {jenis,mapelData,mapel,nama,username,superuser,isLoading,src,croppedImageUrl,errorSelect,uploadProgress,uploadDisable,rawUsername,showHapusFoto,foto} = this.state;
-    //let foto = <img src={"data/users/"+rawUsername+".jpg?nocache="+Date.now()} onError={(e)=>{e.target.onerror = null;e.target.src=jenis==="pria" ? "assets/images/cowok.png":"assets/images/cewek.png"}} />;    
+    const {jenis,mapelData,mapel,nama,username,superuser,isLoading,src,croppedImageUrl,errorSelect,uploadProgress,uploadDisable,rawUsername,showHapusFoto,foto} = this.state;    
     const uploadClass = uploadProgress ? "progress-active":"";    
     return (
     <>  

@@ -52,7 +52,8 @@ class ProfileController extends ApiController
 
     public function uploadFoto()
     {                    
-        $filename = $this->token->claims()->get('username');        
+        $filename = $this->token->claims()->get('username'); 
+        $id = $this->token->claims()->get('uid');
         if (empty($_FILES["file"])) {
             echo $this->response->json_response(400, "File gambar kosong !!");
             exit;
@@ -76,9 +77,27 @@ class ProfileController extends ApiController
             exit; 
         }
         if ($this->compressImage($_FILES['file']['tmp_name'],$location,60)) {
+            $this->database->update("users",["foto" => "1"],["id" => $id]);
             echo $this->response->json_response(200,"berhasil");
         }else{                
             echo $this->response->json_response(400, "Maaf, terjadi kesalahan saat mengunggah file Anda");
+        }
+    }
+
+    
+    public function fotoProfileDelete()
+    {
+        $_DELETE = RequestParser::parse()->params; 
+        $v = new Validator($_DELETE);
+        $v->rule('required', ['id','username']);
+        if($v->validate()) {
+            unlink(__DIR__ ."/../../public/data/users/".$_DELETE["username"].".jpg");
+            $this->database->update("users",["foto" => "0"],["id" => $_DELETE["id"]]);
+            echo $this->response->json_response(200,"berhasil");     
+        }else{
+            if($v->errors('delete')){
+                echo $this->response->json_response(400,"id data kosong"); 
+            }  
         }
     }
 

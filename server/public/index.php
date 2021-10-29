@@ -28,6 +28,8 @@ $dispatcher = FastRoute\simpleDispatcher(function (RouteCollector $r) {
         //profile
         $r->addRoute('POST', '/profile/upload', ['App\PendidikControllers\ProfileController','uploadFoto']);
         $r->addRoute('PATCH', '/profile/password', ['App\PendidikControllers\ProfileController','gantiPassword']);
+        $r->addRoute('DELETE', '/profile/foto', ['App\PendidikControllers\ProfileController','fotoProfileDelete']);
+        
         //sekolah
         $r->addRoute('GET', '/sekolah/tingkatan', ['App\PendidikControllers\SekolahController','tingkatan']); 
         $r->addRoute('POST', '/sekolah/tingkatan', ['App\PendidikControllers\SekolahController','tingkatanAdd']);

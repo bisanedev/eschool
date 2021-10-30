@@ -108,8 +108,8 @@ class PageSekolahMapel extends React.Component{
               onEdit={() => this.onEdit(value)}
             />     
           ))} 
-          {isLoading && <Table.Loading nama="tingkatan" /> } 
-          {data.length === 0 && !isLoading && <Table.Empty nama="tingkatan" /> } 
+          {isLoading && <Table.Loading nama="mata pelajaran" /> } 
+          {data.length === 0 && !isLoading && <Table.Empty nama="mata pelajaran" /> } 
           </Table.Body>
           <Table.Footer>
             <div className="w-50 ph2">

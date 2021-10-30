@@ -107,8 +107,8 @@ class PageSekolahPendidik extends React.Component{
                 ))}
               </Table.DataProfile>     
           ))} 
-          {isLoading && <Table.Loading nama="tingkatan" /> } 
-          {data.length === 0 && !isLoading && <Table.Empty nama="tingkatan" /> } 
+          {isLoading && <Table.Loading nama="pendidik" /> } 
+          {data.length === 0 && !isLoading && <Table.Empty nama="pendidik" /> } 
           </Table.Body>
           <Table.Footer>
             <div className="w-50 ph2">

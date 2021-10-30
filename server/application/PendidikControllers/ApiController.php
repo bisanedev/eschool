@@ -39,12 +39,12 @@ class ApiController
             }                        
                       
             //-------- cek user
-            $cekUser = $this->database->select("users",["username"],[
+            $cekUser = $this->database->select("users",["username","superuser"],[
                 "unique_token" => $token->claims()->get('uniqueToken'),
                 "expired_token" => $token->claims()->get('exp')->getTimestamp(),
                 "id" => $token->claims()->get('uid')
             ]); 
-            
+            $this->user = $cekUser;
             if(empty($cekUser)){                
                 echo $this->response->json_response(401, "Token user tidak ditemukan, Silahkan logout dan login kembali");                
                 exit; 
@@ -74,7 +74,7 @@ class ApiController
 
     public function hasSuperuser()
     {
-        if($this->token->claims()->get('superuser') != true){        
+        if($this->user[0]["superuser"] != "1"){        
             echo $this->response->json_response(401, "Akses Superuser Dibutuhkan");
             exit;
         }

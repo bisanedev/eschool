@@ -65,7 +65,7 @@ class PageSekolahSiswa extends React.Component{
         <Table>
           <Table.Header>
             <div className="w-50 ph2 flex">
-              <a type="submit" href="#/sekolah/siswa/add" style={{cursor: "pointer",borderColor:"#0191d7"}} className="link dim br1 ba pa2 dib white bg-primary mr2">
+              <a type="submit" href="#/sekolah/siswa/add" style={{cursor: "pointer",borderColor:"#0191d7"}} className="flex items-center justify-center link dim br1 ba pa2 dib white bg-primary mr2">
                 <i className="fas fa-plus" style={{fontSize:"18px"}}/>
               </a>
               <select className="pa2 db w-40" value={kelas} onChange={this.handleSelectKelas}>
@@ -117,8 +117,8 @@ class PageSekolahSiswa extends React.Component{
                 {value.kelas}  
               </Table.DataProfile>     
           ))} 
-          {isLoading && <Table.Loading nama="tingkatan" /> } 
-          {data.length === 0 && !isLoading && <Table.Empty nama="tingkatan" /> } 
+          {isLoading && <Table.Loading nama="siswa" /> } 
+          {data.length === 0 && !isLoading && <Table.Empty nama="siswa" /> } 
           </Table.Body>
           <Table.Footer>
             <div className="w-50 ph2">

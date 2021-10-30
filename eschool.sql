@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 30, 2021 at 03:10 PM
+-- Generation Time: Oct 30, 2021 at 03:23 PM
 -- Server version: 10.4.19-MariaDB
 -- PHP Version: 8.0.7
 
@@ -158,7 +158,7 @@ INSERT INTO `siswa` (`id`, `nama`, `jenis`, `username`, `foto`, `no_absens`, `ke
 (1, 'Adisty Titania', 'p', 'adisty', 1, 1, 1, '$2a$10$j4g.KF0zfxqSNAZouFPJHe7bz/VvgrzGOyFilfc.PMiUzY4zwgcEK', 0, '', ''),
 (2, 'Auristela Allisya Lesham Shaenette', 'p', 'auristela', 1, 2, 1, '$2a$10$Y.rlT1vKIWPpkb68XsS7ZeJTrw3gJL3nsCIHI5A6.EBMPyIUOZpdW', NULL, NULL, NULL),
 (3, 'Mandeliman', 'l', 'mandeliman', 0, 1, 2, '$2a$10$eSAZXak6xEZFFFBBS6Y6fuAu1VN4Ac2cHx5gFcYAm/qEQTrTPiQ4u', NULL, NULL, NULL),
-(4, 'Maho Man', 'l', 'mohot', 0, 2, 2, '$2a$10$Q66RXXyIgvFpCa2V5iFk0uR/2JJZZ15Ls6pkrQtnr8I4GGxTtp2cu', NULL, NULL, NULL);
+(4, 'Maho Man', 'l', 'moho', 1, 2, 2, '$2a$10$Q66RXXyIgvFpCa2V5iFk0uR/2JJZZ15Ls6pkrQtnr8I4GGxTtp2cu', NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -186,7 +186,7 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`id`, `nama`, `jenis`, `username`, `password`, `foto`, `mapel_id`, `superuser`, `expired_token`, `unique_token`, `device_token`) VALUES
 (1, 'Administrator', 'l', 'admin', '$2a$10$uJWzRaqj52lXZGP6yeG0..g6S8EfynirIddkDM3XdmbfGY5x5vrti', 1, '[]', 1, 1667138713, '617d4309a3ecc', ''),
-(2, 'Marbuah Almakaroni', 'p', 'marbuah', '$2a$12$K/vRFyhWiIwitDqY5fcqQOIZvWGlfplnOJPbkOYuJm8RshDC5V9gG', 1, '[\"1\"]', 1, 1667138124, '617d40bc44e00', ''),
+(2, 'Marbuah Almakaroni', 'p', 'marbuah', '$2a$12$K/vRFyhWiIwitDqY5fcqQOIZvWGlfplnOJPbkOYuJm8RshDC5V9gG', 1, '[\"1\"]', 1, 1667139531, '617d463b1f479', ''),
 (15, 'Adhisti Arisha ', 'p', 'adhisti', '$2a$10$F/T0Q2n9I6blfK4YsY9FYO6xQxOOnoYdmLAnlZKnwBUmLCz8Psc7.', 1, '[\"9\"]', 0, 1667138888, '617d43b8b5331', NULL);
 
 --

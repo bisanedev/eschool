@@ -14,7 +14,7 @@ class PageSekolahPendidikAdd extends React.Component{
     super(props);
     this.state = {
       nama:"",
-      jenis:"pria",
+      jenis:"l",
       src: "",
       errorSelect:"",
       croppedImageUrl:"",            
@@ -42,7 +42,7 @@ class PageSekolahPendidikAdd extends React.Component{
   render() { 
     const {tokenData} = this.props;
     const {jenis,mapelData,superuser,isLoading,src,croppedImageUrl,errorSelect,uploadProgress,uploadDisable} = this.state; 
-    let foto = <img src={jenis === "pria" ? "assets/images/cowok.png":"assets/images/cewek.png"} />;  
+    let foto = <img src={jenis === "l" ? "assets/images/cowok.png":"assets/images/cewek.png"} />;  
     const uploadClass = uploadProgress ? "progress-active":"";    
     return (
     <>  
@@ -64,16 +64,18 @@ class PageSekolahPendidikAdd extends React.Component{
         <div className="mw9 center cf ph3 mb3">
           <Cards title="Masukan informasi users & pendidik baru" bodyClass="flex">
             <div className="w-70 pa3">
-              <div className="w-100 mb3">
-                <label className="f5 fw4 db mb2">Nama lengkap</label>
-                <InputText name="nama" placeholder="ketik nama lengkap disini" onChange={this.handleInputChange}/>
-              </div>
-              <div className="w-100 mb3">
-                <label className="f5 fw4 db mb2">Jenis kelamin</label>
-                <select className="pa2 db w-30" value={jenis} onChange={this.handleSelectJenis}>
-                  <option label="Pria" value="pria"/>
-                  <option label="Perempuan" value="perempuan"/>
-                </select>                
+              <div className="w-100 mb3 flex">
+                <div className="w-70">
+                    <label className="f5 fw4 db mb2">Nama lengkap</label>
+                    <InputText name="nama" placeholder="ketik nama lengkap disini" onChange={this.handleInputChange}/>
+                </div>
+                <div className="w-30 ml2">
+                    <label className="f5 fw4 db mb2">Jenis kelamin</label>
+                    <select className="pa2 db w-100" value={jenis} onChange={this.handleSelectJenis}>
+                      <option label="Laki-laki" value="l"/>
+                      <option label="Perempuan" value="p"/>
+                    </select> 
+                </div>                
               </div>
               <div className="w-100 mb3">
                 <label className="f5 fw4 db mb2">Mata Pelajaran</label>
@@ -93,23 +95,27 @@ class PageSekolahPendidikAdd extends React.Component{
                   </label>  
                 ))}
                 </div>
+              </div>              
+              <div className="w-100 mb3 flex">
+                <div className="w-70">
+                  <label className="f5 fw4 db mb2">Username</label>
+                  <InputText name="username" placeholder="ketik username yang di inginkan disini" onChange={this.handleInputChange}/>
+                </div>
+                <div className="w-30 ml2">
+                  <label className="f5 fw4 db mb2">Superuser akses</label>
+                  <Switcher value={superuser} yesClick={() => this.setState({superuser:true})} noClick={() => this.setState({superuser:false})} yesLabel="Aktif" noLabel="Tidak"/>
+                </div>                
               </div>
-              <div className="w-100 mb3">
-                <label className="f5 fw4 db mb2">Superuser akses</label>
-                <Switcher value={superuser} yesClick={() => this.setState({superuser:true})} noClick={() => this.setState({superuser:false})} yesLabel="Aktif" noLabel="Tidak"/>
-              </div>
-              <div className="w-100 mb3">
-                <label className="f5 fw4 db mb2">Username</label>
-                <InputText name="username" placeholder="ketik username yang di inginkan disini" onChange={this.handleInputChange}/>
-              </div>
-              <div className="w-100 mb3">
-                <label className="f5 fw4 db mb2">Password</label>
-                <InputPassword name="password" onChange={this.handleInputChange}/>                
-              </div>
-              <div className="w-100 mb3">
-                <label className="f5 fw4 db mb2">Ketik ulang password</label>
-                <InputPassword name="rePassword" onChange={this.handleInputChange}/>                
-              </div>
+              <div className="w-100 mb3 flex">
+                <div className="w-50">
+                    <label className="f5 fw4 db mb2">Password</label>
+                    <InputPassword name="password" onChange={this.handleInputChange}/> 
+                </div>
+                <div className="w-50 ml2">
+                    <label className="f5 fw4 db mb2">Ketik ulang password</label>
+                    <InputPassword name="rePassword" onChange={this.handleInputChange}/>   
+                </div>               
+              </div> 
               <div className="w-100 mb3">
                 <label className="f5 fw4 db mb2">Foto profil (Opsional)</label>
                 <div className="flex justify-between mb3">

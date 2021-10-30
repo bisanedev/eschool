@@ -48,7 +48,7 @@ class PageProfile extends React.Component{
                  <img src={"data/users/"+this.tokenData.username+".jpg?nocache="+Date.now()} onError={(e)=>{e.target.onerror = null;this.setState({foto:false})}}/>
                 </div>
                 :
-                <img src={this.tokenData.jenis === "pria" ? "assets/images/cowok.png":"assets/images/cewek.png"}/> 
+                <img src={this.tokenData.jenis === "l" ? "assets/images/cowok.png":"assets/images/cewek.png"}/> 
               }
             </div>
             <div className="profile-button">                

@@ -407,7 +407,7 @@ class PageSekolahSemesterSub extends React.Component{
     }).then(response => {
       if(response.data.status == true)
       {        
-        this.setState({showDelete:false},() => this.fetchData(this.semesterID));        
+        this.setState({showDelete:false,selected:[]},() => this.fetchData(this.semesterID));        
       }
     }).catch(error => {
       if(error.response.status == 401){

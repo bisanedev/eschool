@@ -333,7 +333,7 @@ class PageSekolahSemester extends React.Component{
     }).then(response => {
       if(response.data.status == true)
       {        
-        this.setState({showDelete:false},() => this.fetchData());        
+        this.setState({showDelete:false,selected:[]},() => this.fetchData());        
       }
     }).catch(error => {
       if(error.response.status == 401){

@@ -492,7 +492,7 @@ class SekolahController extends ApiController
                 if ($this->compressImage($_FILES['file']['tmp_name'],$location,60)) {
                     // insert new users with foto to database       
                     $this->database->insert("users",
-                        ["nama" => $_POST["nama"],"jenis" => $_POST["jenis"],"username" => $_POST["username"],"foto" => "1","password" => $ciphertext ,"mapel_id" => $_POST["mapel_id"],"superuser" => $_POST["superuser"]]
+                        ["nama" => $_POST["nama"],"jenis" => $_POST["jenis"],"username" => strtolower($_POST["username"]),"foto" => "1","password" => $ciphertext ,"mapel_id" => $_POST["mapel_id"],"superuser" => $_POST["superuser"]]
                     );
                     if($this->database->error){
                         echo $this->response->json_response(400,"Username sudah ada");
@@ -505,7 +505,7 @@ class SekolahController extends ApiController
             }else{
                 // insert new users to database       
                 $this->database->insert("users",
-                    ["nama" => $_POST["nama"],"jenis" => $_POST["jenis"],"username" => $_POST["username"],"password" => $ciphertext ,"mapel_id" => $_POST["mapel_id"],"superuser" => $_POST["superuser"]]
+                    ["nama" => $_POST["nama"],"jenis" => $_POST["jenis"],"username" => strtolower($_POST["username"]),"password" => $ciphertext ,"mapel_id" => $_POST["mapel_id"],"superuser" => $_POST["superuser"]]
                 );  
                 if($this->database->error){
                     echo $this->response->json_response(400,"Username sudah ada");
@@ -572,7 +572,7 @@ class SekolahController extends ApiController
                     // jika password kosong
                     if(empty($_POST["password"])){
                         $this->database->update("users",
-                            ["nama" => $_POST["nama"],"jenis" => $_POST["jenis"],"username" => $_POST["username"],"foto" => "1","mapel_id" => $_POST["mapel_id"],"superuser" => $_POST["superuser"]],
+                            ["nama" => $_POST["nama"],"jenis" => $_POST["jenis"],"username" => strtolower($_POST["username"]),"foto" => "1","mapel_id" => $_POST["mapel_id"],"superuser" => $_POST["superuser"]],
                             ["id" => $_POST["id"]]
                         );
                         if($this->database->error){
@@ -583,7 +583,7 @@ class SekolahController extends ApiController
                     }else{
                         $ciphertext = $bcrypt->encrypt($_POST["password"],"2a");
                         $this->database->update("users",
-                            ["nama" => $_POST["nama"],"jenis" => $_POST["jenis"],"username" => $_POST["username"],"foto" => "1","password" => $ciphertext,"mapel_id" => $_POST["mapel_id"],"superuser" => $_POST["superuser"]],
+                            ["nama" => $_POST["nama"],"jenis" => $_POST["jenis"],"username" => strtolower($_POST["username"]),"foto" => "1","password" => $ciphertext,"mapel_id" => $_POST["mapel_id"],"superuser" => $_POST["superuser"]],
                             ["id" => $_POST["id"]]
                         );
                         if($this->database->error){
@@ -599,7 +599,7 @@ class SekolahController extends ApiController
                 // tanpa foto dan jika password kosong
                 if(empty($_POST["password"])){
                     $this->database->update("users",
-                        ["nama" => $_POST["nama"],"jenis" => $_POST["jenis"],"username" => $_POST["username"],"mapel_id" => $_POST["mapel_id"],"superuser" => $_POST["superuser"]],
+                        ["nama" => $_POST["nama"],"jenis" => $_POST["jenis"],"username" => strtolower($_POST["username"]),"mapel_id" => $_POST["mapel_id"],"superuser" => $_POST["superuser"]],
                         ["id" => $_POST["id"]]
                     );
                     if($this->database->error){
@@ -610,7 +610,7 @@ class SekolahController extends ApiController
                 }else{
                     $ciphertext = $bcrypt->encrypt($_POST["password"],"2a");
                     $this->database->update("users",
-                        ["nama" => $_POST["nama"],"jenis" => $_POST["jenis"],"username" => $_POST["username"],"password" => $ciphertext,"mapel_id" => $_POST["mapel_id"],"superuser" => $_POST["superuser"]],
+                        ["nama" => $_POST["nama"],"jenis" => $_POST["jenis"],"username" => strtolower($_POST["username"]),"password" => $ciphertext,"mapel_id" => $_POST["mapel_id"],"superuser" => $_POST["superuser"]],
                         ["id" => $_POST["id"]]
                     );
                     if($this->database->error){
@@ -651,16 +651,24 @@ class SekolahController extends ApiController
         if($v->validate()) {
             $data = json_decode($_DELETE["delete"],true);
             if($_DELETE["metode"] === "single"){
+                if($data["id"] === "1"){
+                    echo $this->response->json_response(400, "Administrator Dilarang Di Hapus");
+                    exit;
+                }
                 unlink(__DIR__ ."/../../public/data/users/".$data["username"].".jpg");
                 $hapus = $this->database->delete("users",["AND" => ["id" => $data["id"]]]);                
                 if($hapus->rowCount() === 0){
-                    echo $this->response->json_response(400,"Data tidak ditemukan".$data["id"]);
+                    echo $this->response->json_response(400,"Data tidak ditemukan ".$data["id"]);
                 }else{                
                     echo $this->response->json_response(200,"berhasil");
                 } 
             }
             if($_DELETE["metode"] === "multi"){
                 $arrayData = $this->reMapToArrayIDuserName($data);
+                if(in_array("1", $arrayData[0])){
+                    echo $this->response->json_response(400, "Administrator Dilarang Di Hapus");
+                    exit;
+                }
                 foreach ($arrayData[1] as $username) {
                     unlink(__DIR__ ."/../../public/data/users/".$username.".jpg");
                 }                
@@ -676,6 +684,331 @@ class SekolahController extends ApiController
                 echo $this->response->json_response(400,"delete id kosong"); 
             }
         }
+    }
+
+    public function siswa()
+    {                
+        $cari = isset($_GET['cari'])? (string)$_GET["cari"]:"%";        
+        $totalData = isset($_GET['total'])? (int)$_GET["total"]:1;             
+        $page = isset($_GET['page'])? (int)$_GET["page"]:1;        
+        $kelasID = isset($_GET['kelas'])? (int)$_GET["kelas"]:1;  
+        $mulai = ($page>1) ? ($page * $totalData) - $totalData :0;        
+        $kelas = $this->database->select("kelas_nama",["id","nama"]); 
+        $totalRow = $this->database->count("siswa");        
+        if(isset($_GET['cari'])){
+            $siswa = $this->database->select("siswa",["[>]kelas_nama" => ["kelas_id" => "id"]],["siswa.id","siswa.nama","siswa.jenis","siswa.username","siswa.no_absens(absen)","kelas_nama.nama(kelas)"],["siswa.nama[~]" => $cari]);
+            $data = array("data" => $siswa,"kelas" => $kelas,"totaldata" => $totalRow ,"nextpage"=> false );
+        }
+        elseif(isset($_GET['kelas'])){
+            $totalKelas = $this->database->count("siswa",["kelas_id" => $kelasID]); 
+            $siswa = $this->database->select("siswa",["[>]kelas_nama" => ["kelas_id" => "id"]],["siswa.id","siswa.nama","siswa.jenis","siswa.username","siswa.no_absens(absen)","kelas_nama.nama(kelas)"],["kelas_id" => $kelasID ,"LIMIT" => [$mulai,$totalData],"ORDER" => ["siswa.no_absens" => "ASC"]]);
+            $pages = ceil($totalRow/$totalData);
+            $nextpage = ($page < $pages) ? $page+1 : false;
+            $data = array("data" => $siswa,"kelas" => $kelas,"totaldata" => $totalKelas,"pages" => $pages,"current" => $page,"nextpage"=> $nextpage );
+        }else{
+            $siswa = $this->database->select("siswa",["[>]kelas_nama" => ["kelas_id" => "id"]],["siswa.id","siswa.nama","siswa.jenis","siswa.username","siswa.no_absens(absen)","kelas_nama.nama(kelas)"],["LIMIT" => [$mulai,$totalData],"ORDER" => ["siswa.id" => "DESC"]]); 
+            $pages = ceil($totalRow/$totalData);
+            $nextpage = ($page < $pages) ? $page+1 : false;
+            $data = array("data" => $siswa,"kelas" => $kelas,"totaldata" => $totalRow,"pages" => $pages,"current" => $page,"nextpage"=> $nextpage );
+        }                                     
+         
+        echo $this->response->json_response(200, $data);   
+    }
+
+    public function siswaKelas()
+    {
+        $kelas = $this->database->select("kelas_nama",["id","nama"]); 
+        echo $this->response->json_response(200, $kelas);
+    }
+
+    public function countSiswaKelas($id)
+    {
+        $totalSiswa = $this->database->count("siswa",["kelas_id" => $id]);
+        echo $this->response->json_response(200, $totalSiswa); 
+    }
+
+    public function siswaView($id)
+    {
+        $kelas = $this->database->select("kelas_nama",["id","nama"]);  
+        $siswa = $this->database->select("siswa",["id","nama","jenis","foto[Bool]","username","no_absens","kelas_id"],["id" => $id]);
+        $data = array("data" => $siswa[0],"kelas"=>$kelas);
+        echo $this->response->json_response(200, $data);
+    }
+
+    public function siswaFotoDelete($username)
+    {
+        $_DELETE = RequestParser::parse()->params; 
+        $v = new Validator($_DELETE);
+        $v->rule('required', ['delete']);
+        if($v->validate()) {
+            unlink(__DIR__ ."/../../public/data/siswa/".$username.".jpg");
+            $this->database->update("siswa",["foto" => "0"],["id" => $_DELETE["delete"]]);
+            echo $this->response->json_response(200,"berhasil");     
+        }else{
+            if($v->errors('delete')){
+                echo $this->response->json_response(400,"id data kosong"); 
+            }  
+        }
+    }
+
+    public function siswaAdd()
+    {        
+        $bcrypt = new Bcrypt();
+        $v = new Validator($_POST);
+        $v->rule('required', ['nama','jenis','kelas','absen','username','password','rePassword']);
+        if($v->validate()) { 
+            if($_POST["password"] != $_POST["rePassword"]){
+                echo $this->response->json_response(400,"Password konfirmasi tidak sama");
+                exit;
+            }
+            
+            $ciphertext = $bcrypt->encrypt($_POST["password"],"2a");
+            // if ada foto            
+            if (!empty($_FILES["file"])) {
+                $fileinfo = getimagesize($_FILES["file"]["tmp_name"]);
+                $width = $fileinfo[0];
+                $height = $fileinfo[1];
+                $file_type = $_FILES['file']['type'];
+                $allowed = array("image/jpeg","image/png");
+                $location = __DIR__ ."/../../public/data/siswa/".$_POST["username"].".jpg";
+                if(!in_array($file_type, $allowed)) {
+                    echo $this->response->json_response(400, "Hanya file png, jpeg dan jpg yang bisa di upload");
+                    exit;
+                }
+                if ($_FILES["file"]["size"] > 2000000) {
+                    echo $this->response->json_response(400, "Ukuran gambar melebihi 2MB");
+                    exit;      
+                }        
+                if ($width < "260" || $height < "320") {
+                    echo $this->response->json_response(400, "Gambar foto dimensi minimal 320x260");
+                    exit; 
+                }
+                if ($this->compressImage($_FILES['file']['tmp_name'],$location,60)) {
+                    // insert new siswa with foto to database       
+                    $this->database->insert("siswa",
+                        ["nama" => $_POST["nama"],"jenis" => $_POST["jenis"],"username" => strtolower($_POST["username"]),"foto" => "1","password" => $ciphertext ,"kelas_id" => $_POST["kelas"],"no_absens" => $_POST["absen"]]
+                    );
+                    if($this->database->error){
+                        echo $this->response->json_response(400,"Username sudah ada");
+                        exit;
+                    }
+                    echo $this->response->json_response(200,"berhasil");
+                }else{                
+                    echo $this->response->json_response(400, "Maaf, terjadi kesalahan saat mengunggah file Anda");
+                }
+            }else{
+                // insert new siswa to database       
+                $this->database->insert("siswa",
+                    ["nama" => $_POST["nama"],"jenis" => $_POST["jenis"],"username" => strtolower($_POST["username"]),"password" => $ciphertext ,"kelas_id" => $_POST["kelas"],"no_absens" => $_POST["absen"]]
+                );  
+                if($this->database->error){
+                    echo $this->response->json_response(400,"Username sudah ada");
+                    exit;
+                }      
+                echo $this->response->json_response(200, "berhasil");
+            }
+        }else{
+            if($v->errors('nama')){
+                echo $this->response->json_response(400,"Input nama kosong"); 
+            }  
+            elseif($v->errors('jenis')){
+                echo $this->response->json_response(400,"Input jenis kosong");
+            } 
+            elseif($v->errors('username')){
+                echo $this->response->json_response(400,"Input username kosong");
+            }
+            elseif($v->errors('password')){
+                echo $this->response->json_response(400,"Input password kosong");
+            } 
+            elseif($v->errors('rePassword')){
+                echo $this->response->json_response(400,"Input rePassword kosong");
+            }  
+            elseif($v->errors('kelas')){
+                echo $this->response->json_response(400,"Input kelas kosong");
+            } 
+            elseif($v->errors('absen')){
+                echo $this->response->json_response(400,"Input nomor absens kosong");
+            }          
+        }
+    }
+
+    public function siswaUpdate()
+    {          
+        $bcrypt = new Bcrypt();                                          
+        $v = new Validator($_POST);
+        $v->rule('required', ['id','nama','jenis','kelas','absen','username']);
+        if($v->validate()) {
+            if( !empty($_POST["password"]) && $_POST["password"] != $_POST["rePassword"]){
+                echo $this->response->json_response(400,"Password konfirmasi tidak sama");
+                exit;
+            }
+            if($_POST["username"] != $_POST["lastUsername"]){
+                unlink(__DIR__ ."/../../public/data/siswa/".$_POST["lastUsername"].".jpg");                
+            }
+            // if ada foto
+            if (!empty($_FILES["file"])) {
+                $fileinfo = getimagesize($_FILES["file"]["tmp_name"]);
+                $width = $fileinfo[0];
+                $height = $fileinfo[1];
+                $file_type = $_FILES['file']['type'];
+                $allowed = array("image/jpeg","image/png");
+                $location = __DIR__ ."/../../public/data/siswa/".$_POST["username"].".jpg";
+                if(!in_array($file_type, $allowed)) {
+                    echo $this->response->json_response(400, "Hanya file png, jpeg dan jpg yang bisa di upload");
+                    exit;
+                }
+                if ($_FILES["file"]["size"] > 2000000) {
+                    echo $this->response->json_response(400, "Ukuran gambar melebihi 2MB");
+                    exit;      
+                }        
+                if ($width < "260" || $height < "320") {
+                    echo $this->response->json_response(400, "Gambar foto dimensi minimal 320x260");
+                    exit; 
+                }
+                if ($this->compressImage($_FILES['file']['tmp_name'],$location,60)) {
+                    // jika password kosong
+                    if(empty($_POST["password"])){
+                        $this->database->update("siswa",
+                            ["nama" => $_POST["nama"],"jenis" => $_POST["jenis"],"username" => strtolower($_POST["username"]),"foto" => "1","kelas_id" => $_POST["kelas"],"no_absens" => $_POST["absen"]],
+                            ["id" => $_POST["id"]]
+                        );
+                        if($this->database->error){
+                            echo $this->response->json_response(400,"Username sudah ada");                            
+                            exit;
+                        }
+                        echo $this->response->json_response(200, "berhasil");
+                    }else{
+                        $ciphertext = $bcrypt->encrypt($_POST["password"],"2a");
+                        $this->database->update("siswa",
+                            ["nama" => $_POST["nama"],"jenis" => $_POST["jenis"],"username" => strtolower($_POST["username"]),"foto" => "1","password" => $ciphertext,"kelas_id" => $_POST["kelas"],"no_absens" => $_POST["absen"]],
+                            ["id" => $_POST["id"]]
+                        );
+                        if($this->database->error){
+                            echo $this->response->json_response(400,"Username sudah ada");
+                            exit;
+                        }
+                        echo $this->response->json_response(200, "berhasil");
+                    }
+                }else{                
+                    echo $this->response->json_response(400, "Maaf, terjadi kesalahan saat mengunggah file Anda");
+                }
+            }else{
+                // tanpa foto dan jika password kosong
+                if(empty($_POST["password"])){
+                    $this->database->update("siswa",
+                        ["nama" => $_POST["nama"],"jenis" => $_POST["jenis"],"username" => strtolower($_POST["username"]),"kelas_id" => $_POST["kelas"],"no_absens" => $_POST["absen"]],
+                        ["id" => $_POST["id"]]
+                    );
+                    if($this->database->error){
+                        echo $this->response->json_response(400,"Username sudah ada");                        
+                        exit;
+                    }
+                    echo $this->response->json_response(200, "berhasil");
+                }else{
+                    $ciphertext = $bcrypt->encrypt($_POST["password"],"2a");
+                    $this->database->update("siswa",
+                        ["nama" => $_POST["nama"],"jenis" => $_POST["jenis"],"username" => strtolower($_POST["username"]),"password" => $ciphertext,"kelas_id" => $_POST["kelas"],"no_absens" => $_POST["absen"]],
+                        ["id" => $_POST["id"]]
+                    );
+                    if($this->database->error){
+                        echo $this->response->json_response(400,"Username sudah ada");
+                        exit;
+                    }
+                    echo $this->response->json_response(200, "berhasil");
+                }
+            }                      
+        }else{
+            if($v->errors('nama')){
+                echo $this->response->json_response(400,"Input nama kosong"); 
+            }
+            elseif($v->errors('id')){
+                echo $this->response->json_response(400,"id data kosong");
+            }
+            elseif($v->errors('jenis')){
+                echo $this->response->json_response(400,"Input jenis kosong");
+            } 
+            elseif($v->errors('username')){
+                echo $this->response->json_response(400,"Input username kosong");
+            }
+            elseif($v->errors('password')){
+                echo $this->response->json_response(400,"Input password kosong");
+            }             
+            elseif($v->errors('kelas')){
+                echo $this->response->json_response(400,"Input kelas kosong");
+            } 
+            elseif($v->errors('absen')){
+                echo $this->response->json_response(400,"Input nomor absens kosong");
+            } 
+                          
+        }
+    }
+
+    public function siswaDelete()
+    {   
+        $_DELETE = RequestParser::parse()->params;        
+        $v = new Validator($_DELETE);
+        $v->rule('required', ['delete','metode']);
+        if($v->validate()) {
+            $data = json_decode($_DELETE["delete"],true);
+            if($_DELETE["metode"] === "single"){
+                unlink(__DIR__ ."/../../public/data/siswa/".$data["username"].".jpg");
+                $hapus = $this->database->delete("siswa",["AND" => ["id" => $data["id"]]]);                
+                if($hapus->rowCount() === 0){
+                    echo $this->response->json_response(400,"Data tidak ditemukan".$data["id"]);
+                }else{                
+                    echo $this->response->json_response(200,"berhasil");
+                } 
+            }
+            if($_DELETE["metode"] === "multi"){
+                $arrayData = $this->reMapToArrayIDuserName($data);
+                foreach ($arrayData[1] as $username) {
+                    unlink(__DIR__ ."/../../public/data/siswa/".$username.".jpg");
+                }                
+                $hapus = $this->database->delete("siswa",["AND" => ["id" => $arrayData[0]]]);                
+                if($hapus->rowCount() === 0){
+                    echo $this->response->json_response(400,"Data tidak ditemukan");
+                }else{                
+                    echo $this->response->json_response(200,"berhasil");
+                }
+            }                                                                   
+        }else{
+            if($v->errors('delete')){
+                echo $this->response->json_response(400,"delete id kosong"); 
+            }
+        }
+    }
+
+    public function siswaMultiUpdate()
+    {
+        $_PATCH = RequestParser::parse()->params;  
+        $v = new Validator($_PATCH);
+        $v->rule('required', ['update','kelas']);
+        if($v->validate()) {
+            $arrayData = $this->objectSiswaToArray(json_decode($_PATCH["update"],true));
+            $update = $this->database->update("siswa",["kelas_id" => $_PATCH["kelas"]],["id" => $arrayData]);                                
+            if($update->rowCount() === 0){
+                echo $this->response->json_response(400,"Data tidak ditemukan");
+            }else{
+                echo $this->response->json_response(200,"berhasil");
+            }                      
+        }else{
+            if($v->errors('update')){
+                echo $this->response->json_response(400,"update data pilih kosong"); 
+            }elseif($v->errors('kelas')){
+                echo $this->response->json_response(400,"Pilih kelas kosong"); 
+            }
+        }           
+        
+    }
+
+    // utils
+    function objectSiswaToArray($obj)
+    {
+        $userID = array(); 
+        foreach ($obj as $val) {            
+            $userID[] = $val['id'];            
+        }        
+        return $userID;
     }
 
     function reMapToArrayIDuserName($obj)

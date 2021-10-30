@@ -336,7 +336,7 @@ class PageSekolahKelasSub extends React.Component{
     }).then(response => {
       if(response.data.status == true)
       {        
-        this.setState({showDelete:false},() => this.fetchData(this.kelasID));        
+        this.setState({showDelete:false,selected:[]},() => this.fetchData(this.kelasID));        
       }
     }).catch(error => {
       if(error.response.status == 401){

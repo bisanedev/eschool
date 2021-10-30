@@ -18,6 +18,8 @@ import PageSekolahPendidik from './pages/sekolah/pendidik';
 import PageSekolahPendidikAdd from './pages/sekolah/pendidik/add';
 import PageSekolahPendidikEdit from './pages/sekolah/pendidik/edit';
 import PageSekolahSiswa from './pages/sekolah/siswa';
+import PageSekolahSiswaAdd from './pages/sekolah/siswa/add';
+import PageSekolahSiswaEdit from './pages/sekolah/siswa/edit';
 //----- profile
 import PageProfile from './pages/profile';
 import PageProfileFoto from './pages/profile/foto';
@@ -43,6 +45,8 @@ export default function RouterApp() {
           <PrivateRoute exact path="/sekolah/pendidik/add" component={PageSekolahPendidikAdd} />
           <PrivateRoute exact path="/sekolah/pendidik/edit/:userID" component={PageSekolahPendidikEdit} />
           <PrivateRoute exact path="/sekolah/siswa" component={PageSekolahSiswa} />
+          <PrivateRoute exact path="/sekolah/siswa/add" component={PageSekolahSiswaAdd} />
+          <PrivateRoute exact path="/sekolah/siswa/edit/:userID" component={PageSekolahSiswaEdit} />
           <PrivateRoute exact path="/profile" component={PageProfile} /> 
           <PrivateRoute exact path="/profile/foto" component={PageProfileFoto} />
           <PrivateRoute exact path="/profile/password" component={PageProfilePassword} />          

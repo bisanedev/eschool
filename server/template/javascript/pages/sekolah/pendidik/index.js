@@ -15,7 +15,7 @@ class PageSekolahPendidik extends React.Component{
     super(props);
     this.state = {
       nextPage:undefined,
-      total:10,
+      total:12,
       totalData:undefined,
       cari:undefined,
       isLoading:true,
@@ -24,9 +24,7 @@ class PageSekolahPendidik extends React.Component{
       currPage:undefined,      
       selected:[],
       showDelete:false,
-      showSingleDelete:false,
-      showAdd:false,
-      showEdit:false,
+      showSingleDelete:false,     
       singleData:[]      
     }    
     this.handleInputChange = this.handleInputChange.bind(this);
@@ -86,9 +84,9 @@ class PageSekolahPendidik extends React.Component{
                 </div>   
               </div>                                                                          
               <select className="pa2 db gray ml2" value={total} onChange={this.handleSelectChange}>
-                <option label="10" value="10"/>
-                <option label="20" value="20"/>
-                <option label="30" value="30"/>
+                <option label="12" value="12"/>
+                <option label="24" value="24"/>
+                <option label="36" value="36"/>
               </select>
               <div className="flex ml2">                
                 <InputSearch name="cari" value={cari ? cari:""} placeholder={cari ? "":"Cari Users dan pendidik"} onChange={this.handleInputChange} onReset={this.resetCari} onClick={this.handleCari} onKeyPress={this.handleKeyPress}/>
@@ -97,7 +95,8 @@ class PageSekolahPendidik extends React.Component{
           </Table.Header>       
           <Table.Body>
           {data.length > 0 && !isLoading && data.map((value,k) => (
-              <Table.DataProfile key={k} data={value} 
+              <Table.DataProfile key={k} data={value} superuser={value.id === "1" ? true:false}
+                src={"data/users/"+value.username+".jpg?nocache="+Date.now()}
                 href={`#/sekolah/pendidik/edit/${value.id}`}
                 checked={selected.includes(value)} 
                 onChecked={() => this.onChecked(value)}   
@@ -259,7 +258,7 @@ class PageSekolahPendidik extends React.Component{
     }).then(response => {
       if(response.data.status == true)
       {        
-        this.setState({showDelete:false},() => this.fetchData());        
+        this.setState({showDelete:false,selected:[]},() => this.fetchData());        
       }
     }).catch(error => {
       if(error.response.status == 401){

@@ -29,7 +29,7 @@ class PageProfileFoto extends React.Component{
   render() {    
     const { croppedImageUrl, src ,errorSelect,uploadProgress,uploadDisable } = this.state; 
     const uploadClass = uploadProgress ? "progress-active":"";
-    const uploadAction = croppedImageUrl ? "w-100 tc b f7 link br2 ba ph3 pv2 dib white bg-primary b--primary mb3":"w-100 tc b f7 link br2 ba ph3 pv2 dib disable-primary bg-disableSecondary mb3"
+    const uploadAction = croppedImageUrl ? "w-100 tc b f7 link br2 ba ph3 pv2 dib white bg-primary b--primary":"w-100 tc b f7 link br2 ba ph3 pv2 dib disable-primary bg-disableSecondary"
     return (
     <>
     <div className="konten"> 
@@ -68,13 +68,13 @@ class PageProfileFoto extends React.Component{
                   <h5 className="p-5" style={{display:"flex",alignItems:"center",justifyContent:"center"}}>{errorSelect}</h5>
                 )}                
               </div>
-              <div className="w-30 pa3">
-                <button type="button" className={`${uploadClass} ${uploadAction}`} disabled={uploadDisable} onClick={this.uploadImages} style={{cursor:"pointer"}}>Upload</button>
+              <div className="w-30 pa3">                
                 {croppedImageUrl && ( 
                   <div className="mb3 pa2" style={{border:"3px dashed rgba(0, 0, 0, 0.125)"}}>
                     <img alt="Crop" style={{ maxWidth: '100%' }} src={croppedImageUrl} /> 
                   </div>                                 
                 )}
+                <button type="button" className={`${uploadClass} ${uploadAction}`} disabled={uploadDisable} onClick={this.uploadImages} style={{cursor:"pointer"}}>Upload foto</button>
               </div>                            
             </div>  
           </Cards>         

@@ -149,8 +149,7 @@ class PageSekolahPendidikEdit extends React.Component{
                 )}
               </div>              
             </div>
-            <div className="w-30 pa3">              
-              <button type="submit" style={{cursor: "pointer"}} className={`${uploadClass} dim w-100 tc b f7 link br2 ba ph3 pv2 dib white bg-primary b--primary mb3`} disabled={uploadDisable} onClick={this.updateUserPendidik}>Ubah data</button>              
+            <div className="w-30 pa3">                            
               <div className="mb3 pa2 " style={{border:"3px dashed rgba(0, 0, 0, 0.125)"}}>
                 {croppedImageUrl ? (                  
                   <img alt="Crop" style={{ maxWidth: '100%' }} src={croppedImageUrl} />                                   
@@ -165,7 +164,8 @@ class PageSekolahPendidikEdit extends React.Component{
                   :
                   <img src={jenis==="l" ? "assets/images/cowok.png":"assets/images/cewek.png"}/> 
                 )}
-              </div>                           
+              </div>
+              <button type="submit" style={{cursor: "pointer"}} className={`${uploadClass} dim w-100 tc b f7 link br2 ba ph3 pv2 dib white bg-primary b--primary`} disabled={uploadDisable} onClick={this.updateUserPendidik}>Ubah data</button>                           
             </div>                  
           </Cards>
         </div> 

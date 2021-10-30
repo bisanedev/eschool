@@ -3,6 +3,7 @@ input[type=text]{
     outline: none; 
     border: 1px solid rgba(0, 0, 0, 0.125);
     background-color: #f3f3f3;
+    height: 41px;
 }
 input[type=text]:focus {
     border: 1px solid $primary-color;
@@ -19,6 +20,7 @@ input[type=text]:focus {
         background: transparent;
         border: none; 
         outline: none;
+        height: 41px;
     }
     .view-password{        
         width: 40px;
@@ -60,6 +62,7 @@ select{
   outline: none; 
   border: 1px solid rgba(0, 0, 0, 0.125);
   background-color: #f3f3f3;
+  height: 41px;
 }
 select:focus{
   border: 1px solid $primary-color;

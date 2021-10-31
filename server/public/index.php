@@ -20,7 +20,12 @@ $container = require __DIR__ . '/../application/bootstrap.php';
 
 $dispatcher = FastRoute\simpleDispatcher(function (RouteCollector $r) {
     //page
-    $r->addRoute('GET', '/', ['App\PageControllers\BootBlade','index']);     
+    $r->addRoute('GET', '/', ['App\PageControllers\BootBlade','index']);   
+    // siswa Api
+    $r->addGroup('/api/siswa', function (RouteCollector $r) {  
+        //authentikasi
+        $r->addRoute('POST', '/auth', ['App\SiswaControllers\AuthController','login']);
+    });
     // admin Api
     $r->addGroup('/api/pendidik', function (RouteCollector $r) {
         //authentikasi

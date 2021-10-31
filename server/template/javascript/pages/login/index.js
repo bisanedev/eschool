@@ -83,7 +83,7 @@ class PageLogin extends React.Component{
     }).then(response => {                 
         if(response.data.status == true)
         {           
-          window.localStorage.setItem("userToken", response.data.message.data);
+          window.localStorage.setItem("userToken", response.data.message);
           this.props.history.push('/');
         }
     }).catch(error => {

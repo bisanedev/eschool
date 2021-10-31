@@ -1,5 +1,5 @@
 <?php
-namespace App\ApiControllers;
+namespace App\SiswaControllers;
 use Bcrypt\Bcrypt;
 use App\Utils\HeaderResponse;
 use Valitron\Validator;
@@ -26,7 +26,7 @@ class AuthController
         $v = new Validator($_POST);
         $v->rule('required', ['username', 'password']);
         if($v->validate()) {      
-        $cekAuth = $this->database->select("users",["id","username","password","akses"],[
+        $cekAuth = $this->database->select("siswa",["id","username","password"],[
                 "username" => $_POST["username"]
         ]);        
         if(!empty($cekAuth)){            
@@ -39,31 +39,29 @@ class AuthController
                     $token = $this->jwt->builder()
                     ->issuedBy($_SERVER['SERVER_NAME'])
                     ->permittedFor($_SERVER['SERVER_NAME']) 
-                    ->identifiedBy('Framework', true)      
+                    ->identifiedBy('eSchool', true)      
                     ->issuedAt($now)                    
                     ->canOnlyBeUsedAfter($now)
                     ->expiresAt($now->modify('+1 year'))                    
                     ->withClaim('uid',$cekAuth[0]['id'])  
                     ->withClaim('role',$cekAuth[0]['akses'])                  
                     ->getToken($this->jwt->signer(), $this->jwt->signingKey());
-                    $this->database->update("users",["expired_token" => $now->modify('+1 year')->getTimestamp()],["id" => $cekAuth[0]['id']]);                    
-                    $data = array("data" => $token->toString());
-                    echo $this->response->json_response(200,$data);
+                    $this->database->update("siswa",["expired_token" => $now->modify('+1 year')->getTimestamp()],["id" => $cekAuth[0]['id']]);                    
+                    echo $this->response->json_response(200,$token->toString());
                 }else{
                     // expired 24 jam
                     $token = $this->jwt->builder()
                     ->issuedBy($_SERVER['SERVER_NAME'])
                     ->permittedFor($_SERVER['SERVER_NAME']) 
-                    ->identifiedBy('Framework', true)      
+                    ->identifiedBy('eSchool', true)      
                     ->issuedAt($now)
                     ->canOnlyBeUsedAfter($now)
                     ->expiresAt($now->modify('+1 day'))
                     ->withClaim('uid',$cekAuth[0]['id'])                    
                     ->withClaim('role',$cekAuth[0]['akses'])   
                     ->getToken($this->jwt->signer(), $this->jwt->signingKey());
-                    $this->database->update("users",["expired_token" => $now->modify('+1 day')->getTimestamp()],["id" => $cekAuth[0]['id']]);                    
-                    $data = array("data" => $token->toString());
-                    echo $this->response->json_response(200,$data);
+                    $this->database->update("siswa",["expired_token" => $now->modify('+1 day')->getTimestamp()],["id" => $cekAuth[0]['id']]);                    
+                    echo $this->response->json_response(200,$token->toString());
                 }                 
             }else{
                 echo $this->response->json_response(401, "Password Salah!"); 
@@ -72,8 +70,12 @@ class AuthController
             echo $this->response->json_response(401, "User tidak di temukan"); 
         }
         } else {
-            // Errors                       
-            echo $this->response->json_response(400,$v->errors());            
+            // Errors  
+            if($v->errors('username')){
+                echo $this->response->json_response(401,"Input username kosong"); 
+            }elseif($v->errors('password')){
+                echo $this->response->json_response(401,"Input password kosong"); 
+            }       
         }           
     }   
 }

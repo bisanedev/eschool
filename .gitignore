@@ -3,8 +3,8 @@ server/vendor
 server/storage/cache
 server/composer.lock
 server/package-lock.json
-siswa/.vscode
-siswa/Library
-siswa/Logs
-siswa/Temp
-siswa/UserSettings
+siswa/Desktop/.vscode
+siswa/Desktop/Library
+siswa/Desktop/Logs
+siswa/Desktop/Temp
+siswa/Desktop/UserSettings

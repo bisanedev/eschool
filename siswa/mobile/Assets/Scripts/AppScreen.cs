@@ -9,6 +9,9 @@ public class AppScreen : MonoBehaviour
     public Button LogoutButton;   
     void Start()
     {
+        Screen.autorotateToPortrait = true;
+        Screen.autorotateToPortraitUpsideDown = true;
+        Screen.orientation = ScreenOrientation.AutoRotation;
         LogoutButton.onClick.AddListener(Logout); 
     }
 

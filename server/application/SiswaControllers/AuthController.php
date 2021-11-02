@@ -32,7 +32,8 @@ class AuthController
         if(!empty($cekAuth)){            
             if($bcrypt->verify($_POST["password"], $cekAuth[0]['password'])){
                 // create token                
-                $now = new DateTimeImmutable();                       
+                $now = new DateTimeImmutable(); 
+                $uniqueToken = uniqid();                       
                 //remember
                 if($_POST['remember'] == 'Yes'){
                     //never expired
@@ -43,10 +44,12 @@ class AuthController
                     ->issuedAt($now)                    
                     ->canOnlyBeUsedAfter($now)
                     ->expiresAt($now->modify('+1 year'))                    
-                    ->withClaim('uid',$cekAuth[0]['id'])  
-                    ->withClaim('role',$cekAuth[0]['akses'])                  
+                    ->withClaim('uid',$cekAuth[0]['id'])
+                    ->withClaim('username',$cekAuth[0]['username'])                    
+                    ->withClaim('jenis',$cekAuth[0]['jenis'])                    
+                    ->withClaim('uniqueToken',$uniqueToken)                    
                     ->getToken($this->jwt->signer(), $this->jwt->signingKey());
-                    $this->database->update("siswa",["expired_token" => $now->modify('+1 year')->getTimestamp()],["id" => $cekAuth[0]['id']]);                    
+                    $this->database->update("siswa",["expired_token" => $now->modify('+1 year')->getTimestamp(),"unique_token" => $uniqueToken],["id" => $cekAuth[0]['id']]);                    
                     echo $this->response->json_response(200,$token->toString());
                 }else{
                     // expired 24 jam
@@ -57,10 +60,12 @@ class AuthController
                     ->issuedAt($now)
                     ->canOnlyBeUsedAfter($now)
                     ->expiresAt($now->modify('+1 day'))
-                    ->withClaim('uid',$cekAuth[0]['id'])                    
-                    ->withClaim('role',$cekAuth[0]['akses'])   
+                    ->withClaim('uid',$cekAuth[0]['id'])
+                    ->withClaim('username',$cekAuth[0]['username'])                    
+                    ->withClaim('jenis',$cekAuth[0]['jenis'])                    
+                    ->withClaim('uniqueToken',$uniqueToken)      
                     ->getToken($this->jwt->signer(), $this->jwt->signingKey());
-                    $this->database->update("siswa",["expired_token" => $now->modify('+1 day')->getTimestamp()],["id" => $cekAuth[0]['id']]);                    
+                    $this->database->update("siswa",["expired_token" => $now->modify('+1 day')->getTimestamp(),"unique_token" => $uniqueToken],["id" => $cekAuth[0]['id']]);                    
                     echo $this->response->json_response(200,$token->toString());
                 }                 
             }else{

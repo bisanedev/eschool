@@ -9,15 +9,18 @@ public class LoginScreen : MonoBehaviour
 {
     public InputField Username;
     public InputField Password;
-    public Button LoginButton;    
-    // Start is called before the first frame update
+    public Button LoginButton;  
+    public Text ErrorMessage;         
     void Start()
     {
-        LoginButton.onClick.AddListener(Korotine);        
+        Screen.autorotateToPortrait = true;
+        Screen.autorotateToPortraitUpsideDown = true;
+        Screen.orientation = ScreenOrientation.AutoRotation;
+        LoginButton.onClick.AddListener(Korotine);
     }
 
     void Korotine()
-    {
+    {      
         StartCoroutine(LoginAction());
     }
 
@@ -29,15 +32,16 @@ public class LoginScreen : MonoBehaviour
         UnityWebRequest www = UnityWebRequest.Post(GlobalVariable.ServerName+"/api/siswa/auth", form);
         yield return www.SendWebRequest();
         responseData data = JsonUtility.FromJson<responseData>(www.downloadHandler.text);
-
         if (www.result != UnityWebRequest.Result.Success) {
             //jika error
+            ErrorMessage.text = data.message;
             Debug.Log(www.responseCode);
             Debug.Log(data.message);    
         }
         else {    
             // jika sukses 
-            // Debug.Log(www.responseCode);              
+            // Debug.Log(www.responseCode); 
+            ErrorMessage.text = data.message;             
             PlayerPrefs.SetString("userToken", data.message);            
             SceneManager.LoadScene("AppScreen", LoadSceneMode.Single);
         }

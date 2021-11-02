@@ -8,6 +8,9 @@ public class LoadingScreen : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Screen.autorotateToPortrait = true;
+        Screen.autorotateToPortraitUpsideDown = true;
+        Screen.orientation = ScreenOrientation.AutoRotation;        
         StartCoroutine(waiter());                   
     }
 

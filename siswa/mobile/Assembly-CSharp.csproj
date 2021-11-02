@@ -36,10 +36,10 @@
     <ImplicitlyExpandDesignTimeFacades>false</ImplicitlyExpandDesignTimeFacades>
   </PropertyGroup>
   <ItemGroup>
-     <Compile Include="Assets\Scripts\GlobalVariable.cs" />
      <Compile Include="Assets\Scripts\LoginScreen.cs" />
-     <Compile Include="Assets\Scripts\LoadingScreen.cs" />
      <Compile Include="Assets\Scripts\AppScreen.cs" />
+     <Compile Include="Assets\Scripts\GlobalVariable.cs" />
+     <Compile Include="Assets\Scripts\LoadingScreen.cs" />
     <Reference Include="UnityEngine">
         <HintPath>C:\Program Files\Unity\Hub\Editor\2020.3.20f1\Editor\Data\Managed\UnityEngine\UnityEngine.dll</HintPath>
     </Reference>

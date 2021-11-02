@@ -22,9 +22,7 @@ public class AppScreen : MonoBehaviour
         LogoutButton.onClick.AddListener(Logout);        
         TestButton.onClick.AddListener(testRespon);
         userToken = PlayerPrefs.GetString("userToken");
-        DebugText.text = PlayerPrefs.GetString("userData");
-        
-        Debug.Log("WOW1: "+userToken);
+        DebugText.text = PlayerPrefs.GetString("userData");                
     }
 
     void testRespon()
@@ -38,8 +36,7 @@ public class AppScreen : MonoBehaviour
 
       using (UnityWebRequest webRequest = UnityWebRequest.Get(uri))
         {
-            
-            Debug.Log("WOW2: "+userToken);
+                        
             webRequest.SetRequestHeader("Authorization","Bearer " +userToken );
             // Request and wait for the desired page.
             yield return webRequest.SendWebRequest();         
@@ -58,13 +55,14 @@ public class AppScreen : MonoBehaviour
                     break;
                 case UnityWebRequest.Result.Success:
                     Debug.Log("Received: " + webRequest.downloadHandler.text);
+                    TestText.text = webRequest.downloadHandler.text;
                     break;
             }
         }
     }
     void Logout()
     {
-      PlayerPrefs.DeleteKey("userToken");
+      PlayerPrefs.DeleteAll();
       SceneManager.LoadScene("LoginScreen", LoadSceneMode.Single);
     }
 }

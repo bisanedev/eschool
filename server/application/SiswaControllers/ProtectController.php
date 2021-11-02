@@ -15,7 +15,8 @@ class ProtectController extends ApiController
 
     public function index()
     {        
-        echo $this->response->json_response(200, "Halaman yang dilindungi, GET");
+        $data = $this->database->select("siswa",["id","nama","username"]);
+        echo $this->response->json_response(200, $data );
     }
 
     public function indexPost()

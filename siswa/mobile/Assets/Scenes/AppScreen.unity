@@ -547,7 +547,7 @@ MonoBehaviour:
   LogoutButton: {fileID: 1959555768}
   TestButton: {fileID: 1636332118}
   DebugText: {fileID: 419950865}
-  TestText: {fileID: 610890363}
+  TestText: {fileID: 1668201034}
 --- !u!114 &926671779
 MonoBehaviour:
   m_ObjectHideFlags: 0

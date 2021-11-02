@@ -1,6 +1,6 @@
 <?php
-namespace App\ApiControllers;
-use App\ApiControllers\ApiController;
+namespace App\SiswaControllers;
+use App\SiswaControllers\ApiController;
 use Notihnio\RequestParser\RequestParser;
 use App\Utils\HeaderResponse;
 use Medoo\Medoo;

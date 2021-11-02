@@ -6,6 +6,7 @@ use Valitron\Validator;
 use Medoo\Medoo;
 use Lcobucci\JWT\Configuration;
 use DateTimeImmutable;
+use stdClass;
 
 class AuthController 
 {
@@ -26,11 +27,15 @@ class AuthController
         $v = new Validator($_POST);
         $v->rule('required', ['username', 'password']);
         if($v->validate()) {      
-        $cekAuth = $this->database->select("siswa",["id","username","password"],[
+        $cekAuth = $this->database->select("siswa",["id","username","jenis","password","unique_token"],[
                 "username" => $_POST["username"]
         ]);        
         if(!empty($cekAuth)){            
             if($bcrypt->verify($_POST["password"], $cekAuth[0]['password'])){
+                $objectUserData = new stdClass();                
+                $objectUserData->id = $cekAuth[0]["id"];               
+                $objectUserData->username = $cekAuth[0]["username"];                
+                $objectUserData->jenis = $cekAuth[0]["jenis"]; 
                 // create token                
                 $now = new DateTimeImmutable(); 
                 $uniqueToken = uniqid();                       
@@ -50,7 +55,8 @@ class AuthController
                     ->withClaim('uniqueToken',$uniqueToken)                    
                     ->getToken($this->jwt->signer(), $this->jwt->signingKey());
                     $this->database->update("siswa",["expired_token" => $now->modify('+1 year')->getTimestamp(),"unique_token" => $uniqueToken],["id" => $cekAuth[0]['id']]);                    
-                    echo $this->response->json_response(200,$token->toString());
+                    $data = array("user" => $objectUserData,"token" => $token->toString() );
+                    echo $this->response->json_response(200,$data);
                 }else{
                     // expired 24 jam
                     $token = $this->jwt->builder()
@@ -66,7 +72,8 @@ class AuthController
                     ->withClaim('uniqueToken',$uniqueToken)      
                     ->getToken($this->jwt->signer(), $this->jwt->signingKey());
                     $this->database->update("siswa",["expired_token" => $now->modify('+1 day')->getTimestamp(),"unique_token" => $uniqueToken],["id" => $cekAuth[0]['id']]);                    
-                    echo $this->response->json_response(200,$token->toString());
+                    $data = array("user" => $objectUserData,"token" => $token->toString() );
+                    echo $this->response->json_response(200,$data);
                 }                 
             }else{
                 echo $this->response->json_response(401, "Password Salah!"); 

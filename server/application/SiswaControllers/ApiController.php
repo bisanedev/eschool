@@ -1,5 +1,5 @@
 <?php
-namespace App\ApiControllers;
+namespace App\SiswaControllers;
 use DateTimeZone;
 use Lcobucci\Clock\SystemClock;
 use Lcobucci\JWT\Validation\Constraint\IdentifiedBy;
@@ -39,7 +39,7 @@ class ApiController
             }                        
                       
             //-------- cek user
-            $cekUser = $this->database->select("siswa",["username","superuser"],[
+            $cekUser = $this->database->select("siswa",["username"],[
                 "unique_token" => $token->claims()->get("uniqueToken"),
                 "expired_token" => $token->claims()->get('exp')->getTimestamp(),
                 "id" => $token->claims()->get('uid')

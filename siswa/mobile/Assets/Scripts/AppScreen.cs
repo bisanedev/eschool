@@ -11,55 +11,39 @@ public class AppScreen : MonoBehaviour
     public Button TestButton;
     public Text DebugText; 
     public Text TestText;
-    private string userToken; 
+    public ApiNetworkManager ApiManager;  
+
     void Start()
     {
+        //autorotationPortrait
         Screen.autorotateToPortrait = true;        
         Screen.autorotateToPortraitUpsideDown = true;
         Screen.autorotateToLandscapeLeft = false;
         Screen.autorotateToLandscapeRight = false;        
         Screen.orientation = ScreenOrientation.AutoRotation;
+        //jika tidak ada userToken maka login
+        if (!PlayerPrefs.HasKey("userToken")){ SceneManager.LoadScene("LoginScreen", LoadSceneMode.Single);}
+        // intialisasi tombols
         LogoutButton.onClick.AddListener(Logout);        
-        TestButton.onClick.AddListener(testRespon);
-        userToken = PlayerPrefs.GetString("userToken");
+        TestButton.onClick.AddListener(testRespon);        
         DebugText.text = PlayerPrefs.GetString("userData");                
     }
 
     void testRespon()
-    {
-      StartCoroutine(getData("http://192.168.7.250/api/siswa/test"));
+    {      
+      StartCoroutine(ApiManager.GetData("/api/siswa/test", (UnityWebRequest req) => {
+        if (req.result == UnityWebRequest.Result.Success) {
+         if(req.responseCode == 200){            
+            TestText.text = req.downloadHandler.text;
+         }
+        }else{
+         if(req.responseCode == 401){
+            Logout();
+         }
+        }       
+      }));  
     }
-
-    IEnumerator getData(string uri)
-    {
-      
-
-      using (UnityWebRequest webRequest = UnityWebRequest.Get(uri))
-        {
-                        
-            webRequest.SetRequestHeader("Authorization","Bearer " +userToken );
-            // Request and wait for the desired page.
-            yield return webRequest.SendWebRequest();         
-
-            Debug.Log(webRequest.downloadHandler.text);
-            Debug.Log(webRequest.result);
-            
-            switch (webRequest.result)
-            {
-                case UnityWebRequest.Result.ConnectionError:
-                case UnityWebRequest.Result.DataProcessingError:
-                    Debug.LogError("Error: " + webRequest.error);                   
-                    break;
-                case UnityWebRequest.Result.ProtocolError:
-                    Debug.LogError("HTTP Error: " + webRequest.error);
-                    break;
-                case UnityWebRequest.Result.Success:
-                    Debug.Log("Received: " + webRequest.downloadHandler.text);
-                    TestText.text = webRequest.downloadHandler.text;
-                    break;
-            }
-        }
-    }
+ 
     void Logout()
     {
       PlayerPrefs.DeleteAll();

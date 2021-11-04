@@ -2,15 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
+using UnityEngine.Networking;
 
 public class LoginScreen : MonoBehaviour
 {
     public InputField Username;
     public InputField Password;
     public Button LoginButton;  
-    public Text ErrorMessage;         
+    public Text ErrorMessage;  
+    public ApiNetworkManager ApiManager;    
     void Start()
     {
         Screen.autorotateToPortrait = true;
@@ -18,38 +19,34 @@ public class LoginScreen : MonoBehaviour
         Screen.autorotateToLandscapeLeft = false;
         Screen.autorotateToLandscapeRight = false;
         Screen.orientation = ScreenOrientation.AutoRotation;
-        LoginButton.onClick.AddListener(Korotine);
+        LoginButton.onClick.AddListener(Login);
     }
 
-    void Korotine()
+    void Login()
     {      
-        StartCoroutine(LoginAction());
-    }
-
-    IEnumerator LoginAction() {
         WWWForm form = new WWWForm();
         form.AddField("username", Username.text);
-        form.AddField("password", Password.text);
-
-        UnityWebRequest www = UnityWebRequest.Post(GlobalVariable.ServerName+"/api/siswa/auth", form);
-        yield return www.SendWebRequest();        
-        if (www.result != UnityWebRequest.Result.Success) {
-            //jika error
-            responseDataError data = JsonUtility.FromJson<responseDataError>(www.downloadHandler.text); 
-            ErrorMessage.text = data.message;
-            Debug.Log(www.responseCode);
-            Debug.Log(data.message);    
-        }
-        else {    
-            // jika sukses 
-            responseData data = JsonUtility.FromJson<responseData>(www.downloadHandler.text);                          
+        form.AddField("password", Password.text); 
+        //ApiNetworkManager ApiManager = gameObject.AddComponent<ApiNetworkManager>();        
+        StartCoroutine(ApiManager.PostLogin(form, (UnityWebRequest req) => {
+        if (req.result == UnityWebRequest.Result.Success) {
+         if(req.responseCode == 200){
+            responseData data = JsonUtility.FromJson<responseData>(req.downloadHandler.text);                          
             string saveJson = JsonUtility.ToJson(data.message.user);
             PlayerPrefs.SetString("userToken", data.message.token);            
             PlayerPrefs.SetString("userData",saveJson);
             PlayerPrefs.Save();
             SceneManager.LoadScene("AppScreen", LoadSceneMode.Single);
+         }
+        }else{
+         if(req.responseCode == 401){
+            responseDataError data = JsonUtility.FromJson<responseDataError>(req.downloadHandler.text); 
+            ErrorMessage.text = data.message;
+         }
         }
+        }));         
     }
+ 
 }
 
 [System.Serializable]

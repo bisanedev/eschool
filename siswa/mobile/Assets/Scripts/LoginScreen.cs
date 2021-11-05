@@ -9,9 +9,16 @@ public class LoginScreen : MonoBehaviour
 {
     public InputField Username;
     public InputField Password;
+    public Toggle RememberMe;
     public Button LoginButton;  
     public Text ErrorMessage;  
-    public ApiNetworkManager ApiManager;    
+    public ApiNetworkManager ApiManager; 
+
+    public InputField PasswordView;
+    public Button ViewPassword;
+    public Sprite eyeOn;
+    public Sprite eyeOff; 
+
     void Start()
     {
         Screen.autorotateToPortrait = true;
@@ -20,6 +27,7 @@ public class LoginScreen : MonoBehaviour
         Screen.autorotateToLandscapeRight = false;
         Screen.orientation = ScreenOrientation.AutoRotation;
         LoginButton.onClick.AddListener(Login);
+        ViewPassword.onClick.AddListener(ShowPassword);
     }
 
     void Login()
@@ -27,7 +35,8 @@ public class LoginScreen : MonoBehaviour
         WWWForm form = new WWWForm();
         form.AddField("username", Username.text);
         form.AddField("password", Password.text); 
-        //ApiNetworkManager ApiManager = gameObject.AddComponent<ApiNetworkManager>();        
+        form.AddField("remember", RememberMe.isOn ? "Yes":"no");
+
         StartCoroutine(ApiManager.PostLogin(form, (UnityWebRequest req) => {
         if (req.result == UnityWebRequest.Result.Success) {
          if(req.responseCode == 200){
@@ -41,10 +50,27 @@ public class LoginScreen : MonoBehaviour
         }else{
          if(req.responseCode == 401){
             responseDataError data = JsonUtility.FromJson<responseDataError>(req.downloadHandler.text); 
-            ErrorMessage.text = data.message;
+            ErrorMessage.text = data.message;   
          }
         }
         }));         
+    }
+
+     
+ 
+    public void ShowPassword()
+    {
+        if (PasswordView.contentType == InputField.ContentType.Password)
+        {
+            ViewPassword.GetComponent<Image>().sprite = eyeOff;            
+            PasswordView.contentType = InputField.ContentType.Standard;
+        }
+        else
+        {
+            ViewPassword.GetComponent<Image>().sprite = eyeOn;
+            PasswordView.contentType = InputField.ContentType.Password;
+        }
+        PasswordView.ForceLabelUpdate();
     }
  
 }

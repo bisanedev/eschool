@@ -11,7 +11,8 @@ public class LoginScreen : MonoBehaviour
     public InputField Password;
     public Toggle RememberMe;
     public Button LoginButton;  
-    public Text ErrorMessage;  
+    public Text PesanText;  
+    public GameObject PesanError; 
     public ApiNetworkManager ApiManager; 
 
     public InputField PasswordView;
@@ -28,6 +29,7 @@ public class LoginScreen : MonoBehaviour
         Screen.orientation = ScreenOrientation.AutoRotation;
         LoginButton.onClick.AddListener(Login);
         ViewPassword.onClick.AddListener(ShowPassword);
+        PesanError.SetActive(false);
     }
 
     void Login()
@@ -35,7 +37,7 @@ public class LoginScreen : MonoBehaviour
         WWWForm form = new WWWForm();
         form.AddField("username", Username.text);
         form.AddField("password", Password.text); 
-        form.AddField("remember", RememberMe.isOn ? "Yes":"no");
+        form.AddField("remember", RememberMe.isOn ? "Yes":"no");        
 
         StartCoroutine(ApiManager.PostLogin(form, (UnityWebRequest req) => {
         if (req.result == UnityWebRequest.Result.Success) {
@@ -49,8 +51,9 @@ public class LoginScreen : MonoBehaviour
          }
         }else{
          if(req.responseCode == 401){
+            PesanError.SetActive(true);
             responseDataError data = JsonUtility.FromJson<responseDataError>(req.downloadHandler.text); 
-            ErrorMessage.text = data.message;   
+            PesanText.text = data.message;   
          }
         }
         }));         

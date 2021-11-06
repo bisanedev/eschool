@@ -1345,7 +1345,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 5
+  orthographic size: 1
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -1901,7 +1901,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 0.49803922, g: 0.49803922, b: 0.49803922, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -1909,14 +1909,14 @@ MonoBehaviour:
       m_Calls: []
   m_Sprite: {fileID: 21300000, guid: 2cf851e6689764341b2e79c72a0aae73, type: 3}
   m_Type: 0
-  m_PreserveAspect: 1
+  m_PreserveAspect: 0
   m_FillCenter: 1
-  m_FillMethod: 4
+  m_FillMethod: 1
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
-  m_UseSpriteMesh: 1
-  m_PixelsPerUnitMultiplier: 1
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 6
 --- !u!222 &1537378856
 CanvasRenderer:
   m_ObjectHideFlags: 0

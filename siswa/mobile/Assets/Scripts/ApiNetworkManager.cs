@@ -7,11 +7,13 @@ public class ApiNetworkManager : MonoBehaviour
 {
     
     private static string ServerName = "http://192.168.7.250";     
-    private string userToken;   
+    private string userToken;  
+     
     void Start()
     {
         userToken = PlayerPrefs.GetString("userToken");
     }     
+
     public IEnumerator PostLogin(WWWForm formData, System.Action<UnityWebRequest> callback){
         using (UnityWebRequest webRequest = UnityWebRequest.Post(ServerName+"/api/siswa/auth",formData))
         {

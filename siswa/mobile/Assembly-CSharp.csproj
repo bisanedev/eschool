@@ -39,6 +39,8 @@
      <Compile Include="Assets\Scripts\LoginScreen.cs" />
      <Compile Include="Assets\Scripts\AppScreen.cs" />
      <Compile Include="Assets\Scripts\ApiNetworkManager.cs" />
+     <Compile Include="Assets\Scripts\TabButton.cs" />
+     <Compile Include="Assets\Scripts\TabGroup.cs" />
     <Reference Include="UnityEngine">
         <HintPath>C:\Program Files\Unity\Hub\Editor\2020.3.20f1\Editor\Data\Managed\UnityEngine\UnityEngine.dll</HintPath>
     </Reference>

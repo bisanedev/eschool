@@ -11,6 +11,12 @@ public class TabGroup : MonoBehaviour
     public Color tabActive;
     public TabButton selectedTab;
     public List<GameObject> objectsToSwap;
+    public Text titleHeader;
+
+    void Start()
+    {    
+        selectedTab.background.color = tabActive;
+    }
 
     public void Subscribe(TabButton button)
     {
@@ -36,7 +42,7 @@ public class TabGroup : MonoBehaviour
     }
 
     public void OnTabSelected(TabButton button)
-    {
+    {        
         selectedTab = button;
         ResetTabs();
         button.background.color = tabActive;
@@ -45,6 +51,7 @@ public class TabGroup : MonoBehaviour
         {
             if(i == index){
                 objectsToSwap[i].SetActive(true);
+                headerTitle(objectsToSwap[i].name);
             }else{
                 objectsToSwap[i].SetActive(false);
             }
@@ -57,6 +64,25 @@ public class TabGroup : MonoBehaviour
         {
             if(selectedTab !=null && button == selectedTab) {continue;}
             button.background.color = tabIdle;            
+        }
+    }
+
+    void headerTitle(string title)
+    {   
+        switch (title)
+        {
+            case "AppPage":
+                titleHeader.text = "Aplikasi";
+                break;
+            case "AchievementPage":
+                titleHeader.text = "Pencapaian";
+                break;
+            case "ProfilePage":
+                titleHeader.text = "Profile";
+                break;  
+            default:
+                titleHeader.text = "Aplikasi";
+                break;
         }
     }
 

@@ -3,8 +3,3 @@ server/vendor
 server/storage/cache
 server/composer.lock
 server/package-lock.json
-siswa/mobileUnity/.vscode
-siswa/mobileUnity/Library
-siswa/mobileUnity/Logs
-siswa/mobileUnity/Temp
-siswa/mobileUnity/UserSettings

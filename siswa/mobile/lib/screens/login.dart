@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'dart:async';
 import 'dart:convert';
 import '../utils/globals.dart' as globals;
+import '../widget/tombol.dart';
 
 
 class LoginScreen extends StatefulWidget {          
@@ -25,6 +26,11 @@ class _LoginScreen extends State<LoginScreen> {
   }  
 
   Widget build(BuildContext context) {
+
+    final logo = Hero(
+      tag: 'Login',
+      child: Image.asset('assets/images/logo.png',height: 190,width: 190)
+    );
 
     final usernameInput = TextFormField(
       controller: username,
@@ -81,18 +87,7 @@ class _LoginScreen extends State<LoginScreen> {
         borderRadius: BorderRadius.circular(30.0),
         shadowColor: Color(0xff0191d7),
         elevation: 5.0,
-        child: MaterialButton(
-          minWidth: 200.0,
-          height: 48.0,
-          onPressed: () async {
-            setState(() { futureLogin = postLogin(username.text,password.text);});        
-          },
-          color: Colors.blue,
-          child: Text(
-            'Login',
-            style: TextStyle(color: Colors.white),
-          ),
-        ),
+        child: SimpleElevatedButton( child: const Text("Login"), color: Color(0xff0191d7),onPressed: () async {setState(() { futureLogin = postLogin(username.text,password.text);});},)
       ),
     );
 
@@ -130,7 +125,9 @@ class _LoginScreen extends State<LoginScreen> {
         child: ListView(
           shrinkWrap: true,
           padding: EdgeInsets.only(left: 24.0, right: 24.0),
-          children: <Widget>[            
+          children: <Widget>[
+            logo,
+            SizedBox(height: 48.0),            
             usernameInput,
             SizedBox(height: 8.0),
             passwordInput,

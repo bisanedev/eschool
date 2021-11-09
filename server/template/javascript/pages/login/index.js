@@ -38,7 +38,7 @@ class PageLogin extends React.Component{
           <img src="assets/images/logo.png" alt="Logo Sekolah"/> 
         </div>
         <div className="form">
-          <h4 className="fw4" style={{fontSize:"22px",lineHeight:0}}>Pengajar Login</h4>
+          <h4 className="fw4" style={{fontSize:"22px",lineHeight:0}}>User & Pendidik Login</h4>
           <div className="w-100 ph3 mb2">
             <label className="f5 fw4 db mb2">Username</label>
             <InputText name="username" onChange={this.handleInputChange} />                      

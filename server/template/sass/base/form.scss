@@ -61,8 +61,7 @@ input[type=text]:focus {
 select{
   outline: none; 
   border: 1px solid rgba(0, 0, 0, 0.125);
-  background-color: #f3f3f3;
-  height: 41px;
+  background-color: #f3f3f3;  
 }
 select:focus{
   border: 1px solid $primary-color;

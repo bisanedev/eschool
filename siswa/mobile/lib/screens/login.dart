@@ -47,12 +47,12 @@ class _LoginScreen extends State<LoginScreen> {
             borderRadius: BorderRadius.circular(0),
         ),
         focusedBorder: OutlineInputBorder(
-            borderSide: BorderSide(width: 1, color: Color(0xff0191d7)),
+            borderSide: BorderSide(width: 1, color: globals.BaseColor),
             borderRadius: BorderRadius.circular(0),
         ),     
       ),      
       inputFormatters: [        
-        FilteringTextInputFormatter.allow( RegExp(r'^[a-zA-Z0-9@_.]+$')) 
+        FilteringTextInputFormatter.allow(RegExp(r'^[a-zA-Z0-9@_.]+$')) 
       ],
     );
 
@@ -71,7 +71,7 @@ class _LoginScreen extends State<LoginScreen> {
             borderRadius: BorderRadius.circular(0),
         ),
         focusedBorder: OutlineInputBorder(
-            borderSide: BorderSide(width: 1, color: Color(0xff0191d7)),
+            borderSide: BorderSide(width: 1, color: globals.BaseColor),
             borderRadius: BorderRadius.circular(0),
         ),      
         suffixIcon: GestureDetector(
@@ -85,9 +85,9 @@ class _LoginScreen extends State<LoginScreen> {
       padding: EdgeInsets.symmetric(vertical: 16.0),
       child: Material(
         borderRadius: BorderRadius.circular(30.0),
-        shadowColor: Color(0xff0191d7),
+        shadowColor: globals.BaseColor,
         elevation: 5.0,
-        child: SimpleElevatedButton( child: const Text("Login"), color: Color(0xff0191d7),onPressed: () async {setState(() { futureLogin = postLogin(username.text,password.text);});},)
+        child: SimpleElevatedButton( child: const Text("Login"), color: globals.BaseColor,onPressed: () async {setState(() { futureLogin = postLogin(username.text,password.text);});},)
       ),
     );
 

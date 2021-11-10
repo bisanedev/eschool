@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import './screens/app.dart';
+import 'screens/base.dart';
 import './screens/login.dart';
 
 void main() {
@@ -30,8 +30,8 @@ class _MyAppState  extends State<MyApp> {
       ),
       initialRoute: '/',
       routes: {
-        '/': (context) => AplikasiScreen(),
-        '/login': (context) => LoginScreen(),        
+        '/': (context) => BaseScreen(),
+        '/login': (context) => LoginScreen()        
       },
     );
   }

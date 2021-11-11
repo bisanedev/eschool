@@ -181,7 +181,7 @@ class PageSekolahSiswa extends React.Component{
   };
   /*--- pilih kelas ---*/
   handleSelectKelas = (event) => {
-    this.setState({kelas:event.target.value} , () => this.fetchData());
+    this.setState({kelas:event.target.value,page:1} , () => this.fetchData());
   }
   /*--- edit pilih kelas ---*/
   handleSelectKelasEdit = (event) => {

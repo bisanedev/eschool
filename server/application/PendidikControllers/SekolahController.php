@@ -702,7 +702,7 @@ class SekolahController extends ApiController
         elseif(isset($_GET['kelas'])){
             $totalKelas = $this->database->count("siswa",["kelas_id" => $kelasID]); 
             $siswa = $this->database->select("siswa",["[>]kelas_nama" => ["kelas_id" => "id"]],["siswa.id","siswa.nama","siswa.jenis","siswa.username","siswa.no_absens(absen)","kelas_nama.nama(kelas)"],["kelas_id" => $kelasID ,"LIMIT" => [$mulai,$totalData],"ORDER" => ["siswa.no_absens" => "ASC"]]);
-            $pages = ceil($totalRow/$totalData);
+            $pages = ceil($totalKelas/$totalData);
             $nextpage = ($page < $pages) ? $page+1 : false;
             $data = array("data" => $siswa,"kelas" => $kelas,"totaldata" => $totalKelas,"pages" => $pages,"current" => $page,"nextpage"=> $nextpage );
         }else{

@@ -6,9 +6,9 @@ function LogoutDialog(props) {
     <Modal isOpen={props.show} closeTimeoutMS={500}
         className={{base: 'dialog shadow-3',afterOpen: 'dialog-base_after-open',beforeClose: 'dialog-base_before-close'}}
         overlayClassName={{base: 'overlay-base',afterOpen: 'overlay-base_after-open',beforeClose: 'overlay-base_before-close'}}
-    >
-     <i className="fas fa-power-off dialog-icon bg-dark-red"/>
-     <div className="dialog-close dim" onClick={props.close}><i className="fas fa-times"/></div>
+    >    
+     <i className="material-icons-outlined dialog-icon bg-dark-red">power_settings_new</i>
+     <div className="dialog-close dim" onClick={props.close}><i className="material-icons-outlined">close</i></div>
      <div className="dialog-data fr">
         <div className="dialog-body">
             <span className="dialog-title pb2">Logout</span>

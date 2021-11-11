@@ -17,8 +17,8 @@ function DataProfile(props) {
                 <input type="checkbox" checked={props.checked} onChange={props.onChecked}/>
                 <span className="checkmark"></span>
             </label>
-            <div onClick={() => props.onDelete()} className="link dim deleteButton">
-                <i className="fas fa-times" style={{fontSize:"11px"}}/>
+            <div onClick={() => props.onDelete()} className="link dim deleteButton  flex justify-center items-center">
+                <i className="material-icons-outlined" style={{fontSize:"14px"}}>close</i>
             </div>
             </>
             }

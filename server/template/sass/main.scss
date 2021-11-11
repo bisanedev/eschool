@@ -6,14 +6,9 @@ $secondary-color : #085074;
 $disable-primaryColor : #8c8c8c;
 $disable-secondaryColor : #b3b3b3;
 
-$fa-font-path:"../fonts/" !default;
-
 @import "./tachyons/tachyons";
-@import "./fontawesome/fontawesome";
-@import "./fontawesome/regular";
-@import "./fontawesome/solid";
-
 @import "node_modules/react-toastify/scss/main.scss";
+@import "./base/webIcons";
 @import "./base/sidebar";
 @import "./base/loading";
 @import "./base/dialog";

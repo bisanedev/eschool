@@ -162,7 +162,7 @@ class PageSekolahSiswaEdit extends React.Component{
                   foto ?                  
                   <div className="relative">
                     <div className="link dim deleteFotoButton" onClick={() => this.setState({showHapusFoto:true})}>
-                      <i className="fas fa-times" style={{fontSize: "11px"}}/>
+                      <i className="material-icons-outlined" style={{fontSize: "14px"}}>close</i>
                     </div>
                     <img src={"data/siswa/"+rawUsername+".jpg?nocache="+Date.now()}/>
                   </div>

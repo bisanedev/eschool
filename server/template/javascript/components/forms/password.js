@@ -19,7 +19,7 @@ export default class InputPassword extends React.Component{
     <div className="input-password">
       <input name={this.props.name} placeholder={this.props.placeholder} className="input-reset ba b--black-20 pa2 db w-100"  type={toggle ? "text" : "password"} onChange={this.props.onChange} />           
       <div className="view-password" onClick={this.toggleShow}>
-        {toggle ? <i className="far fa-eye"/>:<i className="far fa-eye-slash"/>}              
+        {toggle ? <i className="material-icons-outlined">visibility</i>:<i className="material-icons-outlined">visibility_off</i>}              
       </div> 
     </div>
     );

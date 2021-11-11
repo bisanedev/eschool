@@ -42,8 +42,8 @@ class PageProfile extends React.Component{
             <div className="profile-foto mb3 pa2">
               {foto ? 
                 <div className="relative">
-                 <div className="link dim deleteFotoButton" onClick={() => this.setState({showHapusFoto:true})}>
-                  <i className="fas fa-times" style={{fontSize: "11px"}}/>
+                 <div className="link dim deleteFotoButton flex justify-center items-center" onClick={() => this.setState({showHapusFoto:true})}>
+                  <i className="material-icons-outlined" style={{fontSize: "14px"}}>close</i>
                  </div>
                  <img src={"data/users/"+this.tokenData.username+".jpg?nocache="+Date.now()} onError={(e)=>{e.target.onerror = null;this.setState({foto:false})}}/>
                 </div>

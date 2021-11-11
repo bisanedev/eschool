@@ -156,8 +156,8 @@ class PageSekolahPendidikEdit extends React.Component{
                 ):( 
                   foto ?                  
                   <div className="relative">
-                    <div className="link dim deleteFotoButton" onClick={() => this.setState({showHapusFoto:true})}>
-                      <i className="fas fa-times" style={{fontSize: "11px"}}/>
+                    <div className="link dim deleteFotoButton" onClick={() => this.setState({showHapusFoto:true})}>                      
+                      <i className="material-icons-outlined" style={{fontSize: "14px"}}>close</i>
                     </div>
                     <img src={"data/users/"+rawUsername+".jpg?nocache="+Date.now()}/>
                   </div>

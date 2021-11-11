@@ -60,8 +60,8 @@ class PageSekolahPendidik extends React.Component{
         <Table>
           <Table.Header>
             <div className="w-50 ph2">
-              <a type="submit" href="#/sekolah/pendidik/add" style={{cursor: "pointer",borderColor:"#0191d7"}} className="link dim br1 ba pa2 dib white bg-primary">
-                <i className="fas fa-plus" style={{fontSize:"18px"}}/>
+              <a type="submit" href="#/sekolah/pendidik/add" style={{cursor: "pointer",borderColor:"#0191d7"}} className="link dim br1 ba pa2 dib white bg-primary">                
+                <i className="material-icons-outlined" style={{fontSize:"20px"}}>add</i>
               </a>
             </div>
             <div className="w-50 ph2 flex" style={{justifyContent:"flex-end"}}>              
@@ -70,16 +70,16 @@ class PageSekolahPendidik extends React.Component{
               </button>
               <div className="dropdown">
                 <button style={{cursor: "pointer",border:"1px solid rgba(0, 0, 0, 0.125)"}} className="link dim br1 ba pa2 dib bg-white">
-                  <i className="fas fa-ellipsis-v" style={{fontSize:"25px",color:"#474747"}}/>
+                  <i className="material-icons-outlined" style={{fontSize:"25px",color:"#474747"}}>more_vert</i>
                 </button>
                 <div className="dropdown-content">                  
                   <div className="disable">
                     <span>Edit</span>
-                    <i className="fas fa-pen"/>
+                    <i className="material-icons-outlined" style={{fontSize:18}}>edit</i>
                   </div>
                   <div className={selected.length === 0 ? "disable":""} onClick={ e => selected.length === 0 ? e.preventDefault() : this.setState({showDelete:true})}>
                     <span>Hapus</span>
-                    <i className="fas fa-trash red"/>
+                    <i className="material-icons-outlined red" style={{fontSize:18}}>delete</i>
                   </div>
                 </div>   
               </div>                                                                          

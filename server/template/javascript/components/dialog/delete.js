@@ -17,7 +17,7 @@ function DeleteDialog(props) {
         <div className="dialog-button">
             <button type="button" style={{cursor: "pointer"}} className="w3 tc f7 link dim br2 ba ph3 pv2 dib" onClick={props.close}>BATAL</button>
             <button type="button" style={{cursor: "pointer",borderColor:"red"}} className="w4 tc b ml2 f7 link dim br2 ba ph3 pv2 dib white bg-dark-red flex items-center" onClick={props.onClick}>
-            <i className="material-icons-outlined white pr2" style={{fontSize:20}}>delete</i>
+            <i className="material-icons white pr2" style={{fontSize:20}}>delete</i>
                 HAPUS
             </button>
         </div>

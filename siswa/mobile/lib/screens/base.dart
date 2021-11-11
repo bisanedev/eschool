@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 //import 'dart:async';
 import '../utils/globals.dart' as globals;
-import 'aplikasi/index.dart';
-import 'pencapaian/index.dart';
-import 'profile/index.dart';
+import '../aplikasi/index.dart';
+import '../pencapaian/index.dart';
+import '../profile/index.dart';
 import './coba.dart';
 
 class BaseScreen extends StatefulWidget {          

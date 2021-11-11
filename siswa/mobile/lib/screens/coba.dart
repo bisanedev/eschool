@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'aplikasi/index.dart';
 
 class CobaScreen extends StatelessWidget {
   const CobaScreen({Key? key}) : super(key: key);  

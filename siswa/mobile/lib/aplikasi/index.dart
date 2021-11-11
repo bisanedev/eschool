@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import '../../widget/tombol.dart';
+import '../../widget/custom_bars.dart';
 import '../../utils/globals.dart' as globals;
 import '../screens/coba.dart';
+
 
 
 class AplikasiScreen extends StatelessWidget { 
@@ -10,12 +12,8 @@ class AplikasiScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Welcome to Aplikasi Screen',
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text('Welcome to Aplikasi Screen'),
-        ),
+    return Scaffold(
+        appBar: CustomBars(title:"Aplikasi"),
         body: Center(
           child: Column(children: [
             Text('Hello to Aplikasi Screen'),
@@ -26,7 +24,6 @@ class AplikasiScreen extends StatelessWidget {
             })
           ],),
         ),
-      ),
     );
   }
 }

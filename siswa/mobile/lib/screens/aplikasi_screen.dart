@@ -4,11 +4,9 @@ import '../../widget/custom_bars.dart';
 import '../../utils/globals.dart' as globals;
 import '../screens/coba.dart';
 
-
-
 class AplikasiScreen extends StatelessWidget { 
-  //final Function? onNext;
-  const AplikasiScreen({Key? key}) : super(key: key);    
+  final String? userToken;    
+  const AplikasiScreen({Key? key,this.userToken}) : super(key: key);    
 
   @override
   Widget build(BuildContext context) {
@@ -19,9 +17,10 @@ class AplikasiScreen extends StatelessWidget {
             Text('Hello to Aplikasi Screen'),
             SimpleElevatedButton( child: Text("CobaScreen"), color: globals.BaseColor,onPressed:() {
               Navigator.push(context, MaterialPageRoute(
-                builder: (context) => CobaScreen()
+                builder: (context) => CobaScreen(userToken: userToken,)
               ));
-            })
+            }),
+            Text(userToken ?? "hahaha")
           ],),
         ),
     );

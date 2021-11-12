@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-//import 'dart:async';
 import '../utils/globals.dart' as globals;
-import '../aplikasi/index.dart';
-import '../pencapaian/index.dart';
-import '../profile/index.dart';
+import './aplikasi_screen.dart';
+import './pencapaian_screen.dart';
+import './akun_screen.dart';
 import './coba.dart';
 
 class BaseScreen extends StatefulWidget {          
@@ -13,18 +12,14 @@ class BaseScreen extends StatefulWidget {
 }
 
 class _BaseScreen extends State<BaseScreen> {
-  int _selectedIndex = 0;  
+  int _selectedIndex = 0;
+  String? userToken;
 
   @override  
   void initState() {        
-    super.initState();   
-    // cekAuthenticated
-    checkIfAuthenticated().then((success) {
-        if (!success) {    
-          Navigator.pushReplacementNamed(context, '/login');
-        }
-    });   
-  }  
+    super.initState();
+    getToken();
+  }
 
   List<GlobalKey<NavigatorState>> _navigatorKeys = [
     GlobalKey<NavigatorState>(),
@@ -42,7 +37,7 @@ class _BaseScreen extends State<BaseScreen> {
           ],
         ),
         bottomNavigationBar: BottomNavigationBar(
-          items: const <BottomNavigationBarItem>[
+          items: <BottomNavigationBarItem>[
             BottomNavigationBarItem(
               icon: Icon(Icons.apps),
               label: 'Aplikasi',
@@ -53,7 +48,7 @@ class _BaseScreen extends State<BaseScreen> {
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.person_outline),
-              label: 'Profil',
+              label: "Akun",
             ),     
           ],
           currentIndex: _selectedIndex,
@@ -68,7 +63,7 @@ class _BaseScreen extends State<BaseScreen> {
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
-    }); 
+    });     
   }
 
   void _next() {
@@ -79,11 +74,9 @@ class _BaseScreen extends State<BaseScreen> {
     return {
       '/': (context) {
         return [
-          AplikasiScreen(),
-          PencapaianScreen(
-            onNext: _next,
-          ),
-          ProfileScreen(),
+          AplikasiScreen(userToken: userToken),
+          PencapaianScreen(userToken: userToken),
+          AkunScreen(userToken: userToken),
         ].elementAt(index);
       },
     };
@@ -105,14 +98,11 @@ class _BaseScreen extends State<BaseScreen> {
     );
   }
 
-}
-
-checkIfAuthenticated() async {
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  //Return bool  
-  String? userToken = prefs.getString('userToken') ?? null;  
-  if(userToken == null){ 
-    return false;
+  void getToken() async {
+     SharedPreferences prefs = await SharedPreferences.getInstance();           
+     setState((){
+        userToken = prefs.getString('userToken') ?? '';
+     });     
   }
-  return true;
+/* ---  end script ---*/
 }

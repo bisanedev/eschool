@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 class CobaScreen extends StatelessWidget {
-  const CobaScreen({Key? key}) : super(key: key);  
+  final String? userToken; 
+  const CobaScreen({Key? key,this.userToken}) : super(key: key);  
 
   @override
   Widget build(BuildContext context) {
@@ -12,10 +13,14 @@ class CobaScreen extends StatelessWidget {
           title: const Text('Coba Header'),
         ),
         body: Center(
-          child: ElevatedButton(
-                  onPressed: () { Navigator.pop(context);},
-                  child: Text('Go back!'),
-              ),
+          child: ListView(
+          shrinkWrap: true,
+          padding: EdgeInsets.only(left: 24.0, right: 24.0),
+          children:[
+            ElevatedButton(onPressed: () { Navigator.pop(context);}, child: Text('Go back!')),
+            Text(userToken?? "meow")
+          ]
+        ),
         ),
       ),
     );

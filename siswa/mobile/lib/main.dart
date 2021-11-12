@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'screens/base.dart';
-import './screens/login.dart';
+import 'screens/login_screen.dart';
+import './screens/check_auth.dart';
 
 void main() {
   runApp(MyApp());
@@ -28,9 +29,10 @@ class _MyAppState  extends State<MyApp> {
         visualDensity: VisualDensity.adaptivePlatformDensity,
         fontFamily: 'TitilliumWeb',                
       ),
-      initialRoute: '/',
+      initialRoute: '/cek-auth',
       routes: {
         '/': (context) => BaseScreen(),
+        '/cek-auth': (context) => CheckAuth(),
         '/login': (context) => LoginScreen()        
       },
     );

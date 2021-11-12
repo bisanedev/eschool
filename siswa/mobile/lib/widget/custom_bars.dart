@@ -20,7 +20,7 @@ class CustomBars extends StatelessWidget implements PreferredSizeWidget {
               children: <Widget>[
                 Container(
                   margin: EdgeInsets.only(top: 24.0),                
-                  color: Colors.blue,
+                  color: Colors.transparent,
                   width: MediaQuery.of(context).size.width,
                   height: 120.0,
                   child: Center(

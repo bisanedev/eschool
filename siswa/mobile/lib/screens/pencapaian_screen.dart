@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 
-
 class PencapaianScreen extends StatelessWidget {
-  final VoidCallback? onNext;
-  const PencapaianScreen({Key? key,this.onNext}) : super(key: key);
+  final String? userToken;    
+  const PencapaianScreen({Key? key,this.userToken}) : super(key: key);
   
   @override
   Widget build(BuildContext context) {
@@ -15,7 +14,7 @@ class PencapaianScreen extends StatelessWidget {
         child: Column(
           children: [
             Text('Hello to Aplikasi Screen'),
-            TextButton( child: Text("CobaScreen"), onPressed:onNext)
+            Text(userToken ?? "meow")
           ]
         ),
       ),

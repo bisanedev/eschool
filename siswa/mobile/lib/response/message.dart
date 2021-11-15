@@ -1,12 +1,12 @@
 /* --- models login --*/
-class LoginResponse {  
+class ResponseMessage {  
   final String? message;  
   final bool? status;
 
-  LoginResponse({this.message,this.status});
+  ResponseMessage({this.message,this.status});
 
-  factory LoginResponse.fromJson(Map<String,dynamic> json) {
-    return LoginResponse(      
+  factory ResponseMessage.fromJson(Map<String,dynamic> json) {
+    return ResponseMessage(      
       message: json['message'] ?? "kosong",
       status: json['status'] ?? false,
     );

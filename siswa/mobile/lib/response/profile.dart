@@ -1,8 +1,9 @@
 class ProfileResponse {  
   final Message? message; 
   final bool? status;
+  final String? pesanError;
 
-  ProfileResponse({this.message,this.status});
+  ProfileResponse({this.message,this.status,this.pesanError});
 
   factory ProfileResponse.fromJson(Map<String,dynamic> json) {
     return ProfileResponse(                  

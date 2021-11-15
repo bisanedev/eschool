@@ -6,7 +6,7 @@ import 'dart:async';
 import 'dart:convert';
 import '../utils/globals.dart' as globals;
 import '../widget/tombol.dart';
-import '../response/login.dart';
+import '../response/message.dart';
 
 
 class LoginScreen extends StatefulWidget {          
@@ -18,7 +18,7 @@ class _LoginScreen extends State<LoginScreen> {
 
   final username = TextEditingController();
   final password = TextEditingController();
-  Future<LoginResponse>? futureLogin;
+  Future<ResponseMessage>? futureLogin;
   bool _obscureText = true;
 
   @override  
@@ -92,23 +92,23 @@ class _LoginScreen extends State<LoginScreen> {
       ),
     );
 
-    final futureBuilder = FutureBuilder<LoginResponse>(
+    final futureBuilder = FutureBuilder<ResponseMessage>(
         future: futureLogin,
         builder: (context, snapshot)  {
-        if (snapshot.hasData)  {          
+        if (snapshot.connectionState == ConnectionState.done && snapshot.hasData) {        
         /* --- simpan token ---*/
           if(snapshot.data!.status == true){
-            simpanToken(snapshot.data?.message ?? "");
-            /* --- Navigate route apps --- */  
+          simpanToken(snapshot.data?.message ?? "");
+          /* --- Navigate route apps --- */  
             WidgetsBinding.instance?.addPostFrameCallback((_) {                    
               Navigator.pushReplacementNamed(context, '/');
             });
           }else{
-            /* --- response ketika salah input ,username & password  ---*/          
+          /* --- response ketika salah input ,username & password  ---*/          
             return Center(
                 child:Text("${snapshot.data?.message}",style: TextStyle(color: Colors.red))
             );  
-          }                       
+          }        
         }
         return Container(
           padding: const EdgeInsets.all(8.0),
@@ -147,7 +147,7 @@ class _LoginScreen extends State<LoginScreen> {
     prefs.setString('userToken', userToken);    
   }  
   /* --- fungsi post data ---*/
-  Future<LoginResponse>? postLogin(String username,String password) async {
+  Future<ResponseMessage>? postLogin(String username,String password) async {
     final response = await http.post(
       Uri.http(globals.serverIP, '/api/siswa/auth'),  
       body: <String, String>{
@@ -156,7 +156,8 @@ class _LoginScreen extends State<LoginScreen> {
         'remember': 'Yes'       
       },     
     );
-    return LoginResponse.fromJson(jsonDecode(response.body));
+    Map<String, dynamic> error = jsonDecode(response.body);    
+    return ResponseMessage.fromJson(jsonDecode(response.body));    
   }
   //----
 }

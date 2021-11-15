@@ -3,7 +3,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../utils/globals.dart' as globals;
 import './aplikasi_screen.dart';
 import './pencapaian_screen.dart';
-import './akun_screen.dart';
+import 'profile_screen.dart';
 import './coba.dart';
 
 class BaseScreen extends StatefulWidget {          
@@ -18,7 +18,7 @@ class _BaseScreen extends State<BaseScreen> {
   @override  
   void initState() {        
     super.initState();
-    getToken();
+    getToken();            
   }
 
   List<GlobalKey<NavigatorState>> _navigatorKeys = [
@@ -65,14 +65,14 @@ class _BaseScreen extends State<BaseScreen> {
       _selectedIndex = index;
     });     
   }
- 
+
   Map<String, WidgetBuilder> _routeBuilders(BuildContext context, int index) {
     return {
       '/': (context) {
         return [
           AplikasiScreen(userToken: userToken),
           PencapaianScreen(userToken: userToken),
-          AkunScreen(
+          ProfileScreen(
             userToken: userToken,
             logOut: logOut,
           ),
@@ -98,14 +98,13 @@ class _BaseScreen extends State<BaseScreen> {
   }
 
   void getToken() async {
-     SharedPreferences prefs = await SharedPreferences.getInstance();           
+     SharedPreferences prefs = await SharedPreferences.getInstance();                
      setState((){
         userToken = prefs.getString('userToken') ?? '';
      });     
   }
 
-  void logOut() async {
-    print("logout");
+  void logOut() async {    
     SharedPreferences prefs = await SharedPreferences.getInstance();           
     await prefs.clear();
     Navigator.pushReplacementNamed(context, '/login');   

@@ -1,11 +1,11 @@
-class Response {  
+class ProfileResponse {  
   final Message? message; 
   final bool? status;
 
-  Response({this.message,this.status});
+  ProfileResponse({this.message,this.status});
 
-  factory Response.fromJson(Map<String,dynamic> json) {
-    return Response(                  
+  factory ProfileResponse.fromJson(Map<String,dynamic> json) {
+    return ProfileResponse(                  
       message: Message.fromJson(json['message']),    
       status: json['status'] ?? false,
     );

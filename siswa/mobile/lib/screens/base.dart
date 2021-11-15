@@ -65,18 +65,17 @@ class _BaseScreen extends State<BaseScreen> {
       _selectedIndex = index;
     });     
   }
-
-  void _next() {
-    Navigator.push(context, MaterialPageRoute(builder: (context) => CobaScreen()));
-  }
-
+ 
   Map<String, WidgetBuilder> _routeBuilders(BuildContext context, int index) {
     return {
       '/': (context) {
         return [
           AplikasiScreen(userToken: userToken),
           PencapaianScreen(userToken: userToken),
-          AkunScreen(userToken: userToken),
+          AkunScreen(
+            userToken: userToken,
+            logOut: logOut,
+          ),
         ].elementAt(index);
       },
     };
@@ -104,5 +103,18 @@ class _BaseScreen extends State<BaseScreen> {
         userToken = prefs.getString('userToken') ?? '';
      });     
   }
+
+  void logOut() async {
+    print("logout");
+    SharedPreferences prefs = await SharedPreferences.getInstance();           
+    await prefs.clear();
+    Navigator.pushReplacementNamed(context, '/login');   
+  }
+
+  void _next() {
+    Navigator.push(context, MaterialPageRoute(builder: (context) => CobaScreen()));
+  }
+
+
 /* ---  end script ---*/
 }

@@ -15,14 +15,14 @@ export default class Sidebar extends React.Component{
 
   render() {
     let foto = <img src={"data/users/"+this.props.username+".jpg?nocache="+Date.now()} onError={(e)=>{e.target.onerror = null; e.target.src=this.props.jenis==="l" ? "assets/images/cowok.png":"assets/images/cewek.png"}} />;
-    let sekolah = this.props.superuser ? <NavItem url="/sekolah" title="Sekolah" ico={<i className="material-icons-outlined" style={{fontSize:"20px",color:"white"}}>school</i>}/>:<NavItemDisabled title="Sekolah" ico={<i className="material-icons-outlined" style={{fontSize:"20px",color:"white"}}>school</i>} />;    
+    let sekolah = this.props.superuser ? <NavItem url="/sekolah" title="Sekolah" ico={<i className="material-icons-outlined" style={{fontSize:"25px",color:"white"}}>school</i>}/>:<NavItemDisabled title="Sekolah" ico={<i className="material-icons-outlined" style={{fontSize:"25px",color:"white"}}>school</i>} />;    
     return (
     <div id="menu" className="sidebar">
       <div className="logo">
         <img src="assets/images/logo_harizontal.png"/>
       </div>
       <ul className="nav"> 
-        <NavItem url="/" title="Aplikasi" ico={<i className="material-icons-outlined" style={{fontSize:"20px",color:"white"}}>apps</i>}/>
+        <NavItem url="/" title="Aplikasi" ico={<i className="material-icons-outlined" style={{fontSize:"25px",color:"white"}}>apps</i>}/>
         {sekolah}        
         <NavItem url="/profile" title="Profil" class="profile" subtext={"@"+this.props.username} ico={foto}/>  
         <NavLogout title="Logout" show={this.props.modalShow}/>
@@ -38,7 +38,7 @@ function NavLogout(props){
   return (
     <li className="nav-item">
     <div className="nav-icon icon-logout">    
-      <i className="material-icons-outlined" style={{fontSize:"20px",color:"white"}}>power_settings_new</i>     
+      <i className="material-icons-outlined" style={{fontSize:"25px",color:"white"}}>power_settings_new</i>     
     </div>
     <div className="nav-button" onClick={props.show}>      
       <span className="text">{props.title}</span>      

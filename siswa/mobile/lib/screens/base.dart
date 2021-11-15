@@ -48,7 +48,7 @@ class _BaseScreen extends State<BaseScreen> {
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.person_outline),
-              label: "Akun",
+              label: "Profil",
             ),     
           ],
           currentIndex: _selectedIndex,

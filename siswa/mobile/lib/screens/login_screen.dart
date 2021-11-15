@@ -6,6 +6,7 @@ import 'dart:async';
 import 'dart:convert';
 import '../utils/globals.dart' as globals;
 import '../widget/tombol.dart';
+import '../models/login_response.dart';
 
 
 class LoginScreen extends StatefulWidget {          
@@ -17,7 +18,7 @@ class _LoginScreen extends State<LoginScreen> {
 
   final username = TextEditingController();
   final password = TextEditingController();
-  Future<Login>? futureLogin;
+  Future<LoginResponse>? futureLogin;
   bool _obscureText = true;
 
   @override  
@@ -91,7 +92,7 @@ class _LoginScreen extends State<LoginScreen> {
       ),
     );
 
-    final futureBuilder = FutureBuilder<Login>(
+    final futureBuilder = FutureBuilder<LoginResponse>(
         future: futureLogin,
         builder: (context, snapshot)  {
         if (snapshot.hasData)  {          
@@ -146,7 +147,7 @@ class _LoginScreen extends State<LoginScreen> {
     prefs.setString('userToken', userToken);    
   }  
   /* --- fungsi post data ---*/
-  Future<Login>? postLogin(String username,String password) async {
+  Future<LoginResponse>? postLogin(String username,String password) async {
     final response = await http.post(
       Uri.http(globals.serverIP, '/api/siswa/auth'),  
       body: <String, String>{
@@ -155,22 +156,7 @@ class _LoginScreen extends State<LoginScreen> {
         'remember': 'Yes'       
       },     
     );
-    return Login.fromJson(jsonDecode(response.body));
+    return LoginResponse.fromJson(jsonDecode(response.body));
   }
   //----
-}
-
-/* --- models login --*/
-class Login {  
-  final String? message;  
-  final bool? status;
-
-  Login({this.message,this.status});
-
-  factory Login.fromJson(Map<String,dynamic> json) {
-    return Login(      
-      message: json['message'] ?? "kosong",
-      status: json['status'] ?? false,
-    );
-  }
 }

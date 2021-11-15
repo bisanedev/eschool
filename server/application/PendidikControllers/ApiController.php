@@ -44,7 +44,7 @@ class ApiController
                 "expired_token" => $token->claims()->get('exp')->getTimestamp(),
                 "id" => $token->claims()->get('uid')
             ]); 
-            $this->user = $cekUser;
+            $this->user = $cekUser[0];
             if(empty($cekUser)){                
                 echo $this->response->json_response(401, "Token user tidak ditemukan, Silahkan logout dan login kembali");                
                 exit; 
@@ -74,7 +74,7 @@ class ApiController
 
     public function hasSuperuser()
     {
-        if($this->user[0]["superuser"] != "1"){        
+        if($this->user["superuser"] != "1"){        
             echo $this->response->json_response(401, "Akses Superuser Dibutuhkan");
             exit;
         }

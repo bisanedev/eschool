@@ -1,6 +1,5 @@
 import React from 'react';
 import axios from 'axios';
-import { withRouter } from "react-router";
 import { Helmet } from 'react-helmet';
 import Forbidden from "../../other/forbidden";
 import { Breadcrumb } from '../../../components/menu';
@@ -28,7 +27,8 @@ class PageSekolahSiswaAdd extends React.Component{
       uploadDisable:false,       
     }
     this.handleInputChange = this.handleInputChange.bind(this);  
-    this.cropper = React.createRef();    
+    this.cropper = React.createRef();   
+    this.navigate = this.props.navigate; 
   }
 
   componentDidMount() {
@@ -286,8 +286,8 @@ class PageSekolahSiswaAdd extends React.Component{
         data: formData
     }).then(response => {                 
         if(response.data.status == true)
-        {                                
-          this.props.history.push('/sekolah/siswa');
+        {                                          
+          this.navigate("/sekolah/siswa"); 
         }
     }).catch(error => {                   
       if(error.response.status == 400){                       
@@ -304,10 +304,10 @@ class PageSekolahSiswaAdd extends React.Component{
 
   logout = () => {   
     window.localStorage.clear();
-    delete axios.defaults.headers.common['Authorization']; 
-    this.props.history.push('/');
+    delete axios.defaults.headers.common['Authorization'];     
+    this.navigate("/", { replace: true });
   }
   // ---------------------------- end of script
 }
 
-export default withRouter(PageSekolahSiswaAdd);
+export default PageSekolahSiswaAdd;

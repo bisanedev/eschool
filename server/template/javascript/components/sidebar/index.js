@@ -47,9 +47,10 @@ function NavLogout(props){
   );
 }
 function NavItem(props){  
-  const location = useLocation();
+  const location = useLocation().pathname.split('/');  
+  const urlActive = props.url.split('/');  
   return (
-    <li className={props.url === location.pathname ? "nav-item active":"nav-item"}>  
+    <li className={urlActive[1] === location[1] ? "nav-item active":"nav-item"}>  
     {props.class === "profile" && 
       <div className="nav-icon icon-profile">
       {props.ico}
@@ -73,8 +74,10 @@ function NavItem(props){
 }
 
 function NavItemDisabled(props){
+  const location = useLocation().pathname.split('/');  
+  const urlActive = props.url.split('/') ;
   return(
-  <li className={props.url === location.pathname ? "nav-item active":"nav-item"}>
+  <li className={urlActive[1] === location[1]  ? "nav-item active":"nav-item"}>
   <div className="nav-icon icon-disabled">
     {props.ico}
   </div>

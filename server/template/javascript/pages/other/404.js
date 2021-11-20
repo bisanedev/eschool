@@ -1,14 +1,8 @@
 import React from 'react';
-import { withRouter } from "react-router";
+import { useLocation } from "react-router";
 
-class Page404 extends React.Component {
-
-  componentDidMount() {
- 
-  }
-
-  render() {
-    const { match, location, history } = this.props;
+function Page404() {     
+    let location = useLocation();
     return (
       <section className="vh-100 dt w-100">
         <div className="dtc v-mid tc ph3 ph4-l">
@@ -23,9 +17,7 @@ class Page404 extends React.Component {
         </ul>
         </div>
       </section>
-    );
-  }
-  
+    );    
 }
 
-export default withRouter(Page404);
+export default Page404;

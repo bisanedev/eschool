@@ -1,7 +1,7 @@
 import React from "react";
-import {withRouter} from "react-router";
 import { Helmet } from "react-helmet";
 import axios from "axios";
+import {useNavigate } from "react-router-dom";
 import DatePicker from "react-datepicker";
 import Forbidden from "../../other/forbidden";
 import {Breadcrumb} from '../../../components/menu';
@@ -39,7 +39,8 @@ class PageSekolahSemesterSub extends React.Component{
       tahunAjaran:"",
     }    
     this.handleInputChange = this.handleInputChange.bind(this);
-    this.semesterID = this.props.match.params.semesterID;
+    this.semesterID = this.props.params.semesterID;
+    this.navigate = this.props.navigate;
   }
 
   componentDidMount() {
@@ -421,10 +422,10 @@ class PageSekolahSemesterSub extends React.Component{
   /*--- Logout ---*/
   logout = () => {   
     window.localStorage.clear();
-    delete axios.defaults.headers.common['Authorization']; 
-    this.props.history.push('/');
+    delete axios.defaults.headers.common['Authorization'];     
+    this.navigate("/", { replace: true });
   }
   // ---------------------------- end of script
 }
 
-export default withRouter(PageSekolahSemesterSub);
+export default PageSekolahSemesterSub;

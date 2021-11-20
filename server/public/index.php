@@ -26,6 +26,7 @@ $dispatcher = FastRoute\simpleDispatcher(function (RouteCollector $r) {
         //authentikasi
         $r->addRoute('POST', '/auth', ['App\SiswaControllers\AuthController','login']);
         $r->addRoute('GET', '/profile', ['App\SiswaControllers\ProfileController','index']);
+        $r->addRoute('GET', '/test', ['App\SiswaControllers\ProtectController','index']);
     });
     // admin Api
     $r->addGroup('/api/pendidik', function (RouteCollector $r) {

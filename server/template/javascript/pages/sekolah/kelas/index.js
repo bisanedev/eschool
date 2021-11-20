@@ -1,5 +1,4 @@
 import React from "react";
-import {withRouter} from "react-router";
 import { Helmet } from "react-helmet";
 import axios from "axios";
 import Forbidden from "../../other/forbidden";
@@ -32,6 +31,7 @@ class PageSekolahKelas extends React.Component{
       tingkat:""
     }    
     this.handleInputChange = this.handleInputChange.bind(this);
+    this.navigate = this.props.navigate;
   }
 
   componentDidMount() {
@@ -346,10 +346,10 @@ class PageSekolahKelas extends React.Component{
   /*--- Logout ---*/
   logout = () => {   
     window.localStorage.clear();
-    delete axios.defaults.headers.common['Authorization']; 
-    this.props.history.push('/');
+    delete axios.defaults.headers.common['Authorization'];     
+    this.navigate("/", { replace: true });
   }
   // ---------------------------- end of script
 }
 
-export default withRouter(PageSekolahKelas);
+export default PageSekolahKelas;

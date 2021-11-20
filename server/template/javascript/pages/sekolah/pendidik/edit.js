@@ -1,6 +1,5 @@
 import React from 'react';
 import axios from 'axios';
-import { withRouter } from "react-router";
 import { Helmet } from 'react-helmet';
 import Forbidden from "../../other/forbidden";
 import { Breadcrumb } from '../../../components/menu';
@@ -34,7 +33,8 @@ class PageSekolahPendidikEdit extends React.Component{
     }
     this.handleInputChange = this.handleInputChange.bind(this);  
     this.cropper = React.createRef(); 
-    this.userID = this.props.match.params.userID;   
+    this.userID = this.props.params.userID; 
+    this.navigate = this.props.navigate;  
   }
 
   componentDidMount() {
@@ -318,8 +318,8 @@ class PageSekolahPendidikEdit extends React.Component{
         data: formData
     }).then(response => {                 
         if(response.data.status == true)
-        {                                
-          this.props.history.push('/sekolah/pendidik');
+        {                       
+          this.navigate("/sekolah/pendidik");                    
         }
     }).catch(error => {                   
       if(error.response.status == 400){                       
@@ -344,8 +344,8 @@ class PageSekolahPendidikEdit extends React.Component{
       data: formData
     }).then(response => {
       if(response.data.status == true)
-      {        
-        this.props.history.push('/sekolah/pendidik');     
+      {       
+        this.navigate("/sekolah/pendidik");           
       }
     }).catch(error => {
       if(error.response.status == 401){
@@ -359,10 +359,10 @@ class PageSekolahPendidikEdit extends React.Component{
   //---
   logout = () => {   
     window.localStorage.clear();
-    delete axios.defaults.headers.common['Authorization']; 
-    this.props.history.push('/');
+    delete axios.defaults.headers.common['Authorization'];     
+    this.navigate("/", { replace: true });
   }
   // ---------------------------- end of script
 }
 
-export default withRouter(PageSekolahPendidikEdit);
+export default PageSekolahPendidikEdit;

@@ -1,11 +1,11 @@
 import React from 'react';
 import axios from 'axios';
-import {Redirect,withRouter} from "react-router";
+import {Navigate,useNavigate } from "react-router-dom";
 import { InputText,InputPassword,Checkbox } from '../../components/forms';
 import { Helmet } from 'react-helmet';
 import { ToastContainer, toast } from 'react-toastify';
 
-class PageLogin extends React.Component{
+class Login extends React.Component{
 
   constructor(props) {
     super(props);
@@ -16,6 +16,7 @@ class PageLogin extends React.Component{
       password:"",                 
     }
     this.handleInputChange = this.handleInputChange.bind(this);
+    this.navigate = this.props.navigate;
   }
 
   componentDidMount() {     
@@ -27,7 +28,7 @@ class PageLogin extends React.Component{
 
   render() {
     const {isLogin,rememberMe} = this.state;
-    if(isLogin){return <Redirect to={"/"} />;} 
+    if(isLogin){return <Navigate to={"/"} />;} 
     return (
     <>
     <div className="login-page">
@@ -70,7 +71,7 @@ class PageLogin extends React.Component{
   } 
   //submit
   SubmitLogin = () => {
-    const {username,password,rememberMe} = this.state;    
+    const {username,password,rememberMe} = this.state;       
     var formData = new FormData();
     formData.append('username', username);
     formData.append('password', password);    
@@ -83,8 +84,8 @@ class PageLogin extends React.Component{
     }).then(response => {                 
         if(response.data.status == true)
         {           
-          window.localStorage.setItem("userToken", response.data.message);
-          this.props.history.push('/');
+          window.localStorage.setItem("userToken", response.data.message);          
+          this.navigate("/");
         }
     }).catch(error => {
         if(error.response.status == 401){
@@ -97,5 +98,9 @@ class PageLogin extends React.Component{
   }  
   // ---------------------------- end of script
 }
+function PageLogin(props) {
+  let navigate = useNavigate();
+  return <Login {...props} navigate={navigate} />
+}
 
-export default withRouter(PageLogin);
+export default PageLogin;

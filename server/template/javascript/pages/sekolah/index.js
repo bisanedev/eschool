@@ -1,5 +1,4 @@
 import React from "react";
-import {withRouter} from "react-router";
 import { Helmet } from "react-helmet";
 import Forbidden from "../other/forbidden";
 import {Breadcrumb,MenuCard} from '../../components/menu';
@@ -52,4 +51,4 @@ class PageSekolah extends React.Component{
   // ---------------------------- end of script
 }
 
-export default withRouter(PageSekolah);
+export default PageSekolah;

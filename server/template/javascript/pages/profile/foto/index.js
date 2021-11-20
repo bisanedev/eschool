@@ -1,7 +1,6 @@
 import React from 'react';
 import axios from 'axios';
 import Cropper from "react-cropper";
-import { withRouter } from "react-router";
 import { Helmet } from 'react-helmet';
 import { Cards } from '../../../components/forms';
 import {Breadcrumb} from '../../../components/menu';
@@ -19,7 +18,8 @@ class PageProfileFoto extends React.Component{
       uploadProgress:false,
       uploadDisable:true,           
     }  
-    this.cropper = React.createRef();  
+    this.cropper = React.createRef();
+    this.navigate = this.props.navigate;  
   }
 
   componentDidMount() {
@@ -128,7 +128,7 @@ class PageProfileFoto extends React.Component{
     }).then(response => {
       if(response.data.status == true)
       {
-        this.props.history.push('/profile');
+        this.navigate('/profile');
       }
     }).catch(error => {
       if(error.response.status == 401){
@@ -164,13 +164,13 @@ class PageProfileFoto extends React.Component{
       reader.readAsDataURL(e.target.files[0]);   
     }
   };
-  
+
   logout = () => {   
     window.localStorage.clear();
-    delete axios.defaults.headers.common['Authorization']; 
-    this.props.history.push('/');
+    delete axios.defaults.headers.common['Authorization'];     
+    this.navigate("/", { replace: true });
   }
   // ---------------------------- end of script
 }
 
-export default withRouter(PageProfileFoto);
+export default PageProfileFoto;

@@ -1,5 +1,4 @@
 import React from 'react';
-import {withRouter} from "react-router";
 import { Helmet } from 'react-helmet';
 import {Breadcrumb,MenuCard,MenuCardDisable} from '../../components/menu';
 
@@ -57,4 +56,4 @@ class PageAplikasi extends React.Component{
   // ---------------------------- end of script
 }
 
-export default withRouter(PageAplikasi);
+export default PageAplikasi;

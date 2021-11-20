@@ -1,13 +1,13 @@
 import React from 'react';
-import {HashRouter,Switch,Route } from "react-router-dom";
+import {HashRouter,Routes,Route} from "react-router-dom";
 import Modal from 'react-modal';
-import PrivateRoute from "./components/privateRouter"; 
+import PrivateRoute from './components/privateRouter';
 /* pages */
 import PageLogin from "./pages/login";
 import Page404 from './pages/other/404';
-//----- Page
+//---- Aplikasi
 import PageAplikasi from './pages/aplikasi';
-//---- sekolah
+//---- Sekolah
 import PageSekolah from './pages/sekolah';
 import PageSekolahKelas from './pages/sekolah/kelas';
 import PageSekolahKelasSub from './pages/sekolah/kelas/subkelas';
@@ -30,30 +30,26 @@ Modal.setAppElement('#root');
 export default function RouterApp() {    
   return (
     <HashRouter>
-        <Switch>
-          <Route exact path="/login">
-            <PageLogin />
-          </Route>
-          <PrivateRoute exact path="/" component={PageAplikasi} />
-          <PrivateRoute exact path="/sekolah" component={PageSekolah} />  
-          <PrivateRoute exact path="/sekolah/kelas" component={PageSekolahKelas} /> 
-          <PrivateRoute exact path="/sekolah/kelas/:kelasID" component={PageSekolahKelasSub} /> 
-          <PrivateRoute exact path="/sekolah/semester" component={PageSekolahSemester} /> 
-          <PrivateRoute exact path="/sekolah/semester/:semesterID" component={PageSekolahSemesterSub} /> 
-          <PrivateRoute exact path="/sekolah/mapel" component={PageSekolahMapel} />
-          <PrivateRoute exact path="/sekolah/pendidik" component={PageSekolahPendidik} />
-          <PrivateRoute exact path="/sekolah/pendidik/add" component={PageSekolahPendidikAdd} />
-          <PrivateRoute exact path="/sekolah/pendidik/edit/:userID" component={PageSekolahPendidikEdit} />
-          <PrivateRoute exact path="/sekolah/siswa" component={PageSekolahSiswa} />
-          <PrivateRoute exact path="/sekolah/siswa/add" component={PageSekolahSiswaAdd} />
-          <PrivateRoute exact path="/sekolah/siswa/edit/:userID" component={PageSekolahSiswaEdit} />
-          <PrivateRoute exact path="/profile" component={PageProfile} /> 
-          <PrivateRoute exact path="/profile/foto" component={PageProfileFoto} />
-          <PrivateRoute exact path="/profile/password" component={PageProfilePassword} />          
-          <Route path="*">
-            <Page404 />
-          </Route>
-        </Switch>
+        <Routes>
+          <Route path="/login" element={<PageLogin />}/> 
+          <Route path="/" element={<PrivateRoute komponen={PageAplikasi}/>}/>
+          <Route path="/sekolah" element={<PrivateRoute komponen={PageSekolah}/>}/>          
+          <Route path="/sekolah/kelas" element={<PrivateRoute komponen={PageSekolahKelas}/>}/>          
+          <Route path="/sekolah/kelas/:kelasID" element={<PrivateRoute komponen={PageSekolahKelasSub}/>}/> 
+          <Route path="/sekolah/semester" element={<PrivateRoute komponen={PageSekolahSemester}/>} /> 
+          <Route path="/sekolah/semester/:semesterID" element={<PrivateRoute komponen={PageSekolahSemesterSub}/>}/> 
+          <Route path="/sekolah/mapel" element={<PrivateRoute komponen={PageSekolahMapel}/>} />
+          <Route path="/sekolah/pendidik" element={<PrivateRoute komponen={PageSekolahPendidik}/>} />
+          <Route path="/sekolah/pendidik/add" element={<PrivateRoute komponen={PageSekolahPendidikAdd}/>} />
+          <Route path="/sekolah/pendidik/edit/:userID" element={<PrivateRoute komponen={PageSekolahPendidikEdit}/>} />
+          <Route path="/sekolah/siswa" element={<PrivateRoute komponen={PageSekolahSiswa}/>} />
+          <Route path="/sekolah/siswa/add" element={<PrivateRoute komponen={PageSekolahSiswaAdd}/>} />
+          <Route path="/sekolah/siswa/edit/:userID" element={<PrivateRoute komponen={PageSekolahSiswaEdit}/>} />
+          <Route path="/profile" element={<PrivateRoute komponen={PageProfile}/>} /> 
+          <Route path="/profile/foto" element={<PrivateRoute komponen={PageProfileFoto}/>} />
+          <Route path="/profile/password" element={<PrivateRoute komponen={PageProfilePassword}/>} />              
+          <Route path="*" element={<Page404 />}/>                      
+        </Routes>
     </HashRouter>
   );
 }

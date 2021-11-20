@@ -1,5 +1,4 @@
 import React from 'react';
-import { withRouter } from "react-router";
 import { Helmet } from 'react-helmet';
 import axios from 'axios';
 import { Breadcrumb } from '../../components/menu';
@@ -80,8 +79,7 @@ class PageProfile extends React.Component{
       data: formData
     }).then(response => {
       if(response.data.status == true)
-      {        
-        //this.props.history.push('/profile');     
+      {            
         this.setState({showHapusFoto:false});
       }
     }).catch(error => {
@@ -96,4 +94,4 @@ class PageProfile extends React.Component{
   // ---------------------------- end of script
 }
 
-export default withRouter(PageProfile);
+export default PageProfile;

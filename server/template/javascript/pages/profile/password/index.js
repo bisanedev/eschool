@@ -1,6 +1,5 @@
 import React from 'react';
 import axios from 'axios';
-import { withRouter } from "react-router";
 import { Helmet } from 'react-helmet';
 import { Breadcrumb } from '../../../components/menu';
 import { InputPassword,Cards } from '../../../components/forms';
@@ -15,7 +14,8 @@ class PageProfilePassword extends React.Component{
       newPassword:"",      
       rePassword:""      
     }
-    this.handleInputChange = this.handleInputChange.bind(this);    
+    this.handleInputChange = this.handleInputChange.bind(this);
+    this.navigate = this.props.navigate;    
   }
 
   componentDidMount() {     
@@ -84,7 +84,7 @@ class PageProfilePassword extends React.Component{
     }).then(response => {                 
         if(response.data.status == true)
         {                                
-          this.props.history.push('/profile');
+          this.navigate('/profile');
         }
     }).catch(error => {                   
       if(error.response.status == 400){               
@@ -101,10 +101,10 @@ class PageProfilePassword extends React.Component{
 
   logout = () => {   
     window.localStorage.clear();
-    delete axios.defaults.headers.common['Authorization']; 
-    this.props.history.push('/');
+    delete axios.defaults.headers.common['Authorization'];     
+    this.navigate("/", { replace: true });
   }
   // ---------------------------- end of script
 }
 
-export default withRouter(PageProfilePassword);
+export default PageProfilePassword;

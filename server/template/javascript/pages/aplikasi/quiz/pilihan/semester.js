@@ -3,21 +3,23 @@ import { Helmet } from 'react-helmet';
 import axios from "axios";
 import {Breadcrumb,MenuText,MenuLoading} from '../../../../components/menu';
 
-class PageAplikasiQuizPilihanMapel extends React.Component{
+class PageAplikasiQuizPilihanSemester extends React.Component{
 
   constructor(props) {
     super(props);
     this.state = {
         data:[],
         isLoading:true,
-        tingkatan:""
+        tingkatan:"",
+        mapel:""
     }    
     this.navigate = this.props.navigate;
     this.tingkatID = this.props.params.tingkatID;
+    this.mapelID = this.props.params.mapelID;
   }
 
   componentDidMount() {     
-    this.timer = setTimeout(() => this.fetchData(this.tingkatID),300);  
+    this.timer = setTimeout(() => this.fetchData(this.tingkatID,this.mapelID),300);  
   }
 
   componentWillUnmount() {
@@ -25,7 +27,7 @@ class PageAplikasiQuizPilihanMapel extends React.Component{
   }
 
   render() {
-    const {data,tingkatan,isLoading} = this.state;    
+    const {data,tingkatan,mapel,isLoading} = this.state;    
     return (  
     <div className="konten"> 
         <Helmet>
@@ -38,13 +40,14 @@ class PageAplikasiQuizPilihanMapel extends React.Component{
             <li><a href="#/aplikasi/quiz"><span>Kuis platform</span></a></li>   
             <li><a href="#/aplikasi/quiz/pilihan"><span>Pilihan ganda</span></a></li>               
             <li><a href={"#/aplikasi/quiz/pilihan/"+this.tingkatID}><span>{tingkatan !="" ? tingkatan.nama:"memuat..."}</span></a></li>  
-            <li><a href="#"><span>Pilih mata pelajaran</span></a></li>         
+            <li><a href={"#/aplikasi/quiz/pilihan/"+this.tingkatID+"/"+this.mapelID}><span>{mapel !="" ? mapel.nama:"memuat..."}</span></a></li>  
+            <li><a href="#"><span>Pilih semester</span></a></li>         
           </Breadcrumb>
         </div>        
         <div className="mw9 center">
         <div className="cf ph3 mb3 flex flex-wrap">
         {data.length > 0 && !isLoading && data.map((value,k) => (                   
-          <MenuText key={k} url={"/aplikasi/quiz/pilihan/"+ this.tingkatID +"/"+value.id} title={value.nama} style={{backgroundColor:value.color}} color="#fff"/>        
+          <MenuText key={k} url={"/aplikasi/quiz/pilihan/"+ this.tingkatID+"/"+this.mapelID +"/"+value.id} title={"Semester "+value.semester} subtitle={value.tahun} color="#333"/>        
         ))}
         {isLoading && <MenuLoading/> } 
         </div>
@@ -53,14 +56,15 @@ class PageAplikasiQuizPilihanMapel extends React.Component{
     );
   }
   // ---------------------------- script     
-  fetchData = (id) => {     
+  fetchData = (tingkat,mapel) => {     
     this.setState({isLoading:true});
     axios.get(
-      window.location.origin + `/api/pendidik/aplikasi/quiz/mapel/${id}?&nocache=`+Date.now()
+      window.location.origin + `/api/pendidik/aplikasi/quiz/semester/${tingkat}/${mapel}?&nocache=`+Date.now()
     ).then(response => {      
       this.setState({
         data:response.data.message.data,        
         tingkatan:response.data.message.tingkatan,
+        mapel:response.data.message.mapel,
         isLoading:false
       });
     }).catch(error => {
@@ -78,4 +82,4 @@ class PageAplikasiQuizPilihanMapel extends React.Component{
   // ---------------------------- end of script
 }
 
-export default PageAplikasiQuizPilihanMapel;
+export default PageAplikasiQuizPilihanSemester;

@@ -25,27 +25,27 @@ class PageAplikasi extends React.Component{
         <div className="headings">
           <div className="title">Aplikasi</div>
           <div className="subtitle">Halaman aplikasi penunjang sekolah & belajar</div>
-          <Breadcrumb homeUrl="/" homeText="Aplikasi">                                
+          <Breadcrumb homeUrl="/aplikasi" homeText="Aplikasi">                                
             <li><a href="#"><span>Beranda</span></a></li>  
           </Breadcrumb>
         </div>        
         <div className="mw9 center">
         <div className="cf ph3 mb3 flex flex-wrap">
-          <MenuCard url="/quiz" icon="assets/images/menuButton.png" text="Kuis platform"/>
-          <MenuCard url="/absensi" icon="assets/images/menuButton.png" text="Absensi"/>
-          <MenuCard url="/ebook" icon="assets/images/menuButton.png" text="Buku Elektronik"/>
+          <MenuCard url="/aplikasi/quiz" icon="assets/images/menuButton.png" text="Kuis platform"/>
+          <MenuCard url="/aplikasi/absensi" icon="assets/images/menuButton.png" text="Absensi"/>
+          <MenuCard url="/aplikasi/ebook" icon="assets/images/menuButton.png" text="Buku Elektronik"/>
           {tokenData.superuser ? (
-            <MenuCard url="/pengumuman" superuser={tokenData.superuser} icon="assets/images/menuButton.png" text="Pengumuman"/>
+            <MenuCard url="/aplikasi/pengumuman" superuser={tokenData.superuser} icon="assets/images/menuButton.png" text="Pengumuman"/>
           ):(
             <MenuCardDisable icon="assets/images/menuButton.png" text="Pengumuman"/>
           )}          
-          <MenuCard url="/analisis" icon="assets/images/menuButton.png" text="Analisis siswa"/>
+          <MenuCard url="/aplikasi/analisis" icon="assets/images/menuButton.png" text="Analisis siswa"/>
           {tokenData.superuser ? (
-            <MenuCard url="/permainan" icon="assets/images/menuButton.png" text="Permainan"/>
+            <MenuCard url="/aplikasi/permainan" icon="assets/images/menuButton.png" text="Permainan"/>
           ):(
             <MenuCardDisable icon="assets/images/menuButton.png" text="Permainan"/>
           )}
-          <MenuCard url="/mandiri" icon="assets/images/menuButton.png" text="Belajar mandiri"/>       
+          <MenuCard url="/aplikasi/mandiri" icon="assets/images/menuButton.png" text="Belajar mandiri"/>       
         </div>
         </div>
     </div>

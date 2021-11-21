@@ -22,7 +22,7 @@ export default class Sidebar extends React.Component{
         <img src="assets/images/logo_harizontal.png"/>
       </div>
       <ul className="nav"> 
-        <NavItem url="/" title="Aplikasi" ico={<i className="material-icons-outlined" style={{fontSize:"25px",color:"white"}}>apps</i>}/>
+        <NavItem url="/aplikasi" title="Aplikasi" ico={<i className="material-icons-outlined" style={{fontSize:"25px",color:"white"}}>apps</i>}/>
         {sekolah}        
         <NavItem url="/profile" title="Profil" class="profile" subtext={"@"+this.props.username} ico={foto}/>  
         <NavLogout title="Logout" show={this.props.modalShow}/>
@@ -49,6 +49,7 @@ function NavLogout(props){
 function NavItem(props){  
   const location = useLocation().pathname.split('/');  
   const urlActive = props.url.split('/');  
+  
   return (
     <li className={urlActive[1] === location[1] ? "nav-item active":"nav-item"}>  
     {props.class === "profile" && 

@@ -32,6 +32,9 @@ $dispatcher = FastRoute\simpleDispatcher(function (RouteCollector $r) {
     $r->addGroup('/api/pendidik', function (RouteCollector $r) {
         //authentikasi
         $r->addRoute('POST', '/auth', ['App\PendidikControllers\AuthController','login']);
+        //quizPlatform
+        $r->addRoute('GET', '/aplikasi/quiz/tingkatan', ['App\PendidikControllers\QuizController','tingkatan']);
+        $r->addRoute('GET', '/aplikasi/quiz/mapel/{id}', ['App\PendidikControllers\QuizController','mapel']);
         //profile
         $r->addRoute('POST', '/profile/upload', ['App\PendidikControllers\ProfileController','uploadFoto']);
         $r->addRoute('PATCH', '/profile/password', ['App\PendidikControllers\ProfileController','gantiPassword']);
@@ -74,12 +77,6 @@ $dispatcher = FastRoute\simpleDispatcher(function (RouteCollector $r) {
         $r->addRoute('GET', '/sekolah/siswa/view/{id}', ['App\PendidikControllers\SekolahController','siswaView']);                
         $r->addRoute('DELETE', '/sekolah/siswa/foto/{username}', ['App\PendidikControllers\SekolahController','siswaFotoDelete']);
         $r->addRoute('DELETE', '/sekolah/siswa', ['App\PendidikControllers\SekolahController','siswaDelete']); 
-        //protected page
-        $r->addRoute('GET', '/protected', ['App\PendidikControllers\ProtectController','index']); 
-        $r->addRoute('POST', '/protected', ['App\PendidikControllers\ProtectController','indexPost']); 
-        $r->addRoute('PATCH', '/protected', ['App\PendidikControllers\ProtectController','indexPatch']); 
-        $r->addRoute('DELETE', '/protected', ['App\PendidikControllers\ProtectController','indexDelete']);
-        //-----
     });       
 });
 

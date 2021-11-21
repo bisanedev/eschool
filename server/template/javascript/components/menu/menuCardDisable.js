@@ -13,7 +13,7 @@ export default class MenuCardDisable extends React.Component{
   render() {
     return(
     <div className="wrapCard">
-    <div className="bg-white tc pa3 cardMenu relative br2" style={{border:"1px solid rgba(0,0,0,.125)"}}>
+    <div className="bg-white tc pa3 cardMenu relative br2" style={this.props.style}>
             <div className="cardMenuLocked">
                 <i className="material-icons" style={{fontSize:"20px"}}>lock</i>                  
             </div>                     

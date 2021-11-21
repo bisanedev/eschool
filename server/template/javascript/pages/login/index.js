@@ -28,7 +28,7 @@ class Login extends React.Component{
 
   render() {
     const {isLogin,rememberMe} = this.state;
-    if(isLogin){return <Navigate to={"/"} />;} 
+    if(isLogin){return <Navigate to={"/aplikasi"} />;} 
     return (
     <>
     <div className="login-page">
@@ -85,7 +85,7 @@ class Login extends React.Component{
         if(response.data.status == true)
         {           
           window.localStorage.setItem("userToken", response.data.message);          
-          this.navigate("/");
+          this.navigate("/aplikasi");
         }
     }).catch(error => {
         if(error.response.status == 401){

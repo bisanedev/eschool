@@ -1,5 +1,5 @@
 import React from 'react';
-import {HashRouter,Routes,Route} from "react-router-dom";
+import {HashRouter,Routes,Route,Navigate} from "react-router-dom";
 import Modal from 'react-modal';
 import PrivateRoute from './components/privateRouter';
 /* pages */
@@ -7,6 +7,9 @@ import PageLogin from "./pages/login";
 import Page404 from './pages/other/404';
 //---- Aplikasi
 import PageAplikasi from './pages/aplikasi';
+import PageAplikasiQuiz from './pages/aplikasi/quiz';
+import PageAplikasiQuizPilihan from './pages/aplikasi/quiz/pilihan';
+import PageAplikasiQuizPilihanMapel from './pages/aplikasi/quiz/pilihan/mapel';
 //---- Sekolah
 import PageSekolah from './pages/sekolah';
 import PageSekolahKelas from './pages/sekolah/kelas';
@@ -32,7 +35,11 @@ export default function RouterApp() {
     <HashRouter>
         <Routes>
           <Route path="/login" element={<PageLogin />}/> 
-          <Route path="/" element={<PrivateRoute komponen={PageAplikasi}/>}/>
+          <Route path="/" element={<CheckAuth/>}/> 
+          <Route path="/aplikasi" element={<PrivateRoute komponen={PageAplikasi}/>}/>
+          <Route path="/aplikasi/quiz" element={<PrivateRoute komponen={PageAplikasiQuiz}/>}/> 
+          <Route path="/aplikasi/quiz/pilihan" element={<PrivateRoute komponen={PageAplikasiQuizPilihan}/>}/>
+          <Route path="/aplikasi/quiz/pilihan/:tingkatID" element={<PrivateRoute komponen={PageAplikasiQuizPilihanMapel}/>}/>
           <Route path="/sekolah" element={<PrivateRoute komponen={PageSekolah}/>}/>          
           <Route path="/sekolah/kelas" element={<PrivateRoute komponen={PageSekolahKelas}/>}/>          
           <Route path="/sekolah/kelas/:kelasID" element={<PrivateRoute komponen={PageSekolahKelasSub}/>}/> 
@@ -53,3 +60,8 @@ export default function RouterApp() {
     </HashRouter>
   );
 }
+
+function CheckAuth() {
+  const authData = window.localStorage.getItem('userToken');
+  return authData ? <Navigate to="/aplikasi" /> : <Navigate to="/login" />;
+};

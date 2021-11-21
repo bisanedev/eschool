@@ -38,7 +38,7 @@ class PageProfilePassword extends React.Component{
           </Breadcrumb>   
         </div>
         <div className="mw9 center cf ph3 mb3">
-          <Cards title="Masukan password baru anda" custom="w-50" bodyClass="pa3">
+          <Cards title="Masukan password baru anda" custom="w-60" bodyClass="pa3">
               <div className="w-100 mb3">
                 <label className="f5 fw4 db mb2">Password saat ini</label>
                 <InputPassword name="curPassword" onChange={this.handleInputChange}/>

@@ -22,14 +22,13 @@ class SekolahController extends ApiController
         $cari = isset($_GET['cari'])? (string)$_GET["cari"]:"%";        
         $totalData = isset($_GET['total'])? (int)$_GET["total"]:1;             
         $page = isset($_GET['page'])? (int)$_GET["page"]:1;        
-        $mulai = ($page>1) ? ($page * $totalData) - $totalData :0;
-        //$order = isset($_GET['order'])? (string)$_GET["order"]:"DESC";
-        $totalRow = $this->database->count("kelas_tingkatan");
+        $mulai = ($page>1) ? ($page * $totalData) - $totalData :0;        
+        $totalRow = $this->database->count("sekolah_kelastingkatan");
         if(isset($_GET['cari'])){
-            $tingkatan = $this->database->select("kelas_tingkatan",["id","nama"],["nama[~]" => $cari]);
+            $tingkatan = $this->database->select("sekolah_kelastingkatan",["id","nama"],["nama[~]" => $cari]);
             $data = array("data" => $tingkatan,"totaldata"=>$totalRow ,"nextpage"=> false );
         }else{
-            $tingkatan = $this->database->select("kelas_tingkatan",["id","nama"],["LIMIT" => [$mulai,$totalData],"ORDER" => ["id" => "DESC"]]);            
+            $tingkatan = $this->database->select("sekolah_kelastingkatan",["id","nama"],["LIMIT" => [$mulai,$totalData],"ORDER" => ["id" => "DESC"]]);            
             $pages = ceil($totalRow/$totalData);
             $nextpage = ($page < $pages) ? $page+1 : false;
             $data = array("data" => $tingkatan,"totaldata"=>$totalRow,"pages" => $pages,"current" => $page,"nextpage"=> $nextpage );
@@ -42,7 +41,7 @@ class SekolahController extends ApiController
         $v = new Validator($_POST);
         $v->rule('required', ['nama']);
         if($v->validate()) {            
-            $this->database->insert("kelas_tingkatan",["nama" => $_POST["nama"]]);           
+            $this->database->insert("sekolah_kelastingkatan",["nama" => $_POST["nama"]]);           
             echo $this->response->json_response(200, "berhasil");
         }else{
             if($v->errors('nama')){
@@ -57,7 +56,7 @@ class SekolahController extends ApiController
         $v = new Validator($_PATCH);
         $v->rule('required', ['id','nama']);
         if($v->validate()) {                      
-            $update=$this->database->update("kelas_tingkatan",["nama" => $_PATCH["nama"]],["id" => $_PATCH["id"]]);
+            $update=$this->database->update("sekolah_kelastingkatan",["nama" => $_PATCH["nama"]],["id" => $_PATCH["id"]]);
             if($update->rowCount() === 0){
                 echo $this->response->json_response(400,"Data tidak ditemukan");
             }else{
@@ -79,7 +78,7 @@ class SekolahController extends ApiController
         $v = new Validator($_DELETE);
         $v->rule('required', ['delete']);
         if($v->validate()) {                                         
-            $hapus=$this->database->delete("kelas_tingkatan",["AND" => ["id" => json_decode($_DELETE['delete'])]]);
+            $hapus=$this->database->delete("sekolah_kelastingkatan",["AND" => ["id" => json_decode($_DELETE['delete'])]]);
             if($this->database->error){
                 echo $this->response->json_response(400,"Dilarang dihapus masih ada data");
                 exit;
@@ -102,13 +101,13 @@ class SekolahController extends ApiController
         $totalData = isset($_GET['total'])? (int)$_GET["total"]:1;             
         $page = isset($_GET['page'])? (int)$_GET["page"]:1;        
         $mulai = ($page>1) ? ($page * $totalData) - $totalData :0;        
-        $totalRow = $this->database->count("kelas_nama",["tingkatan_id" => $id]);
-        $tingkatan = $this->database->select("kelas_tingkatan",["nama"],["id" => $id]);
+        $totalRow = $this->database->count("sekolah_kelasnama",["tingkatan_id" => $id]);
+        $tingkatan = $this->database->select("sekolah_kelastingkatan",["nama"],["id" => $id]);
         if(isset($_GET['cari'])){
-            $kelas = $this->database->select("kelas_nama",["id","nama"],["tingkatan_id" => $id,"nama[~]" => $cari]);
+            $kelas = $this->database->select("sekolah_kelasnama",["id","nama"],["tingkatan_id" => $id,"nama[~]" => $cari]);
             $data = array("data" => $kelas,"totaldata"=>$totalRow ,"tingkatan" => $tingkatan[0]["nama"],"nextpage"=> false );
         }else{
-            $kelas = $this->database->select("kelas_nama",["id","nama"],["tingkatan_id" => $id,"LIMIT" => [$mulai,$totalData],"ORDER" => ["id" => "DESC"]]);            
+            $kelas = $this->database->select("sekolah_kelasnama",["id","nama"],["tingkatan_id" => $id,"LIMIT" => [$mulai,$totalData],"ORDER" => ["id" => "DESC"]]);            
             $pages = ceil($totalRow/$totalData);
             $nextpage = ($page < $pages) ? $page+1 : false;
             $data = array("data" => $kelas,"totaldata"=>$totalRow,"tingkatan" => $tingkatan[0]["nama"],"pages" => $pages,"current" => $page,"nextpage"=> $nextpage );
@@ -121,7 +120,7 @@ class SekolahController extends ApiController
         $v = new Validator($_POST);
         $v->rule('required', ['nama']);
         if($v->validate()) {            
-            $this->database->insert("kelas_nama",["tingkatan_id" => $id,"nama" => $_POST["nama"]]);           
+            $this->database->insert("sekolah_kelasnama",["tingkatan_id" => $id,"nama" => $_POST["nama"]]);           
             echo $this->response->json_response(200, "berhasil");
         }else{
             if($v->errors('nama')){
@@ -136,7 +135,7 @@ class SekolahController extends ApiController
         $v = new Validator($_PATCH);
         $v->rule('required', ['id','nama']);
         if($v->validate()) {
-            $update=$this->database->update("kelas_nama",["nama" => $_PATCH["nama"]],["AND" => ["id" => $_PATCH["id"],"tingkatan_id" => $id]]);
+            $update=$this->database->update("sekolah_kelasnama",["nama" => $_PATCH["nama"]],["AND" => ["id" => $_PATCH["id"],"tingkatan_id" => $id]]);
             if($update->rowCount() === 0){
                 echo $this->response->json_response(400,"Data tidak ditemukan");
             }else{
@@ -158,7 +157,7 @@ class SekolahController extends ApiController
         $v = new Validator($_DELETE);
         $v->rule('required', ['delete']);
         if($v->validate()) {                                         
-            $hapus=$this->database->delete("kelas_nama",["AND" => ["id" => json_decode($_DELETE['delete'])]]);
+            $hapus=$this->database->delete("sekolah_kelasnama",["AND" => ["id" => json_decode($_DELETE['delete'])]]);
             if($hapus->rowCount() === 0){
                 echo $this->response->json_response(400,"Data tidak ditemukan");
             }else{                
@@ -177,12 +176,12 @@ class SekolahController extends ApiController
         $totalData = isset($_GET['total'])? (int)$_GET["total"]:1;             
         $page = isset($_GET['page'])? (int)$_GET["page"]:1;        
         $mulai = ($page>1) ? ($page * $totalData) - $totalData :0;        
-        $totalRow = $this->database->count("semester_tahun");
+        $totalRow = $this->database->count("sekolah_semestertahun");
         if(isset($_GET['cari'])){
-            $tahun = $this->database->select("semester_tahun",["id","nama"],["nama[~]" => $cari]);
+            $tahun = $this->database->select("sekolah_semestertahun",["id","nama"],["nama[~]" => $cari]);
             $data = array("data" => $tahun,"totaldata"=>$totalRow ,"nextpage"=> false );
         }else{
-            $tahun = $this->database->select("semester_tahun",["id","nama"],["LIMIT" => [$mulai,$totalData],"ORDER" => ["id" => "DESC"]]);            
+            $tahun = $this->database->select("sekolah_semestertahun",["id","nama"],["LIMIT" => [$mulai,$totalData],"ORDER" => ["id" => "DESC"]]);            
             $pages = ceil($totalRow/$totalData);
             $nextpage = ($page < $pages) ? $page+1 : false;
             $data = array("data" => $tahun,"totaldata"=>$totalRow,"pages" => $pages,"current" => $page,"nextpage"=> $nextpage );
@@ -195,7 +194,7 @@ class SekolahController extends ApiController
         $v = new Validator($_POST);
         $v->rule('required', ['nama']);
         if($v->validate()) {            
-            $this->database->insert("semester_tahun",["nama" => $_POST["nama"]]);           
+            $this->database->insert("sekolah_semestertahun",["nama" => $_POST["nama"]]);           
             echo $this->response->json_response(200, "berhasil");
         }else{
             if($v->errors('nama')){
@@ -210,7 +209,7 @@ class SekolahController extends ApiController
         $v = new Validator($_PATCH);
         $v->rule('required', ['id','nama']);
         if($v->validate()) {                      
-            $update=$this->database->update("semester_tahun",["nama" => $_PATCH["nama"]],["id" => $_PATCH["id"]]);
+            $update=$this->database->update("sekolah_semestertahun",["nama" => $_PATCH["nama"]],["id" => $_PATCH["id"]]);
             if($update->rowCount() === 0){
                 echo $this->response->json_response(400,"Data tidak ditemukan");
             }else{
@@ -233,7 +232,7 @@ class SekolahController extends ApiController
         $v = new Validator($_DELETE);
         $v->rule('required', ['delete']);
         if($v->validate()) {                                         
-            $hapus=$this->database->delete("semester_tahun",["AND" => ["id" => json_decode($_DELETE['delete'])]]);
+            $hapus=$this->database->delete("sekolah_semestertahun",["AND" => ["id" => json_decode($_DELETE['delete'])]]);
             if($this->database->error){
                 echo $this->response->json_response(400,"Dilarang dihapus masih ada data");
                 exit;
@@ -256,13 +255,13 @@ class SekolahController extends ApiController
         $totalData = isset($_GET['total'])? (int)$_GET["total"]:1;             
         $page = isset($_GET['page'])? (int)$_GET["page"]:1;        
         $mulai = ($page>1) ? ($page * $totalData) - $totalData :0;                
-        $totalRow = $this->database->count("semester_nama",["semester_tahun_id" => $id]);
-        $tahun = $this->database->select("semester_tahun",["nama"],["id" => $id]);
+        $totalRow = $this->database->count("sekolah_semesternama",["semester_tahun_id" => $id]);
+        $tahun = $this->database->select("sekolah_semestertahun",["nama"],["id" => $id]);
         if(isset($_GET['cari'])){
-            $semester = $this->database->select("semester_nama",["id","semester","semester_start","semester_end"],["semester_tahun_id" => $id,"semester[~]" => $cari]);
+            $semester = $this->database->select("sekolah_semesternama",["id","semester","semester_start","semester_end"],["semester_tahun_id" => $id,"semester[~]" => $cari]);
             $data = array("data" => $semester,"tahun"=> $tahun[0]["nama"],"totaldata"=>$totalRow ,"nextpage"=> false );
         }else{
-            $semester = $this->database->select("semester_nama",["id","semester","semester_start","semester_end"],["semester_tahun_id" => $id,"LIMIT" => [$mulai,$totalData],"ORDER" => ["semester_start" => "DESC"]]);            
+            $semester = $this->database->select("sekolah_semesternama",["id","semester","semester_start","semester_end"],["semester_tahun_id" => $id,"LIMIT" => [$mulai,$totalData],"ORDER" => ["semester_start" => "DESC"]]);            
             $pages = ceil($totalRow/$totalData);
             $nextpage = ($page < $pages) ? $page+1 : false;
             $data = array("data" => $semester,"tahun"=> $tahun[0]["nama"],"totaldata"=>$totalRow,"pages" => $pages,"current" => $page,"nextpage"=> $nextpage );
@@ -275,7 +274,7 @@ class SekolahController extends ApiController
         $v = new Validator($_POST);
         $v->rule('required', ['semester','semester_start','semester_end']);
         if($v->validate()) {            
-            $this->database->insert("semester_nama",["semester_tahun_id" => $id,"semester" => $_POST["semester"],"semester_start" => $_POST["semester_start"],"semester_end" => $_POST["semester_end"]]);            
+            $this->database->insert("sekolah_semesternama",["semester_tahun_id" => $id,"semester" => $_POST["semester"],"semester_start" => $_POST["semester_start"],"semester_end" => $_POST["semester_end"]]);            
             echo $this->response->json_response(200, "berhasil");
         }else{
             if($v->errors('semester')){
@@ -294,7 +293,7 @@ class SekolahController extends ApiController
         $v = new Validator($_PATCH);
         $v->rule('required', ['id','semester','semester_start','semester_end']);
         if($v->validate()) {                      
-            $update=$this->database->update("semester_nama",
+            $update=$this->database->update("sekolah_semesternama",
                 ["semester" => $_PATCH["semester"],"semester_start" => $_PATCH["semester_start"],"semester_end" => $_PATCH["semester_end"]],
                 ["AND" => ["id" => $_PATCH["id"],"semester_tahun_id" => $id]]
             );            
@@ -323,7 +322,7 @@ class SekolahController extends ApiController
         $v = new Validator($_DELETE);
         $v->rule('required', ['delete']);
         if($v->validate()) {                                         
-            $hapus=$this->database->delete("semester_nama",["AND" => ["id" => json_decode($_DELETE['delete'])]]);
+            $hapus=$this->database->delete("sekolah_semesternama",["AND" => ["id" => json_decode($_DELETE['delete'])]]);
             if($hapus->rowCount() === 0){
                 echo $this->response->json_response(400,"Data tidak ditemukan");
             }else{                
@@ -342,12 +341,12 @@ class SekolahController extends ApiController
         $totalData = isset($_GET['total'])? (int)$_GET["total"]:1;             
         $page = isset($_GET['page'])? (int)$_GET["page"]:1;        
         $mulai = ($page>1) ? ($page * $totalData) - $totalData :0;        
-        $totalRow = $this->database->count("mapel");
+        $totalRow = $this->database->count("sekolah_mapel");
         if(isset($_GET['cari'])){
-            $mapel = $this->database->select("mapel",["id","nama","color"],["nama[~]" => $cari]);
+            $mapel = $this->database->select("sekolah_mapel",["id","nama","color"],["nama[~]" => $cari]);
             $data = array("data" => $mapel,"totaldata"=>$totalRow ,"nextpage"=> false );
         }else{
-            $mapel = $this->database->select("mapel",["id","nama","color"],["LIMIT" => [$mulai,$totalData],"ORDER" => ["id" => "DESC"]]);            
+            $mapel = $this->database->select("sekolah_mapel",["id","nama","color"],["LIMIT" => [$mulai,$totalData],"ORDER" => ["id" => "DESC"]]);            
             $pages = ceil($totalRow/$totalData);
             $nextpage = ($page < $pages) ? $page+1 : false;
             $data = array("data" => $mapel,"totaldata"=>$totalRow,"pages" => $pages,"current" => $page,"nextpage"=> $nextpage );
@@ -360,7 +359,7 @@ class SekolahController extends ApiController
         $v = new Validator($_POST);
         $v->rule('required', ['nama','color']);
         if($v->validate()) {            
-            $this->database->insert("mapel",["nama" => $_POST["nama"],"color" => $_POST["color"]]);           
+            $this->database->insert("sekolah_mapel",["nama" => $_POST["nama"],"color" => $_POST["color"]]);           
             echo $this->response->json_response(200, "berhasil");
         }else{
             if($v->errors('nama')){
@@ -377,7 +376,7 @@ class SekolahController extends ApiController
         $v = new Validator($_PATCH);
         $v->rule('required', ['id','nama','color']);
         if($v->validate()) {                      
-            $update=$this->database->update("mapel",["nama" => $_PATCH["nama"],"color" => $_PATCH["color"]],["id" => $_PATCH["id"]]);
+            $update=$this->database->update("sekolah_mapel",["nama" => $_PATCH["nama"],"color" => $_PATCH["color"]],["id" => $_PATCH["id"]]);
             if($update->rowCount() === 0){
                 echo $this->response->json_response(400,"Data tidak ditemukan");
             }else{
@@ -400,7 +399,7 @@ class SekolahController extends ApiController
         $v = new Validator($_DELETE);
         $v->rule('required', ['delete']);
         if($v->validate()) {                                         
-            $hapus=$this->database->delete("mapel",["AND" => ["id" => json_decode($_DELETE['delete'])]]);           
+            $hapus=$this->database->delete("sekolah_mapel",["AND" => ["id" => json_decode($_DELETE['delete'])]]);           
             if($hapus->rowCount() === 0){
                 echo $this->response->json_response(400,"Data tidak ditemukan");
             }else{                
@@ -419,10 +418,10 @@ class SekolahController extends ApiController
         $totalData = isset($_GET['total'])? (int)$_GET["total"]:1;             
         $page = isset($_GET['page'])? (int)$_GET["page"]:1;        
         $mulai = ($page>1) ? ($page * $totalData) - $totalData :0;        
-        $totalRow = $this->database->count("users");
-        $mapel = $this->database->select("mapel",["id","nama","color"]);
-        $cari = $this->database->select("users",["id","nama","jenis","username","mapel_id[JSON]","superuser"],["nama[~]" => $cari]);
-        $pagi = $this->database->select("users",["id","nama","jenis","username","mapel_id[JSON]","superuser"],["LIMIT" => [$mulai,$totalData],"ORDER" => ["id" => "DESC"]]);
+        $totalRow = $this->database->count("sekolah_users");
+        $mapel = $this->database->select("sekolah_mapel",["id","nama","color"]);
+        $cari = $this->database->select("sekolah_users",["id","nama","jenis","username","mapel_id[JSON]","superuser"],["nama[~]" => $cari]);
+        $pagi = $this->database->select("sekolah_users",["id","nama","jenis","username","mapel_id[JSON]","superuser"],["LIMIT" => [$mulai,$totalData],"ORDER" => ["id" => "DESC"]]);
         if(isset($_GET['cari'])){
             $users = $this->reMapwithMapel($cari,$mapel);
             $data = array("data" => $users,"totaldata"=>$totalRow ,"nextpage"=> false );
@@ -437,7 +436,7 @@ class SekolahController extends ApiController
 
     public function pendidikView($id)
     {
-        $data = $this->database->select("users",["id","nama","jenis","foto[Bool]","username","mapel_id[JSON]","superuser[Bool]"],["id" => $id]);
+        $data = $this->database->select("sekolah_users",["id","nama","jenis","foto[Bool]","username","mapel_id[JSON]","superuser[Bool]"],["id" => $id]);
         echo $this->response->json_response(200, $data[0]);
     }
 
@@ -448,7 +447,7 @@ class SekolahController extends ApiController
         $v->rule('required', ['delete']);
         if($v->validate()) {
             unlink(__DIR__ ."/../../public/data/users/".$username.".jpg");
-            $this->database->update("users",["foto" => "0"],["id" => $_DELETE["delete"]]);
+            $this->database->update("sekolah_users",["foto" => "0"],["id" => $_DELETE["delete"]]);
             echo $this->response->json_response(200,"berhasil");     
         }else{
             if($v->errors('delete')){
@@ -491,7 +490,7 @@ class SekolahController extends ApiController
                 }
                 if ($this->compressImage($_FILES['file']['tmp_name'],$location,60)) {
                     // insert new users with foto to database       
-                    $this->database->insert("users",
+                    $this->database->insert("sekolah_users",
                         ["nama" => $_POST["nama"],"jenis" => $_POST["jenis"],"username" => strtolower($_POST["username"]),"foto" => "1","password" => $ciphertext ,"mapel_id" => $_POST["mapel_id"],"superuser" => $_POST["superuser"]]
                     );
                     if($this->database->error){
@@ -504,7 +503,7 @@ class SekolahController extends ApiController
                 }
             }else{
                 // insert new users to database       
-                $this->database->insert("users",
+                $this->database->insert("sekolah_users",
                     ["nama" => $_POST["nama"],"jenis" => $_POST["jenis"],"username" => strtolower($_POST["username"]),"password" => $ciphertext ,"mapel_id" => $_POST["mapel_id"],"superuser" => $_POST["superuser"]]
                 );  
                 if($this->database->error){
@@ -571,7 +570,7 @@ class SekolahController extends ApiController
                 if ($this->compressImage($_FILES['file']['tmp_name'],$location,60)) {
                     // jika password kosong
                     if(empty($_POST["password"])){
-                        $this->database->update("users",
+                        $this->database->update("sekolah_users",
                             ["nama" => $_POST["nama"],"jenis" => $_POST["jenis"],"username" => strtolower($_POST["username"]),"foto" => "1","mapel_id" => $_POST["mapel_id"],"superuser" => $_POST["superuser"]],
                             ["id" => $_POST["id"]]
                         );
@@ -582,7 +581,7 @@ class SekolahController extends ApiController
                         echo $this->response->json_response(200, "berhasil");
                     }else{
                         $ciphertext = $bcrypt->encrypt($_POST["password"],"2a");
-                        $this->database->update("users",
+                        $this->database->update("sekolah_users",
                             ["nama" => $_POST["nama"],"jenis" => $_POST["jenis"],"username" => strtolower($_POST["username"]),"foto" => "1","password" => $ciphertext,"mapel_id" => $_POST["mapel_id"],"superuser" => $_POST["superuser"]],
                             ["id" => $_POST["id"]]
                         );
@@ -598,7 +597,7 @@ class SekolahController extends ApiController
             }else{
                 // tanpa foto dan jika password kosong
                 if(empty($_POST["password"])){
-                    $this->database->update("users",
+                    $this->database->update("sekolah_users",
                         ["nama" => $_POST["nama"],"jenis" => $_POST["jenis"],"username" => strtolower($_POST["username"]),"mapel_id" => $_POST["mapel_id"],"superuser" => $_POST["superuser"]],
                         ["id" => $_POST["id"]]
                     );
@@ -609,7 +608,7 @@ class SekolahController extends ApiController
                     echo $this->response->json_response(200, "berhasil");
                 }else{
                     $ciphertext = $bcrypt->encrypt($_POST["password"],"2a");
-                    $this->database->update("users",
+                    $this->database->update("sekolah_users",
                         ["nama" => $_POST["nama"],"jenis" => $_POST["jenis"],"username" => strtolower($_POST["username"]),"password" => $ciphertext,"mapel_id" => $_POST["mapel_id"],"superuser" => $_POST["superuser"]],
                         ["id" => $_POST["id"]]
                     );
@@ -656,7 +655,7 @@ class SekolahController extends ApiController
                     exit;
                 }
                 unlink(__DIR__ ."/../../public/data/users/".$data["username"].".jpg");
-                $hapus = $this->database->delete("users",["AND" => ["id" => $data["id"]]]);                
+                $hapus = $this->database->delete("sekolah_users",["AND" => ["id" => $data["id"]]]);                
                 if($hapus->rowCount() === 0){
                     echo $this->response->json_response(400,"Data tidak ditemukan ".$data["id"]);
                 }else{                
@@ -672,7 +671,7 @@ class SekolahController extends ApiController
                 foreach ($arrayData[1] as $username) {
                     unlink(__DIR__ ."/../../public/data/users/".$username.".jpg");
                 }                
-                $hapus = $this->database->delete("users",["AND" => ["id" => $arrayData[0]]]);                
+                $hapus = $this->database->delete("sekolah_users",["AND" => ["id" => $arrayData[0]]]);                
                 if($hapus->rowCount() === 0){
                     echo $this->response->json_response(400,"Data tidak ditemukan");
                 }else{                
@@ -693,44 +692,44 @@ class SekolahController extends ApiController
         $page = isset($_GET['page'])? (int)$_GET["page"]:1;        
         $kelasID = isset($_GET['kelas'])? (int)$_GET["kelas"]:1;  
         $mulai = ($page>1) ? ($page * $totalData) - $totalData :0;        
-        $kelas = $this->database->select("kelas_nama",["id","nama"]); 
-        $totalRow = $this->database->count("siswa");        
+        $kelas = $this->database->select("sekolah_kelasnama",["id","nama"]); 
+        $totalRow = $this->database->count("sekolah_siswa");        
         if(isset($_GET['cari'])){
-            $siswa = $this->database->select("siswa",["[>]kelas_nama" => ["kelas_id" => "id"]],["siswa.id","siswa.nama","siswa.jenis","siswa.username","siswa.no_absens(absen)","kelas_nama.nama(kelas)"],["siswa.nama[~]" => $cari]);
+            $siswa = $this->database->select("sekolah_siswa",["[>]sekolah_kelasnama" => ["kelas_id" => "id"]],["sekolah_siswa.id","sekolah_siswa.nama","sekolah_siswa.jenis","sekolah_siswa.username","sekolah_siswa.no_absens(absen)","sekolah_kelasnama.nama(kelas)"],["sekolah_siswa.nama[~]" => $cari]);
             $data = array("data" => $siswa,"kelas" => $kelas,"totaldata" => $totalRow ,"nextpage"=> false );
         }
         elseif(isset($_GET['kelas'])){
-            $totalKelas = $this->database->count("siswa",["kelas_id" => $kelasID]); 
-            $siswa = $this->database->select("siswa",["[>]kelas_nama" => ["kelas_id" => "id"]],["siswa.id","siswa.nama","siswa.jenis","siswa.username","siswa.no_absens(absen)","kelas_nama.nama(kelas)"],["kelas_id" => $kelasID ,"LIMIT" => [$mulai,$totalData],"ORDER" => ["siswa.no_absens" => "ASC"]]);
+            $totalKelas = $this->database->count("sekolah_siswa",["kelas_id" => $kelasID]); 
+            $siswa = $this->database->select("sekolah_siswa",["[>]sekolah_kelasnama" => ["kelas_id" => "id"]],["sekolah_siswa.id","sekolah_siswa.nama","sekolah_siswa.jenis","sekolah_siswa.username","sekolah_siswa.no_absens(absen)","sekolah_kelasnama.nama(kelas)"],["sekolah_siswa.kelas_id" => $kelasID ,"LIMIT" => [$mulai,$totalData],"ORDER" => ["sekolah_siswa.no_absens" => "ASC"]]);
             $pages = ceil($totalKelas/$totalData);
             $nextpage = ($page < $pages) ? $page+1 : false;
             $data = array("data" => $siswa,"kelas" => $kelas,"totaldata" => $totalKelas,"pages" => $pages,"current" => $page,"nextpage"=> $nextpage );
         }else{
-            $siswa = $this->database->select("siswa",["[>]kelas_nama" => ["kelas_id" => "id"]],["siswa.id","siswa.nama","siswa.jenis","siswa.username","siswa.no_absens(absen)","kelas_nama.nama(kelas)"],["LIMIT" => [$mulai,$totalData],"ORDER" => ["siswa.id" => "DESC"]]); 
+            $siswa = $this->database->select("sekolah_siswa",["[>]sekolah_kelasnama" => ["kelas_id" => "id"]],["sekolah_siswa.id","sekolah_siswa.nama","sekolah_siswa.jenis","sekolah_siswa.username","sekolah_siswa.no_absens(absen)","sekolah_kelasnama.nama(kelas)"],["LIMIT" => [$mulai,$totalData],"ORDER" => ["sekolah_siswa.id" => "DESC"]]); 
             $pages = ceil($totalRow/$totalData);
-            $nextpage = ($page < $pages) ? $page+1 : false;
+            $nextpage = ($page < $pages) ? $page+1 : false;            
             $data = array("data" => $siswa,"kelas" => $kelas,"totaldata" => $totalRow,"pages" => $pages,"current" => $page,"nextpage"=> $nextpage );
         }                                     
-         
+             
         echo $this->response->json_response(200, $data);   
     }
 
     public function siswaKelas()
     {
-        $kelas = $this->database->select("kelas_nama",["id","nama"]); 
+        $kelas = $this->database->select("sekolah_kelasnama",["id","nama"]); 
         echo $this->response->json_response(200, $kelas);
     }
 
     public function countSiswaKelas($id)
     {
-        $totalSiswa = $this->database->count("siswa",["kelas_id" => $id]);
+        $totalSiswa = $this->database->count("sekolah_siswa",["kelas_id" => $id]);
         echo $this->response->json_response(200, $totalSiswa); 
     }
 
     public function siswaView($id)
     {
-        $kelas = $this->database->select("kelas_nama",["id","nama"]);  
-        $siswa = $this->database->select("siswa",["id","nama","jenis","foto[Bool]","username","no_absens","kelas_id"],["id" => $id]);
+        $kelas = $this->database->select("sekolah_kelasnama",["id","nama"]);  
+        $siswa = $this->database->select("sekolah_siswa",["id","nama","jenis","foto[Bool]","username","no_absens","kelas_id"],["id" => $id]);
         $data = array("data" => $siswa[0],"kelas"=>$kelas);
         echo $this->response->json_response(200, $data);
     }
@@ -742,7 +741,7 @@ class SekolahController extends ApiController
         $v->rule('required', ['delete']);
         if($v->validate()) {
             unlink(__DIR__ ."/../../public/data/siswa/".$username.".jpg");
-            $this->database->update("siswa",["foto" => "0"],["id" => $_DELETE["delete"]]);
+            $this->database->update("sekolah_siswa",["foto" => "0"],["id" => $_DELETE["delete"]]);
             echo $this->response->json_response(200,"berhasil");     
         }else{
             if($v->errors('delete')){
@@ -785,7 +784,7 @@ class SekolahController extends ApiController
                 }
                 if ($this->compressImage($_FILES['file']['tmp_name'],$location,60)) {
                     // insert new siswa with foto to database       
-                    $this->database->insert("siswa",
+                    $this->database->insert("sekolah_siswa",
                         ["nama" => $_POST["nama"],"jenis" => $_POST["jenis"],"username" => strtolower($_POST["username"]),"foto" => "1","password" => $ciphertext ,"kelas_id" => $_POST["kelas"],"no_absens" => $_POST["absen"]]
                     );
                     if($this->database->error){
@@ -798,7 +797,7 @@ class SekolahController extends ApiController
                 }
             }else{
                 // insert new siswa to database       
-                $this->database->insert("siswa",
+                $this->database->insert("sekolah_siswa",
                     ["nama" => $_POST["nama"],"jenis" => $_POST["jenis"],"username" => strtolower($_POST["username"]),"password" => $ciphertext ,"kelas_id" => $_POST["kelas"],"no_absens" => $_POST["absen"]]
                 );  
                 if($this->database->error){
@@ -868,7 +867,7 @@ class SekolahController extends ApiController
                 if ($this->compressImage($_FILES['file']['tmp_name'],$location,60)) {
                     // jika password kosong
                     if(empty($_POST["password"])){
-                        $this->database->update("siswa",
+                        $this->database->update("sekolah_siswa",
                             ["nama" => $_POST["nama"],"jenis" => $_POST["jenis"],"username" => strtolower($_POST["username"]),"foto" => "1","kelas_id" => $_POST["kelas"],"no_absens" => $_POST["absen"]],
                             ["id" => $_POST["id"]]
                         );
@@ -879,7 +878,7 @@ class SekolahController extends ApiController
                         echo $this->response->json_response(200, "berhasil");
                     }else{
                         $ciphertext = $bcrypt->encrypt($_POST["password"],"2a");
-                        $this->database->update("siswa",
+                        $this->database->update("sekolah_siswa",
                             ["nama" => $_POST["nama"],"jenis" => $_POST["jenis"],"username" => strtolower($_POST["username"]),"foto" => "1","password" => $ciphertext,"kelas_id" => $_POST["kelas"],"no_absens" => $_POST["absen"]],
                             ["id" => $_POST["id"]]
                         );
@@ -895,7 +894,7 @@ class SekolahController extends ApiController
             }else{
                 // tanpa foto dan jika password kosong
                 if(empty($_POST["password"])){
-                    $this->database->update("siswa",
+                    $this->database->update("sekolah_siswa",
                         ["nama" => $_POST["nama"],"jenis" => $_POST["jenis"],"username" => strtolower($_POST["username"]),"kelas_id" => $_POST["kelas"],"no_absens" => $_POST["absen"]],
                         ["id" => $_POST["id"]]
                     );
@@ -906,7 +905,7 @@ class SekolahController extends ApiController
                     echo $this->response->json_response(200, "berhasil");
                 }else{
                     $ciphertext = $bcrypt->encrypt($_POST["password"],"2a");
-                    $this->database->update("siswa",
+                    $this->database->update("sekolah_siswa",
                         ["nama" => $_POST["nama"],"jenis" => $_POST["jenis"],"username" => strtolower($_POST["username"]),"password" => $ciphertext,"kelas_id" => $_POST["kelas"],"no_absens" => $_POST["absen"]],
                         ["id" => $_POST["id"]]
                     );
@@ -952,7 +951,7 @@ class SekolahController extends ApiController
             $data = json_decode($_DELETE["delete"],true);
             if($_DELETE["metode"] === "single"){
                 unlink(__DIR__ ."/../../public/data/siswa/".$data["username"].".jpg");
-                $hapus = $this->database->delete("siswa",["AND" => ["id" => $data["id"]]]);                
+                $hapus = $this->database->delete("sekolah_siswa",["AND" => ["id" => $data["id"]]]);                
                 if($hapus->rowCount() === 0){
                     echo $this->response->json_response(400,"Data tidak ditemukan".$data["id"]);
                 }else{                
@@ -964,7 +963,7 @@ class SekolahController extends ApiController
                 foreach ($arrayData[1] as $username) {
                     unlink(__DIR__ ."/../../public/data/siswa/".$username.".jpg");
                 }                
-                $hapus = $this->database->delete("siswa",["AND" => ["id" => $arrayData[0]]]);                
+                $hapus = $this->database->delete("sekolah_siswa",["AND" => ["id" => $arrayData[0]]]);                
                 if($hapus->rowCount() === 0){
                     echo $this->response->json_response(400,"Data tidak ditemukan");
                 }else{                
@@ -985,7 +984,7 @@ class SekolahController extends ApiController
         $v->rule('required', ['update','kelas']);
         if($v->validate()) {
             $arrayData = $this->objectSiswaToArray(json_decode($_PATCH["update"],true));
-            $update = $this->database->update("siswa",["kelas_id" => $_PATCH["kelas"]],["id" => $arrayData]);                                
+            $update = $this->database->update("sekolah_siswa",["kelas_id" => $_PATCH["kelas"]],["id" => $arrayData]);                                
             if($update->rowCount() === 0){
                 echo $this->response->json_response(400,"Data tidak ditemukan");
             }else{

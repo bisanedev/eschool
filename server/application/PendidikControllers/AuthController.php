@@ -26,7 +26,7 @@ class AuthController
         $v = new Validator($_POST);
         $v->rule('required', ['username', 'password']);
         if($v->validate()) {      
-        $cekAuth = $this->database->select("users",["id","username","jenis","password","superuser","unique_token"],[
+        $cekAuth = $this->database->select("sekolah_users",["id","username","jenis","password","superuser","unique_token"],[
                 "username" => $_POST["username"]
         ]);        
         if(!empty($cekAuth)){            
@@ -50,7 +50,7 @@ class AuthController
                     ->withClaim('uniqueToken',$uniqueToken)
                     ->withClaim('superuser',$cekAuth[0]['superuser'] == "1" ? true:false)                  
                     ->getToken($this->jwt->signer(), $this->jwt->signingKey());
-                    $this->database->update("users",["expired_token" => $now->modify('+1 year')->getTimestamp(),"unique_token" => $uniqueToken],["id" => $cekAuth[0]['id']]);                    
+                    $this->database->update("sekolah_users",["expired_token" => $now->modify('+1 year')->getTimestamp(),"unique_token" => $uniqueToken],["id" => $cekAuth[0]['id']]);                    
                     echo $this->response->json_response(200,$token->toString());
                 }else{
                     // expired 24 jam
@@ -67,7 +67,7 @@ class AuthController
                     ->withClaim('uniqueToken',$uniqueToken)            
                     ->withClaim('superuser',$cekAuth[0]['superuser'] == "1" ? true:false)   
                     ->getToken($this->jwt->signer(), $this->jwt->signingKey());
-                    $this->database->update("users",["expired_token" => $now->modify('+1 day')->getTimestamp(),"unique_token" => $uniqueToken],["id" => $cekAuth[0]['id']]);                    
+                    $this->database->update("sekolah_users",["expired_token" => $now->modify('+1 day')->getTimestamp(),"unique_token" => $uniqueToken],["id" => $cekAuth[0]['id']]);                    
                     echo $this->response->json_response(200,$token->toString());                    
                 }                 
             }else{

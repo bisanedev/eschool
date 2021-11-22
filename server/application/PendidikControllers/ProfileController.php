@@ -23,7 +23,7 @@ class ProfileController extends ApiController
         $v = new Validator($_PATCH);
         $v->rule('required', ['curPassword','newPassword','rePassword']);        
         if($v->validate()) {
-            $cekAuth = $this->database->select("users",["password"],["id" => $id]);
+            $cekAuth = $this->database->select("sekolah_users",["password"],["id" => $id]);
             if(!$bcrypt->verify($_PATCH["curPassword"],  $cekAuth[0]['password'])){
                 echo $this->response->json_response(400, "Password saat ini tidak sesuai!");
                 exit;
@@ -33,7 +33,7 @@ class ProfileController extends ApiController
                 exit;
             }            
             $ciphertext = $bcrypt->encrypt($_PATCH["rePassword"],"2a");
-            $update = $this->database->update("users",["password" => $ciphertext],["id" => $id]);
+            $update = $this->database->update("sekolah_users",["password" => $ciphertext],["id" => $id]);
             if($update->rowCount() == 0){
                 echo $this->response->json_response(400, "Data tidak ditemukan");
             }else{
@@ -77,7 +77,7 @@ class ProfileController extends ApiController
             exit; 
         }
         if ($this->compressImage($_FILES['file']['tmp_name'],$location,60)) {
-            $this->database->update("users",["foto" => "1"],["id" => $id]);
+            $this->database->update("sekolah_users",["foto" => "1"],["id" => $id]);
             echo $this->response->json_response(200,"berhasil");
         }else{                
             echo $this->response->json_response(400, "Maaf, terjadi kesalahan saat mengunggah file Anda");
@@ -92,7 +92,7 @@ class ProfileController extends ApiController
         $v->rule('required', ['id','username']);
         if($v->validate()) {
             unlink(__DIR__ ."/../../public/data/users/".$_DELETE["username"].".jpg");
-            $this->database->update("users",["foto" => "0"],["id" => $_DELETE["id"]]);
+            $this->database->update("sekolah_users",["foto" => "0"],["id" => $_DELETE["id"]]);
             echo $this->response->json_response(200,"berhasil");     
         }else{
             if($v->errors('delete')){

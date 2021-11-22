@@ -39,7 +39,7 @@ class ApiController
             }                        
                       
             //-------- cek user
-            $cekUser = $this->database->select("users",["username","superuser"],[
+            $cekUser = $this->database->select("sekolah_users",["username","superuser"],[
                 "unique_token" => $token->claims()->get('uniqueToken'),
                 "expired_token" => $token->claims()->get('exp')->getTimestamp(),
                 "id" => $token->claims()->get('uid')

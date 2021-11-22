@@ -13,13 +13,13 @@ class QuizController extends ApiController
         parent::__construct($response,$database,$jwt);        
     }
 
-    public function tingkatan()
+    public function IndexTingkatan()
     {                
         $data = $this->database->select("sekolah_kelastingkatan",["id","nama"]);        
         echo $this->response->json_response(200, $data);
     }
 
-    public function mapel($tingkatID)
+    public function IndexMapel($tingkatID)
     {                
         $tingkatan = $this->database->select("sekolah_kelastingkatan",["id","nama"],["id" => $tingkatID]); 
         $mapel = $this->database->select("sekolah_mapel",["id","nama","color"]);        
@@ -27,7 +27,7 @@ class QuizController extends ApiController
         echo $this->response->json_response(200, $data);
     }
 
-    public function semester($tingkatID,$mapelID)
+    public function IndexSemester($tingkatID,$mapelID)
     {                
         $tingkatan = $this->database->select("sekolah_kelastingkatan",["id","nama"],["id" => $tingkatID]); 
         $mapel = $this->database->select("sekolah_mapel",["id","nama"],["id" => $mapelID]); 

@@ -1,13 +1,13 @@
 import React from "react";
 import { Helmet } from "react-helmet";
 import axios from "axios";
+import { ToastContainer, toast } from 'react-toastify';
 import Forbidden from "../../other/forbidden";
 import {Breadcrumb} from '../../../components/menu';
 import {InputSearch,InputText} from '../../../components/forms';
 import Table from "../../../components/table";
 import {DeleteDialog} from '../../../components/dialog';
 import {AddModal,EditModal} from '../../../components/modal';
-import { ToastContainer, toast } from 'react-toastify';
 
 class PageSekolahKelas extends React.Component{
 

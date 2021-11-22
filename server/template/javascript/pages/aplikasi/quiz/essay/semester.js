@@ -2,6 +2,7 @@ import React from 'react';
 import { Helmet } from 'react-helmet';
 import axios from "axios";
 import {Breadcrumb,MenuText,MenuLoading} from '../../../../components/menu';
+import NotFound from "../../../other/notfound";
 
 class PageAplikasiQuizPilihanSemester extends React.Component{
 
@@ -10,8 +11,8 @@ class PageAplikasiQuizPilihanSemester extends React.Component{
     this.state = {
         data:[],
         isLoading:true,
-        tingkatan:"",
-        mapel:""
+        tingkatan:null,
+        mapel:null
     }    
     this.navigate = this.props.navigate;
     this.tingkatID = this.props.params.tingkatID;
@@ -39,19 +40,20 @@ class PageAplikasiQuizPilihanSemester extends React.Component{
           <Breadcrumb homeUrl="/aplikasi" homeText="Aplikasi">                                            
             <li><a href="#/aplikasi/quiz"><span>Kuis platform</span></a></li>   
             <li><a href="#/aplikasi/quiz/essay"><span>Essay</span></a></li>               
-            <li><a href={"#/aplikasi/quiz/essay/"+this.tingkatID}><span>{tingkatan !="" ? tingkatan.nama:"memuat..."}</span></a></li>  
-            <li><a href={"#/aplikasi/quiz/essay/"+this.tingkatID+"/"+this.mapelID}><span>{mapel !="" ? mapel.nama:"memuat..."}</span></a></li>  
+            <li><a href={"#/aplikasi/quiz/essay/"+this.tingkatID}><span>{tingkatan != null ? tingkatan.nama:"memuat..."}</span></a></li>  
+            <li><a href={"#/aplikasi/quiz/essay/"+this.tingkatID+"/"+this.mapelID}><span>{mapel != null ? mapel.nama:"memuat..."}</span></a></li>  
             <li><a href="#"><span>Pilih semester</span></a></li>         
           </Breadcrumb>
         </div>        
         <div className="mw9 center">
         <div className="cf ph3 mb3 flex flex-wrap">
-        {data.length > 0 && !isLoading && data.map((value,k) => (                   
+        {data.length > 0 && !isLoading && tingkatan != null && mapel != null && data.map((value,k) => (                  
           <MenuText key={k} url={"/aplikasi/quiz/essay/"+ this.tingkatID+"/"+this.mapelID +"/"+value.id} title={"Semester "+value.semester} subtitle={value.tahun} color="#333"/>        
         ))}
-        {isLoading && <MenuLoading/> } 
+        {isLoading && <MenuLoading/>}
+        {tingkatan == null || mapel == null && !isLoading && <NotFound/>}
         </div>
-        </div>
+        </div>      
     </div>
     );
   }
@@ -59,7 +61,7 @@ class PageAplikasiQuizPilihanSemester extends React.Component{
   fetchData = (tingkat,mapel) => {     
     this.setState({isLoading:true});
     axios.get(
-      window.location.origin + `/api/pendidik/aplikasi/quiz/semester/${tingkat}/${mapel}?&nocache=`+Date.now()
+      window.location.origin + `/api/pendidik/aplikasi/quiz/index/${tingkat}/${mapel}?&nocache=`+Date.now()
     ).then(response => {      
       this.setState({
         data:response.data.message.data,        

@@ -2,6 +2,7 @@ import React from 'react';
 import { Helmet } from 'react-helmet';
 import axios from "axios";
 import {Breadcrumb,MenuText,MenuLoading} from '../../../../components/menu';
+import NotFound from "../../../other/notfound";
 
 class PageAplikasiQuizEssayMapel extends React.Component{
 
@@ -10,7 +11,7 @@ class PageAplikasiQuizEssayMapel extends React.Component{
     this.state = {
         data:[],
         isLoading:true,
-        tingkatan:""
+        tingkatan:null
     }    
     this.navigate = this.props.navigate;
     this.tingkatID = this.props.params.tingkatID;
@@ -31,13 +32,15 @@ class PageAplikasiQuizEssayMapel extends React.Component{
         <Helmet>
           <title>Kuis platform - Nama Sekolah</title>
         </Helmet>
+        {tingkatan == null && !isLoading ? (<NotFound/>):(
+        <>
         <div className="headings">
           <div className="title">Kuis platform</div>
           <div className="subtitle">Halaman informasi untuk bank soal essay</div>
           <Breadcrumb homeUrl="/aplikasi" homeText="Aplikasi">                                            
             <li><a href="#/aplikasi/quiz"><span>Kuis platform</span></a></li>   
             <li><a href="#/aplikasi/quiz/essay"><span>Essay</span></a></li>               
-            <li><a href={"#/aplikasi/quiz/essay/"+this.tingkatID}><span>{tingkatan !="" ? tingkatan.nama:"memuat..."}</span></a></li>  
+            <li><a href={"#/aplikasi/quiz/essay/"+this.tingkatID}><span>{tingkatan !=null ? tingkatan.nama:"memuat..."}</span></a></li>  
             <li><a href="#"><span>Pilih mata pelajaran</span></a></li>         
           </Breadcrumb>
         </div>        
@@ -49,6 +52,8 @@ class PageAplikasiQuizEssayMapel extends React.Component{
         {isLoading && <MenuLoading/> } 
         </div>
         </div>
+        </>
+        )}        
     </div>
     );
   }
@@ -56,7 +61,7 @@ class PageAplikasiQuizEssayMapel extends React.Component{
   fetchData = (id) => {     
     this.setState({isLoading:true});
     axios.get(
-      window.location.origin + `/api/pendidik/aplikasi/quiz/mapel/${id}?&nocache=`+Date.now()
+      window.location.origin + `/api/pendidik/aplikasi/quiz/index/${id}?&nocache=`+Date.now()
     ).then(response => {      
       this.setState({
         data:response.data.message.data,        

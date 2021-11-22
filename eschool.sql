@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 22, 2021 at 11:25 AM
+-- Generation Time: Nov 22, 2021 at 07:12 PM
 -- Server version: 10.4.19-MariaDB
 -- PHP Version: 8.0.7
 
@@ -52,8 +52,15 @@ CREATE TABLE `quiz_banksoal_pilihan` (
   `tipe_jawaban` int(2) NOT NULL,
   `pertanyaan` text NOT NULL,
   `pilihan` text NOT NULL,
-  `jawaban` varchar(100) NOT NULL
+  `jawaban` varchar(30) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `quiz_banksoal_pilihan`
+--
+
+INSERT INTO `quiz_banksoal_pilihan` (`id`, `tingkatan_id`, `mapel_id`, `semester_id`, `tipe_pertanyaan`, `tipe_jawaban`, `pertanyaan`, `pilihan`, `jawaban`) VALUES
+(1, 1, 2, 1, 1, 1, '{\"text\":\"Kepala negara brunai darussalam adalah اللغة العربية\"}', '[{\"pilihan\":0,\"text\":\"Presiden\"},{\"pilihan\":1,\"text\":\"Perdana Mentri\"},{\"pilihan\":2,\"text\":\"Sultan\"},{\"pilihan\":3,\"text\":\"Raja\"}]', '[2]');
 
 -- --------------------------------------------------------
 
@@ -70,7 +77,8 @@ CREATE TABLE `quiz_exam` (
   `nama` varchar(300) NOT NULL,
   `mulai` datetime NOT NULL,
   `selesai` datetime NOT NULL,
-  `paket_soal` varchar(300) NOT NULL
+  `paket_soal` varchar(300) NOT NULL,
+  `kisi_exam` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -362,7 +370,7 @@ ALTER TABLE `quiz_banksoal_essay`
 -- AUTO_INCREMENT for table `quiz_banksoal_pilihan`
 --
 ALTER TABLE `quiz_banksoal_pilihan`
-  MODIFY `id` int(50) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `quiz_exam`

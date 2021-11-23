@@ -50,11 +50,11 @@ class PageAplikasiQuizPilihanSoal extends React.Component{
     return (  
     <div className="konten"> 
       <Helmet>
-        <title>Kuis platform - Nama Sekolah</title>
+        <title>Bank soal - Nama Sekolah</title>
       </Helmet>  
         <div className="headings">
-          <div className="title">Kuis platform</div>
-          <div className="subtitle">Halaman informasi untuk bank soal pilihan ganda</div>
+          <div className="title">Bank Soal</div>
+          <div className="subtitle">Halaman data bank soal mata pelajaran {mapel != null ? mapel.nama:"memuat..."}</div>
           <Breadcrumb homeUrl="/aplikasi" homeText="Aplikasi"> 
             <li><a href="#/aplikasi/quiz"><span>Kuis platform</span></a></li>   
             <li><a href="#/aplikasi/quiz/pilihan"><span>Pilihan ganda</span></a></li>               
@@ -108,7 +108,7 @@ class PageAplikasiQuizPilihanSoal extends React.Component{
                 checked={selected.includes(value.id)} 
                 onChecked={() => this.onChecked(value.id)}
                 onDelete={() => this.onDelete(value)}
-                onEdit={() => this.onEdit(value)}
+                linkEdit={`#/aplikasi/quiz/pilihan/${this.tingkatID}/${this.mapelID}/${this.semesterID}/${value.id}`}
                 onView={() => console.log(value)}
                 />     
             ))} 

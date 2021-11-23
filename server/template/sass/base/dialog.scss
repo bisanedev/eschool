@@ -69,6 +69,12 @@
         -webkit-line-clamp: 4;
         -webkit-box-orient: vertical;
         white-space: normal;
+        p {
+          display: inline;
+        }
+        b,strong {
+          font-weight: bold;
+        }
     }
     .dialog-button{
         display: flex;

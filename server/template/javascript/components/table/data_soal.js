@@ -2,24 +2,22 @@ import React from 'react';
 
 function DataSoal(props) {  
     return (  
-    <div className="tableCell bg-white tc br2 flex">      
+    <div className="tableCell bg-white br2 flex">      
      <div className="w-pertanyaan pa2 flex items-center">
         <label className="checkbox-container">&nbsp;
             <input type="checkbox" checked={props.checked} onChange={props.onChecked}/>
             <span className="checkmark"></span>
         </label>
-        <div className="ml2" style={{overflow:"hidden",display:"inline-block",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>
-            {props.text}
-        </div>        
+        <div className="ml1 htmlText" style={{overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap",height:"18px"}} dangerouslySetInnerHTML={{ __html: props.text }}/>       
      </div>
      <div className="w-aksi flex justify-center items-center">
-        <button type="button" onClick={() => props.onView()} style={{cursor: "pointer",border:"1px solid rgba(0,0,0,.125)",height:"40px"}} className="ml1 link dim pa2 dib primary bg-light-gray">
+        <button type="button" onClick={() => props.onView()} style={{border:"1px solid rgba(0,0,0,.125)",height:"40px"}} className="pointer ml1 link dim pa2 dib primary bg-light-gray">
             <i className="material-icons" style={{fontSize:"18px"}}>preview</i> 
         </button>
-        <button type="button" onClick={() => props.onEdit()} style={{cursor: "pointer",border:"1px solid rgba(0,0,0,.125)",height:"40px"}} className="ml1 link dim pa2 dib primary bg-light-gray">
+        <a type="button" href={props.linkEdit} style={{border:"1px solid rgba(0,0,0,.125)",height:"40px"}} className="pointer ml1 link dim pa2 dib primary bg-light-gray">
             <i className="material-icons" style={{fontSize:"18px"}}>edit</i> 
-        </button>
-        <button type="button" onClick={() => props.onDelete()} style={{cursor: "pointer",border:"1px solid rgba(0,0,0,.125)",height:"40px"}} className="ml1 link dim pa2 dib red bg-light-gray">
+        </a>
+        <button type="button" onClick={() => props.onDelete()} style={{border:"1px solid rgba(0,0,0,.125)",height:"40px"}} className="pointer ml1 link dim pa2 dib red bg-light-gray">
             <i className="material-icons-sharp" style={{fontSize:"18px"}}>delete</i>
         </button>
      </div> 

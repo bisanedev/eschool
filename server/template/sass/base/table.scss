@@ -149,6 +149,14 @@ div.tableCell {
     margin-bottom: 10px;
     .w-pertanyaan{
         width: 85%;
+        .htmlText{
+            p {
+                display: inline;
+            }
+            b,strong {
+                font-weight: bold;
+            }
+        }
     }
     .w-aksi{
         width: 15%;

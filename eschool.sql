@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 22, 2021 at 07:12 PM
+-- Generation Time: Nov 23, 2021 at 10:59 AM
 -- Server version: 10.4.19-MariaDB
 -- PHP Version: 8.0.7
 
@@ -32,9 +32,9 @@ CREATE TABLE `quiz_banksoal_essay` (
   `tingkatan_id` int(11) NOT NULL,
   `mapel_id` int(11) NOT NULL,
   `semester_id` int(11) NOT NULL,
-  `tipe_pertanyaan` int(2) NOT NULL,
-  `tipe_jawaban` int(2) NOT NULL,
-  `pertanyaan` text NOT NULL
+  `pertanyaan_text` text NOT NULL,
+  `pertanyaan_images` varchar(30) NOT NULL,
+  `pertanyaan_audio` varchar(30) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -48,9 +48,9 @@ CREATE TABLE `quiz_banksoal_pilihan` (
   `tingkatan_id` int(11) NOT NULL,
   `mapel_id` int(11) NOT NULL,
   `semester_id` int(11) NOT NULL,
-  `tipe_pertanyaan` int(2) NOT NULL,
-  `tipe_jawaban` int(2) NOT NULL,
-  `pertanyaan` text NOT NULL,
+  `pertanyaan_text` text NOT NULL,
+  `pertanyaan_images` varchar(30) NOT NULL,
+  `pertanyaan_audio` varchar(30) NOT NULL,
   `pilihan` text NOT NULL,
   `jawaban` varchar(30) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -59,8 +59,9 @@ CREATE TABLE `quiz_banksoal_pilihan` (
 -- Dumping data for table `quiz_banksoal_pilihan`
 --
 
-INSERT INTO `quiz_banksoal_pilihan` (`id`, `tingkatan_id`, `mapel_id`, `semester_id`, `tipe_pertanyaan`, `tipe_jawaban`, `pertanyaan`, `pilihan`, `jawaban`) VALUES
-(1, 1, 2, 1, 1, 1, '{\"text\":\"Kepala negara brunai darussalam adalah اللغة العربية\"}', '[{\"pilihan\":0,\"text\":\"Presiden\"},{\"pilihan\":1,\"text\":\"Perdana Mentri\"},{\"pilihan\":2,\"text\":\"Sultan\"},{\"pilihan\":3,\"text\":\"Raja\"}]', '[2]');
+INSERT INTO `quiz_banksoal_pilihan` (`id`, `tingkatan_id`, `mapel_id`, `semester_id`, `pertanyaan_text`, `pertanyaan_images`, `pertanyaan_audio`, `pilihan`, `jawaban`) VALUES
+(1, 1, 2, 1, 'Buku Pengantar Filsafat Pendidikan karya Drs. Uyoh Sadulloh, M.Pd ini membahas tentang pendidikan dari sudut pandang filsafat. Pendidikan berkaitan dengan nilai yang timbul dari pengalaman dan pemikiran manusia tentang pemaknaan pendidikan itu sendiri. Buku ini membahas beda antara praktek pendidikan dan teori pendidikan.\r\n\r\nBuku ini mampu memberikan informasi tentang sumber nilai dan cara memperoleh nilai tersebut karena pada dasarnya pendidikan tidak dapat dipisahkan dengan nilai. Akan tetapi, pembaca pada umumnya atau pembaca pemula khususnya kurang bisa memahami isi teks yang diutarakan oleh pengarang tidak tersampaikan dengan baik.\r\n\r\nKalimat yang berisi keunggulan dari buku adalah…', '', '', '[{\"pilihan\":0,\"text\":\"Presiden\"},{\"pilihan\":1,\"text\":\"Perdana Mentri\"},{\"pilihan\":2,\"text\":\"Sultan\"},{\"pilihan\":3,\"text\":\"Raja\"}]', '[2]'),
+(2, 1, 2, 1, 'Kepala negara brunai darussalam adalah اللغة العربية', '', '', '[{\"pilihan\":0,\"text\":\"Presiden\"},{\"pilihan\":1,\"text\":\"Perdana Mentri\"},{\"pilihan\":2,\"text\":\"Sultan\"},{\"pilihan\":3,\"text\":\"Raja\"}]', '[2]');
 
 -- --------------------------------------------------------
 
@@ -370,7 +371,7 @@ ALTER TABLE `quiz_banksoal_essay`
 -- AUTO_INCREMENT for table `quiz_banksoal_pilihan`
 --
 ALTER TABLE `quiz_banksoal_pilihan`
-  MODIFY `id` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `quiz_exam`

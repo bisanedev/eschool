@@ -101,9 +101,10 @@ class PageAplikasiQuizPilihanSoal extends React.Component{
               </div>
             </div> 
           </Table.Header>       
-          <Table.Body>
+          <Table.Body column={true}>
             {data.length > 0 && !isLoading && data.map((value,k) => (
-                <Table.DataSimple key={k} title={value.pertanyaan.text}
+                <Table.DataSoal key={k} nomor={k+1} text={value.pertanyaan_text} 
+                tipePertanyaan={value.tipe_pertanyaan} tipeJawaban={value.tipe_jawaban}                
                 checked={selected.includes(value.id)} 
                 onChecked={() => this.onChecked(value.id)}
                 onDelete={() => this.onDelete(value)}

@@ -141,3 +141,10 @@ div.wrapDataProfile{
         background-color: #ccc;
     }
 }
+
+div.tableCell {
+    width: 100%;   
+    border: 1px solid rgba(0, 0, 0, 0.125);
+    height: 4rem;
+    margin-bottom: 10px;  
+}

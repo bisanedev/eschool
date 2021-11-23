@@ -14,7 +14,7 @@ class PageAplikasiQuizPilihanSoal extends React.Component{
     super(props);
     this.state = {
       nextPage:undefined,
-      total:10,
+      total:5,
       totalData:undefined,
       cari:undefined,
       isLoading:true,
@@ -92,9 +92,9 @@ class PageAplikasiQuizPilihanSoal extends React.Component{
                 </div>   
               </div>                                                                          
               <select className="pa2 db gray ml2" value={total} onChange={this.handleSelectChange}>
+                <option label="5" value="5"/>
                 <option label="10" value="10"/>
-                <option label="20" value="20"/>
-                <option label="30" value="30"/>
+                <option label="15" value="15"/>
               </select>
               <div className="flex ml2">                
                 <InputSearch name="cari" value={cari ? cari:""} placeholder={cari ? "":"Cari soal pertanyaan"} onChange={this.handleInputChange} onReset={this.resetCari} onClick={this.handleCari} onKeyPress={this.handleKeyPress}/>
@@ -109,6 +109,7 @@ class PageAplikasiQuizPilihanSoal extends React.Component{
                 onChecked={() => this.onChecked(value.id)}
                 onDelete={() => this.onDelete(value)}
                 onEdit={() => this.onEdit(value)}
+                onView={() => console.log(value)}
                 />     
             ))} 
             {isLoading && <Table.Loading nama="soal" /> } 
@@ -130,7 +131,7 @@ class PageAplikasiQuizPilihanSoal extends React.Component{
           onClick={this.multiDelete}
         />
         <DeleteDialog show={showSingleDelete} 
-          title="Hapus" subtitle={"Yakin hapus data "+singleData.nama+" ??"} 
+          title="Hapus" subtitle={"Yakin hapus data "+singleData.pertanyaan_text+" ??"} 
           close={() => this.setState({showSingleDelete:false})}        
           onClick={() => this.singleDelete(singleData.id)}
         />           

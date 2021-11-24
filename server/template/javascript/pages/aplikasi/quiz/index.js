@@ -32,8 +32,8 @@ class PageAplikasiQuiz extends React.Component{
         <div className="mw9 center">
         <div className="cf ph3 mb3 flex flex-wrap">
           <MenuCard url="/aplikasi/quiz/exam" icon="assets/images/menuButton.png" text="Ujian Kelas"/>
-          <MenuCard url="/aplikasi/quiz/pilihan" icon="assets/images/menuButton.png" text="Bank Soal [Pilihan Ganda]"/>          
-          <MenuCard url="/aplikasi/quiz/essay" icon="assets/images/menuButton.png" text="Bank Soal [Essay]"/>          
+          <MenuCard url="/aplikasi/quiz/pilihan" icon="assets/images/menuButton.png" text="Bank Soal (Pilihan Ganda)"/>          
+          <MenuCard url="/aplikasi/quiz/essay" icon="assets/images/menuButton.png" text="Bank Soal (Essay)"/>          
           <MenuCard url="/aplikasi/quiz/paket" icon="assets/images/menuButton.png" text="Paket Soal"/>             
         </div>
         </div>

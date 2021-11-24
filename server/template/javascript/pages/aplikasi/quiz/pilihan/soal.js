@@ -1,9 +1,8 @@
 import React from "react";
 import { Helmet } from "react-helmet";
 import axios from "axios";
-import NotFound from "../../../other/notfound";
 import {Breadcrumb} from '../../../../components/menu';
-import {InputSearch,InputText} from '../../../../components/forms';
+import {InputSearch} from '../../../../components/forms';
 import Table from "../../../../components/table";
 import {DeleteDialog} from '../../../../components/dialog';
 import { ToastContainer, toast } from 'react-toastify';
@@ -23,12 +22,11 @@ class PageAplikasiQuizPilihanSoal extends React.Component{
       currPage:undefined,      
       selected:[],
       showDelete:false,
-      showSingleDelete:false,
-      showAdd:false,
-      showEdit:false,
+      showSingleDelete:false,            
       singleData:[],
-      kelas:"",
-      tingkatanNama:"",
+      tingkatan:null,
+      mapel:null,
+      semester:null
     }    
     this.handleInputChange = this.handleInputChange.bind(this);
     this.tingkatID = this.props.params.tingkatID;
@@ -46,7 +44,7 @@ class PageAplikasiQuizPilihanSoal extends React.Component{
   }  
 
   render() {         
-    const {data,totalData,pages,currPage,total,cari,selected,showDelete,showSingleDelete,singleData,showAdd,showEdit,isLoading,tingkatan,mapel,semester} = this.state;
+    const {data,totalData,pages,currPage,total,cari,selected,showDelete,showSingleDelete,singleData,isLoading,tingkatan,mapel,semester} = this.state;
     return (  
     <div className="konten"> 
       <Helmet>
@@ -54,13 +52,13 @@ class PageAplikasiQuizPilihanSoal extends React.Component{
       </Helmet>  
         <div className="headings">
           <div className="title">Bank Soal</div>
-          <div className="subtitle">Halaman data bank soal mata pelajaran {mapel != null ? mapel.nama:"memuat..."}</div>
+          <div className="subtitle">Data bank soal untuk tingkatan {tingkatan != null ? tingkatan.nama:"memuat..."}, mata pelajaran {mapel != null ? mapel.nama:"memuat..."} dan {semester != null ? semester.tahun+" (semester "+semester.semester+")":"memuat..."}</div>
           <Breadcrumb homeUrl="/aplikasi" homeText="Aplikasi"> 
             <li><a href="#/aplikasi/quiz"><span>Kuis platform</span></a></li>   
             <li><a href="#/aplikasi/quiz/pilihan"><span>Pilihan ganda</span></a></li>               
             <li><a href={"#/aplikasi/quiz/pilihan/"+this.tingkatID}><span>{tingkatan != null ? tingkatan.nama:"memuat..."}</span></a></li>  
             <li><a href={"#/aplikasi/quiz/pilihan/"+this.tingkatID+"/"+this.mapelID}><span>{mapel != null ? mapel.nama:"memuat..."}</span></a></li>
-            <li><a href={"#/aplikasi/quiz/pilihan/"+this.tingkatID+"/"+this.mapelID+"/"+this.semesterID}><span>{semester != null ? semester.tahun+" & semester "+semester.semester:"memuat..."}</span></a></li>
+            <li><a href={"#/aplikasi/quiz/pilihan/"+this.tingkatID+"/"+this.mapelID+"/"+this.semesterID}><span>{semester != null ? semester.tahun+" (semester "+semester.semester+")":"memuat..."}</span></a></li>
             <li><a href="#"><span>Bank soal</span></a></li>   
           </Breadcrumb>
         </div>                
@@ -68,16 +66,16 @@ class PageAplikasiQuizPilihanSoal extends React.Component{
         <Table>
           <Table.Header>
             <div className="w-50 ph2">
-              <button type="submit" style={{cursor: "pointer",borderColor:"#0191d7"}} className="link dim br1 ba pa2 dib white bg-primary" onClick={() => this.setState({showAdd:true})}>                
+              <a href={`#/aplikasi/quiz/pilihan/${this.tingkatID}/${this.mapelID}/${this.semesterID}/add`} style={{borderColor:"#0191d7"}} className="pointer link dim br1 ba pa2 dib white bg-primary" onClick={() => this.setState({showAdd:true})}>                
                 <i className="material-icons-outlined" style={{fontSize:"20px"}}>add</i>
-              </button>
+              </a>
             </div>
             <div className="w-50 ph2 flex" style={{justifyContent:"flex-end"}}>              
-              <button type="submit" style={{cursor: "pointer",fontSize:"13px",border:"1px solid rgba(0, 0, 0, 0.125)"}} className="link dim br1 ba pa2 dib bg-white" onClick={() => this.selectAll()}>
+              <button type="submit" style={{fontSize:"13px",border:"1px solid rgba(0, 0, 0, 0.125)"}} className="pointer link dim br1 ba pa2 dib bg-white" onClick={() => this.selectAll()}>
                 {data.length === selected.length ? "BATAL PILIH SEMUA":"PILIH SEMUA"}
               </button>
               <div className="dropdown">
-                <button style={{cursor: "pointer",border:"1px solid rgba(0, 0, 0, 0.125)"}} className="link dim br1 ba pa2 dib bg-white">                  
+                <button style={{border:"1px solid rgba(0, 0, 0, 0.125)"}} className="pointer link dim br1 ba pa2 dib bg-white">                  
                   <i className="material-icons-outlined" style={{fontSize:"25px",color:"#474747"}}>more_vert</i>
                 </button>
                 <div className="dropdown-content">                  
@@ -113,7 +111,7 @@ class PageAplikasiQuizPilihanSoal extends React.Component{
                 />     
             ))} 
             {isLoading && <Table.Loading nama="soal" /> } 
-            {data.length === 0 && !isLoading && <Table.Empty nama="soal" /> }
+            {data.length === 0 && !isLoading && <Table.Empty nama="soal" /> }              
           </Table.Body>
           <Table.Footer>
             <div className="w-50 ph2">

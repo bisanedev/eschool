@@ -8,7 +8,7 @@ function DataSoal(props) {
             <input type="checkbox" checked={props.checked} onChange={props.onChecked}/>
             <span className="checkmark"></span>
         </label>
-        <div className="ml1 htmlText" style={{overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap",height:"18px"}} dangerouslySetInnerHTML={{ __html: props.text }}/>       
+        <div className="ml1 htmlText" style={{overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap",height:"18px"}} dangerouslySetInnerHTML={{ __html: props.text }}/>
      </div>
      <div className="w-aksi flex justify-center items-center">
         <button type="button" onClick={() => props.onView()} style={{border:"1px solid rgba(0,0,0,.125)",height:"40px"}} className="pointer ml1 link dim pa2 dib primary bg-light-gray">

@@ -1,7 +1,6 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
 import axios from 'axios';
-import { Breadcrumb } from '../../components/menu';
 import { Cards } from '../../components/forms';
 import { DeleteDialog } from '../../components/dialog';
 import { ToastContainer, toast } from 'react-toastify';
@@ -30,10 +29,7 @@ class PageProfile extends React.Component{
         </Helmet>   
         <div className="headings">
           <div className="title">Halo, {this.props.tokenData.username} !</div>
-          <div className="subtitle">Selamat datang di halaman menu profil & analisis berdasarkan pendidik tiap kelas </div>
-          <Breadcrumb homeUrl="/profile" homeText="Profil">            
-            <li><a href="#"><span>Beranda</span></a></li> 
-          </Breadcrumb>
+          <div className="subtitle">Selamat datang di halaman menu profil & analisis berdasarkan pendidik tiap kelas </div>          
         </div>
         <div className="mw9 center">
         <div className="cf ph3 mb3 flex">

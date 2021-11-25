@@ -40,8 +40,7 @@ class PageProfileFoto extends React.Component{
           <div className="title">Ganti foto</div>
           <div className="subtitle">Silahkan untuk mengganti foto profil anda</div>
           <Breadcrumb homeUrl="/profile" homeText="Profil"> 
-            <li><a href="#/profile/foto"><span>Foto</span></a></li>            
-            <li><a href="#"><span>Ganti foto</span></a></li> 
+            <li><a href="#/profile/foto"><span>Foto</span></a></li>                        
           </Breadcrumb>    
         </div>
         <div className="mw9 center cf ph3 mb3">

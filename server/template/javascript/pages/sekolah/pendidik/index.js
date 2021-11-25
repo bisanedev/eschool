@@ -52,8 +52,7 @@ class PageSekolahPendidik extends React.Component{
           <div className="title">Users & Pendidik</div>
           <div className="subtitle">Halaman informasi untuk users & pendidik</div>
           <Breadcrumb homeUrl="/sekolah" homeText="Sekolah">
-            <li><a href="#/sekolah/pendidik"><span>Users & pendidik</span></a></li>   
-            <li><a href="#"><span>Data users & pendidik</span></a></li>  
+            <li><a href="#/sekolah/pendidik"><span>Users & pendidik</span></a></li>               
           </Breadcrumb>    
         </div>                
         <div className="mw9 center cf ph3 mb3">

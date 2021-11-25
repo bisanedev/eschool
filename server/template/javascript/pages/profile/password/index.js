@@ -33,8 +33,7 @@ class PageProfilePassword extends React.Component{
           <div className="title">Ganti password</div>
           <div className="subtitle">Silahkan untuk mengubah kata sandi Anda </div>          
           <Breadcrumb homeUrl="/profile" homeText="Profil"> 
-            <li><a href="#/profile/password"><span>Password</span></a></li>            
-            <li><a href="#"><span>Ganti password</span></a></li> 
+            <li><a href="#/profile/password"><span>Password</span></a></li>                        
           </Breadcrumb>   
         </div>
         <div className="mw9 center cf ph3 mb3">

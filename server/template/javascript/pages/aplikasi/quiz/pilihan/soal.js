@@ -58,8 +58,7 @@ class PageAplikasiQuizPilihanSoal extends React.Component{
             <li><a href="#/aplikasi/quiz/pilihan"><span>Pilihan ganda</span></a></li>               
             <li><a href={"#/aplikasi/quiz/pilihan/"+this.tingkatID}><span>{tingkatan != null ? tingkatan.nama:"memuat..."}</span></a></li>  
             <li><a href={"#/aplikasi/quiz/pilihan/"+this.tingkatID+"/"+this.mapelID}><span>{mapel != null ? mapel.nama:"memuat..."}</span></a></li>
-            <li><a href={"#/aplikasi/quiz/pilihan/"+this.tingkatID+"/"+this.mapelID+"/"+this.semesterID}><span>{semester != null ? semester.tahun+" (semester "+semester.semester+")":"memuat..."}</span></a></li>
-            <li><a href="#"><span>Bank soal</span></a></li>   
+            <li><a href={"#/aplikasi/quiz/pilihan/"+this.tingkatID+"/"+this.mapelID+"/"+this.semesterID}><span>{semester != null ? semester.tahun+" (semester "+semester.semester+")":"memuat..."}</span></a></li>            
           </Breadcrumb>
         </div>                
         <div className="mw9 center cf ph3 mb3">
@@ -235,12 +234,12 @@ class PageAplikasiQuizPilihanSoal extends React.Component{
     formData.append('delete', id);    
     axios({
       method: 'delete',
-      url: window.location.origin +'/api/pendidik/aplikasi/quiz/pilihan/'+this.kelasID,
+      url: window.location.origin +'/api/pendidik/aplikasi/quiz/pilihan',
       data: formData
     }).then(response => {
       if(response.data.status == true)
       {        
-        this.setState({showSingleDelete:false},() => this.fetchData(this.kelasID));        
+        this.setState({showSingleDelete:false},() => this.fetchData(this.tingkatID,this.mapelID,this.semesterID));        
       }
     }).catch(error => {
       if(error.response.status == 401){
@@ -258,12 +257,12 @@ class PageAplikasiQuizPilihanSoal extends React.Component{
     formData.append('delete', JSON.stringify(selected));    
     axios({
       method: 'delete',
-      url: window.location.origin +'/api/pendidik/aplikasi/quiz/pilihan/'+this.kelasID,
+      url: window.location.origin +'/api/pendidik/aplikasi/quiz/pilihan',
       data: formData
     }).then(response => {
       if(response.data.status == true)
       {        
-        this.setState({showDelete:false,selected:[]},() => this.fetchData(this.kelasID));        
+        this.setState({showDelete:false,selected:[]},() => this.fetchData(this.tingkatID,this.mapelID,this.semesterID));        
       }
     }).catch(error => {
       if(error.response.status == 401){

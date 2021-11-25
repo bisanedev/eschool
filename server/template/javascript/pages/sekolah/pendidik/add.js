@@ -57,12 +57,11 @@ class PageSekolahPendidikAdd extends React.Component{
           <div className="subtitle">Halaman informasi untuk users & pendidik</div>
           <Breadcrumb homeUrl="/sekolah" homeText="Sekolah">
             <li><a href="#/sekolah/pendidik"><span>Users & pendidik</span></a></li>   
-            <li><a href="#/sekolah/pendidik/add"><span>Users & pendidik baru</span></a></li> 
-            <li><a href="#"><span>Menambahkan data</span></a></li>  
+            <li><a href="#/sekolah/pendidik/add"><span>Users & pendidik baru</span></a></li>              
           </Breadcrumb>     
         </div>
         <div className="mw9 center cf ph3 mb3">
-          <Cards title="Masukan informasi users & pendidik baru" bodyClass="flex">
+          <Cards title="Menambahkan informasi users & pendidik baru" bodyClass="flex">
             <div className="w-70 pa3">
               <div className="w-100 mb3 flex">
                 <div className="w-70">
@@ -120,7 +119,7 @@ class PageSekolahPendidikAdd extends React.Component{
                 <label className="f5 fw4 db mb2">Foto profil (Opsional)</label>
                 <div className="flex justify-between mb3">
                   <input className="link br2 ba ph3 pv2 dib black bg-light-gray ba b--light-silver " type="file" accept="image/*" onChange={this.onSelectFile}/>
-                  <button type="submit" style={{cursor: "pointer"}} className="link dim br2 ba pa2 dib bg-white" onClick={() => this.setState({croppedImageUrl:"",src:""})}>
+                  <button type="submit" className="pointer link dim br2 ba pa2 dib bg-white" onClick={() => this.setState({croppedImageUrl:"",src:""})}>
                     Reset
                   </button>
                 </div>                

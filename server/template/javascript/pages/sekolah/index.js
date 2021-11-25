@@ -1,7 +1,7 @@
 import React from "react";
 import { Helmet } from "react-helmet";
 import Forbidden from "../other/forbidden";
-import {Breadcrumb,MenuCard} from '../../components/menu';
+import {MenuCard} from '../../components/menu';
 
 class PageSekolah extends React.Component{
 
@@ -27,10 +27,7 @@ class PageSekolah extends React.Component{
       <>
         <div className="headings">
           <div className="title">Sekolah</div>
-          <div className="subtitle">Halaman data informasi sekolah</div>
-          <Breadcrumb homeUrl="/sekolah" homeText="Sekolah">                                
-            <li><a href="#"><span>Beranda</span></a></li>  
-          </Breadcrumb>    
+          <div className="subtitle">Halaman data informasi sekolah</div>                    
         </div>        
         <div className="mw9 center">        
         <div className="cf ph3 mb3 flex flex-wrap">

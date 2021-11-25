@@ -56,8 +56,7 @@ class PageSekolahKelas extends React.Component{
           <div className="title">Kelas</div>
           <div className="subtitle">Halaman informasi untuk kelas</div>
           <Breadcrumb homeUrl="/sekolah" homeText="Sekolah">
-            <li><a href="#/sekolah/kelas"><span>Tingkatan kelas</span></a></li>   
-            <li><a href="#"><span>Data tingkatan</span></a></li>  
+            <li><a href="#/sekolah/kelas"><span>Tingkatan kelas</span></a></li>               
           </Breadcrumb>    
         </div>                
         <div className="mw9 center cf ph3 mb3">

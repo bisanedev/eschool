@@ -59,8 +59,7 @@ class PageSekolahKelasSub extends React.Component{
           <div className="subtitle">Halaman informasi untuk kelas</div>
           <Breadcrumb homeUrl="/sekolah" homeText="Sekolah">
             <li><a href="#/sekolah/kelas"><span>Tingkatan kelas</span></a></li>
-            <li><a href={"#/sekolah/kelas/"+this.kelasID}><span>{tingkatanNama !="" ? tingkatanNama:"memuat..."}</span></a></li>   
-            <li><a href="#"><span>Data kelas</span></a></li>  
+            <li><a href={"#/sekolah/kelas/"+this.kelasID}><span>{tingkatanNama !="" ? tingkatanNama:"memuat..."}</span></a></li>              
           </Breadcrumb>
         </div>                
         <div className="mw9 center cf ph3 mb3">

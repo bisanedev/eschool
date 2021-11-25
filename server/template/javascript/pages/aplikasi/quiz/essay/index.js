@@ -34,8 +34,7 @@ class PageAplikasiQuizEssay extends React.Component{
           <div className="subtitle">Halaman informasi untuk bank soal essay</div>
           <Breadcrumb homeUrl="/aplikasi" homeText="Aplikasi">                                            
             <li><a href="#/aplikasi/quiz"><span>Kuis platform</span></a></li>   
-            <li><a href="#/aplikasi/quiz/essay"><span>Essay</span></a></li>   
-            <li><a href="#"><span>Pilih tingkatan kelas</span></a></li>         
+            <li><a href="#/aplikasi/quiz/essay"><span>Essay</span></a></li>                   
           </Breadcrumb>
         </div>        
         <div className="mw9 center">

@@ -25,8 +25,7 @@ class PageAplikasiQuiz extends React.Component{
           <div className="title">Kuis platform</div>
           <div className="subtitle">Halaman modul kuis untuk ujian kelas , bank soal & paket soal</div>
           <Breadcrumb homeUrl="/aplikasi" homeText="Aplikasi">                                            
-            <li><a href="#/aplikasi/quiz"><span>Kuis platform</span></a></li>   
-            <li><a href="#"><span>Modul kuis</span></a></li>   
+            <li><a href="#/aplikasi/quiz"><span>Kuis platform</span></a></li>            
           </Breadcrumb>
         </div>        
         <div className="mw9 center">

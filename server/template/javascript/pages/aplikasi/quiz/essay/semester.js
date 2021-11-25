@@ -41,8 +41,7 @@ class PageAplikasiQuizPilihanSemester extends React.Component{
             <li><a href="#/aplikasi/quiz"><span>Kuis platform</span></a></li>   
             <li><a href="#/aplikasi/quiz/essay"><span>Essay</span></a></li>               
             <li><a href={"#/aplikasi/quiz/essay/"+this.tingkatID}><span>{tingkatan != null ? tingkatan.nama:"memuat..."}</span></a></li>  
-            <li><a href={"#/aplikasi/quiz/essay/"+this.tingkatID+"/"+this.mapelID}><span>{mapel != null ? mapel.nama:"memuat..."}</span></a></li>  
-            <li><a href="#"><span>Pilih semester</span></a></li>         
+            <li><a href={"#/aplikasi/quiz/essay/"+this.tingkatID+"/"+this.mapelID}><span>{mapel != null ? mapel.nama:"memuat..."}</span></a></li>                  
           </Breadcrumb>
         </div>        
         <div className="mw9 center">

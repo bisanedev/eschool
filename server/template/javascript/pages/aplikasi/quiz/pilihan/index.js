@@ -34,8 +34,7 @@ class PageAplikasiQuizPilihan extends React.Component{
           <div className="subtitle">Halaman informasi untuk bank soal pilihan ganda</div>
           <Breadcrumb homeUrl="/aplikasi" homeText="Aplikasi">                                            
             <li><a href="#/aplikasi/quiz"><span>Kuis platform</span></a></li>   
-            <li><a href="#/aplikasi/quiz/pilihan"><span>Pilihan ganda</span></a></li>   
-            <li><a href="#"><span>Pilih tingkatan kelas</span></a></li>         
+            <li><a href="#/aplikasi/quiz/pilihan"><span>Pilihan ganda</span></a></li>                  
           </Breadcrumb>
         </div>        
         <div className="mw9 center">

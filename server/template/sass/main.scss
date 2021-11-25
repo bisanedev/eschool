@@ -8,6 +8,7 @@ $disable-secondaryColor : #b3b3b3;
 
 @import "./tachyons/tachyons";
 @import "node_modules/react-toastify/scss/main.scss";
+@import "./base/wysiwyg";
 @import "./base/webIcons";
 @import "./base/sidebar";
 @import "./base/loading";
@@ -32,6 +33,13 @@ body {
 /* calendar */
 .react-datepicker__day--selected,.react-datepicker__day--in-selecting-range,.react-datepicker__day--in-range{
     background-color: $primary-color !important;
+}
+/* coba */
+.mathWidth math-field{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 /* 404 page */
 .page-wrap {

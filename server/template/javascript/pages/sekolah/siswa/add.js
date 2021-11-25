@@ -58,12 +58,11 @@ class PageSekolahSiswaAdd extends React.Component{
           <div className="subtitle">Halaman informasi untuk siswa</div>
           <Breadcrumb homeUrl="/sekolah" homeText="Sekolah">
             <li><a href="#/sekolah/siswa"><span>Siswa</span></a></li>   
-            <li><a href="#/sekolah/siswa/add"><span>Siswa baru</span></a></li> 
-            <li><a href="#"><span>Menambahkan data</span></a></li>  
+            <li><a href="#/sekolah/siswa/add"><span>Siswa baru</span></a></li>            
           </Breadcrumb>     
         </div>
         <div className="mw9 center cf ph3 mb3">
-          <Cards title="Masukan informasi siswa baru" bodyClass="flex">
+          <Cards title="Menambahkan informasi siswa baru" bodyClass="flex">
             <div className="w-70 pa3">
               <div className="w-100 mb3 flex">
                 <div className="w-70">

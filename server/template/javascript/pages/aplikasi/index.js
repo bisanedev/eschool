@@ -1,6 +1,6 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
-import {Breadcrumb,MenuCard,MenuCardDisable} from '../../components/menu';
+import {MenuCard,MenuCardDisable} from '../../components/menu';
 
 class PageAplikasi extends React.Component{
 
@@ -24,10 +24,7 @@ class PageAplikasi extends React.Component{
         </Helmet>
         <div className="headings">
           <div className="title">Aplikasi</div>
-          <div className="subtitle">Halaman aplikasi penunjang sekolah & belajar</div>
-          <Breadcrumb homeUrl="/aplikasi" homeText="Aplikasi">                                
-            <li><a href="#"><span>Beranda</span></a></li>  
-          </Breadcrumb>
+          <div className="subtitle">Halaman aplikasi penunjang sekolah & belajar</div>            
         </div>        
         <div className="mw9 center">
         <div className="cf ph3 mb3 flex flex-wrap">

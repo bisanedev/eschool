@@ -4,6 +4,7 @@ use App\PendidikControllers\ApiController;
 use Notihnio\RequestParser\RequestParser;
 use App\Utils\HeaderResponse;
 use Medoo\Medoo;
+use Valitron\Validator;
 use Lcobucci\JWT\Configuration;
 
 class QuizController extends ApiController
@@ -35,7 +36,16 @@ class QuizController extends ApiController
         $data = array("data" => $semester,"tingkatan"=> $tingkatan[0] ,"mapel"=> $mapel[0] );
         echo $this->response->json_response(200, $data);
     }
-  
+    
+    public function IndexForms($tingkatID,$mapelID,$semesterID)
+    {
+        $tingkatan = $this->database->select("sekolah_kelastingkatan",["id","nama"],["id" => $tingkatID]); 
+        $mapel = $this->database->select("sekolah_mapel",["id","nama"],["id" => $mapelID]); 
+        $semester = $this->database->select("sekolah_semesternama",["[>]sekolah_semestertahun" => ["semester_tahun_id" => "id"]],["sekolah_semesternama.id","sekolah_semestertahun.nama(tahun)","sekolah_semesternama.semester"],["sekolah_semesternama.id" => $semesterID]);
+        $data = array("semester" => $semester[0],"tingkatan"=> $tingkatan[0] ,"mapel"=> $mapel[0] );
+        echo $this->response->json_response(200, $data);
+    }
+
     public function SoalPilihan($tingkatID,$mapelID,$semesterID)
     {
         $cari = isset($_GET['cari'])? (string)$_GET["cari"]:"%";        
@@ -60,6 +70,25 @@ class QuizController extends ApiController
         echo $this->response->json_response(200, $data);   
     }
 
+    public function SoalPilihanDelete()
+    {
+        $_DELETE = RequestParser::parse()->params;        
+        $v = new Validator($_DELETE);
+        $v->rule('required', ['delete']);
+        if($v->validate()) {                                         
+            $hapus=$this->database->delete("quiz_banksoal_pilihan",["AND" => ["id" => json_decode($_DELETE['delete'])]]);
+            if($hapus->rowCount() === 0){
+                echo $this->response->json_response(400,"Data tidak ditemukan");
+            }else{                
+                echo $this->response->json_response(200,"berhasil");
+            }            
+        }else{
+            if($v->errors('delete')){
+                echo $this->response->json_response(400,"delete id kosong"); 
+            }
+        }
+    }
+
     public function SoalEssay($tingkatID,$mapelID,$semesterID)
     {
         $cari = isset($_GET['cari'])? (string)$_GET["cari"]:"%";        
@@ -82,6 +111,25 @@ class QuizController extends ApiController
             $data = array("data" => $soal,"totaldata"=>$totalRow,"tingkatan" => $tingkatan[0] , "mapel" => $mapel[0] , "semester" => $semester[0],"pages" => $pages,"current" => $page,"nextpage"=> $nextpage );
         }  
         echo $this->response->json_response(200, $data);   
+    }
+
+    public function SoalEssayDelete()
+    {
+        $_DELETE = RequestParser::parse()->params;        
+        $v = new Validator($_DELETE);
+        $v->rule('required', ['delete']);
+        if($v->validate()) {                                         
+            $hapus=$this->database->delete("quiz_banksoal_essay",["AND" => ["id" => json_decode($_DELETE['delete'])]]);
+            if($hapus->rowCount() === 0){
+                echo $this->response->json_response(400,"Data tidak ditemukan");
+            }else{                
+                echo $this->response->json_response(200,"berhasil");
+            }            
+        }else{
+            if($v->errors('delete')){
+                echo $this->response->json_response(400,"delete id kosong"); 
+            }
+        }
     }
 
 

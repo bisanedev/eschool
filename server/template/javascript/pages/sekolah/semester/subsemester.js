@@ -66,8 +66,7 @@ class PageSekolahSemesterSub extends React.Component{
           <div className="subtitle">Halaman informasi untuk semester</div>
           <Breadcrumb homeUrl="/sekolah" homeText="Sekolah">
             <li><a href="#/sekolah/semester"><span>Semester</span></a></li>   
-            <li><a href={"#/sekolah/semester/"+this.semesterID}><span>{tahunAjaran !="" ? tahunAjaran:"memuat..."}</span></a></li>   
-            <li><a href="#"><span>Data semester</span></a></li>  
+            <li><a href={"#/sekolah/semester/"+this.semesterID}><span>{tahunAjaran !="" ? tahunAjaran:"memuat..."}</span></a></li>            
           </Breadcrumb>
         </div>                
         <div className="mw9 center cf ph3 mb3">

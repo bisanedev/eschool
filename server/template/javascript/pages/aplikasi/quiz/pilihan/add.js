@@ -126,7 +126,9 @@ class PageAplikasiQuizPilihanSoalAdd extends React.Component{
             </div>
           </div>
           <div className="w-50 pa3">
-
+            <div className="w-100 mb3">
+              <label className="f5 fw4 db mb2">Jawaban</label>
+            </div>
           </div>
           </div>
           <div className="flex items-center justify-center bg-near-white" style={{borderTop:"1px solid rgba(0, 0, 0, 0.125)",height:"58px"}}>            

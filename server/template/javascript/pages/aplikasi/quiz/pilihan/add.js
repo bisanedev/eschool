@@ -62,11 +62,10 @@ class PageAplikasiQuizPilihanSoalAdd extends React.Component{
             <li><a href="#"><span>Menambahkan soal</span></a></li>   
           </Breadcrumb>   
         </div>
-        <div className="mw9 center cf ph3 mb3">
-          <Cards title="Menambahkan soal pilihan ganda" bodyClass="flex flex-column">
-          <div className="flex">
-          <div className="w-50 pa3">             
-            <div className="w-100 mb3">
+        <div className="mw9 center cf ph3 mb3 flex">
+          <div className="w-50">
+          <Cards title="Menambahkan soal pilihan ganda" bodyClass="flex flex-column">                               
+            <div className="w-100 mb3 pa3">
             <label className="f5 fw4 db mb2">Pertanyaan Text</label>
             <Editor
               editorState={editorState} 
@@ -77,7 +76,7 @@ class PageAplikasiQuizPilihanSoalAdd extends React.Component{
               }}
             />
             </div>
-            <div className="w-100 mb3">
+            <div className="w-100 mb3 pa3">
                 <div className="flex justify-between items-center mb2">
                   <label className="f5 fw4 db">Pertanyaan Gambar (Opsional)</label>
                   <div className="pointer link dim flex items-center" onClick={() => this.setState({toggleMath:!toggleMath})}>
@@ -114,7 +113,7 @@ class PageAplikasiQuizPilihanSoalAdd extends React.Component{
                   <h5 className="p-5" style={{display:"flex",alignItems:"center",justifyContent:"center"}}>{errorSelect}</h5>
                 )}
             </div>
-            <div className="w-100 mb3">
+            <div className="w-100 mb3 pa3">
                 <label className="f5 fw4 db mb2">Pertanyaan Audio (Opsional)</label>
                 <div className="flex justify-between items-center mb3">
                   <input className="link pv2" type="file" accept="audio/*" onChange={this.onSelectFileAudio}/>
@@ -123,18 +122,32 @@ class PageAplikasiQuizPilihanSoalAdd extends React.Component{
                   </button>
                 </div>
                 {srcAudio != "" && (<audio controls ref="audio_player" className="bg-primary w-100" src={srcAudio}/>)}                                 
-            </div>
-          </div>
-          <div className="w-50 pa3">
-            <div className="w-100 mb3">
-              <label className="f5 fw4 db mb2">Jawaban</label>
-            </div>
-          </div>
-          </div>
+            </div>                     
           <div className="flex items-center justify-center bg-near-white" style={{borderTop:"1px solid rgba(0, 0, 0, 0.125)",height:"58px"}}>            
             <button type="submit" className={`${uploadClass} dim pointer w-30 tc b f7 link br2 ba ph3 pv2 dib white bg-primary b--primary`} disabled={uploadDisable} onClick={this.newSoal}>Tambahkan soal</button> 
           </div>          
           </Cards>
+          </div>
+          <div className="w-50">
+            <div className="flex justify-center items-center" style={{height:"55px"}}>
+              <span className='dim pointer mr2 f6 link br2 ba ph3 pv2 flex primary' disabled={uploadDisable} onClick={this.jawabanText}>
+                <i className="material-icons mr1" style={{fontSize:"18px"}}>article</i>
+                Text
+              </span>
+              <span className='dim pointer mr2 f6 link br2 ba ph3 pv2 flex primary' disabled={uploadDisable} onClick={this.jawabanImages}>
+                <i className="material-icons mr1" style={{fontSize:"18px"}}>crop_original</i>
+                Images
+              </span>
+              <span className='dim pointer mr2 f6 link br2 ba ph3 pv2 flex primary' disabled={uploadDisable} onClick={this.jawabanAudio}>
+                <i className="material-icons mr1" style={{fontSize:"18px"}}>audiotrack</i>
+                Audio
+              </span>
+              <span className='dim pointer f6 link br2 ba ph3 pv2 flex primary' disabled={uploadDisable} onClick={this.jawabanMath}>
+                <i className="material-icons mr1" style={{fontSize:"18px"}}>calculate</i>
+                Math
+              </span>
+            </div>            
+          </div>
         </div>
         <ToastContainer />
     </div>    
@@ -198,6 +211,18 @@ class PageAplikasiQuizPilihanSoalAdd extends React.Component{
     }
   };
   /* --- end of Crop Foto Pertanyaan ---*/
+  jawabanText = () => {
+    console.log("jawaban Text style");
+  }
+  jawabanAudio = () => {
+    console.log("jawaban audio");
+  }
+  jawabanImages = () => {
+    console.log("jawaban images");
+  }
+  jawabanMath = () => {
+    console.log("jawaban math images");
+  }
   /* --- file select audio Pertanyaan ---*/
   onSelectFileAudio = (e) => {  
     if (e.target.files && e.target.files.length > 0) {  

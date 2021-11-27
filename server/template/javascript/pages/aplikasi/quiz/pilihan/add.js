@@ -5,9 +5,11 @@ import { Helmet } from 'react-helmet';
 import { Editor } from "react-draft-wysiwyg";
 import { EditorState, convertToRaw } from 'draft-js';
 import {Breadcrumb} from '../../../../components/menu';
-import { InputText,InputMath,Cards } from '../../../../components/forms';
+import { InputMath,Cards } from '../../../../components/forms';
 import { ToastContainer, toast } from 'react-toastify';
-import { toJpeg,toBlob } from 'html-to-image';
+import { toJpeg } from 'html-to-image';
+import draftToHtml from 'draftjs-to-html';
+import {encode} from 'html-entities';
 
 class PageAplikasiQuizPilihanSoalAdd extends React.Component{
 
@@ -64,8 +66,9 @@ class PageAplikasiQuizPilihanSoalAdd extends React.Component{
         </div>
         <div className="mw9 center cf ph3 mb3 flex">
           <div className="w-50">
-          <Cards title="Menambahkan soal pilihan ganda" bodyClass="flex flex-column">                               
-            <div className="w-100 mb3 pa3">
+          <Cards title="Menambahkan soal pilihan ganda" bodyClass="flex flex-column">
+          <div className="pa3">                               
+            <div className="w-100 mb3">
             <label className="f5 fw4 db mb2">Pertanyaan Text</label>
             <Editor
               editorState={editorState} 
@@ -76,7 +79,7 @@ class PageAplikasiQuizPilihanSoalAdd extends React.Component{
               }}
             />
             </div>
-            <div className="w-100 mb3 pa3">
+            <div className="w-100 mb3">
                 <div className="flex justify-between items-center mb2">
                   <label className="f5 fw4 db">Pertanyaan Gambar (Opsional)</label>
                   <div className="pointer link dim flex items-center" onClick={() => this.setState({toggleMath:!toggleMath})}>
@@ -113,16 +116,17 @@ class PageAplikasiQuizPilihanSoalAdd extends React.Component{
                   <h5 className="p-5" style={{display:"flex",alignItems:"center",justifyContent:"center"}}>{errorSelect}</h5>
                 )}
             </div>
-            <div className="w-100 mb3 pa3">
+            <div className="w-100 mb3">
                 <label className="f5 fw4 db mb2">Pertanyaan Audio (Opsional)</label>
                 <div className="flex justify-between items-center mb3">
-                  <input className="link pv2" type="file" accept="audio/*" onChange={this.onSelectFileAudio}/>
+                  <input className="link pv2" type="file" accept="audio/mp3" onChange={this.onSelectFileAudio}/>
                   <button type="submit" className="pointer link dim br2 ba pa2 dib bg-white" style={{height:"35px"}} onClick={() => this.setState({srcAudio:""})}>
                     Reset
                   </button>
                 </div>
                 {srcAudio != "" && (<audio controls ref="audio_player" className="bg-primary w-100" src={srcAudio}/>)}                                 
-            </div>                     
+            </div> 
+          </div>                    
           <div className="flex items-center justify-center bg-near-white" style={{borderTop:"1px solid rgba(0, 0, 0, 0.125)",height:"58px"}}>            
             <button type="submit" className={`${uploadClass} dim pointer w-30 tc b f7 link br2 ba ph3 pv2 dib white bg-primary b--primary`} disabled={uploadDisable} onClick={this.newSoal}>Tambahkan soal</button> 
           </div>          
@@ -179,7 +183,7 @@ class PageAplikasiQuizPilihanSoalAdd extends React.Component{
     this.cropper = cropper;
   }
 
-  b64toBlob(dataURI) {    
+  b64toBlobIMG(dataURI) {    
     var byteString = atob(dataURI.split(',')[1]);
     var ab = new ArrayBuffer(byteString.length);
     var ia = new Uint8Array(ab);
@@ -188,6 +192,17 @@ class PageAplikasiQuizPilihanSoalAdd extends React.Component{
         ia[i] = byteString.charCodeAt(i);
     }
     return new Blob([ab], { type: 'image/jpeg' });
+  } 
+
+  b64toBlobMP3(dataURI) {    
+    var byteString = atob(dataURI.split(',')[1]);
+    var ab = new ArrayBuffer(byteString.length);
+    var ia = new Uint8Array(ab);
+    
+    for (var i = 0; i < byteString.length; i++) {
+        ia[i] = byteString.charCodeAt(i);
+    }
+    return new Blob([ab], { type: 'audio/mp3' });
   } 
 
   onSelectFile = (e) => {
@@ -251,8 +266,10 @@ class PageAplikasiQuizPilihanSoalAdd extends React.Component{
   }
   /*--- post new soal ----*/
   newSoal = async () => {
-    const {toggleMath,croppedImageUrl} = this.state;
+    const {toggleMath,croppedImageUrl,editorState,srcAudio} = this.state;
+    this.setState({uploadProgress:true,uploadDisable:true});
     var formData = new FormData();
+    
     let pertanyaaan_images;
     if(toggleMath){
       pertanyaaan_images = await toJpeg(this.captureRef.current, {
@@ -263,14 +280,42 @@ class PageAplikasiQuizPilihanSoalAdd extends React.Component{
         backgroundColor:"#fff"
       });            
     }else{ pertanyaaan_images = croppedImageUrl;}
+
     if(pertanyaaan_images != "" || croppedImageUrl != ""){
-      var blobFile = this.b64toBlob(pertanyaaan_images); 
-      console.log(blobFile);
-      formData.append('file',blobFile);
+      var blobFileImage = this.b64toBlobIMG(pertanyaaan_images);       
+      formData.append('pertanyaan_images',blobFileImage);
+      console.log(blobFileImage);
     }
 
- 
-    console.log(pertanyaaan_images);
+    if(srcAudio != ""){
+      var blobFileMp3 = this.b64toBlobMP3(srcAudio);       
+      formData.append('pertanyaan_audio',blobFileMp3);
+      console.log(blobFileMp3);
+    }
+
+    formData.append('pertanyaan_text',encode(draftToHtml(convertToRaw(editorState.getCurrentContent()))));
+
+    axios({
+      method: 'post',
+      url: `/api/pendidik/aplikasi/quiz/pilihan/${this.tingkatID}/${this.mapelID}/${this.semesterID}/add`,
+      data: formData
+    }).then(response => {                 
+        if(response.data.status == true)
+        {                                          
+          this.navigate("#/aplikasi/quiz/pilihan/"+this.tingkatID+"/"+this.mapelID+"/"+this.semesterID); 
+        }
+    }).catch(error => {                   
+      if(error.response.status == 400){                       
+        this.setState({uploadProgress:false,uploadDisable:false},() => toast.warn(error.response.data.message));
+      }  
+      if(error.response.status == 401){
+        this.logout();
+      }                    
+      if(error.message === "Network Error"){ 
+        toast.error("Jaringan internet tidak tersambung");                    
+      }     
+    });
+     
   }    
   /*--- end post new soal ----*/
   logout = () => {   

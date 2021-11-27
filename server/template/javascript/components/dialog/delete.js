@@ -1,5 +1,6 @@
 import React from 'react';
 import Modal from 'react-modal';
+import {decode} from 'html-entities';
 
 function DeleteDialog(props) {
     return (
@@ -12,7 +13,7 @@ function DeleteDialog(props) {
      <div className="dialog-data fr">
         <div className="dialog-body">            
             <span className="dialog-title pb2">{props.title}</span>            
-            <span className="dialog-subtitle" dangerouslySetInnerHTML={{ __html: props.subtitle }}/>
+            <span className="dialog-subtitle" dangerouslySetInnerHTML={{ __html: decode(props.subtitle) }}/>
         </div>                  
         <div className="dialog-button">
             <button type="button" style={{cursor: "pointer"}} className="w3 tc f7 link dim br2 ba ph3 pv2 dib" onClick={props.close}>BATAL</button>

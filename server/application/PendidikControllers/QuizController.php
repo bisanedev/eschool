@@ -6,6 +6,7 @@ use App\Utils\HeaderResponse;
 use Medoo\Medoo;
 use Valitron\Validator;
 use Lcobucci\JWT\Configuration;
+use stdClass;
 
 class QuizController extends ApiController
 {                 
@@ -65,9 +66,39 @@ class QuizController extends ApiController
             $soal = $this->database->select("quiz_banksoal_pilihan",["id","pertanyaan_text","pertanyaan_images","pertanyaan_audio","pilihan[JSON]","jawaban"],["AND" => ["tingkatan_id" => $tingkatID,"mapel_id" => $mapelID ,"semester_id" => $semesterID],"LIMIT" => [$mulai,$totalData],"ORDER" => ["id" => "DESC"]]);            
             $pages = ceil($totalRow/$totalData);
             $nextpage = ($page < $pages) ? $page+1 : false;
-            $data = array("data" => $soal,"totaldata"=>$totalRow,"tingkatan" => $tingkatan[0] , "mapel" => $mapel[0] , "semester" => $semester[0],"pages" => $pages,"current" => $page,"nextpage"=> $nextpage );
+            $data = array("data" => $soal,"totaldata"=>$totalRow,"tingkatan" => $tingkatan[0] , "mapel" => $mapel[0] , "semester" => $semester[0],"pages" => $pages,"current" => $page,"nextpage"=> $nextpage );            
         }  
         echo $this->response->json_response(200, $data);   
+    }
+
+    public function SoalPilihanAdd($tingkatID,$mapelID,$semesterID)
+    {
+        if (empty($_FILES["pertanyaan_audio"])) {
+            echo $this->response->json_response(400, "File Audio kosong !!");
+            exit;
+        }
+        $fileinfo = $_FILES["pertanyaan_audio"]["tmp_name"];
+        $file_type = $_FILES['pertanyaan_audio']['type'];
+        $allowed = array("audio/mp3");
+        $location = __DIR__ ."/../../public/data/audio/".uniqid().".mp3";
+        if(!in_array($file_type, $allowed)) {
+            echo $this->response->json_response(400, "Hanya file audio mp3 yang bisa di upload");
+            exit;
+        }
+        if ($_FILES["pertanyaan_audio"]["size"] > 3000000) {
+            echo $this->response->json_response(400, "Ukuran audio melebihi 3MB");
+            exit;      
+        }                   
+        if (move_uploaded_file($_FILES["pertanyaan_audio"]["tmp_name"],$location)) {            
+            echo $this->response->json_response(200,"berhasil");
+        }else{                
+            echo $this->response->json_response(400, "Maaf, terjadi kesalahan saat mengunggah file Anda");
+        }
+    }
+
+    public function SoalPilihanUpdate($tingkatID,$mapelID,$semesterID,$soalID)
+    {
+
     }
 
     public function SoalPilihanDelete()

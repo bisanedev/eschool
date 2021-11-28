@@ -3,13 +3,14 @@ import axios from 'axios';
 import Cropper from "react-cropper";
 import { Helmet } from 'react-helmet';
 import { Editor } from "react-draft-wysiwyg";
-import { EditorState, convertToRaw } from 'draft-js';
-import {Breadcrumb} from '../../../../components/menu';
+import { EditorState } from 'draft-js';
+import { Breadcrumb } from '../../../../components/menu';
 import { InputMath,Cards } from '../../../../components/forms';
 import { ToastContainer, toast } from 'react-toastify';
 import { toJpeg } from 'html-to-image';
-import draftToHtml from 'draftjs-to-html';
+import { convertToHTML } from 'draft-convert';
 import {encode} from 'html-entities';
+import PilihanText from './pilihanText';
 
 class PageAplikasiQuizPilihanSoalAdd extends React.Component{
 
@@ -25,7 +26,9 @@ class PageAplikasiQuizPilihanSoalAdd extends React.Component{
       croppedImageUrl:"",
       srcAudio:"",
       toggleMath:false,
-      mathValue:"x=\\frac{-b\\pm\\sqrt{b^2-4ac}}{2a}",      
+      mathValue:"x=\\frac{-b\\pm\\sqrt{b^2-4ac}}{2a}",
+      jawaban:[],
+      pilihan:[]      
     }
     this.handleInputChange = this.handleInputChange.bind(this);  
     this.tingkatID = this.props.params.tingkatID;
@@ -45,10 +48,10 @@ class PageAplikasiQuizPilihanSoalAdd extends React.Component{
   }
 
   render() {     
-    const {tingkatan,mapel,semester,src,srcAudio,editorState,errorSelect,uploadProgress,uploadDisable,toggleMath,mathValue} = this.state; 
+    const {tingkatan,mapel,semester,src,srcAudio,editorState,errorSelect,uploadProgress,uploadDisable,toggleMath,mathValue,jawaban,pilihan} = this.state; 
     const uploadClass = uploadProgress ? "progress-active":"";     
     return (    
-    <div className="konten" style={{minHeight:900}}> 
+    <div className="konten"> 
         <Helmet>
             <title>Bank soal - Nama Sekolah</title>
         </Helmet> 
@@ -64,7 +67,7 @@ class PageAplikasiQuizPilihanSoalAdd extends React.Component{
             <li><a href="#"><span>Menambahkan soal</span></a></li>   
           </Breadcrumb>   
         </div>
-        <div className="mw9 center cf ph3 mb3 flex">
+        <div className="mw9 center cf ph3 flex" style={{marginBottom:300}}>
           <div className="w-50">
           <Cards title="Menambahkan soal pilihan ganda" bodyClass="flex flex-column">
           <div className="pa3">                               
@@ -76,6 +79,9 @@ class PageAplikasiQuizPilihanSoalAdd extends React.Component{
               onEditorStateChange={this.onEditorStateChange}              
               toolbar={{
                 options: ['inline', 'list','colorPicker','textAlign','emoji', 'remove', 'history'],
+                inline: {
+                  options: ['bold', 'italic', 'underline', 'strikethrough', 'superscript', 'subscript'],
+                }
               }}
             />
             </div>
@@ -132,25 +138,40 @@ class PageAplikasiQuizPilihanSoalAdd extends React.Component{
           </div>          
           </Cards>
           </div>
-          <div className="w-50">
+          <div className="w-50 flex flex-column">
             <div className="flex justify-center items-center" style={{height:"55px"}}>
-              <span className='dim pointer mr2 f6 link br2 ba ph3 pv2 flex primary' disabled={uploadDisable} onClick={this.jawabanText}>
+              <span className='dim pointer mr2 f6 link br2 ba b--black-10 ph3 pv2 flex bg-white primary' disabled={uploadDisable} onClick={this.jawabanText}>
                 <i className="material-icons mr1" style={{fontSize:"18px"}}>article</i>
                 Text
               </span>
-              <span className='dim pointer mr2 f6 link br2 ba ph3 pv2 flex primary' disabled={uploadDisable} onClick={this.jawabanImages}>
+              <span className='dim pointer mr2 f6 link br2 ba b--black-10 ph3 pv2 flex bg-white primary' disabled={uploadDisable} onClick={this.jawabanImages}>
                 <i className="material-icons mr1" style={{fontSize:"18px"}}>crop_original</i>
                 Images
               </span>
-              <span className='dim pointer mr2 f6 link br2 ba ph3 pv2 flex primary' disabled={uploadDisable} onClick={this.jawabanAudio}>
+              <span className='dim pointer mr2 f6 link br2 ba b--black-10 ph3 pv2 flex bg-white primary' disabled={uploadDisable} onClick={this.jawabanAudio}>
                 <i className="material-icons mr1" style={{fontSize:"18px"}}>audiotrack</i>
                 Audio
               </span>
-              <span className='dim pointer f6 link br2 ba ph3 pv2 flex primary' disabled={uploadDisable} onClick={this.jawabanMath}>
+              <span className='dim pointer mr2 f6 link br2 ba b--black-10 ph3 pv2 flex bg-white primary' disabled={uploadDisable} onClick={this.jawabanMath}>
                 <i className="material-icons mr1" style={{fontSize:"18px"}}>calculate</i>
                 Math
               </span>
-            </div>            
+            </div>  
+            {pilihan.length === 0 && 
+              <div className="flex justify-center items-center pa3" style={{border:"3px dashed rgba(0, 0, 0, 0.125)",height:"125px"}}>
+                <span className="f4 gray">Jawaban Pilihan Ganda Kosong</span>
+              </div> 
+            }                 
+            {pilihan.map((row, idx) => {
+            return(<PilihanText 
+              key={idx} 
+              value={row.text}
+              checked={jawaban.includes(idx) ? true:false}
+              onChange={(value) => this.updateValueText(value, idx)} 
+              onChecked={() => this.onChecked(idx)}
+              onRemove={() => this.RemJawaban(idx)}           
+            />)
+            })}               
           </div>
         </div>
         <ToastContainer />
@@ -225,9 +246,43 @@ class PageAplikasiQuizPilihanSoalAdd extends React.Component{
       reader.readAsDataURL(e.target.files[0]);   
     }
   };
-  /* --- end of Crop Foto Pertanyaan ---*/
-  jawabanText = () => {
-    console.log("jawaban Text style");
+  /* --- end of Crop Foto Pertanyaan ---*/  
+  updateValueText = (value, idx) => {
+    const multiple = [...this.state.pilihan];
+    multiple[idx].text = value;
+    this.setState({pilihan:multiple});
+  }
+  RemJawaban = (idx) => {
+    const multiple = [...this.state.pilihan];
+    const jawaban = [...this.state.jawaban];
+    if(this.state.jawaban.includes(idx)){
+      const index = jawaban.indexOf(idx);
+      if (index > -1) {
+        jawaban.splice(index, 1);
+        this.setState({jawaban:jawaban});
+      }     
+    }       
+    multiple.splice(idx, 1);    
+    this.setState({pilihan:multiple});
+  }
+  onChecked = (idx) => {
+    const jawaban = [...this.state.jawaban];  
+    if(!this.state.jawaban.includes(idx)){
+      jawaban.unshift(idx);      
+    }else{
+      const index = jawaban.indexOf(idx);
+      if (index > -1) {
+        jawaban.splice(index, 1);
+      }
+    }
+    this.setState({jawaban});
+  }   
+  /* --- end of utils jawaban pilihan ganda ---*/
+  jawabanText = () => {        
+    const multiple = [...this.state.pilihan, 
+      {text:"&lt;p&gt;ketik disini&lt;/p&gt;"}
+    ];
+    this.setState({pilihan:multiple});  
   }
   jawabanAudio = () => {
     console.log("jawaban audio");
@@ -293,7 +348,7 @@ class PageAplikasiQuizPilihanSoalAdd extends React.Component{
       console.log(blobFileMp3);
     }
 
-    formData.append('pertanyaan_text',encode(draftToHtml(convertToRaw(editorState.getCurrentContent()))));
+    formData.append('pertanyaan_text',encode(convertToHTML(editorState.getCurrentContent())));
 
     axios({
       method: 'post',

@@ -288,6 +288,15 @@ input[type=checkbox] {
   scrollbar-width: thin;  
 }
 
+.wysiwyg-editor-small{
+  border: 1px solid rgb(241, 241, 241);
+  background-color: #f3f3f3;  
+  padding: 2px !important;   
+  scrollbar-width: thin;  
+  height: 60px !important;
+
+}
+
 .rdw-editor-toolbar {
   margin-bottom: 0 !important;
 }

@@ -1,0 +1,81 @@
+import React, { useRef,useState } from "react";
+import Cropper from "react-cropper";
+
+function PilihanImage(props) {    
+    const {checked, value, onChange, onChecked,onRemove} = props; 
+    const cropperRef = useRef(null);      
+    const [errorSelect, setErrorSelect] = useState(""); 
+    const [src , setSrc] = useState("");
+
+    const onCrop = () => {
+        const imageElement = cropperRef.current;
+        const cropper = imageElement.cropper;
+        const foto = cropper.getCroppedCanvas({
+            width: 300,
+            height: 100,
+            fillColor: '#fff',
+            imageSmoothingEnabled: false,
+            imageSmoothingQuality: 'high',
+        }).toDataURL();             
+        onChange(foto);
+    }; 
+        
+    const onSelectFile = (e) => {        
+        if (e.target.files && e.target.files.length > 0) {      
+          const reader = new FileReader();   
+          reader.addEventListener('load', () => {        
+            var image = new Image();        
+            image.src = reader.result;   
+            image.addEventListener('load', function () {
+              var height = this.height;
+              var width = this.width;                 
+              if (height >= 80 && width >= 200) {                             
+                setSrc(reader.result);
+              }else{ 
+                setErrorSelect("Gambar foto dimensi minimal height 80 , width 200");                  
+                setSrc(null);                 
+              }
+            });        
+          });
+          reader.readAsDataURL(e.target.files[0]);   
+        }
+    };
+
+    return (
+    <div className="flex flex-column w-100 mb3" style={{border:"1px solid rgba(0, 0, 0, 0.125)"}}>
+        <div className="flex justify-between items-center bg-white">
+            <label className="checkbox-container ml1">&nbsp;
+                <input type="checkbox" checked={checked} onChange={onChecked}/>
+                <span className="checkmark"></span>
+            </label>
+            <span>Jawaban Gambar</span>
+            <span className="dim pointer pa1 bg-red" onClick={onRemove}>
+                <i className="material-icons white" style={{fontSize:"20px"}}>close</i>
+            </span>            
+        </div>
+        {value === "" && (
+        <div className="flex justify-between items-center ph2 bg-white">
+            <input className="link pv2" type="file" accept="image/*" onChange={(e) => onSelectFile(e)}/>
+            <button className="pointer link dim br2 ba pa2 dib bg-white" style={{height:"35px"}} onClick={() => {onChange("");}}>Reset</button>
+        </div>
+        )}
+        {src === "" && value != "" && (
+        <div className="relative">
+            <div className="link dim deleteFotoJawaban flex justify-center items-center" onClick={() => {onChange("");}}>
+                Ganti foto
+                <i className="material-icons-outlined" style={{fontSize: "14px"}}>close</i>
+            </div>
+            <img src={value} style={{width:"100%",height:"100%"}}/>
+        </div>
+        )}
+        {src != null && src != "" && (
+            <Cropper src={src} style={{ height: 150, width: "100%" }} initialAspectRatio={4 / 3} guides={false} minCropBoxWidth={600} minCropBoxHeight={430} crop={onCrop} ref={cropperRef} cropBoxResizable={false} dragMode={'move'} />
+        )}
+        {src === null && (
+            <h5 className="p-5" style={{display:"flex",alignItems:"center",justifyContent:"center"}}>{errorSelect}</h5>
+        )}
+    </div>
+    );
+}
+
+export default PilihanImage;

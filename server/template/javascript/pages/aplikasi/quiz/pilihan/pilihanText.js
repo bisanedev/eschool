@@ -18,7 +18,7 @@ function PilihanText(props) {
                 <input type="checkbox" checked={checked} onChange={onChecked}/>
                 <span className="checkmark"></span>
             </label>
-            <span>Jawaban Text</span>
+            <span>Jawaban Teks</span>
             <span className="dim pointer pa1 bg-red" onClick={onRemove}>
                 <i className="material-icons white" style={{fontSize:"20px"}}>close</i>
             </span>            

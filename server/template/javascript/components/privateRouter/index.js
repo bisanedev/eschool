@@ -16,7 +16,7 @@ function PrivateRoute(props) {
   
     useEffect(() => {
       axios.defaults.headers.common['Authorization'] = 'Bearer ' + authData;
-    });
+    },[]);
   
     const logOut = () => {
       setShow(false);

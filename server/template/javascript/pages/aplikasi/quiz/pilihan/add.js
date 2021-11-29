@@ -11,6 +11,9 @@ import { toJpeg } from 'html-to-image';
 import { convertToHTML } from 'draft-convert';
 import {encode} from 'html-entities';
 import PilihanText from './pilihanText';
+import PilihanImage from './pilihanImage';
+import PilihanAudio from './pilihanAudio';
+import PilihanMath from './pilihanMath';
 
 class PageAplikasiQuizPilihanSoalAdd extends React.Component{
 
@@ -28,7 +31,7 @@ class PageAplikasiQuizPilihanSoalAdd extends React.Component{
       toggleMath:false,
       mathValue:"x=\\frac{-b\\pm\\sqrt{b^2-4ac}}{2a}",
       jawaban:[],
-      pilihan:[]      
+      pilihan:[],          
     }
     this.handleInputChange = this.handleInputChange.bind(this);  
     this.tingkatID = this.props.params.tingkatID;
@@ -72,7 +75,7 @@ class PageAplikasiQuizPilihanSoalAdd extends React.Component{
           <Cards title="Menambahkan soal pilihan ganda" bodyClass="flex flex-column">
           <div className="pa3">                               
             <div className="w-100 mb3">
-            <label className="f5 fw4 db mb2">Pertanyaan Text</label>
+            <label className="f5 fw4 db mb2">Pertanyaan Teks</label>
             <Editor
               editorState={editorState} 
               editorClassName="wysiwyg-editor"
@@ -142,11 +145,11 @@ class PageAplikasiQuizPilihanSoalAdd extends React.Component{
             <div className="flex justify-center items-center" style={{height:"55px"}}>
               <span className='dim pointer mr2 f6 link br2 ba b--black-10 ph3 pv2 flex bg-white primary' disabled={uploadDisable} onClick={this.jawabanText}>
                 <i className="material-icons mr1" style={{fontSize:"18px"}}>article</i>
-                Text
+                Teks
               </span>
               <span className='dim pointer mr2 f6 link br2 ba b--black-10 ph3 pv2 flex bg-white primary' disabled={uploadDisable} onClick={this.jawabanImages}>
                 <i className="material-icons mr1" style={{fontSize:"18px"}}>crop_original</i>
-                Images
+                Gambar
               </span>
               <span className='dim pointer mr2 f6 link br2 ba b--black-10 ph3 pv2 flex bg-white primary' disabled={uploadDisable} onClick={this.jawabanAudio}>
                 <i className="material-icons mr1" style={{fontSize:"18px"}}>audiotrack</i>
@@ -161,17 +164,49 @@ class PageAplikasiQuizPilihanSoalAdd extends React.Component{
               <div className="flex justify-center items-center pa3" style={{border:"3px dashed rgba(0, 0, 0, 0.125)",height:"125px"}}>
                 <span className="f4 gray">Jawaban Pilihan Ganda Kosong</span>
               </div> 
-            }                 
+            }                
             {pilihan.map((row, idx) => {
-            return(<PilihanText 
-              key={idx} 
-              value={row.text}
-              checked={jawaban.includes(idx) ? true:false}
-              onChange={(value) => this.updateValueText(value, idx)} 
-              onChecked={() => this.onChecked(idx)}
-              onRemove={() => this.RemJawaban(idx)}           
-            />)
-            })}               
+            if(row.type === "text"){
+              return <PilihanText 
+                key={idx} 
+                value={row.text}
+                checked={jawaban.includes(idx) ? true:false}
+                onChange={(value) => this.updateValueText(value, idx)} 
+                onChecked={() => this.onChecked(idx)}
+                onRemove={() => this.RemJawaban(idx)}           
+              />
+            }           
+            else if(row.type === "image"){
+              return <PilihanImage 
+                key={idx} 
+                value={row.image}
+                checked={jawaban.includes(idx) ? true:false}
+                onChange={(value) => this.updateValueImage(value, idx)} 
+                onChecked={() => this.onChecked(idx)}
+                onRemove={() => this.RemJawaban(idx)}
+              />
+            }
+            else if(row.type === "audio"){
+              return <PilihanAudio 
+                key={idx} 
+                value={row.audio}
+                checked={jawaban.includes(idx) ? true:false}      
+                onChange={(value) => this.updateValueAudio(value, idx)}           
+                onChecked={() => this.onChecked(idx)}
+                onRemove={() => this.RemJawaban(idx)}   
+              />
+            }
+            else if(row.type === "math"){
+              return <PilihanMath 
+                key={idx} 
+                value={row.math}
+                checked={jawaban.includes(idx) ? true:false}
+                onChange={(value) => this.updateValueMath(value, idx)}                       
+                onChecked={() => this.onChecked(idx)}
+                onRemove={() => this.RemJawaban(idx)}   
+              />
+            }
+            })}
           </div>
         </div>
         <ToastContainer />
@@ -239,7 +274,7 @@ class PageAplikasiQuizPilihanSoalAdd extends React.Component{
           if (height >= 125 && width >= 250) {            
             wow.setState({ src: reader.result });                                    
           }else{            
-            wow.setState({ src: null,croppedImageUrl:"",errorSelect:"Gambar foto dimensi minimal height 125 , width 250" }); 
+            wow.setState({ src: null,croppedImageUrl:"",errorSelect:"Gambar foto dimensi minimal height 250 , width 125" }); 
           }
         });        
       });
@@ -252,19 +287,41 @@ class PageAplikasiQuizPilihanSoalAdd extends React.Component{
     multiple[idx].text = value;
     this.setState({pilihan:multiple});
   }
-  RemJawaban = (idx) => {
+
+  updateValueImage = (value, idx) => {    
+    const multiple = [...this.state.pilihan];            
+    multiple[idx].image = value;    
+    this.setState({pilihan:multiple});            
+  }
+
+  updateValueAudio = (value , idx) => {
+    const multiple = [...this.state.pilihan];            
+    multiple[idx].audio = value;    
+    this.setState({pilihan:multiple});  
+  }
+
+  updateValueMath = (value , idx) => {
+    const multiple = [...this.state.pilihan];            
+    multiple[idx].math = value;    
+    this.setState({pilihan:multiple});  
+  }
+
+  RemJawaban = (idx) => {    
     const multiple = [...this.state.pilihan];
-    const jawaban = [...this.state.jawaban];
+    const jawaban = [...this.state.jawaban];    
+
     if(this.state.jawaban.includes(idx)){
       const index = jawaban.indexOf(idx);
       if (index > -1) {
         jawaban.splice(index, 1);
         this.setState({jawaban:jawaban});
       }     
-    }       
+    }
+
     multiple.splice(idx, 1);    
     this.setState({pilihan:multiple});
   }
+
   onChecked = (idx) => {
     const jawaban = [...this.state.jawaban];  
     if(!this.state.jawaban.includes(idx)){
@@ -276,22 +333,32 @@ class PageAplikasiQuizPilihanSoalAdd extends React.Component{
       }
     }
     this.setState({jawaban});
-  }   
+  }  
+
   /* --- end of utils jawaban pilihan ganda ---*/
   jawabanText = () => {        
     const multiple = [...this.state.pilihan, 
-      {text:"&lt;p&gt;ketik disini&lt;/p&gt;"}
+      {type:"text",text:"&lt;p&gt;ketik disini&lt;/p&gt;"}
     ];
     this.setState({pilihan:multiple});  
   }
-  jawabanAudio = () => {
-    console.log("jawaban audio");
-  }
   jawabanImages = () => {
-    console.log("jawaban images");
+    const multiple = [...this.state.pilihan, 
+      {type:"image",image:""}
+    ];
+    this.setState({pilihan:multiple}); 
+  }
+  jawabanAudio = () => {
+    const multiple = [...this.state.pilihan, 
+      {type:"audio",audio:""}
+    ];
+    this.setState({pilihan:multiple}); 
   }
   jawabanMath = () => {
-    console.log("jawaban math images");
+    const multiple = [...this.state.pilihan, 
+      {type:"math",math:""}
+    ];
+    this.setState({pilihan:multiple}); 
   }
   /* --- file select audio Pertanyaan ---*/
   onSelectFileAudio = (e) => {  

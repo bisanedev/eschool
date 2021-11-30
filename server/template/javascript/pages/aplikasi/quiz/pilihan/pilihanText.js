@@ -5,7 +5,7 @@ import { convertToHTML, convertFromHTML } from 'draft-convert';
 import { encode, decode } from 'html-entities';
 
 function PilihanText(props) {    
-    const {checked, value, onChange, onChecked,onRemove} = props;   
+    const {checked, value, onChange, onChecked,onRemove,disRem} = props;   
 
     const handleEditorValue = (editorState) => {        
         return onChange(encode(convertToHTML(editorState.getCurrentContent())));
@@ -19,9 +19,11 @@ function PilihanText(props) {
                 <span className="checkmark"></span>
             </label>
             <span>Jawaban Teks</span>
-            <span className="dim pointer pa1 bg-red" onClick={onRemove}>
-                <i className="material-icons white" style={{fontSize:"20px"}}>close</i>
-            </span>            
+            {disRem ? 
+            <span className="pa1 bg-moon-gray"><i className="material-icons gray" style={{fontSize:"20px"}}>close</i></span>
+            :
+            <span className="dim pointer pa1 bg-red" onClick={onRemove}><i className="material-icons white" style={{fontSize:"20px"}}>close</i></span>
+            }
         </div>
         <Editor            
             defaultEditorState={EditorState.createWithContent(convertFromHTML(decode(value)))}

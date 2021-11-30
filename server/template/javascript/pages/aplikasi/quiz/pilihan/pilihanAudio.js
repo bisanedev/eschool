@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 
 function PilihanAudio(props) {
-    const {checked, value, onChange, onChecked,onRemove} = props;    
+    const {checked, value, onChange, onChecked,onRemove,disRem} = props;    
 
     const onSelectFileAudio = (e) => {  
         if (e.target.files && e.target.files.length > 0) {  
@@ -21,9 +21,11 @@ function PilihanAudio(props) {
                 <span className="checkmark"></span>
             </label>
             <span>Jawaban Audio</span>
-            <span className="dim pointer pa1 bg-red" onClick={onRemove}>
-                <i className="material-icons white" style={{fontSize:"20px"}}>close</i>
-            </span>            
+            {disRem ? 
+            <span className="pa1 bg-moon-gray"><i className="material-icons gray" style={{fontSize:"20px"}}>close</i></span>
+            :
+            <span className="dim pointer pa1 bg-red" onClick={onRemove}><i className="material-icons white" style={{fontSize:"20px"}}>close</i></span>
+            }           
         </div>          
         <div className="flex justify-between items-center ph2 bg-white">
          <input className="link pv2" type="file" accept="audio/mp3" onChange={(e) => onSelectFileAudio(e)}/>

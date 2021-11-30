@@ -165,11 +165,12 @@ class PageAplikasiQuizPilihanSoalAdd extends React.Component{
                 <span className="f4 gray">Jawaban Pilihan Ganda Kosong</span>
               </div> 
             }                
-            {pilihan.map((row, idx) => {
+            {pilihan.length > 0 && pilihan.map((row, idx) => {
             if(row.type === "text"){
               return <PilihanText 
                 key={idx} 
                 value={row.text}
+                disRem={pilihan.length === idx+1 ? false:true}
                 checked={jawaban.includes(idx) ? true:false}
                 onChange={(value) => this.updateValueText(value, idx)} 
                 onChecked={() => this.onChecked(idx)}
@@ -180,6 +181,7 @@ class PageAplikasiQuizPilihanSoalAdd extends React.Component{
               return <PilihanImage 
                 key={idx} 
                 value={row.image}
+                disRem={pilihan.length === idx+1 ? false:true}
                 checked={jawaban.includes(idx) ? true:false}
                 onChange={(value) => this.updateValueImage(value, idx)} 
                 onChecked={() => this.onChecked(idx)}
@@ -190,6 +192,7 @@ class PageAplikasiQuizPilihanSoalAdd extends React.Component{
               return <PilihanAudio 
                 key={idx} 
                 value={row.audio}
+                disRem={pilihan.length === idx+1 ? false:true}
                 checked={jawaban.includes(idx) ? true:false}      
                 onChange={(value) => this.updateValueAudio(value, idx)}           
                 onChecked={() => this.onChecked(idx)}
@@ -200,6 +203,7 @@ class PageAplikasiQuizPilihanSoalAdd extends React.Component{
               return <PilihanMath 
                 key={idx} 
                 value={row.math}
+                disRem={pilihan.length === idx+1 ? false:true}
                 checked={jawaban.includes(idx) ? true:false}
                 onChange={(value) => this.updateValueMath(value, idx)}                       
                 onChecked={() => this.onChecked(idx)}
@@ -281,7 +285,7 @@ class PageAplikasiQuizPilihanSoalAdd extends React.Component{
       reader.readAsDataURL(e.target.files[0]);   
     }
   };
-  /* --- end of Crop Foto Pertanyaan ---*/  
+  /* --- end of Crop Foto Pertanyaan ---*/   
   updateValueText = (value, idx) => {
     const multiple = [...this.state.pilihan];
     multiple[idx].text = value;
@@ -306,7 +310,7 @@ class PageAplikasiQuizPilihanSoalAdd extends React.Component{
     this.setState({pilihan:multiple});  
   }
 
-  RemJawaban = (idx) => {    
+  RemJawaban = (idx) => {        
     const multiple = [...this.state.pilihan];
     const jawaban = [...this.state.jawaban];    
 
@@ -318,7 +322,7 @@ class PageAplikasiQuizPilihanSoalAdd extends React.Component{
       }     
     }
 
-    multiple.splice(idx, 1);    
+    multiple.splice(idx, 1);   
     this.setState({pilihan:multiple});
   }
 
@@ -336,7 +340,15 @@ class PageAplikasiQuizPilihanSoalAdd extends React.Component{
   }  
 
   /* --- end of utils jawaban pilihan ganda ---*/
-  jawabanText = () => {        
+  pilihanNum = () => {
+    if(this.state.pilihan.length===0){
+      return 0;
+    }else{
+      var last_element = this.state.pilihan[this.state.pilihan.length - 1];    
+      return (last_element.pilihan + 1) ;
+    }
+  } 
+  jawabanText = () => {      
     const multiple = [...this.state.pilihan, 
       {type:"text",text:"&lt;p&gt;ketik disini&lt;/p&gt;"}
     ];
@@ -354,7 +366,7 @@ class PageAplikasiQuizPilihanSoalAdd extends React.Component{
     ];
     this.setState({pilihan:multiple}); 
   }
-  jawabanMath = () => {
+  jawabanMath = () => {    
     const multiple = [...this.state.pilihan, 
       {type:"math",math:""}
     ];

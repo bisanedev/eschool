@@ -85,8 +85,8 @@ class QuizController extends ApiController
             echo $this->response->json_response(400, "Hanya file audio mp3 yang bisa di upload");
             exit;
         }
-        if ($_FILES["pertanyaan_audio"]["size"] > 3000000) {
-            echo $this->response->json_response(400, "Ukuran audio melebihi 3MB");
+        if ($_FILES["pertanyaan_audio"]["size"] > 2000000) {
+            echo $this->response->json_response(400, "Ukuran audio melebihi 2MB");
             exit;      
         }                   
         if (move_uploaded_file($_FILES["pertanyaan_audio"]["tmp_name"],$location)) {            

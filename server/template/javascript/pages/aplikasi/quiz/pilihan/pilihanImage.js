@@ -2,7 +2,7 @@ import React, { useRef,useState } from "react";
 import Cropper from "react-cropper";
 
 function PilihanImage(props) {    
-    const {checked, value, onChange, onChecked,onRemove} = props; 
+    const {checked, value, onChange, onChecked,onRemove,disRem} = props; 
     const cropperRef = useRef(null);      
     const [errorSelect, setErrorSelect] = useState(""); 
     const [src , setSrc] = useState("");
@@ -11,7 +11,7 @@ function PilihanImage(props) {
         const imageElement = cropperRef.current;
         const cropper = imageElement.cropper;
         const foto = cropper.getCroppedCanvas({
-            width: 300,
+            width: 280,
             height: 100,
             fillColor: '#fff',
             imageSmoothingEnabled: false,
@@ -49,25 +49,17 @@ function PilihanImage(props) {
                 <span className="checkmark"></span>
             </label>
             <span>Jawaban Gambar</span>
-            <span className="dim pointer pa1 bg-red" onClick={onRemove}>
-                <i className="material-icons white" style={{fontSize:"20px"}}>close</i>
-            </span>            
-        </div>
-        {value === "" && (
+            {disRem ? 
+            <span className="pa1 bg-moon-gray"><i className="material-icons gray" style={{fontSize:"20px"}}>close</i></span>
+            :
+            <span className="dim pointer pa1 bg-red" onClick={onRemove}><i className="material-icons white" style={{fontSize:"20px"}}>close</i></span>
+            } 
+        </div>        
         <div className="flex justify-between items-center ph2 bg-white">
             <input className="link pv2" type="file" accept="image/*" onChange={(e) => onSelectFile(e)}/>
-            <button className="pointer link dim br2 ba pa2 dib bg-white" style={{height:"35px"}} onClick={() => {onChange("");}}>Reset</button>
-        </div>
-        )}
-        {src === "" && value != "" && (
-        <div className="relative">
-            <div className="link dim deleteFotoJawaban flex justify-center items-center" onClick={() => {onChange("");}}>
-                Ganti foto
-                <i className="material-icons-outlined" style={{fontSize: "14px"}}>close</i>
-            </div>
-            <img src={value} style={{width:"100%",height:"100%"}}/>
-        </div>
-        )}
+            <button className="pointer link dim br2 ba pa2 dib bg-white" style={{height:"35px"}} onClick={() => {onChange("");setSrc("");}}>Reset</button>
+        </div>        
+        {src === "" && value != "" && ( <img src={value} style={{width:"100%",height:"100%"}}/>)}
         {src != null && src != "" && (
             <Cropper src={src} style={{ height: 150, width: "100%" }} initialAspectRatio={4 / 3} guides={false} minCropBoxWidth={600} minCropBoxHeight={430} crop={onCrop} ref={cropperRef} cropBoxResizable={false} dragMode={'move'} />
         )}

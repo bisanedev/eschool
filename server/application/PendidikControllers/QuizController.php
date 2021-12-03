@@ -73,27 +73,25 @@ class QuizController extends ApiController
 
     public function SoalPilihanAdd($tingkatID,$mapelID,$semesterID)
     {
-        if (empty($_FILES["pertanyaan_audio"])) {
-            echo $this->response->json_response(400, "File Audio kosong !!");
-            exit;
-        }
-        $fileinfo = $_FILES["pertanyaan_audio"]["tmp_name"];
-        $file_type = $_FILES['pertanyaan_audio']['type'];
-        $allowed = array("audio/mp3");
-        $location = __DIR__ ."/../../public/data/audio/".uniqid().".mp3";
-        if(!in_array($file_type, $allowed)) {
-            echo $this->response->json_response(400, "Hanya file audio mp3 yang bisa di upload");
-            exit;
-        }
-        if ($_FILES["pertanyaan_audio"]["size"] > 2000000) {
-            echo $this->response->json_response(400, "Ukuran audio melebihi 2MB");
-            exit;      
-        }                   
-        if (move_uploaded_file($_FILES["pertanyaan_audio"]["tmp_name"],$location)) {            
-            echo $this->response->json_response(200,"berhasil");
-        }else{                
-            echo $this->response->json_response(400, "Maaf, terjadi kesalahan saat mengunggah file Anda");
-        }
+        $v = new Validator($_POST);
+        $v->rule('required', ['pertanyaan_text','jawaban']);
+        if($v->validate()) {            
+            $this->database->insert("quiz_banksoal_pilihan",["tingkatan_id" => $tingkatID,"mapel_id" => $mapelID,"semester_id" => $semesterID,"pertanyaan_text" => $_POST["pertanyaan_text"],"jawaban" => $_POST["jawaban"]]);           
+            $lastID = $this->database->id();
+            if (!file_exists(__DIR__ ."/../../public/data/soal/pilihan/".$lastID)) {
+                mkdir(__DIR__ ."/../../public/data/soal/pilihan/".$lastID, 0777, true);
+            }else{
+                echo $this->response->json_response(400,"File upload terkendala");  
+            }
+            //echo $this->response->json_response(200, "berhasil");
+        }else{
+            if($v->errors('pertanyaan_text')){
+                echo $this->response->json_response(400,"Input pertanyaan text kosong"); 
+            } 
+            elseif($v->errors('jawaban')){
+                echo $this->response->json_response(400,"Input jawaban kosong"); 
+            }             
+        }        
     }
 
     public function SoalPilihanUpdate($tingkatID,$mapelID,$semesterID,$soalID)

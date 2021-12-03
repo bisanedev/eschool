@@ -1,11 +1,12 @@
 import React from "react";
-import { InputMath } from '../../../../components/forms';
 import { toJpeg } from 'html-to-image';
+import MathView from 'react-math-view';
 
 function PilihanMath(props) { 
     const {checked, value, onChange, onChecked,onRemove,disRem} = props;
     const [mathValue,SetMathValue] = React.useState("x=\\frac{-b\\pm\\sqrt{b^2-4ac}}{2a}");
     const captureRef = React.useRef(null); 
+    const ref = React.useRef(null);   
 
     const getCapture = async () => {
        var capture = await toJpeg(captureRef.current, {
@@ -40,10 +41,21 @@ function PilihanMath(props) {
         )}
         {value === "" && (
         <>        
-            <div ref={captureRef} className="mathWidth" style={{fontSize:"30px"}}>                 
-                <InputMath value={mathValue} onChange={(value) => SetMathValue(value)} />                         
-            </div>            
-            <button className="w-30 pointer link dim mb1 mr1 br2 ba pa2 dib bg-white flex justify-center items-center" style={{height:"25px",marginLeft:"auto",fontSize:"12px"}} onClick={() => {getCapture();}}><i className="material-icons-outlined mr1" style={{fontSize: "14px"}}>camera</i> Tangkap Gambar</button>            
+            <div ref={captureRef} className="mathWidth" style={{fontSize:"30px"}}> 
+                <MathView ref={ref} value={mathValue}
+                    onFocus={() => {
+                        ref.current.executeCommand('showVirtualKeyboard');
+                    }}
+                    onBlur={() => {        
+                        ref.current.executeCommand('hideVirtualKeyboard');
+                    }} 
+                    onContentDidChange={() => {SetMathValue(ref.current.getValue('latex'))}}    
+                />                                    
+            </div>
+            <div className="flex justify-center items-center ma2">
+                <button className="w-30 pointer link dim br2 ba pa2 dib bg-white flex justify-center items-center" style={{height:"25px",fontSize:"12px", marginRight:"auto"}} onClick={() => ref.current.executeCommand('showVirtualKeyboard')}><i className="material-icons-outlined mr1" style={{fontSize: "14px"}}>keyboard</i> Buka Virtual Keyboard</button>            
+                <button className="w-30 pointer link dim br2 ba pa2 dib bg-white flex justify-center items-center" style={{height:"25px",marginLeft:"auto",fontSize:"12px"}} onClick={() => {getCapture();}}><i className="material-icons-outlined mr1" style={{fontSize: "14px"}}>camera</i> Tangkap Gambar</button>
+            </div>
         </>
         )}
     </div>

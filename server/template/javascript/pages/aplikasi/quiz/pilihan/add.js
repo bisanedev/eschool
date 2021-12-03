@@ -5,11 +5,12 @@ import { Helmet } from 'react-helmet';
 import { Editor } from "react-draft-wysiwyg";
 import { EditorState } from 'draft-js';
 import { Breadcrumb } from '../../../../components/menu';
-import { InputMath,Cards } from '../../../../components/forms';
+import { Cards } from '../../../../components/forms';
 import { ToastContainer, toast } from 'react-toastify';
 import { toJpeg } from 'html-to-image';
 import { convertToHTML } from 'draft-convert';
 import {encode} from 'html-entities';
+import MathView from 'react-math-view';
 import PilihanText from './pilihanText';
 import PilihanImage from './pilihanImage';
 import PilihanAudio from './pilihanAudio';
@@ -40,6 +41,7 @@ class PageAplikasiQuizPilihanSoalAdd extends React.Component{
     this.navigate = this.props.navigate; 
     this.cropper = React.createRef();   
     this.captureRef = React.createRef();   
+    this.math =  React.createRef();  
   }
 
   componentDidMount() {
@@ -96,10 +98,21 @@ class PageAplikasiQuizPilihanSoalAdd extends React.Component{
                     {toggleMath ? (<i className="material-icons" style={{fontSize:25}}>calculate</i>):(<i className="material-icons" style={{fontSize:25}}>crop_original</i>)}
                   </div>                  
                 </div>
-                {toggleMath ? ( 
-                  <div ref={this.captureRef} className="mathWidth" style={{fontSize:"30px"}}>                 
-                    <InputMath value={mathValue} onChange={(value) => this.setState({mathValue:value})} />                         
+                {toggleMath ? (
+                  <> 
+                  <div ref={this.captureRef} className="mathWidth" style={{fontSize:"30px"}}> 
+                    <MathView ref={this.math} value={mathValue}
+                      onFocus={() => {
+                        this.math.current.executeCommand('showVirtualKeyboard');
+                      }}
+                      onBlur={() => {        
+                        this.math.current.executeCommand('hideVirtualKeyboard');
+                      }} 
+                      onContentDidChange={() => {this.setState({mathValue:this.math.current.getValue('latex')});}}    
+                    />                                                           
                   </div>
+                  <button className="w-30 pointer link dim br2 ba pa2 dib bg-white flex justify-center items-center mt2" style={{height:"25px",fontSize:"12px", marginLeft:"auto"}} onClick={() => this.math.current.executeCommand('showVirtualKeyboard')}><i className="material-icons-outlined mr1" style={{fontSize: "14px"}}>keyboard</i> Buka Virtual Keyboard</button>
+                  </>
                 ):(
                   <div className="flex justify-between items-center mb3">
                     <input className="link pv2" type="file" accept="image/*" onChange={this.onSelectFile}/>
@@ -400,7 +413,7 @@ class PageAplikasiQuizPilihanSoalAdd extends React.Component{
   }
   /*--- post new soal ----*/
   newSoal = async () => {
-    const {toggleMath,croppedImageUrl,editorState,srcAudio} = this.state;
+    const {toggleMath,croppedImageUrl,editorState,srcAudio,jawaban} = this.state;
     this.setState({uploadProgress:true,uploadDisable:true});
     var formData = new FormData();
     
@@ -417,16 +430,16 @@ class PageAplikasiQuizPilihanSoalAdd extends React.Component{
 
     if(pertanyaaan_images != "" || croppedImageUrl != ""){
       var blobFileImage = this.b64toBlobIMG(pertanyaaan_images);       
-      formData.append('pertanyaan_images',blobFileImage);
-      console.log(blobFileImage);
+      formData.append('pertanyaan_images',blobFileImage);      
     }
 
     if(srcAudio != ""){
       var blobFileMp3 = this.b64toBlobMP3(srcAudio);       
-      formData.append('pertanyaan_audio',blobFileMp3);
-      console.log(blobFileMp3);
+      formData.append('pertanyaan_audio',blobFileMp3);      
     }
-
+    
+    var jawabanJSON = jawaban.length === 0 ? "" : JSON.stringify(jawaban);
+    formData.append('jawaban',jawabanJSON);    
     formData.append('pertanyaan_text',encode(convertToHTML(editorState.getCurrentContent())));
 
     axios({

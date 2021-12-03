@@ -12,8 +12,8 @@ function PilihanMath(props) {
        var capture = await toJpeg(captureRef.current, {
             quality: 1,
             pixelRatio: 1,
-            canvasWidth:280, 
-            canvasHeight:100,
+            canvasWidth:320, 
+            canvasHeight:120,
             backgroundColor:"#fff"
         });
         onChange(capture);
@@ -41,7 +41,7 @@ function PilihanMath(props) {
         )}
         {value === "" && (
         <>        
-            <div ref={captureRef} className="mathWidth" style={{fontSize:"30px"}}> 
+            <div ref={captureRef} className="mathWidth" style={{fontSize:"32px"}}> 
                 <MathView ref={ref} value={mathValue}
                     onFocus={() => {
                         ref.current.executeCommand('showVirtualKeyboard');

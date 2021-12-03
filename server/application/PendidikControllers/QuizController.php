@@ -74,23 +74,72 @@ class QuizController extends ApiController
     public function SoalPilihanAdd($tingkatID,$mapelID,$semesterID)
     {
         $v = new Validator($_POST);
-        $v->rule('required', ['pertanyaan_text','jawaban']);
-        if($v->validate()) {            
-            $this->database->insert("quiz_banksoal_pilihan",["tingkatan_id" => $tingkatID,"mapel_id" => $mapelID,"semester_id" => $semesterID,"pertanyaan_text" => $_POST["pertanyaan_text"],"jawaban" => $_POST["jawaban"]]);           
-            $lastID = $this->database->id();
-            if (!file_exists(__DIR__ ."/../../public/data/soal/pilihan/".$lastID)) {
-                mkdir(__DIR__ ."/../../public/data/soal/pilihan/".$lastID, 0777, true);
-            }else{
-                echo $this->response->json_response(400,"File upload terkendala");  
+        $v->rule('required', ['pertanyaan_text','jawaban','pilihan']);
+        if($v->validate()) { 
+            // filter file size
+            if ($_FILES["pertanyaan_audio"]["size"] > 2000000) {
+                echo $this->response->json_response(400, "Ukuran pertanyaan audio melebihi 2MB");
+                exit;      
+            } 
+            if ($_FILES["pertanyaan_images"]["size"] > 2000000) {
+                echo $this->response->json_response(400, "Ukuran pertanyaan gambar melebihi 2MB");
+                exit;      
             }
-            //echo $this->response->json_response(200, "berhasil");
+            //jawaban file filter        
+            if (isset($_FILES["files"])){     
+                $isMulti    = is_array($_FILES["files"]);                
+                $countfiles = $isMulti?count($_FILES["files"]):1;                                                           
+                for($i=0;$i<$countfiles;$i++){                    
+                    if ($_FILES["files"]["size"][$i] > 2000000) {
+                        echo $this->response->json_response(400, "Ukuran data jawaban melebihi 2MB");
+                        exit;      
+                    }                    
+                }
+            }
+            //insert database            
+            $this->database->insert("quiz_banksoal_pilihan",["tingkatan_id" => $tingkatID,"mapel_id" => $mapelID,"semester_id" => $semesterID,"pertanyaan_text" => $_POST["pertanyaan_text"],"jawaban" => $_POST["jawaban"],"pilihan" => $_POST["pilihan"]]);           
+            $lastID = $this->database->id();
+            //make folder
+            if (isset($_FILES["pertanyaan_images"]) || isset($_FILES["pertanyaan_audio"]) || isset($_FILES["files"])){ 
+                if (!file_exists(__DIR__ ."/../../public/data/soal/pilihan/".$lastID)) {
+                    mkdir(__DIR__ ."/../../public/data/soal/pilihan/".$lastID, 0777, true);
+                }
+            }
+            //upload pertanyaan gambar jika ada
+            if (isset($_FILES["pertanyaan_images"])){        
+                $location = __DIR__ ."/../../public/data/soal/pilihan/".$lastID."/pertanyaan.jpg";                              
+                move_uploaded_file($_FILES["pertanyaan_images"]["tmp_name"],$location);
+                $this->database->update("quiz_banksoal_pilihan",["pertanyaan_images" => "pertanyaan.jpg"],["id" => $lastID]);                       
+            }
+            //upload pertanyaan audio jika ada
+            if (isset($_FILES["pertanyaan_audio"])){        
+                $location = __DIR__ ."/../../public/data/soal/pilihan/".$lastID."/pertanyaan.mp3";                              
+                move_uploaded_file($_FILES["pertanyaan_audio"]["tmp_name"],$location);
+                $this->database->update("quiz_banksoal_pilihan",["pertanyaan_audio" => "pertanyaan.mp3"],["id" => $lastID]);                       
+            }
+            //upload pilihan files jika ada
+            if (isset($_FILES["files"])){
+                $isMulti    = is_array($_FILES["files"]);                
+                $countfiles = $isMulti?count($_FILES["files"]):1;               
+                $location = __DIR__ ."/../../public/data/soal/pilihan/".$lastID;                  
+                // Looping all files
+                for($i=0;$i<$countfiles;$i++){
+                    $filename = $_FILES['files']['name'][$i];                        
+                    move_uploaded_file($_FILES['files']['tmp_name'][$i],$location."/".$filename);                    
+                }
+            }
+            //berhasil
+            echo $this->response->json_response(200, "berhasil");
         }else{
             if($v->errors('pertanyaan_text')){
                 echo $this->response->json_response(400,"Input pertanyaan text kosong"); 
             } 
             elseif($v->errors('jawaban')){
                 echo $this->response->json_response(400,"Input jawaban kosong"); 
-            }             
+            }  
+            elseif($v->errors('pilihan')){
+                echo $this->response->json_response(400,"Input pilihan kosong"); 
+            }                        
         }        
     }
 
@@ -104,11 +153,17 @@ class QuizController extends ApiController
         $_DELETE = RequestParser::parse()->params;        
         $v = new Validator($_DELETE);
         $v->rule('required', ['delete']);
-        if($v->validate()) {                                         
-            $hapus=$this->database->delete("quiz_banksoal_pilihan",["AND" => ["id" => json_decode($_DELETE['delete'])]]);
+        if($v->validate()) {    
+            $deleteID = json_decode($_DELETE['delete']);                                     
+            $hapus=$this->database->delete("quiz_banksoal_pilihan",["AND" => ["id" => $deleteID]]);
             if($hapus->rowCount() === 0){
                 echo $this->response->json_response(400,"Data tidak ditemukan");
-            }else{                
+            }else{                                   
+                foreach ($deleteID as $value) {
+                    $location = __DIR__ ."/../../public/data/soal/pilihan/".$value;  
+                    $this->rrmdir($location);               
+                }
+                               
                 echo $this->response->json_response(200,"berhasil");
             }            
         }else{
@@ -161,5 +216,19 @@ class QuizController extends ApiController
         }
     }
 
+    function rrmdir($dir) {
+        if (is_dir($dir)) {
+          $objects = scandir($dir);
+          foreach ($objects as $object) {
+            if ($object != "." && $object != "..") {
+              if (filetype($dir."/".$object) == "dir") 
+                 rrmdir($dir."/".$object); 
+              else unlink   ($dir."/".$object);
+            }
+          }
+          reset($objects);
+          rmdir($dir);
+        }
+    }
 
 }

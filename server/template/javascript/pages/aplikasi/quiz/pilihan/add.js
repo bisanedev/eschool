@@ -32,7 +32,8 @@ class PageAplikasiQuizPilihanSoalAdd extends React.Component{
       toggleMath:false,
       mathValue:"x=\\frac{-b\\pm\\sqrt{b^2-4ac}}{2a}",
       jawaban:[],
-      pilihan:[],          
+      pilihan:[],
+      files:[]          
     }
     this.handleInputChange = this.handleInputChange.bind(this);  
     this.tingkatID = this.props.params.tingkatID;
@@ -53,7 +54,7 @@ class PageAplikasiQuizPilihanSoalAdd extends React.Component{
   }
 
   render() {     
-    const {tingkatan,mapel,semester,src,srcAudio,editorState,errorSelect,uploadProgress,uploadDisable,toggleMath,mathValue,jawaban,pilihan} = this.state; 
+    const {tingkatan,mapel,semester,src,srcAudio,editorState,errorSelect,uploadProgress,uploadDisable,toggleMath,mathValue,jawaban,pilihan,files} = this.state; 
     const uploadClass = uploadProgress ? "progress-active":"";     
     return (    
     <div className="konten"> 
@@ -182,10 +183,10 @@ class PageAplikasiQuizPilihanSoalAdd extends React.Component{
             if(row.type === "text"){
               return <PilihanText 
                 key={idx} 
-                value={row.text}
+                value={row.data}
                 disRem={pilihan.length === idx+1 ? false:true}
                 checked={jawaban.includes(idx) ? true:false}
-                onChange={(value) => this.updateValueText(value, idx)} 
+                onChange={(value) => this.updateValue(value, idx)} 
                 onChecked={() => this.onChecked(idx)}
                 onRemove={() => this.RemJawaban(idx)}           
               />
@@ -193,10 +194,10 @@ class PageAplikasiQuizPilihanSoalAdd extends React.Component{
             else if(row.type === "image"){
               return <PilihanImage 
                 key={idx} 
-                value={row.image}
+                value={files[idx].raw}
                 disRem={pilihan.length === idx+1 ? false:true}
                 checked={jawaban.includes(idx) ? true:false}
-                onChange={(value) => this.updateValueImage(value, idx)} 
+                onChange={(value) => this.updateValue(value, idx)} 
                 onChecked={() => this.onChecked(idx)}
                 onRemove={() => this.RemJawaban(idx)}
               />
@@ -204,10 +205,10 @@ class PageAplikasiQuizPilihanSoalAdd extends React.Component{
             else if(row.type === "audio"){
               return <PilihanAudio 
                 key={idx} 
-                value={row.audio}
+                value={files[idx].raw}
                 disRem={pilihan.length === idx+1 ? false:true}
                 checked={jawaban.includes(idx) ? true:false}      
-                onChange={(value) => this.updateValueAudio(value, idx)}           
+                onChange={(value) => this.updateValue(value, idx)}           
                 onChecked={() => this.onChecked(idx)}
                 onRemove={() => this.RemJawaban(idx)}   
               />
@@ -215,10 +216,10 @@ class PageAplikasiQuizPilihanSoalAdd extends React.Component{
             else if(row.type === "math"){
               return <PilihanMath 
                 key={idx} 
-                value={row.math}
+                value={files[idx].raw}
                 disRem={pilihan.length === idx+1 ? false:true}
                 checked={jawaban.includes(idx) ? true:false}
-                onChange={(value) => this.updateValueMath(value, idx)}                       
+                onChange={(value) => this.updateValue(value, idx)}                       
                 onChecked={() => this.onChecked(idx)}
                 onRemove={() => this.RemJawaban(idx)}   
               />
@@ -299,33 +300,51 @@ class PageAplikasiQuizPilihanSoalAdd extends React.Component{
     }
   };
   /* --- end of Crop Foto Pertanyaan ---*/   
-  updateValueText = (value, idx) => {
+  updateValue = (value, idx) => {
     const multiple = [...this.state.pilihan];
-    multiple[idx].text = value;
-    this.setState({pilihan:multiple});
-  }
+    const file = [...this.state.files];
 
-  updateValueImage = (value, idx) => {    
-    const multiple = [...this.state.pilihan];            
-    multiple[idx].image = value;    
-    this.setState({pilihan:multiple});            
-  }
-
-  updateValueAudio = (value , idx) => {
-    const multiple = [...this.state.pilihan];            
-    multiple[idx].audio = value;    
-    this.setState({pilihan:multiple});  
-  }
-
-  updateValueMath = (value , idx) => {
-    const multiple = [...this.state.pilihan];            
-    multiple[idx].math = value;    
-    this.setState({pilihan:multiple});  
-  }
+    if(multiple[idx].type === "text" && value !=""){
+      multiple[idx].data = value;
+      this.setState({pilihan:multiple}); 
+    }
+    else if(multiple[idx].type === "image" && value !=""){
+      var blobFileImage = this.b64toBlobIMG(value);
+      file[idx].nama = "jawaban_"+idx+".jpg";
+      file[idx].file = blobFileImage;
+      file[idx].raw = value;
+      multiple[idx].data = "jawaban_"+idx+".jpg";
+      this.setState({files:file,pilihan:multiple}); 
+    }
+    else if(multiple[idx].type === "audio" && value !=""){      
+      var blobFileMp3 = this.b64toBlobMP3(value);
+      file[idx].nama = "jawaban_"+idx+".mp3";
+      file[idx].file = blobFileMp3;
+      file[idx].raw = value;
+      multiple[idx].data = "jawaban_"+idx+".mp3";
+      this.setState({files:file,pilihan:multiple}); 
+    }
+    else if(multiple[idx].type === "math" && value !=""){
+      var blobFileImage = this.b64toBlobIMG(value);
+      file[idx].nama = "jawaban_"+idx+".jpg";
+      file[idx].file = blobFileImage;
+      file[idx].raw = value;
+      multiple[idx].data = "jawaban_"+idx+".jpg";
+      this.setState({files:file,pilihan:multiple});       
+    }else if(value === ""){
+      file[idx].nama = "";
+      file[idx].file = "";
+      file[idx].raw = "";
+      multiple[idx].data = "";
+      this.setState({files:file,pilihan:multiple});  
+    }
+    this.setState({pilihan:multiple}); 
+  } 
 
   RemJawaban = (idx) => {        
     const multiple = [...this.state.pilihan];
     const jawaban = [...this.state.jawaban];    
+    const files = [...this.state.files];  
 
     if(this.state.jawaban.includes(idx)){
       const index = jawaban.indexOf(idx);
@@ -336,7 +355,8 @@ class PageAplikasiQuizPilihanSoalAdd extends React.Component{
     }
 
     multiple.splice(idx, 1);   
-    this.setState({pilihan:multiple});
+    files.splice(idx,1);
+    this.setState({pilihan:multiple,files:files});
   }
 
   onChecked = (idx) => {
@@ -353,37 +373,41 @@ class PageAplikasiQuizPilihanSoalAdd extends React.Component{
   }  
 
   /* --- end of utils jawaban pilihan ganda ---*/
-  pilihanNum = () => {
-    if(this.state.pilihan.length===0){
-      return 0;
-    }else{
-      var last_element = this.state.pilihan[this.state.pilihan.length - 1];    
-      return (last_element.pilihan + 1) ;
-    }
-  } 
   jawabanText = () => {      
     const multiple = [...this.state.pilihan, 
-      {type:"text",text:"&lt;p&gt;ketik disini&lt;/p&gt;"}
+      {type:"text",data:""}
     ];
-    this.setState({pilihan:multiple});  
+    const file = [...this.state.files,     
+      {nama:"",file:"",raw:""}
+    ];
+    this.setState({pilihan:multiple,files:file});  
   }
   jawabanImages = () => {
     const multiple = [...this.state.pilihan, 
-      {type:"image",image:""}
+      {type:"image",data:""}
     ];
-    this.setState({pilihan:multiple}); 
+    const file = [...this.state.files,     
+      {nama:"",file:"",raw:""}
+    ];
+    this.setState({pilihan:multiple,files:file}); 
   }
   jawabanAudio = () => {
     const multiple = [...this.state.pilihan, 
-      {type:"audio",audio:""}
+      {type:"audio",data:""}
     ];
-    this.setState({pilihan:multiple}); 
+    const file = [...this.state.files,     
+      {nama:"",file:"",raw:""}
+    ];
+    this.setState({pilihan:multiple,files:file}); 
   }
   jawabanMath = () => {    
     const multiple = [...this.state.pilihan, 
-      {type:"math",math:""}
+      {type:"math",data:""}
     ];
-    this.setState({pilihan:multiple}); 
+    const file = [...this.state.files,     
+      {nama:"",file:"",raw:""}
+    ];
+    this.setState({pilihan:multiple,files:file}); 
   }
   /* --- file select audio Pertanyaan ---*/
   onSelectFileAudio = (e) => {  
@@ -413,7 +437,7 @@ class PageAplikasiQuizPilihanSoalAdd extends React.Component{
   }
   /*--- post new soal ----*/
   newSoal = async () => {
-    const {toggleMath,croppedImageUrl,editorState,srcAudio,jawaban} = this.state;
+    const {toggleMath,croppedImageUrl,editorState,srcAudio,pilihan,files,jawaban} = this.state;
     this.setState({uploadProgress:true,uploadDisable:true});
     var formData = new FormData();
     
@@ -438,18 +462,44 @@ class PageAplikasiQuizPilihanSoalAdd extends React.Component{
       formData.append('pertanyaan_audio',blobFileMp3);      
     }
     
-    var jawabanJSON = jawaban.length === 0 ? "" : JSON.stringify(jawaban);
-    formData.append('jawaban',jawabanJSON);    
+    var jawabanJSON = jawaban.length === 0 ? "" : JSON.stringify(jawaban);       
+    formData.append('jawaban',jawabanJSON);
+   
     formData.append('pertanyaan_text',encode(convertToHTML(editorState.getCurrentContent())));
-
+    /*--loop check if empty --*/
+    for (var key in pilihan) {
+      if (pilihan.hasOwnProperty(key)) {        
+        if(pilihan[key].data === ""){
+          this.setState({uploadProgress:false,uploadDisable:false},() => toast.warn("Periksa file jawaban ada yang kosong !!"));          
+          return false;
+        }
+      }
+    }
+    /*-- loop array pilihan --*/        
+    for (var key in files) {
+      if (files.hasOwnProperty(key)) { 
+        if(files[key].nama != ""){
+          formData.append("files[]",files[key].file,files[key].nama);  
+        }             
+      }
+    }
+    /*-- end loop array pilihan --*/
+    /*-- Pilihan JSON --*/
+    var pilihanJSON = pilihan.length === 0 ? "" : JSON.stringify(pilihan);
+    formData.append('pilihan',pilihanJSON);
+    /*-- End Pilihan JSON --*/
     axios({
       method: 'post',
       url: `/api/pendidik/aplikasi/quiz/pilihan/${this.tingkatID}/${this.mapelID}/${this.semesterID}/add`,
-      data: formData
+      data: formData,
+      headers: {
+        "Content-Type": "multipart/form-data"
+      }
     }).then(response => {                 
         if(response.data.status == true)
-        {                                          
-          this.navigate("#/aplikasi/quiz/pilihan/"+this.tingkatID+"/"+this.mapelID+"/"+this.semesterID); 
+        {      
+          console.log("berhasil");                                    
+          this.navigate(-1); 
         }
     }).catch(error => {                   
       if(error.response.status == 400){                       

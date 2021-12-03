@@ -11,8 +11,8 @@ function PilihanImage(props) {
         const imageElement = cropperRef.current;
         const cropper = imageElement.cropper;
         const foto = cropper.getCroppedCanvas({
-            width: 280,
-            height: 100,
+            width: 320,
+            height: 120,
             fillColor: '#fff',
             imageSmoothingEnabled: false,
             imageSmoothingQuality: 'high',

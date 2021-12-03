@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 23, 2021 at 10:59 AM
+-- Generation Time: Dec 03, 2021 at 11:59 PM
 -- Server version: 10.4.19-MariaDB
 -- PHP Version: 8.0.7
 
@@ -60,8 +60,7 @@ CREATE TABLE `quiz_banksoal_pilihan` (
 --
 
 INSERT INTO `quiz_banksoal_pilihan` (`id`, `tingkatan_id`, `mapel_id`, `semester_id`, `pertanyaan_text`, `pertanyaan_images`, `pertanyaan_audio`, `pilihan`, `jawaban`) VALUES
-(1, 1, 2, 1, 'Buku Pengantar Filsafat Pendidikan karya Drs. Uyoh Sadulloh, M.Pd ini membahas tentang pendidikan dari sudut pandang filsafat. Pendidikan berkaitan dengan nilai yang timbul dari pengalaman dan pemikiran manusia tentang pemaknaan pendidikan itu sendiri. Buku ini membahas beda antara praktek pendidikan dan teori pendidikan.\r\n\r\nBuku ini mampu memberikan informasi tentang sumber nilai dan cara memperoleh nilai tersebut karena pada dasarnya pendidikan tidak dapat dipisahkan dengan nilai. Akan tetapi, pembaca pada umumnya atau pembaca pemula khususnya kurang bisa memahami isi teks yang diutarakan oleh pengarang tidak tersampaikan dengan baik.\r\n\r\nKalimat yang berisi keunggulan dari buku adalah…', '', '', '[{\"pilihan\":0,\"text\":\"Presiden\"},{\"pilihan\":1,\"text\":\"Perdana Mentri\"},{\"pilihan\":2,\"text\":\"Sultan\"},{\"pilihan\":3,\"text\":\"Raja\"}]', '[2]'),
-(2, 1, 2, 1, 'Kepala negara brunai darussalam adalah اللغة العربية', '', '', '[{\"pilihan\":0,\"text\":\"Presiden\"},{\"pilihan\":1,\"text\":\"Perdana Mentri\"},{\"pilihan\":2,\"text\":\"Sultan\"},{\"pilihan\":3,\"text\":\"Raja\"}]', '[2]');
+(14, 1, 1, 1, '&lt;p&gt;Diketahui sistem persamaan linear 3x + 4y = 17 dan 4x – 2y = 8. Nilai dari 2x + 3y adalah .... &lt;/p&gt;', '', '', '[{\"type\":\"text\",\"data\":\"&lt;p&gt;8&lt;/p&gt;\"},{\"type\":\"text\",\"data\":\"&lt;p&gt;10&lt;/p&gt;\"},{\"type\":\"text\",\"data\":\"&lt;p&gt;12&lt;/p&gt;\"},{\"type\":\"text\",\"data\":\"&lt;p&gt;13&lt;/p&gt;\"}]', '[2]');
 
 -- --------------------------------------------------------
 
@@ -266,7 +265,7 @@ CREATE TABLE `sekolah_users` (
 
 INSERT INTO `sekolah_users` (`id`, `nama`, `jenis`, `username`, `password`, `foto`, `mapel_id`, `superuser`, `expired_token`, `unique_token`, `device_token`) VALUES
 (1, 'Administrator', 'l', 'admin', '$2a$10$uJWzRaqj52lXZGP6yeG0..g6S8EfynirIddkDM3XdmbfGY5x5vrti', 1, '[]', 1, 1669032498, '619a36b2e7ff4', ''),
-(2, 'Marbuah Almakaroni', 'p', 'marbuah', '$2a$12$K/vRFyhWiIwitDqY5fcqQOIZvWGlfplnOJPbkOYuJm8RshDC5V9gG', 1, '[\"1\"]', 1, 1668945039, '6198e10fc25c3', ''),
+(2, 'Marbuah Almakaroni', 'p', 'marbuah', '$2a$12$K/vRFyhWiIwitDqY5fcqQOIZvWGlfplnOJPbkOYuJm8RshDC5V9gG', 1, '[\"1\"]', 1, 1637931253, '619f87755924f', ''),
 (15, 'Adhisti Arisha ', 'p', 'adhisti', '$2a$10$F/T0Q2n9I6blfK4YsY9FYO6xQxOOnoYdmLAnlZKnwBUmLCz8Psc7.', 1, '[\"3\",\"6\"]', 0, 1668945547, '6198e30be8a32', NULL);
 
 --
@@ -371,7 +370,7 @@ ALTER TABLE `quiz_banksoal_essay`
 -- AUTO_INCREMENT for table `quiz_banksoal_pilihan`
 --
 ALTER TABLE `quiz_banksoal_pilihan`
-  MODIFY `id` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
 
 --
 -- AUTO_INCREMENT for table `quiz_exam`

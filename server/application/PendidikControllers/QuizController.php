@@ -158,12 +158,16 @@ class QuizController extends ApiController
             $hapus=$this->database->delete("quiz_banksoal_pilihan",["AND" => ["id" => $deleteID]]);
             if($hapus->rowCount() === 0){
                 echo $this->response->json_response(400,"Data tidak ditemukan");
-            }else{                                   
-                foreach ($deleteID as $value) {
-                    $location = __DIR__ ."/../../public/data/soal/pilihan/".$value;  
-                    $this->rrmdir($location);               
-                }
-                               
+            }else{
+                if(is_array($deleteID)){
+                    foreach ($deleteID as $value) {
+                        $location = __DIR__ ."/../../public/data/soal/pilihan/".$value;  
+                        $this->rrmdir($location);               
+                    }
+                }else{
+                    $location = __DIR__ ."/../../public/data/soal/pilihan/".$deleteID;  
+                    $this->rrmdir($location);  
+                }                                                                           
                 echo $this->response->json_response(200,"berhasil");
             }            
         }else{

@@ -77,23 +77,34 @@ class QuizController extends ApiController
         $v->rule('required', ['pertanyaan_text','jawaban','pilihan']);
         if($v->validate()) { 
             // filter file size
-            if ($_FILES["pertanyaan_audio"]["size"] > 2000000) {
+            if (isset($_FILES["pertanyaan_audio"]) && $_FILES["pertanyaan_audio"]["size"] > 2000000) {
                 echo $this->response->json_response(400, "Ukuran pertanyaan audio melebihi 2MB");
                 exit;      
             } 
-            if ($_FILES["pertanyaan_images"]["size"] > 2000000) {
+            $allowedAudio = array("audio/mp3","audio/mpeg");            
+            if(isset($_FILES["pertanyaan_audio"]) && !in_array($_FILES['pertanyaan_audio']['type'],$allowedAudio)) {
+                echo $this->response->json_response(400,"Pertanyaan audio hanya file audio/mp3 yang bisa di upload");
+                exit;
+            }
+            if (isset($_FILES["pertanyaan_images"]) && $_FILES["pertanyaan_images"]["size"] > 2000000) {
                 echo $this->response->json_response(400, "Ukuran pertanyaan gambar melebihi 2MB");
                 exit;      
             }
-            //jawaban file filter        
+            $allowedImages = array("image/jpeg","image/png");
+            if(isset($_FILES["pertanyaan_images"]) && !in_array($_FILES['pertanyaan_images']['type'],$allowedImages )) {
+                echo $this->response->json_response(400, "Pertanyaan gambar hanya file png, jpeg dan jpg yang bisa di upload");
+                exit;
+            }
+            
+            //jawaban file filter              
             if (isset($_FILES["files"])){     
                 $isMulti    = is_array($_FILES["files"]);                
                 $countfiles = $isMulti?count($_FILES["files"]):1;                                                           
-                for($i=0;$i<$countfiles;$i++){                    
+                for($i=0;$i<$countfiles;$i++){                                     
                     if ($_FILES["files"]["size"][$i] > 2000000) {
-                        echo $this->response->json_response(400, "Ukuran data jawaban melebihi 2MB");
+                        echo $this->response->json_response(400,"Ukuran data jawaban melebihi 2MB");
                         exit;      
-                    }                    
+                    }       
                 }
             }
             //insert database            
@@ -124,8 +135,12 @@ class QuizController extends ApiController
                 $location = __DIR__ ."/../../public/data/soal/pilihan/".$lastID;                  
                 // Looping all files
                 for($i=0;$i<$countfiles;$i++){
-                    $filename = $_FILES['files']['name'][$i];                        
-                    move_uploaded_file($_FILES['files']['tmp_name'][$i],$location."/".$filename);                    
+                    $filename = $_FILES['files']['name'][$i];  
+                    $fileType = $_FILES["files"]["type"][$i];
+                    if($fileType === "image/jpeg" || $fileType === "image/png" || $fileType === "audio/mp3"){
+                        move_uploaded_file($_FILES['files']['tmp_name'][$i],$location."/".$filename);  
+                    }                  
+                                      
                 }
             }
             //berhasil

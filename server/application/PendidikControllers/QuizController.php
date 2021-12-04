@@ -17,15 +17,17 @@ class QuizController extends ApiController
 
     public function IndexTingkatan()
     {                
-        $data = $this->database->select("sekolah_kelastingkatan",["id","nama"]);        
-        echo $this->response->json_response(200, $data);
+        $data = $this->database->select("sekolah_kelastingkatan",["id","nama"]); 
+        $newData = $this->reMapPilihanTingkatanJumlah($data);        
+        echo $this->response->json_response(200, $newData);
     }
 
     public function IndexMapel($tingkatID)
     {                
         $tingkatan = $this->database->select("sekolah_kelastingkatan",["id","nama"],["id" => $tingkatID]); 
-        $mapel = $this->database->select("sekolah_mapel",["id","nama","color"]);        
-        $data = array("data" => $mapel,"tingkatan"=> $tingkatan[0] );
+        $mapel = $this->database->select("sekolah_mapel",["id","nama","color"]);      
+        $newData = $this->reMapPilihanMapelJumlah($mapel,$tingkatID);
+        $data = array("data" => $newData,"tingkatan" => $tingkatan[0]);
         echo $this->response->json_response(200, $data);
     }
 
@@ -34,7 +36,8 @@ class QuizController extends ApiController
         $tingkatan = $this->database->select("sekolah_kelastingkatan",["id","nama"],["id" => $tingkatID]); 
         $mapel = $this->database->select("sekolah_mapel",["id","nama"],["id" => $mapelID]); 
         $semester = $this->database->select("sekolah_semesternama",["[>]sekolah_semestertahun" => ["semester_tahun_id" => "id"]],["sekolah_semesternama.id","sekolah_semestertahun.nama(tahun)","sekolah_semesternama.semester"]);        
-        $data = array("data" => $semester,"tingkatan"=> $tingkatan[0] ,"mapel"=> $mapel[0] );
+        $newData = $this->reMapPilihanSemesterJumlah($semester,$tingkatID,$mapelID);
+        $data = array("data" => $newData,"tingkatan"=> $tingkatan[0] ,"mapel"=> $mapel[0] );
         echo $this->response->json_response(200, $data);
     }
     
@@ -250,4 +253,56 @@ class QuizController extends ApiController
         }
     }
 
+    function reMapPilihanTingkatanJumlah($data)
+    {
+        if ( is_array($data) || is_object($data) ){
+            $recollect = array();
+            foreach ($data as $val) {
+                $object = new stdClass();  
+                $object->id = $val["id"];               
+                $object->nama = $val["nama"];                 
+                $object->jumlah = $this->database->count("quiz_banksoal_pilihan",["tingkatan_id" => $val["id"]]);; 
+                $recollect[] = $object;
+            }
+            return $recollect;
+        }else{
+            return false;
+        }    
+    }
+
+    function reMapPilihanMapelJumlah($data,$tingkatID)
+    {
+        if ( is_array($data) || is_object($data) ){
+            $recollect = array();
+            foreach ($data as $val) {
+                $object = new stdClass();  
+                $object->id = $val["id"];               
+                $object->nama = $val["nama"];   
+                $object->color = $val["color"];              
+                $object->jumlah = $this->database->count("quiz_banksoal_pilihan",["AND" => ["tingkatan_id" => $tingkatID,"mapel_id" => $val["id"]]]);    
+                $recollect[] = $object;
+            }
+            return $recollect;
+        }else{
+            return false;
+        }    
+    }
+
+    function reMapPilihanSemesterJumlah($data,$tingkatID,$mapelID)
+    {
+        if ( is_array($data) || is_object($data) ){
+            $recollect = array();
+            foreach ($data as $val) {
+                $object = new stdClass();  
+                $object->id = $val["id"];               
+                $object->semester = $val["semester"];   
+                $object->tahun = $val["tahun"];              
+                $object->jumlah = $this->database->count("quiz_banksoal_pilihan",["AND" => ["tingkatan_id" => $tingkatID,"mapel_id" => $mapelID,"semester_id" => $val["id"]]]);    
+                $recollect[] = $object;
+            }
+            return $recollect;
+        }else{
+            return false;
+        }  
+    }        
 }

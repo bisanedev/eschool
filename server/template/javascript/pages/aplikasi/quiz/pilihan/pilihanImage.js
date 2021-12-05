@@ -60,7 +60,7 @@ function PilihanImage(props) {
         </div>        
         {src === "" && url != "" && ( <img src={url} style={{width:"100%",height:"100%"}} />)}
         {src != null && src != "" && (
-            <Cropper src={src} style={{ height: 250, width: "100%" }} initialAspectRatio={4 / 3} guides={false} minCropBoxWidth={600} minCropBoxHeight={430} crop={onCrop} ref={cropperRef} cropBoxResizable={false} dragMode={'move'} />
+            <Cropper src={src} style={{ height: 200, width: "100%" }} initialAspectRatio={4 / 3} guides={false} minCropBoxWidth={600} minCropBoxHeight={430} crop={onCrop} ref={cropperRef} cropBoxResizable={false} dragMode={'move'} />
         )}
         {src === null && (
             <h5 className="p-5" style={{display:"flex",alignItems:"center",justifyContent:"center"}}>{errorSelect}</h5>

@@ -13,7 +13,7 @@ function PilihanMath(props) {
             quality: 1,
             pixelRatio: 1,
             canvasWidth:400, 
-            canvasHeight:188,
+            canvasHeight:150,
             backgroundColor:"#fff"
         });
         onChange(capture);

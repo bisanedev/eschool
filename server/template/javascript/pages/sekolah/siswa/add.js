@@ -180,7 +180,7 @@ class PageSekolahSiswaAdd extends React.Component{
       width: 354,
       height: 472,
       fillColor: '#fff',
-      imageSmoothingEnabled: false,
+      imageSmoothingEnabled: true,
       imageSmoothingQuality: 'high',
     }).toDataURL(); 
     this.setState({croppedImageUrl:foto});

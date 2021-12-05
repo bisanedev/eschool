@@ -14,7 +14,7 @@ function PilihanImage(props) {
             width: 400,
             height: 280,
             fillColor: '#fff',
-            imageSmoothingEnabled: false,
+            imageSmoothingEnabled: true,
             imageSmoothingQuality: 'high',
         }).toDataURL();             
         onChange(foto);

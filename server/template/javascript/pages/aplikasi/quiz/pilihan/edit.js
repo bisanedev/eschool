@@ -216,7 +216,7 @@ class PageAplikasiQuizPilihanSoalEdit extends React.Component{
       width: 500,
       height: 250,
       fillColor: '#fff',
-      imageSmoothingEnabled: false,
+      imageSmoothingEnabled: true,
       imageSmoothingQuality: 'high',
     }).toDataURL(); 
     this.setState({croppedImageUrl:foto});
@@ -453,6 +453,7 @@ class PageAplikasiQuizPilihanSoalEdit extends React.Component{
       formData.append('pertanyaan_audio',blobFileMp3);      
     }
     
+    formData.append('id',this.soalID ); 
     var jawabanJSON = jawaban.length === 0 ? "" : JSON.stringify(jawaban);       
     formData.append('jawaban',jawabanJSON);
    

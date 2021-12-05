@@ -26,9 +26,11 @@ class PageAplikasiQuizPilihanSoalEdit extends React.Component{
       semester:null,
       editorState:EditorState.createEmpty(),
       src: "",
+      pertanyaaanImages:"",
       errorSelect:"",
       croppedImageUrl:"",
       srcAudio:"",
+      pertanyaaanAudio:"",
       toggleMath:false,
       mathValue:"x=\\frac{-b\\pm\\sqrt{b^2-4ac}}{2a}",
       jawaban:[],
@@ -55,7 +57,7 @@ class PageAplikasiQuizPilihanSoalEdit extends React.Component{
   }
 
   render() {     
-    const {tingkatan,mapel,semester,src,srcAudio,editorState,errorSelect,uploadProgress,uploadDisable,toggleMath,mathValue,jawaban,pilihan,files} = this.state; 
+    const {tingkatan,mapel,semester,editorState,uploadProgress,uploadDisable,jawaban,pilihan,files,pertanyaaanImages,pertanyaaanAudio} = this.state; 
     const uploadClass = uploadProgress ? "progress-active":"";     
     return (    
     <div className="konten"> 
@@ -92,64 +94,28 @@ class PageAplikasiQuizPilihanSoalEdit extends React.Component{
               }}
             />
             </div>
-            <div className="w-100 mb3">
-                <div className="flex justify-between items-center mb2">
-                  <label className="f5 fw4 db">Pertanyaan Gambar (Opsional)</label>
-                  <div className="pointer link dim flex items-center" onClick={() => this.setState({toggleMath:!toggleMath})}>
-                    {toggleMath ? "Math":"File"} 
-                    {toggleMath ? (<i className="material-icons" style={{fontSize:25}}>calculate</i>):(<i className="material-icons" style={{fontSize:25}}>crop_original</i>)}
-                  </div>                  
-                </div>
-                {toggleMath ? (
-                  <> 
-                  <div ref={this.captureRef} className="mathWidth" style={{fontSize:"30px"}}> 
-                    <MathView ref={this.math} value={mathValue}
-                      onFocus={() => {
-                        this.math.current.executeCommand('showVirtualKeyboard');
-                      }}
-                      onBlur={() => {        
-                        this.math.current.executeCommand('hideVirtualKeyboard');
-                      }} 
-                      onContentDidChange={() => {this.setState({mathValue:this.math.current.getValue('latex')});}}    
-                    />                                                           
-                  </div>
-                  <button className="w-30 pointer link dim br2 ba pa2 dib bg-white flex justify-center items-center mt2" style={{height:"25px",fontSize:"12px", marginLeft:"auto"}} onClick={() => this.math.current.executeCommand('showVirtualKeyboard')}><i className="material-icons-outlined mr1" style={{fontSize: "14px"}}>keyboard</i> Buka Virtual Keyboard</button>
-                  </>
-                ):(
-                  <div className="flex justify-between items-center mb3">
-                    <input className="link pv2" type="file" accept="image/*" onChange={this.onSelectFile}/>
-                    <button className="pointer link dim br2 ba pa2 dib bg-white" style={{height:"35px"}} onClick={() => this.setState({croppedImageUrl:"",src:""})}>Reset</button>
-                  </div>
-                )}                             
-                {src != null && !toggleMath && src != "" && (
-                  <Cropper
-                      src={src}
-                      style={{ height: 250, width: "100%" }}                      
-                      initialAspectRatio={4 / 3}                     
-                      guides={false}
-                      minCropBoxWidth={600}    
-                      minCropBoxHeight={430}
-                      crop={this._crop.bind(this)}
-                      onInitialized={this.onCropperInit.bind(this)} 
-                      ref={this.cropper}
-                      cropBoxResizable={false}
-                      dragMode={'move'}                     
-                  />
-                )}
-                {src === null && (
-                  <h5 className="p-5" style={{display:"flex",alignItems:"center",justifyContent:"center"}}>{errorSelect}</h5>
-                )}
+            {pertanyaaanImages !="" ? (
+            <div className="w-100 mb3">              
+              <label className="f5 fw4 db mb2">Pertanyaan Gambar (Opsional)</label>
+              <div className="relative">
+                <div className="link dim deleteFotoPertanyaan flex justify-center items-center" onClick={() => {this.setState({pertanyaaanImages:""})}}>Ganti foto<i className="material-icons-outlined" style={{fontSize: "14px"}}>close</i></div>
+                    <img src={`data/soal/pilihan/${this.soalID}/${pertanyaaanImages}`} style={{width:"100%",height:"100%"}}/>
+              </div>              
             </div>
-            <div className="w-100 mb3">
-                <label className="f5 fw4 db mb2">Pertanyaan Audio (Opsional)</label>
-                <div className="flex justify-between items-center mb3">
-                  <input className="link pv2" type="file" accept="audio/mp3" onChange={this.onSelectFileAudio}/>
-                  <button type="submit" className="pointer link dim br2 ba pa2 dib bg-white" style={{height:"35px"}} onClick={() => this.setState({srcAudio:""})}>
-                    Reset
-                  </button>
-                </div>
-                {srcAudio != "" && (<audio controls ref="audio_player" className="bg-primary w-100" src={srcAudio}/>)}                                 
-            </div> 
+            ):(
+              this.gambarRender()
+            )}
+            {pertanyaaanAudio !="" ? (
+              <div className="w-100 mb3">              
+               <label className="f5 fw4 db mb2">Pertanyaan Audio (Opsional)</label>
+               <div className="relative pv3">
+               <div className="link dim deleteFotoPertanyaan flex justify-center items-center" onClick={() => {this.setState({pertanyaaanAudio:""})}}>Ganti Audio<i className="material-icons-outlined" style={{fontSize: "14px"}}>close</i></div>
+                <audio controls className="bg-primary w-100" src={`data/soal/pilihan/${this.soalID}/${pertanyaaanAudio}`}/>                 
+               </div>              
+              </div>
+            ):(
+              this.audioRender()
+            )}                       
           </div>                    
           <div className="flex items-center justify-center bg-near-white" style={{borderTop:"1px solid rgba(0, 0, 0, 0.125)",height:"58px"}}>            
             <button type="submit" className={`${uploadClass} dim pointer w-30 tc b f7 link br2 ba ph3 pv2 dib white bg-primary b--primary`} disabled={uploadDisable} onClick={this.updateSoal}>Ubah data soal</button> 
@@ -193,20 +159,21 @@ class PageAplikasiQuizPilihanSoalEdit extends React.Component{
               />
             }           
             else if(row.type === "image"){
-              return <PilihanImage 
-                key={idx} 
-                value={files[idx].raw}
-                disRem={pilihan.length === idx+1 ? false:true}
-                checked={jawaban.includes(idx) ? true:false}
-                onChange={(value) => this.updateValue(value, idx)} 
-                onChecked={() => this.onChecked(idx)}
-                onRemove={() => this.RemJawaban(idx)}
-              />
+               return (<PilihanImage 
+                  key={idx} 
+                  url={row.data != "" ? `data/soal/pilihan/${this.soalID}/${row.data}`:""}
+                  disRem={pilihan.length === idx+1 ? false:true}
+                  checked={jawaban.includes(idx) ? true:false}
+                  onChange={(value) => this.updateValue(value, idx)} 
+                  onChecked={() => this.onChecked(idx)}
+                  onRemove={() => this.RemJawaban(idx)}
+              />)                       
             }
             else if(row.type === "audio"){
               return <PilihanAudio 
-                key={idx} 
+                key={idx}                 
                 value={files[idx].raw}
+                url={row.data != "" ? `data/soal/pilihan/${this.soalID}/${row.data}`:""}
                 disRem={pilihan.length === idx+1 ? false:true}
                 checked={jawaban.includes(idx) ? true:false}      
                 onChange={(value) => this.updateValue(value, idx)}           
@@ -218,6 +185,7 @@ class PageAplikasiQuizPilihanSoalEdit extends React.Component{
               return <PilihanMath 
                 key={idx} 
                 value={files[idx].raw}
+                url={row.data != "" && files[idx].raw === "" ? `data/soal/pilihan/${this.soalID}/${row.data}`:""}
                 disRem={pilihan.length === idx+1 ? false:true}
                 checked={jawaban.includes(idx) ? true:false}
                 onChange={(value) => this.updateValue(value, idx)}                       
@@ -293,7 +261,7 @@ class PageAplikasiQuizPilihanSoalEdit extends React.Component{
           if (height >= 125 && width >= 250) {            
             wow.setState({ src: reader.result });                                    
           }else{            
-            wow.setState({ src: null,croppedImageUrl:"",errorSelect:"Gambar foto dimensi minimal height 250 , width 125" }); 
+            wow.setState({ src: null,croppedImageUrl:"",errorSelect:"Gambar foto dimensi minimal height 125px , width 250px"}); 
           }
         });        
       });
@@ -425,22 +393,38 @@ class PageAplikasiQuizPilihanSoalEdit extends React.Component{
     axios.get(
       window.location.origin + `/api/pendidik/aplikasi/quiz/index/${tingkat}/${mapel}/${semester}/${soal}?&nocache=`+Date.now()
     ).then(response => {  
-      var pertanyaan_text = EditorState.createWithContent(convertFromHTML(decode(response.data.message.data.pertanyaan_text)));      
+      var pertanyaan_text = EditorState.createWithContent(convertFromHTML(decode(response.data.message.data.pertanyaan_text)));
+      var pilihan_convert = this.convertPilihan(response.data.message.data.pilihan);
       this.setState({
         editorState:pertanyaan_text,
         semester:response.data.message.semester,        
         tingkatan:response.data.message.tingkatan,
         mapel:response.data.message.mapel,               
-        src:response.data.message.data.pertanyaan_images,
-        srcAudio:response.data.message.data.pertanyaan_audio,
+        pertanyaaanImages:response.data.message.data.pertanyaan_images,
+        pertanyaaanAudio:response.data.message.data.pertanyaan_audio,
         jawaban:response.data.message.data.jawaban,
-        pilihan:response.data.message.data.pilihan
+        pilihan:response.data.message.data.pilihan,
+        files:pilihan_convert,
       });   
     }).catch(error => {
       if(error.response.status == 401){                             
         this.logout();
       }
     });
+  }
+
+  convertPilihan = (dataObject) => {   
+    var objects = [];
+    for (var key in dataObject) {
+      objects.push({nama:"",file:"",raw:""});    
+    }    
+    return objects;
+  }
+
+  getBase64 = (url) => {
+   return axios.get(url, {
+        responseType: 'arraybuffer'
+   }).then(response => Buffer.from(response.data, 'binary').toString('base64'))
   }
   /*--- post new soal ----*/
   updateSoal = async () => {
@@ -520,7 +504,73 @@ class PageAplikasiQuizPilihanSoalEdit extends React.Component{
       }     
     });
      
-  }    
+  }   
+  /*--- foto render --*/
+  gambarRender = () => {
+    const {toggleMath,src,errorSelect,mathValue} = this.state;
+    return (
+      <div className="w-100 mb3">
+      <div className="flex justify-between items-center mb2">
+        <label className="f5 fw4 db">Pertanyaan Gambar (Opsional)</label>
+         <div className="pointer link dim flex items-center" onClick={() => this.setState({toggleMath:!toggleMath})}>
+          {toggleMath ? "Math":"File"} 
+          {toggleMath ? (<i className="material-icons" style={{fontSize:25}}>calculate</i>):(<i className="material-icons" style={{fontSize:25}}>crop_original</i>)}
+         </div>                  
+      </div>                
+      {toggleMath ? (
+        <> 
+        <div ref={this.captureRef} className="mathWidth" style={{fontSize:"30px"}}> 
+          <MathView ref={this.math} value={mathValue}
+            onFocus={() => {this.math.current.executeCommand('showVirtualKeyboard');}}
+            onBlur={() => {this.math.current.executeCommand('hideVirtualKeyboard');}}
+            onContentDidChange={() => {this.setState({mathValue:this.math.current.getValue('latex')});}}    
+          />                                                           
+        </div>
+        <button className="w-30 pointer link dim br2 ba pa2 dib bg-white flex justify-center items-center mt2" style={{height:"25px",fontSize:"12px", marginLeft:"auto"}} onClick={() => this.math.current.executeCommand('showVirtualKeyboard')}><i className="material-icons-outlined mr1" style={{fontSize: "14px"}}>keyboard</i> Buka Virtual Keyboard</button>
+        </>
+        ):(
+        <div className="flex justify-between items-center mb3">
+          <input className="link pv2" type="file" accept="image/*" onChange={this.onSelectFile}/>
+          <button className="pointer link dim br2 ba pa2 dib bg-white" style={{height:"35px"}} onClick={() => this.setState({croppedImageUrl:"",src:""})}>Reset</button>
+        </div>
+        )}                             
+        {src != null && !toggleMath && src != "" && (
+        <Cropper
+          src={src}
+          style={{ height: 250, width: "100%" }}                      
+          initialAspectRatio={4 / 3}                     
+          guides={false}
+          minCropBoxWidth={600}    
+          minCropBoxHeight={430}
+          crop={this._crop.bind(this)}
+          onInitialized={this.onCropperInit.bind(this)} 
+          ref={this.cropper}
+          cropBoxResizable={false}
+          dragMode={'move'}                     
+        />
+        )}
+        {src === null && (
+         <h5 className="p-5" style={{display:"flex",alignItems:"center",justifyContent:"center"}}>{errorSelect}</h5>
+        )}
+     </div>
+    );
+  }
+  /*--- audio render ---*/
+  audioRender = () => {
+  const {srcAudio} = this.state;
+  return (
+  <div className="w-100 mb3">
+    <label className="f5 fw4 db mb2">Pertanyaan Audio (Opsional)</label>
+    <div className="flex justify-between items-center mb3">
+      <input className="link pv2" type="file" accept="audio/mp3" onChange={this.onSelectFileAudio}/>
+      <button type="submit" className="pointer link dim br2 ba pa2 dib bg-white" style={{height:"35px"}} onClick={() => this.setState({srcAudio:""})}>
+        Reset
+      </button>
+    </div>
+    {srcAudio != "" && (<audio controls ref="audio_player" className="bg-primary w-100" src={srcAudio}/>)}                                 
+  </div> 
+  );
+  }
   /*--- end post new soal ----*/
   logout = () => {   
     window.localStorage.clear();

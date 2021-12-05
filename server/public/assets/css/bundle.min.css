@@ -13155,6 +13155,22 @@ input[type=checkbox] {
   font-size: 11px;
 }
 
+.deleteFotoPertanyaan {
+  cursor: pointer;
+  border: 1px solid rgba(0, 0, 0, 0.125);
+  height: 25px;
+  padding: 5px;
+  color: white;
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-color: red;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 11px;
+}
+
 .headings {
   margin-left: 16px;
 }

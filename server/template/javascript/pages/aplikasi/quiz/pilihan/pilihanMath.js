@@ -3,7 +3,7 @@ import { toJpeg } from 'html-to-image';
 import MathView from 'react-math-view';
 
 function PilihanMath(props) { 
-    const {checked, value, onChange, onChecked,onRemove,disRem} = props;
+    const {checked, value ,url, onChange, onChecked,onRemove,disRem} = props;
     const [mathValue,SetMathValue] = React.useState("x=\\frac{-b\\pm\\sqrt{b^2-4ac}}{2a}");
     const captureRef = React.useRef(null); 
     const ref = React.useRef(null);   
@@ -12,8 +12,8 @@ function PilihanMath(props) {
        var capture = await toJpeg(captureRef.current, {
             quality: 1,
             pixelRatio: 1,
-            canvasWidth:320, 
-            canvasHeight:120,
+            canvasWidth:400, 
+            canvasHeight:188,
             backgroundColor:"#fff"
         });
         onChange(capture);
@@ -33,13 +33,19 @@ function PilihanMath(props) {
             <span className="dim pointer pa1 bg-red" onClick={onRemove}><i className="material-icons white" style={{fontSize:"20px"}}>close</i></span>
             }            
         </div>
+        {url != "" && (
+        <div className="relative">
+          <div className="link dim deleteFotoJawaban flex justify-center items-center" onClick={() => {onChange("");}}>Ganti foto<i className="material-icons-outlined" style={{fontSize: "14px"}}>close</i></div>
+          <img src={url} style={{width:"100%",height:"100%"}}/>
+        </div>
+        )}
         {value != "" && (
         <div className="relative">
           <div className="link dim deleteFotoJawaban flex justify-center items-center" onClick={() => {onChange("");}}>Ganti foto<i className="material-icons-outlined" style={{fontSize: "14px"}}>close</i></div>
           <img src={value} style={{width:"100%",height:"100%"}}/>
         </div>
         )}
-        {value === "" && (
+        {value === "" && url === "" && (
         <>        
             <div ref={captureRef} className="mathWidth" style={{fontSize:"32px"}}> 
                 <MathView ref={ref} value={mathValue}

@@ -2,7 +2,7 @@ import React, { useRef,useState } from "react";
 import Cropper from "react-cropper";
 
 function PilihanImage(props) {    
-    const {checked, value, onChange, onChecked,onRemove,disRem} = props; 
+    const {checked, url, onChange, onChecked,onRemove,disRem} = props; 
     const cropperRef = useRef(null);      
     const [errorSelect, setErrorSelect] = useState(""); 
     const [src , setSrc] = useState("");
@@ -11,8 +11,8 @@ function PilihanImage(props) {
         const imageElement = cropperRef.current;
         const cropper = imageElement.cropper;
         const foto = cropper.getCroppedCanvas({
-            width: 320,
-            height: 120,
+            width: 400,
+            height: 280,
             fillColor: '#fff',
             imageSmoothingEnabled: false,
             imageSmoothingQuality: 'high',
@@ -29,10 +29,10 @@ function PilihanImage(props) {
             image.addEventListener('load', function () {
               var height = this.height;
               var width = this.width;                 
-              if (height >= 80 && width >= 200) {                             
+              if (height >= 125 && width >= 250) {                            
                 setSrc(reader.result);
               }else{ 
-                setErrorSelect("Gambar foto dimensi minimal height 80 , width 200");                  
+                setErrorSelect("Gambar foto dimensi minimal height 125px , width 250px");                  
                 setSrc(null);                 
               }
             });        
@@ -56,12 +56,11 @@ function PilihanImage(props) {
             } 
         </div>        
         <div className="flex justify-between items-center ph2 bg-white">
-            <input className="link pv2" type="file" accept="image/*" onChange={(e) => onSelectFile(e)}/>
-            <button className="pointer link dim br2 ba pa2 dib bg-white" style={{height:"35px"}} onClick={() => {onChange("");setSrc("");}}>Reset</button>
+            <input className="link pv2" type="file" accept="image/*" onChange={(e) => onSelectFile(e)}/>            
         </div>        
-        {src === "" && value != "" && ( <img src={value} style={{width:"100%",height:"100%"}}/>)}
+        {src === "" && url != "" && ( <img src={url} style={{width:"100%",height:"100%"}} />)}
         {src != null && src != "" && (
-            <Cropper src={src} style={{ height: 150, width: "100%" }} initialAspectRatio={4 / 3} guides={false} minCropBoxWidth={600} minCropBoxHeight={430} crop={onCrop} ref={cropperRef} cropBoxResizable={false} dragMode={'move'} />
+            <Cropper src={src} style={{ height: 250, width: "100%" }} initialAspectRatio={4 / 3} guides={false} minCropBoxWidth={600} minCropBoxHeight={430} crop={onCrop} ref={cropperRef} cropBoxResizable={false} dragMode={'move'} />
         )}
         {src === null && (
             <h5 className="p-5" style={{display:"flex",alignItems:"center",justifyContent:"center"}}>{errorSelect}</h5>

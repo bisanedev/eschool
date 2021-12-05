@@ -194,6 +194,7 @@ class PageAplikasiQuizPilihanSoalAdd extends React.Component{
             else if(row.type === "image"){
               return <PilihanImage 
                 key={idx} 
+                url="" 
                 value={files[idx].raw}
                 disRem={pilihan.length === idx+1 ? false:true}
                 checked={jawaban.includes(idx) ? true:false}
@@ -204,7 +205,8 @@ class PageAplikasiQuizPilihanSoalAdd extends React.Component{
             }
             else if(row.type === "audio"){
               return <PilihanAudio 
-                key={idx} 
+                key={idx}
+                url=""                
                 value={files[idx].raw}
                 disRem={pilihan.length === idx+1 ? false:true}
                 checked={jawaban.includes(idx) ? true:false}      
@@ -216,6 +218,7 @@ class PageAplikasiQuizPilihanSoalAdd extends React.Component{
             else if(row.type === "math"){
               return <PilihanMath 
                 key={idx} 
+                url=""  
                 value={files[idx].raw}
                 disRem={pilihan.length === idx+1 ? false:true}
                 checked={jawaban.includes(idx) ? true:false}

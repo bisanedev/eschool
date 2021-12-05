@@ -1,7 +1,7 @@
 import React from "react";
 
 function PilihanAudio(props) {
-    const {checked, value, onChange, onChecked,onRemove,disRem} = props;    
+    const {checked, value, url, onChange, onChecked,onRemove,disRem} = props;    
 
     const onSelectFileAudio = (e) => {  
         if (e.target.files && e.target.files.length > 0) {  
@@ -28,10 +28,10 @@ function PilihanAudio(props) {
             }           
         </div>          
         <div className="flex justify-between items-center ph2 bg-white">
-         <input className="link pv2" type="file" accept="audio/mp3" onChange={(e) => onSelectFileAudio(e)}/>
-         <button type="submit" className="pointer link dim br2 ba pa2 dib bg-white" style={{height:"35px"}} onClick={() => onChange("")}>Reset</button>
-        </div>        
-        {value != "" && (<audio controls  className="bg-primary w-100" src={value}/>)}
+         <input className="link pv2" type="file" accept="audio/mp3" onChange={(e) => onSelectFileAudio(e)}/>         
+        </div>
+        {url != "" && value === "" && (<audio controls className="bg-primary w-100" src={url}/>) }
+        {value != "" && (<audio controls className="bg-primary w-100" src={value}/>)}
     </div>
     ); 
 }

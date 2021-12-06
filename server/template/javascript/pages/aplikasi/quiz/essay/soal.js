@@ -7,7 +7,7 @@ import Table from "../../../../components/table";
 import {DeleteDialog} from '../../../../components/dialog';
 import { ToastContainer, toast } from 'react-toastify';
 
-class PageAplikasiQuizPilihanSoal extends React.Component{
+class PageAplikasiQuizEssaySoal extends React.Component{
 
   constructor(props) {
     super(props);
@@ -48,24 +48,24 @@ class PageAplikasiQuizPilihanSoal extends React.Component{
     return (  
     <div className="konten"> 
       <Helmet>
-        <title>Pilihan ganda - Nama Sekolah</title>
+        <title>Essay - Nama Sekolah</title>
       </Helmet>  
         <div className="headings">
-          <div className="title">Pilihan ganda</div>
+          <div className="title">Essay</div>
           <div className="subtitle">Data bank soal untuk tingkatan {tingkatan != null ? tingkatan.nama:"memuat..."}, mata pelajaran {mapel != null ? mapel.nama:"memuat..."} dan {semester != null ? semester.tahun+" (semester "+semester.semester+")":"memuat..."}</div>
           <Breadcrumb homeUrl="/aplikasi" homeText="Aplikasi"> 
             <li><a href="#/aplikasi/quiz"><span>Kuis platform</span></a></li>   
-            <li><a href="#/aplikasi/quiz/pilihan"><span>Pilihan ganda</span></a></li>               
-            <li><a href={"#/aplikasi/quiz/pilihan/"+this.tingkatID}><span>{tingkatan != null ? tingkatan.nama:"memuat..."}</span></a></li>  
-            <li><a href={"#/aplikasi/quiz/pilihan/"+this.tingkatID+"/"+this.mapelID}><span>{mapel != null ? mapel.nama:"memuat..."}</span></a></li>
-            <li><a href={"#/aplikasi/quiz/pilihan/"+this.tingkatID+"/"+this.mapelID+"/"+this.semesterID}><span>{semester != null ? semester.tahun+" (semester "+semester.semester+")":"memuat..."}</span></a></li>            
+            <li><a href="#/aplikasi/quiz/essay"><span>Essay</span></a></li>               
+            <li><a href={"#/aplikasi/quiz/essay/"+this.tingkatID}><span>{tingkatan != null ? tingkatan.nama:"memuat..."}</span></a></li>  
+            <li><a href={"#/aplikasi/quiz/essay/"+this.tingkatID+"/"+this.mapelID}><span>{mapel != null ? mapel.nama:"memuat..."}</span></a></li>
+            <li><a href={"#/aplikasi/quiz/essay/"+this.tingkatID+"/"+this.mapelID+"/"+this.semesterID}><span>{semester != null ? semester.tahun+" (semester "+semester.semester+")":"memuat..."}</span></a></li>            
           </Breadcrumb>
         </div>                
         <div className="mw9 center cf ph3 mb3">
         <Table>
           <Table.Header>
             <div className="w-50 ph2">
-              <a href={`#/aplikasi/quiz/pilihan/${this.tingkatID}/${this.mapelID}/${this.semesterID}/add`} style={{borderColor:"#0191d7"}} className="pointer link dim br1 ba pa2 dib white bg-primary" onClick={() => this.setState({showAdd:true})}>                
+              <a href={`#/aplikasi/quiz/essay/${this.tingkatID}/${this.mapelID}/${this.semesterID}/add`} style={{borderColor:"#0191d7"}} className="pointer link dim br1 ba pa2 dib white bg-primary" onClick={() => this.setState({showAdd:true})}>                
                 <i className="material-icons-outlined" style={{fontSize:"20px"}}>add</i>
               </a>
             </div>
@@ -105,7 +105,7 @@ class PageAplikasiQuizPilihanSoal extends React.Component{
                 checked={selected.includes(value.id)} 
                 onChecked={() => this.onChecked(value.id)}
                 onDelete={() => this.onDelete(value)}
-                linkEdit={`#/aplikasi/quiz/pilihan/${this.tingkatID}/${this.mapelID}/${this.semesterID}/${value.id}`}
+                linkEdit={`#/aplikasi/quiz/essay/${this.tingkatID}/${this.mapelID}/${this.semesterID}/${value.id}`}
                 onView={() => console.log(value)}
                 />     
             ))} 
@@ -206,7 +206,7 @@ class PageAplikasiQuizPilihanSoal extends React.Component{
     const {page,total,cari} = this.state;
     this.setState({isLoading:true});
     axios.get(
-      window.location.origin + `/api/pendidik/aplikasi/quiz/pilihan/${tingkatID}/${mapelID}/${semesterID}?`+ `${total ? 'total=' + total : ''}` + `${page ? '&page=' + page : ''}`+ `${cari ? '&cari=' + cari : ''}` +"&nocache="+Date.now()
+      window.location.origin + `/api/pendidik/aplikasi/quiz/essay/${tingkatID}/${mapelID}/${semesterID}?`+ `${total ? 'total=' + total : ''}` + `${page ? '&page=' + page : ''}`+ `${cari ? '&cari=' + cari : ''}` +"&nocache="+Date.now()
     ).then(response => {      
       this.setState({
         data:response.data.message.data,
@@ -234,7 +234,7 @@ class PageAplikasiQuizPilihanSoal extends React.Component{
     formData.append('delete', id);    
     axios({
       method: 'delete',
-      url: window.location.origin +'/api/pendidik/aplikasi/quiz/pilihan',
+      url: window.location.origin +'/api/pendidik/aplikasi/quiz/essay',
       data: formData
     }).then(response => {
       if(response.data.status == true)
@@ -257,7 +257,7 @@ class PageAplikasiQuizPilihanSoal extends React.Component{
     formData.append('delete', JSON.stringify(selected));    
     axios({
       method: 'delete',
-      url: window.location.origin +'/api/pendidik/aplikasi/quiz/pilihan',
+      url: window.location.origin +'/api/pendidik/aplikasi/quiz/essay',
       data: formData
     }).then(response => {
       if(response.data.status == true)
@@ -282,4 +282,4 @@ class PageAplikasiQuizPilihanSoal extends React.Component{
   // ---------------------------- end of script
 }
 
-export default PageAplikasiQuizPilihanSoal;
+export default PageAplikasiQuizEssaySoal;

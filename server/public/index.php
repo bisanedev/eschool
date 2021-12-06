@@ -40,7 +40,7 @@ $dispatcher = FastRoute\simpleDispatcher(function (RouteCollector $r) {
         $r->addRoute('GET', '/aplikasi/quiz/index/essay/{tingkatID}', ['App\PendidikControllers\QuizController','IndexMapelEssay']);
         $r->addRoute('GET', '/aplikasi/quiz/index/essay/{tingkatID}/{mapelID}', ['App\PendidikControllers\QuizController','IndexSemesterEssay']);
         $r->addRoute('GET', '/aplikasi/quiz/index/{tingkatID}/{mapelID}/{semesterID}', ['App\PendidikControllers\QuizController','IndexForms']);
-        $r->addRoute('GET', '/aplikasi/quiz/pilihan/{tingkatID}/{mapelID}/{semesterID}', ['App\PendidikControllers\QuizController','SoalPilihan']);        
+        $r->addRoute('GET', '/aplikasi/quiz/pilihan/{tingkatID}/{mapelID}/{semesterID}', ['App\PendidikControllers\QuizController','SoalPilihan']);       
         $r->addRoute('POST', '/aplikasi/quiz/pilihan/{tingkatID}/{mapelID}/{semesterID}/add', ['App\PendidikControllers\QuizController','SoalPilihanAdd']);
         $r->addRoute('GET', '/aplikasi/quiz/index/{tingkatID}/{mapelID}/{semesterID}/{soalID}', ['App\PendidikControllers\QuizController','SoalPilihanEdit']);
         $r->addRoute('POST', '/aplikasi/quiz/pilihan/{tingkatID}/{mapelID}/{semesterID}/update', ['App\PendidikControllers\QuizController','SoalPilihanUpdate']);

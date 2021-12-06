@@ -46,7 +46,7 @@ class PageAplikasiQuizEssayMapel extends React.Component{
         <div className="mw9 center">
         <div className="cf ph3 mb3 flex flex-wrap">
         {data.length > 0 && !isLoading && data.map((value,k) => (                   
-          <MenuText key={k} url={"/aplikasi/quiz/essay/"+ this.tingkatID +"/"+value.id} title={value.nama} style={{backgroundColor:value.color}} color="#fff"/>        
+          <MenuText key={k} url={"/aplikasi/quiz/essay/"+ this.tingkatID +"/"+value.id} title={value.nama} jumlah={value.jumlah} style={{backgroundColor:value.color}} color="#fff"/>        
         ))}
         {isLoading && <MenuLoading/> } 
         </div>
@@ -60,7 +60,7 @@ class PageAplikasiQuizEssayMapel extends React.Component{
   fetchData = (id) => {     
     this.setState({isLoading:true});
     axios.get(
-      window.location.origin + `/api/pendidik/aplikasi/quiz/index/${id}?&nocache=`+Date.now()
+      window.location.origin + `/api/pendidik/aplikasi/quiz/index/essay/${id}?&nocache=`+Date.now()
     ).then(response => {      
       this.setState({
         data:response.data.message.data,        

@@ -52,7 +52,7 @@ class PageAplikasiQuizPilihan extends React.Component{
   fetchData = () => {     
     this.setState({isLoading:true});
     axios.get(
-      window.location.origin + "/api/pendidik/aplikasi/quiz/index?&nocache="+Date.now()
+      window.location.origin + "/api/pendidik/aplikasi/quiz/index/pilihan?&nocache="+Date.now()
     ).then(response => {      
       this.setState({
         data:response.data.message,        

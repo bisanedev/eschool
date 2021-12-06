@@ -47,7 +47,7 @@ class PageAplikasiQuizPilihanSemester extends React.Component{
         <div className="mw9 center">
         <div className="cf ph3 mb3 flex flex-wrap">
         {data.length > 0 && !isLoading && tingkatan != null && mapel != null && data.map((value,k) => (                  
-          <MenuText key={k} url={"/aplikasi/quiz/essay/"+ this.tingkatID+"/"+this.mapelID +"/"+value.id} title={"Semester "+value.semester} subtitle={value.tahun} color="#333"/>        
+          <MenuText key={k} url={"/aplikasi/quiz/essay/"+ this.tingkatID+"/"+this.mapelID +"/"+value.id} title={"Semester "+value.semester} jumlah={value.jumlah} subtitle={value.tahun} color="#333"/>        
         ))}
         {isLoading && <MenuLoading/>}
         {tingkatan == null || mapel == null && !isLoading && <NotFound/>}
@@ -60,7 +60,7 @@ class PageAplikasiQuizPilihanSemester extends React.Component{
   fetchData = (tingkat,mapel) => {     
     this.setState({isLoading:true});
     axios.get(
-      window.location.origin + `/api/pendidik/aplikasi/quiz/index/${tingkat}/${mapel}?&nocache=`+Date.now()
+      window.location.origin + `/api/pendidik/aplikasi/quiz/index/essay/${tingkat}/${mapel}?&nocache=`+Date.now()
     ).then(response => {      
       this.setState({
         data:response.data.message.data,        

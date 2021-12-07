@@ -42,10 +42,13 @@ $dispatcher = FastRoute\simpleDispatcher(function (RouteCollector $r) {
         $r->addRoute('GET', '/aplikasi/quiz/index/{tingkatID}/{mapelID}/{semesterID}', ['App\PendidikControllers\QuizController','IndexForms']);
         $r->addRoute('GET', '/aplikasi/quiz/pilihan/{tingkatID}/{mapelID}/{semesterID}', ['App\PendidikControllers\QuizController','SoalPilihan']);       
         $r->addRoute('POST', '/aplikasi/quiz/pilihan/{tingkatID}/{mapelID}/{semesterID}/add', ['App\PendidikControllers\QuizController','SoalPilihanAdd']);
-        $r->addRoute('GET', '/aplikasi/quiz/index/{tingkatID}/{mapelID}/{semesterID}/{soalID}', ['App\PendidikControllers\QuizController','SoalPilihanEdit']);
+        $r->addRoute('GET', '/aplikasi/quiz/index/pilihan/{tingkatID}/{mapelID}/{semesterID}/{soalID}', ['App\PendidikControllers\QuizController','SoalPilihanEdit']);
         $r->addRoute('POST', '/aplikasi/quiz/pilihan/{tingkatID}/{mapelID}/{semesterID}/update', ['App\PendidikControllers\QuizController','SoalPilihanUpdate']);
         $r->addRoute('DELETE', '/aplikasi/quiz/pilihan', ['App\PendidikControllers\QuizController','SoalPilihanDelete']);
         $r->addRoute('GET', '/aplikasi/quiz/essay/{tingkatID}/{mapelID}/{semesterID}', ['App\PendidikControllers\QuizController','SoalEssay']);
+        $r->addRoute('POST', '/aplikasi/quiz/essay/{tingkatID}/{mapelID}/{semesterID}/add', ['App\PendidikControllers\QuizController','SoalEssayAdd']);
+        $r->addRoute('GET', '/aplikasi/quiz/index/essay/{tingkatID}/{mapelID}/{semesterID}/{soalID}', ['App\PendidikControllers\QuizController','SoalEssayEdit']);
+        $r->addRoute('POST', '/aplikasi/quiz/essay/{tingkatID}/{mapelID}/{semesterID}/update', ['App\PendidikControllers\QuizController','SoalEssayUpdate']);
         $r->addRoute('DELETE', '/aplikasi/quiz/essay', ['App\PendidikControllers\QuizController','SoalEssayDelete']);
         //profile
         $r->addRoute('POST', '/profile/upload', ['App\PendidikControllers\ProfileController','uploadFoto']);

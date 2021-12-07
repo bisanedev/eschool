@@ -62,10 +62,10 @@ class PageAplikasiQuizPilihanSoalEdit extends React.Component{
     return (    
     <div className="konten"> 
         <Helmet>
-            <title>Bank soal - Nama Sekolah</title>
+            <title>Pilihan ganda - Nama Sekolah</title>
         </Helmet> 
         <div className="headings">    
-          <div className="title">Bank Soal</div>
+          <div className="title">Pilihan ganda</div>
           <div className="subtitle">Data bank soal untuk tingkatan {tingkatan != null ? tingkatan.nama:"memuat..."}, mata pelajaran {mapel != null ? mapel.nama:"memuat..."} dan {semester != null ? semester.tahun+" (semester "+semester.semester+")":"memuat..."}</div>
           <Breadcrumb homeUrl="/aplikasi" homeText="Aplikasi"> 
             <li><a href="#/aplikasi/quiz"><span>Kuis platform</span></a></li>   
@@ -78,7 +78,7 @@ class PageAplikasiQuizPilihanSoalEdit extends React.Component{
         </div>
         <div className="mw9 center cf ph3 flex" style={{marginBottom:300}}>
           <div className="w-50">
-          <Cards title="Mengubah data soal pilihan ganda" bodyClass="flex flex-column">
+          <Cards title="Mengubah data soal pilihan ganda"  bodyClass="flex flex-column">
           <div className="pa3">                               
             <div className="w-100 mb3">
             <label className="f5 fw4 db mb2">Pertanyaan Teks</label>
@@ -391,7 +391,7 @@ class PageAplikasiQuizPilihanSoalEdit extends React.Component{
   /* --- end of file select audio Pertanyaan ---*/
   fetchData = (tingkat,mapel,semester,soal) => {   
     axios.get(
-      window.location.origin + `/api/pendidik/aplikasi/quiz/index/${tingkat}/${mapel}/${semester}/${soal}?&nocache=`+Date.now()
+      window.location.origin + `/api/pendidik/aplikasi/quiz/index/pilihan/${tingkat}/${mapel}/${semester}/${soal}?&nocache=`+Date.now()
     ).then(response => {  
       var pertanyaan_text = EditorState.createWithContent(convertFromHTML(decode(response.data.message.data.pertanyaan_text)));
       var pilihan_convert = this.convertPilihan(response.data.message.data.pilihan);
@@ -421,11 +421,6 @@ class PageAplikasiQuizPilihanSoalEdit extends React.Component{
     return objects;
   }
 
-  getBase64 = (url) => {
-   return axios.get(url, {
-        responseType: 'arraybuffer'
-   }).then(response => Buffer.from(response.data, 'binary').toString('base64'))
-  }
   /*--- post new soal ----*/
   updateSoal = async () => {
     const {toggleMath,croppedImageUrl,editorState,srcAudio,pilihan,files,jawaban} = this.state;

@@ -233,7 +233,7 @@ class QuizController extends ApiController
                     }       
                 }
             }
-            //insert database            
+            //update database            
             $this->database->update("quiz_banksoal_pilihan",["pertanyaan_text" => $_POST["pertanyaan_text"],"jawaban" => $_POST["jawaban"],"pilihan" => $_POST["pilihan"]],["AND" =>["id" => $_POST["id"],"tingkatan_id" => $tingkatID,"mapel_id" => $mapelID,"semester_id" => $semesterID]]);            
             //make folder
             if (isset($_FILES["pertanyaan_images"]) || isset($_FILES["pertanyaan_audio"]) || isset($_FILES["files"])){ 
@@ -339,16 +339,147 @@ class QuizController extends ApiController
         echo $this->response->json_response(200, $data);   
     }
 
+    public function SoalEssayAdd($tingkatID,$mapelID,$semesterID)
+    {
+        $v = new Validator($_POST);
+        $v->rule('required', ['pertanyaan_text']);
+        if($v->validate()) { 
+            // filter file size
+            if (isset($_FILES["pertanyaan_audio"]) && $_FILES["pertanyaan_audio"]["size"] > 2000000) {
+                echo $this->response->json_response(400, "Ukuran pertanyaan audio melebihi 2MB");
+                exit;      
+            } 
+            $allowedAudio = array("audio/mp3","audio/mpeg");            
+            if(isset($_FILES["pertanyaan_audio"]) && !in_array($_FILES['pertanyaan_audio']['type'],$allowedAudio)) {
+                echo $this->response->json_response(400,"Pertanyaan audio hanya file audio/mp3 yang bisa di upload");
+                exit;
+            }
+            if (isset($_FILES["pertanyaan_images"]) && $_FILES["pertanyaan_images"]["size"] > 2000000) {
+                echo $this->response->json_response(400, "Ukuran pertanyaan gambar melebihi 2MB");
+                exit;      
+            }
+            $allowedImages = array("image/jpeg","image/png");
+            if(isset($_FILES["pertanyaan_images"]) && !in_array($_FILES['pertanyaan_images']['type'],$allowedImages )) {
+                echo $this->response->json_response(400, "Pertanyaan gambar hanya file png, jpeg dan jpg yang bisa di upload");
+                exit;
+            }
+                   
+            //insert database            
+            $this->database->insert("quiz_banksoal_essay",["tingkatan_id" => $tingkatID,"mapel_id" => $mapelID,"semester_id" => $semesterID,"pertanyaan_text" => $_POST["pertanyaan_text"]]);           
+            $lastID = $this->database->id();
+            //make folder
+            if (isset($_FILES["pertanyaan_images"]) || isset($_FILES["pertanyaan_audio"]) || isset($_FILES["files"])){ 
+                if (!file_exists(__DIR__ ."/../../public/data/soal/essay/".$lastID)) {
+                    mkdir(__DIR__ ."/../../public/data/soal/essay/".$lastID, 0777, true);
+                }
+            }
+            //upload pertanyaan gambar jika ada
+            if (isset($_FILES["pertanyaan_images"])){        
+                $location = __DIR__ ."/../../public/data/soal/essay/".$lastID."/pertanyaan.jpg";                              
+                move_uploaded_file($_FILES["pertanyaan_images"]["tmp_name"],$location);
+                $this->database->update("quiz_banksoal_essay",["pertanyaan_images" => "pertanyaan.jpg"],["id" => $lastID]);                       
+            }
+            //upload pertanyaan audio jika ada
+            if (isset($_FILES["pertanyaan_audio"])){        
+                $location = __DIR__ ."/../../public/data/soal/essay/".$lastID."/pertanyaan.mp3";                              
+                move_uploaded_file($_FILES["pertanyaan_audio"]["tmp_name"],$location);
+                $this->database->update("quiz_banksoal_essay",["pertanyaan_audio" => "pertanyaan.mp3"],["id" => $lastID]);                       
+            }       
+            //berhasil
+            echo $this->response->json_response(200, "berhasil");
+        }else{
+            if($v->errors('pertanyaan_text')){
+                echo $this->response->json_response(400,"Input pertanyaan text kosong"); 
+            }                      
+        }        
+    }    
+    
+    public function SoalEssayEdit($tingkatID,$mapelID,$semesterID,$soalID)
+    {
+        $tingkatan = $this->database->select("sekolah_kelastingkatan",["id","nama"],["id" => $tingkatID]); 
+        $mapel = $this->database->select("sekolah_mapel",["id","nama"],["id" => $mapelID]); 
+        $semester = $this->database->select("sekolah_semesternama",["[>]sekolah_semestertahun" => ["semester_tahun_id" => "id"]],["sekolah_semesternama.id","sekolah_semestertahun.nama(tahun)","sekolah_semesternama.semester"],["sekolah_semesternama.id" => $semesterID]);        
+        $soal = $this->database->select("quiz_banksoal_essay",["id","pertanyaan_text","pertanyaan_images","pertanyaan_audio"],["id" => $soalID]);            
+        $data = array("data" => $soal[0] ,"semester" => $semester[0],"tingkatan"=> $tingkatan[0] ,"mapel"=> $mapel[0] );
+        echo $this->response->json_response(200, $data);
+    }
+
+    public function SoalEssayUpdate($tingkatID,$mapelID,$semesterID)
+    {
+        $v = new Validator($_POST);
+        $v->rule('required', ['id','pertanyaan_text']);
+        if($v->validate()) {
+            // filter file size
+            if (isset($_FILES["pertanyaan_audio"]) && $_FILES["pertanyaan_audio"]["size"] > 2000000) {
+                echo $this->response->json_response(400, "Ukuran pertanyaan audio melebihi 2MB");
+                exit;      
+            } 
+            $allowedAudio = array("audio/mp3","audio/mpeg");            
+            if(isset($_FILES["pertanyaan_audio"]) && !in_array($_FILES['pertanyaan_audio']['type'],$allowedAudio)) {
+                echo $this->response->json_response(400,"Pertanyaan audio hanya file audio/mp3 yang bisa di upload");
+                exit;
+            }
+            if (isset($_FILES["pertanyaan_images"]) && $_FILES["pertanyaan_images"]["size"] > 2000000) {
+                echo $this->response->json_response(400, "Ukuran pertanyaan gambar melebihi 2MB");
+                exit;      
+            }
+            $allowedImages = array("image/jpeg","image/png");
+            if(isset($_FILES["pertanyaan_images"]) && !in_array($_FILES['pertanyaan_images']['type'],$allowedImages )) {
+                echo $this->response->json_response(400, "Pertanyaan gambar hanya file png, jpeg dan jpg yang bisa di upload");
+                exit;
+            }
+            //update database            
+            $this->database->update("quiz_banksoal_essay",["pertanyaan_text" => $_POST["pertanyaan_text"]],["AND" =>["id" => $_POST["id"],"tingkatan_id" => $tingkatID,"mapel_id" => $mapelID,"semester_id" => $semesterID]]);            
+            //make folder
+            if (isset($_FILES["pertanyaan_images"]) || isset($_FILES["pertanyaan_audio"]) || isset($_FILES["files"])){ 
+                if (!file_exists(__DIR__ ."/../../public/data/soal/essay/".$_POST["id"])) {
+                    mkdir(__DIR__ ."/../../public/data/soal/essay/".$_POST["id"], 0777, true);
+                }
+            }
+            //upload pertanyaan gambar jika ada
+            if (isset($_FILES["pertanyaan_images"])){        
+                $location = __DIR__ ."/../../public/data/soal/essay/".$_POST["id"]."/pertanyaan.jpg";                              
+                move_uploaded_file($_FILES["pertanyaan_images"]["tmp_name"],$location);
+                $this->database->update("quiz_banksoal_essay",["pertanyaan_images" => "pertanyaan.jpg"],["id" => $_POST["id"]]);                       
+            }
+            //upload pertanyaan audio jika ada
+            if (isset($_FILES["pertanyaan_audio"])){        
+                $location = __DIR__ ."/../../public/data/soal/essay/".$_POST["id"]."/pertanyaan.mp3";                              
+                move_uploaded_file($_FILES["pertanyaan_audio"]["tmp_name"],$location);
+                $this->database->update("quiz_banksoal_essay",["pertanyaan_audio" => "pertanyaan.mp3"],["id" => $_POST["id"]]);                       
+            }        
+            //berhasil
+            echo $this->response->json_response(200, "berhasil");
+        }else{
+            if($v->errors('pertanyaan_text')){
+                echo $this->response->json_response(400,"Input pertanyaan text kosong"); 
+            } 
+            elseif($v->errors('id')){
+                echo $this->response->json_response(400,"Input id kosong"); 
+            }  
+        }
+    }
+
     public function SoalEssayDelete()
     {
         $_DELETE = RequestParser::parse()->params;        
         $v = new Validator($_DELETE);
         $v->rule('required', ['delete']);
-        if($v->validate()) {                                         
-            $hapus=$this->database->delete("quiz_banksoal_essay",["AND" => ["id" => json_decode($_DELETE['delete'])]]);
-            if($hapus->rowCount() === 0){
+        if($v->validate()) {                          
+            $deleteID = json_decode($_DELETE['delete']);                    
+            $hapus=$this->database->delete("quiz_banksoal_essay",["AND" => ["id" => $deleteID]]);
+            if($hapus->rowCount() === 0){ 
                 echo $this->response->json_response(400,"Data tidak ditemukan");
-            }else{                
+            }else{
+                if(is_array($deleteID)){
+                    foreach ($deleteID as $value) {
+                        $location = __DIR__ ."/../../public/data/soal/essay/".$value;  
+                        $this->rrmdir($location);               
+                    }
+                }else{
+                    $location = __DIR__ ."/../../public/data/soal/essay/".$deleteID;  
+                    $this->rrmdir($location);  
+                }  
                 echo $this->response->json_response(200,"berhasil");
             }            
         }else{

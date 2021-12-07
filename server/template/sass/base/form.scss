@@ -294,7 +294,14 @@ input[type=checkbox] {
   padding: 2px !important;   
   scrollbar-width: thin;  
   height: 60px !important;
+}
 
+.wysiwyg-editor-essay{
+  border: 1px solid rgb(241, 241, 241);
+  background-color: #f3f3f3;
+  height: 230px !important;
+  padding: 5px !important;    
+  scrollbar-width: thin;  
 }
 
 .rdw-editor-toolbar {

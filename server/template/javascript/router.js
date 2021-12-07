@@ -18,6 +18,8 @@ import PageAplikasiQuizEssay from './pages/aplikasi/quiz/essay';
 import PageAplikasiQuizEssayMapel from './pages/aplikasi/quiz/essay/mapel';
 import PageAplikasiQuizEssaySemester from './pages/aplikasi/quiz/essay/semester';
 import PageAplikasiQuizEssaySoal from './pages/aplikasi/quiz/essay/soal';
+import PageAplikasiQuizEssaySoalAdd from './pages/aplikasi/quiz/essay/add';
+import PageAplikasiQuizEssaySoalEdit from './pages/aplikasi/quiz/essay/edit';
 //---- Sekolah
 import PageSekolah from './pages/sekolah';
 import PageSekolahKelas from './pages/sekolah/kelas';
@@ -56,7 +58,8 @@ export default function RouterApp() {
           <Route path="/aplikasi/quiz/essay/:tingkatID" element={<PrivateRoute komponen={PageAplikasiQuizEssayMapel}/>}/>
           <Route path="/aplikasi/quiz/essay/:tingkatID/:mapelID" element={<PrivateRoute komponen={PageAplikasiQuizEssaySemester}/>}/>
           <Route path="/aplikasi/quiz/essay/:tingkatID/:mapelID/:semesterID" element={<PrivateRoute komponen={PageAplikasiQuizEssaySoal}/>}/>
-          
+          <Route path="/aplikasi/quiz/essay/:tingkatID/:mapelID/:semesterID/add" element={<PrivateRoute komponen={PageAplikasiQuizEssaySoalAdd}/>}/>
+          <Route path="/aplikasi/quiz/essay/:tingkatID/:mapelID/:semesterID/:soalID" element={<PrivateRoute komponen={PageAplikasiQuizEssaySoalEdit}/>}/>          
           <Route path="/sekolah" element={<PrivateRoute komponen={PageSekolah}/>}/>          
           <Route path="/sekolah/kelas" element={<PrivateRoute komponen={PageSekolahKelas}/>}/>          
           <Route path="/sekolah/kelas/:kelasID" element={<PrivateRoute komponen={PageSekolahKelasSub}/>}/> 

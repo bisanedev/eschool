@@ -59,10 +59,10 @@ class PageAplikasiQuizPilihanSoalAdd extends React.Component{
     return (    
     <div className="konten"> 
         <Helmet>
-            <title>Bank soal - Nama Sekolah</title>
+            <title>Pilihan ganda - Nama Sekolah</title>
         </Helmet> 
         <div className="headings">    
-          <div className="title">Bank Soal</div>
+          <div className="title">Pilihan ganda</div>
           <div className="subtitle">Data bank soal untuk tingkatan {tingkatan != null ? tingkatan.nama:"memuat..."}, mata pelajaran {mapel != null ? mapel.nama:"memuat..."} dan {semester != null ? semester.tahun+" (semester "+semester.semester+")":"memuat..."}</div>
           <Breadcrumb homeUrl="/aplikasi" homeText="Aplikasi"> 
             <li><a href="#/aplikasi/quiz"><span>Kuis platform</span></a></li>   

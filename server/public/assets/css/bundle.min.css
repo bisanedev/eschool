@@ -13135,6 +13135,14 @@ input[type=checkbox] {
   height: 60px !important;
 }
 
+.wysiwyg-editor-essay {
+  border: 1px solid #f1f1f1;
+  background-color: #f3f3f3;
+  height: 230px !important;
+  padding: 5px !important;
+  scrollbar-width: thin;
+}
+
 .rdw-editor-toolbar {
   margin-bottom: 0 !important;
 }

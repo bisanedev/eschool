@@ -83,7 +83,7 @@ class PageAplikasiQuizEssaySoalAdd extends React.Component{
               }}
             />
             </div>
-            <div className="w-50 mb3">
+            <div className="w-100 mb3">
                 <div className="flex justify-between items-center mb2">
                   <label className="f5 fw4 db">Pertanyaan Gambar (Opsional)</label>
                   <div className="pointer link dim flex items-center" onClick={() => this.setState({toggleMath:!toggleMath})}>
@@ -131,7 +131,7 @@ class PageAplikasiQuizEssaySoalAdd extends React.Component{
                   <h5 className="p-5" style={{display:"flex",alignItems:"center",justifyContent:"center"}}>{errorSelect}</h5>
                 )}
             </div>
-            <div className="w-50 mb3">
+            <div className="w-100 mb3">
                 <label className="f5 fw4 db mb2">Pertanyaan Audio (Opsional)</label>
                 <div className="flex justify-between items-center mb3">
                   <input className="link pv2" type="file" accept="audio/mp3" onChange={this.onSelectFileAudio}/>

@@ -98,7 +98,7 @@ class PageAplikasiQuizEssaySoalEdit extends React.Component{
               this.gambarRender()
             )}
             {pertanyaaanAudio !="" ? (
-              <div className="w-50 mb3">              
+              <div className="w-100 mb3">              
                <label className="f5 fw4 db mb2">Pertanyaan Audio (Opsional)</label>
                <div className="relative pv3">
                <div className="link dim deleteFotoPertanyaan flex justify-center items-center" onClick={() => {this.setState({pertanyaaanAudio:""})}}>Ganti Audio<i className="material-icons-outlined" style={{fontSize: "14px"}}>close</i></div>
@@ -276,7 +276,7 @@ class PageAplikasiQuizEssaySoalEdit extends React.Component{
   gambarRender = () => {
     const {toggleMath,src,errorSelect,mathValue} = this.state;
     return (
-      <div className="w-50 mb3">
+      <div className="w-100 mb3">
       <div className="flex justify-between items-center mb2">
         <label className="f5 fw4 db">Pertanyaan Gambar (Opsional)</label>
          <div className="pointer link dim flex items-center" onClick={() => this.setState({toggleMath:!toggleMath})}>
@@ -326,7 +326,7 @@ class PageAplikasiQuizEssaySoalEdit extends React.Component{
   audioRender = () => {
   const {srcAudio} = this.state;
   return (
-  <div className="w-50 mb3">
+  <div className="w-100 mb3">
     <label className="f5 fw4 db mb2">Pertanyaan Audio (Opsional)</label>
     <div className="flex justify-between items-center mb3">
       <input className="link pv2" type="file" accept="audio/mp3" onChange={this.onSelectFileAudio}/>

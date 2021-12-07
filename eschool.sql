@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 03, 2021 at 11:59 PM
+-- Generation Time: Dec 07, 2021 at 09:06 AM
 -- Server version: 10.4.19-MariaDB
 -- PHP Version: 8.0.7
 
@@ -36,6 +36,13 @@ CREATE TABLE `quiz_banksoal_essay` (
   `pertanyaan_images` varchar(30) NOT NULL,
   `pertanyaan_audio` varchar(30) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `quiz_banksoal_essay`
+--
+
+INSERT INTO `quiz_banksoal_essay` (`id`, `tingkatan_id`, `mapel_id`, `semester_id`, `pertanyaan_text`, `pertanyaan_images`, `pertanyaan_audio`) VALUES
+(7, 2, 9, 1, '&lt;p&gt;Pisang sangat bermanfaat bagi kehidupan manusia. Buah kuning ini mengandung zat yang sangat berguna seperti potasium, potasium, gula dan lainnya. Zat ini sangat bermanfaat dalam tubuh. Sebagai contoh, banyak gula dapat digunakan sebagai sumber energi bagi tubuh. Pisang ditanam di tanah subur dan memiliki sumber air. Pisang tidak hanya mengandung zat-zat bermanfaat, mereka juga menghasilkan hormon endorphin.Hormon-hormon ini memberikan kenyamanan bagi mereka yang mengkonsumsinya. &lt;/p&gt;&lt;p&gt;Kalimat-kalimat sumbang ada dalam kalimat? &lt;/p&gt;', '', '');
 
 -- --------------------------------------------------------
 
@@ -79,6 +86,27 @@ CREATE TABLE `quiz_exam` (
   `selesai` datetime NOT NULL,
   `paket_soal` varchar(300) NOT NULL,
   `kisi_exam` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `quiz_exam_jawabansiswa`
+--
+
+CREATE TABLE `quiz_exam_jawabansiswa` (
+  `id` int(11) NOT NULL,
+  `exam_id` int(11) NOT NULL,
+  `siswa_id` int(11) NOT NULL,
+  `paket_id` int(11) NOT NULL,
+  `diterbitkan` tinyint(1) NOT NULL,
+  `jawaban_pilihan` text NOT NULL,
+  `jawaban_essay` text NOT NULL,
+  `benar_pilihan` varchar(30) NOT NULL,
+  `benar_essay` varchar(30) NOT NULL,
+  `nilai_pilihan` varchar(30) NOT NULL,
+  `nilai_essay` varchar(30) NOT NULL,
+  `nilai_total` float DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -301,6 +329,15 @@ ALTER TABLE `quiz_exam`
   ADD KEY `semester_id` (`semester_id`);
 
 --
+-- Indexes for table `quiz_exam_jawabansiswa`
+--
+ALTER TABLE `quiz_exam_jawabansiswa`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `exam_id` (`exam_id`),
+  ADD KEY `siswa_id` (`siswa_id`),
+  ADD KEY `paket_id` (`paket_id`);
+
+--
 -- Indexes for table `quiz_paketsoal`
 --
 ALTER TABLE `quiz_paketsoal`
@@ -364,13 +401,13 @@ ALTER TABLE `sekolah_users`
 -- AUTO_INCREMENT for table `quiz_banksoal_essay`
 --
 ALTER TABLE `quiz_banksoal_essay`
-  MODIFY `id` int(50) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `quiz_banksoal_pilihan`
 --
 ALTER TABLE `quiz_banksoal_pilihan`
-  MODIFY `id` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
+  MODIFY `id` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=72;
 
 --
 -- AUTO_INCREMENT for table `quiz_exam`
@@ -454,6 +491,14 @@ ALTER TABLE `quiz_exam`
   ADD CONSTRAINT `FK_quiz_exam_sekolah_mapel` FOREIGN KEY (`mapel_id`) REFERENCES `sekolah_mapel` (`id`),
   ADD CONSTRAINT `FK_quiz_exam_sekolah_semesternama` FOREIGN KEY (`semester_id`) REFERENCES `sekolah_semesternama` (`id`),
   ADD CONSTRAINT `FK_quiz_exam_sekolah_users` FOREIGN KEY (`user_id`) REFERENCES `sekolah_users` (`id`);
+
+--
+-- Constraints for table `quiz_exam_jawabansiswa`
+--
+ALTER TABLE `quiz_exam_jawabansiswa`
+  ADD CONSTRAINT `FK_quiz_exam_jawabansiswa_quiz_exam` FOREIGN KEY (`exam_id`) REFERENCES `quiz_exam` (`id`),
+  ADD CONSTRAINT `FK_quiz_exam_jawabansiswa_quiz_paketsoal` FOREIGN KEY (`paket_id`) REFERENCES `quiz_paketsoal` (`id`),
+  ADD CONSTRAINT `FK_quiz_exam_jawabansiswa_sekolah_siswa` FOREIGN KEY (`siswa_id`) REFERENCES `sekolah_siswa` (`id`);
 
 --
 -- Constraints for table `quiz_paketsoal`

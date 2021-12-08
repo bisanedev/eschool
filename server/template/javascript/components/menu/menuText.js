@@ -11,7 +11,7 @@ function MenuText(props) {
                     <i className="material-icons" style={{fontSize:"25px"}}>folder_open</i>
                 </div>
                 <div className="absolute pa1 bottom-0 right-0 jumlah">                
-                    Jumlah soal {props.jumlah}
+                    {props.jumlah}
                 </div>
             </a>          
         </div>

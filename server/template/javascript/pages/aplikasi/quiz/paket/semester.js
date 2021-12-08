@@ -4,7 +4,7 @@ import axios from "axios";
 import {Breadcrumb,MenuText,MenuLoading} from '../../../../components/menu';
 import NotFound from "../../../other/notfound";
 
-class PageAplikasiQuizEssaySemester extends React.Component{
+class PageAplikasiQuizPaketSemester extends React.Component{
 
   constructor(props) {
     super(props);
@@ -36,18 +36,18 @@ class PageAplikasiQuizEssaySemester extends React.Component{
         </Helmet>
         <div className="headings">
           <div className="title">Kuis platform</div>
-          <div className="subtitle">Halaman informasi untuk bank soal essay</div>
+          <div className="subtitle">Halaman informasi paket soal</div>
           <Breadcrumb homeUrl="/aplikasi" homeText="Aplikasi">                                            
             <li><a href="#/aplikasi/quiz"><span>Kuis platform</span></a></li>   
-            <li><a href="#/aplikasi/quiz/essay"><span>Essay</span></a></li>               
-            <li><a href={"#/aplikasi/quiz/essay/"+this.tingkatID}><span>{tingkatan != null ? tingkatan.nama:"memuat..."}</span></a></li>  
-            <li><a href={"#/aplikasi/quiz/essay/"+this.tingkatID+"/"+this.mapelID}><span>{mapel != null ? mapel.nama:"memuat..."}</span></a></li>                  
+            <li><a href="#/aplikasi/quiz/paket"><span>Paket soal</span></a></li>               
+            <li><a href={"#/aplikasi/quiz/paket/"+this.tingkatID}><span>{tingkatan != null ? tingkatan.nama:"memuat..."}</span></a></li>  
+            <li><a href={"#/aplikasi/quiz/paket/"+this.tingkatID+"/"+this.mapelID}><span>{mapel != null ? mapel.nama:"memuat..."}</span></a></li>                  
           </Breadcrumb>
         </div>        
         <div className="mw9 center">
         <div className="cf ph3 mb3 flex flex-wrap">
         {data.length > 0 && !isLoading && tingkatan != null && mapel != null && data.map((value,k) => (                  
-          <MenuText key={k} url={"/aplikasi/quiz/essay/"+ this.tingkatID+"/"+this.mapelID +"/"+value.id} title={"Semester "+value.semester} jumlah={"Jumlah soal "+value.jumlah} subtitle={value.tahun} color="#333"/>        
+          <MenuText key={k} url={"/aplikasi/quiz/paket/"+ this.tingkatID+"/"+this.mapelID +"/"+value.id} title={"Semester "+value.semester} jumlah={"Jumlah paket soal "+value.jumlah} subtitle={value.tahun} color="#333"/>        
         ))}
         {isLoading && <MenuLoading/>}
         {tingkatan == null || mapel == null && !isLoading && <NotFound/>}
@@ -60,7 +60,7 @@ class PageAplikasiQuizEssaySemester extends React.Component{
   fetchData = (tingkat,mapel) => {     
     this.setState({isLoading:true});
     axios.get(
-      window.location.origin + `/api/pendidik/aplikasi/quiz/index/essay/${tingkat}/${mapel}?&nocache=`+Date.now()
+      window.location.origin + `/api/pendidik/aplikasi/quiz/index/paket/${tingkat}/${mapel}?&nocache=`+Date.now()
     ).then(response => {      
       this.setState({
         data:response.data.message.data,        
@@ -83,4 +83,4 @@ class PageAplikasiQuizEssaySemester extends React.Component{
   // ---------------------------- end of script
 }
 
-export default PageAplikasiQuizEssaySemester;
+export default PageAplikasiQuizPaketSemester;

@@ -47,7 +47,7 @@ class PageAplikasiQuizPilihanSemester extends React.Component{
           <div className="mw9 center">
           <div className="cf ph3 mb3 flex flex-wrap">
           {data.length > 0 && !isLoading && tingkatan != null && mapel != null && data.map((value,k) => (                   
-            <MenuText key={k} url={"/aplikasi/quiz/pilihan/"+ this.tingkatID+"/"+this.mapelID +"/"+value.id} title={"Semester "+value.semester} subtitle={value.tahun} jumlah={value.jumlah} color="#333"/>        
+            <MenuText key={k} url={"/aplikasi/quiz/pilihan/"+ this.tingkatID+"/"+this.mapelID +"/"+value.id} title={"Semester "+value.semester} subtitle={value.tahun} jumlah={"Jumlah soal "+value.jumlah} color="#333"/>        
           ))}
           {isLoading && <MenuLoading/>} 
           {tingkatan == null || mapel == null && !isLoading && <NotFound/>}     

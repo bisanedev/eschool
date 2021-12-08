@@ -20,6 +20,9 @@ import PageAplikasiQuizEssaySemester from './pages/aplikasi/quiz/essay/semester'
 import PageAplikasiQuizEssaySoal from './pages/aplikasi/quiz/essay/soal';
 import PageAplikasiQuizEssaySoalAdd from './pages/aplikasi/quiz/essay/add';
 import PageAplikasiQuizEssaySoalEdit from './pages/aplikasi/quiz/essay/edit';
+import PageAplikasiQuizPaket from './pages/aplikasi/quiz/paket';
+import PageAplikasiQuizPaketMapel from './pages/aplikasi/quiz/paket/mapel';
+import PageAplikasiQuizPaketSemester from './pages/aplikasi/quiz/paket/semester';
 //---- Sekolah
 import PageSekolah from './pages/sekolah';
 import PageSekolahKelas from './pages/sekolah/kelas';
@@ -59,7 +62,10 @@ export default function RouterApp() {
           <Route path="/aplikasi/quiz/essay/:tingkatID/:mapelID" element={<PrivateRoute komponen={PageAplikasiQuizEssaySemester}/>}/>
           <Route path="/aplikasi/quiz/essay/:tingkatID/:mapelID/:semesterID" element={<PrivateRoute komponen={PageAplikasiQuizEssaySoal}/>}/>
           <Route path="/aplikasi/quiz/essay/:tingkatID/:mapelID/:semesterID/add" element={<PrivateRoute komponen={PageAplikasiQuizEssaySoalAdd}/>}/>
-          <Route path="/aplikasi/quiz/essay/:tingkatID/:mapelID/:semesterID/:soalID" element={<PrivateRoute komponen={PageAplikasiQuizEssaySoalEdit}/>}/>          
+          <Route path="/aplikasi/quiz/essay/:tingkatID/:mapelID/:semesterID/:soalID" element={<PrivateRoute komponen={PageAplikasiQuizEssaySoalEdit}/>}/>
+          <Route path="/aplikasi/quiz/paket" element={<PrivateRoute komponen={PageAplikasiQuizPaket}/>}/>
+          <Route path="/aplikasi/quiz/paket/:tingkatID" element={<PrivateRoute komponen={PageAplikasiQuizPaketMapel}/>}/>
+          <Route path="/aplikasi/quiz/paket/:tingkatID/:mapelID" element={<PrivateRoute komponen={PageAplikasiQuizPaketSemester}/>}/>
           <Route path="/sekolah" element={<PrivateRoute komponen={PageSekolah}/>}/>          
           <Route path="/sekolah/kelas" element={<PrivateRoute komponen={PageSekolahKelas}/>}/>          
           <Route path="/sekolah/kelas/:kelasID" element={<PrivateRoute komponen={PageSekolahKelasSub}/>}/> 

@@ -3,7 +3,7 @@ import { Helmet } from 'react-helmet';
 import axios from "axios";
 import {Breadcrumb,MenuText,MenuLoading} from '../../../../components/menu';
 
-class PageAplikasiQuizPilihan extends React.Component{
+class PageAplikasiQuizPaket extends React.Component{
 
   constructor(props) {
     super(props);
@@ -31,16 +31,16 @@ class PageAplikasiQuizPilihan extends React.Component{
         </Helmet>
         <div className="headings">
           <div className="title">Kuis platform</div>
-          <div className="subtitle">Halaman informasi untuk bank soal pilihan ganda</div>
+          <div className="subtitle">Halaman informasi paket soal</div>
           <Breadcrumb homeUrl="/aplikasi" homeText="Aplikasi">                                            
             <li><a href="#/aplikasi/quiz"><span>Kuis platform</span></a></li>   
-            <li><a href="#/aplikasi/quiz/pilihan"><span>Pilihan ganda</span></a></li>                  
+            <li><a href="#/aplikasi/quiz/paket"><span>Paket soal</span></a></li>                   
           </Breadcrumb>
         </div>        
         <div className="mw9 center">
         <div className="cf ph3 mb3 flex flex-wrap">
         {data.length > 0 && !isLoading && data.map((value,k) => (                   
-          <MenuText key={k} url={"/aplikasi/quiz/pilihan/"+value.id} title={value.nama} jumlah={"Jumlah soal "+value.jumlah} color="#333"/>        
+          <MenuText key={k} url={"/aplikasi/quiz/paket/"+value.id} jumlah={"Jumlah paket soal "+value.jumlah} title={value.nama} color="#333"/>        
         ))}
         {isLoading && <MenuLoading/> } 
         </div>
@@ -52,7 +52,7 @@ class PageAplikasiQuizPilihan extends React.Component{
   fetchData = () => {     
     this.setState({isLoading:true});
     axios.get(
-      window.location.origin + "/api/pendidik/aplikasi/quiz/index/pilihan?&nocache="+Date.now()
+      window.location.origin + "/api/pendidik/aplikasi/quiz/index/paket?&nocache="+Date.now()
     ).then(response => {      
       this.setState({
         data:response.data.message,        
@@ -73,4 +73,4 @@ class PageAplikasiQuizPilihan extends React.Component{
   // ---------------------------- end of script
 }
 
-export default PageAplikasiQuizPilihan;
+export default PageAplikasiQuizPaket;

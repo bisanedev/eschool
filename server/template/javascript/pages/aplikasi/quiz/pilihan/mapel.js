@@ -46,7 +46,7 @@ class PageAplikasiQuizPilihanMapel extends React.Component{
           <div className="mw9 center">
           <div className="cf ph3 mb3 flex flex-wrap">
           {data.length > 0 && !isLoading && data.map((value,k) => (                   
-            <MenuText key={k} url={"/aplikasi/quiz/pilihan/"+ this.tingkatID +"/"+value.id} title={value.nama} jumlah={value.jumlah} style={{backgroundColor:value.color}} color="#fff"/>        
+            <MenuText key={k} url={"/aplikasi/quiz/pilihan/"+ this.tingkatID +"/"+value.id} title={value.nama} jumlah={"Jumlah soal "+value.jumlah} style={{backgroundColor:value.color}} color="#fff"/>        
           ))}
           {isLoading && <MenuLoading/> }         
           </div>

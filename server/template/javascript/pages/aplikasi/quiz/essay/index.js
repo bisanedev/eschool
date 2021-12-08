@@ -40,7 +40,7 @@ class PageAplikasiQuizEssay extends React.Component{
         <div className="mw9 center">
         <div className="cf ph3 mb3 flex flex-wrap">
         {data.length > 0 && !isLoading && data.map((value,k) => (                   
-          <MenuText key={k} url={"/aplikasi/quiz/essay/"+value.id} jumlah={value.jumlah} title={value.nama} color="#333"/>        
+          <MenuText key={k} url={"/aplikasi/quiz/essay/"+value.id} jumlah={"Jumlah soal "+value.jumlah} title={value.nama} color="#333"/>        
         ))}
         {isLoading && <MenuLoading/> } 
         </div>

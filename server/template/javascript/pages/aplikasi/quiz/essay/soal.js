@@ -100,8 +100,7 @@ class PageAplikasiQuizEssaySoal extends React.Component{
           </Table.Header>       
           <Table.Body column={true}>
             {data.length > 0 && !isLoading && data.map((value,k) => (
-                <Table.DataSoal key={k} nomor={k+1} text={value.pertanyaan_text} 
-                tipePertanyaan={value.tipe_pertanyaan} tipeJawaban={value.tipe_jawaban}                
+                <Table.DataSoal key={k} nomor={k+1} text={value.pertanyaan_text}                        
                 checked={selected.includes(value.id)} 
                 onChecked={() => this.onChecked(value.id)}
                 onDelete={() => this.onDelete(value)}

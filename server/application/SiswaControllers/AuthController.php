@@ -27,7 +27,7 @@ class AuthController
         $v = new Validator($_POST);
         $v->rule('required', ['username', 'password']);
         if($v->validate()) {      
-        $cekAuth = $this->database->select("siswa",["id","username","jenis","password","unique_token"],[
+        $cekAuth = $this->database->select("sekolah_siswa",["id","username","jenis","password","unique_token"],[
                 "username" => $_POST["username"]
         ]);        
         if(!empty($cekAuth)){            

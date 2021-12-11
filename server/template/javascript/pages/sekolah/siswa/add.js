@@ -3,7 +3,7 @@ import axios from 'axios';
 import { Helmet } from 'react-helmet';
 import Forbidden from "../../other/forbidden";
 import { Breadcrumb } from '../../../components/menu';
-import { InputText,InputPassword,Cards,Switcher } from '../../../components/forms';
+import { InputText,InputPassword,Cards } from '../../../components/forms';
 import { ToastContainer, toast } from 'react-toastify';
 import Cropper from "react-cropper";
 

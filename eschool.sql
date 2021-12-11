@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 07, 2021 at 09:06 AM
+-- Generation Time: Dec 11, 2021 at 05:49 AM
 -- Server version: 10.4.19-MariaDB
 -- PHP Version: 8.0.7
 
@@ -95,7 +95,7 @@ CREATE TABLE `quiz_exam` (
 --
 
 CREATE TABLE `quiz_exam_jawabansiswa` (
-  `id` int(11) NOT NULL,
+  `id` int(50) NOT NULL,
   `exam_id` int(11) NOT NULL,
   `siswa_id` int(11) NOT NULL,
   `paket_id` int(11) NOT NULL,
@@ -262,7 +262,7 @@ CREATE TABLE `sekolah_siswa` (
 --
 
 INSERT INTO `sekolah_siswa` (`id`, `nama`, `jenis`, `username`, `foto`, `no_absens`, `kelas_id`, `password`, `expired_token`, `unique_token`, `device_token`) VALUES
-(1, 'Adisty Titania', 'p', 'adisty', 1, 1, 1, '$2a$10$j4g.KF0zfxqSNAZouFPJHe7bz/VvgrzGOyFilfc.PMiUzY4zwgcEK', 1668574465, '619339813f15e', ''),
+(1, 'Adisty Titania', 'p', 'adisty', 1, 1, 1, '$2a$10$pR9ZEuPIIpEgBBMyD8G79uXZplUN5zB39xmlNni//KgajnGEwvW02', 1668574465, '619339813f15e', ''),
 (2, 'Auristela Allisya Lesham Shaenette', 'p', 'auristela', 1, 2, 1, '$2a$10$Y.rlT1vKIWPpkb68XsS7ZeJTrw3gJL3nsCIHI5A6.EBMPyIUOZpdW', 1668521970, '61926c727dffb', NULL),
 (3, 'Mastah Mandeliman', 'l', 'mandeliman', 1, 1, 2, '$2a$10$eSAZXak6xEZFFFBBS6Y6fuAu1VN4Ac2cHx5gFcYAm/qEQTrTPiQ4u', 1668518828, '6192602c9dc12', NULL),
 (4, 'Moho Man', 'l', 'moho', 1, 2, 2, '$2a$10$Q66RXXyIgvFpCa2V5iFk0uR/2JJZZ15Ls6pkrQtnr8I4GGxTtp2cu', 1668518919, '619260879ec22', NULL);
@@ -416,10 +416,16 @@ ALTER TABLE `quiz_exam`
   MODIFY `id` int(50) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `quiz_exam_jawabansiswa`
+--
+ALTER TABLE `quiz_exam_jawabansiswa`
+  MODIFY `id` int(50) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `quiz_paketsoal`
 --
 ALTER TABLE `quiz_paketsoal`
-  MODIFY `id` int(50) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `sekolah_kelasnama`

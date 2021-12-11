@@ -13,7 +13,7 @@ class PageAplikasiQuizPaketSoal extends React.Component{
     super(props);
     this.state = {
       nextPage:undefined,
-      total:5,
+      total:10,
       totalData:undefined,
       cari:undefined,
       isLoading:true,
@@ -89,9 +89,9 @@ class PageAplikasiQuizPaketSoal extends React.Component{
                 </div>   
               </div>                                                                          
               <select className="pa2 db gray ml2" value={total} onChange={this.handleSelectChange}>
-                <option label="5" value="5"/>
                 <option label="10" value="10"/>
-                <option label="15" value="15"/>
+                <option label="20" value="20"/>
+                <option label="30" value="30"/>
               </select>
               <div className="flex ml2">                
                 <InputSearch name="cari" value={cari ? cari:""} placeholder={cari ? "":"Cari paket soal"} onChange={this.handleInputChange} onReset={this.resetCari} onClick={this.handleCari} onKeyPress={this.handleKeyPress}/>

@@ -436,7 +436,7 @@ class PageAplikasiQuizPilihanSoalAdd extends React.Component{
       formData.append('pertanyaan_images',blobFileImage);      
     }
 
-    if(mathValue != "" || mathValue != undefined){
+    if(mathValue != undefined){
       formData.append('pertanyaan_tex',mathValue);    
     }
 

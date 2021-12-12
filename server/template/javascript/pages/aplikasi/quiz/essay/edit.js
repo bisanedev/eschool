@@ -7,7 +7,6 @@ import { EditorState} from 'draft-js';
 import { Breadcrumb } from '../../../../components/menu';
 import { Cards } from '../../../../components/forms';
 import { ToastContainer, toast } from 'react-toastify';
-import { toJpeg } from 'html-to-image';
 import { convertToHTML ,convertFromHTML} from 'draft-convert';
 import {encode,decode} from 'html-entities';
 import MathView from 'react-math-view';
@@ -27,8 +26,7 @@ class PageAplikasiQuizEssaySoalEdit extends React.Component{
       croppedImageUrl:"",
       srcAudio:"",
       pertanyaaanAudio:"",
-      toggleMath:false,
-      mathValue:"x=\\frac{-b\\pm\\sqrt{b^2-4ac}}{2a}",       
+      mathValue:"",       
     }
     this.handleInputChange = this.handleInputChange.bind(this);  
     this.tingkatID = this.props.params.tingkatID;
@@ -36,8 +34,7 @@ class PageAplikasiQuizEssaySoalEdit extends React.Component{
     this.semesterID = this.props.params.semesterID;    
     this.soalID = this.props.params.soalID; 
     this.navigate = this.props.navigate; 
-    this.cropper = React.createRef();   
-    this.captureRef = React.createRef();   
+    this.cropper = React.createRef();         
     this.math =  React.createRef();  
   }
 
@@ -50,7 +47,7 @@ class PageAplikasiQuizEssaySoalEdit extends React.Component{
   }
 
   render() {     
-    const {tingkatan,mapel,semester,editorState,uploadProgress,uploadDisable,jawaban,pilihan,files,pertanyaaanImages,pertanyaaanAudio} = this.state; 
+    const {tingkatan,mapel,semester,editorState,uploadProgress,uploadDisable,mathValue,pertanyaaanImages,pertanyaaanAudio} = this.state; 
     const uploadClass = uploadProgress ? "progress-active":"";     
     return (    
     <div className="konten"> 
@@ -97,6 +94,23 @@ class PageAplikasiQuizEssaySoalEdit extends React.Component{
             ):(
               this.gambarRender()
             )}
+            <div className="w-100 mb3">
+                <label className="f5 fw4 db mb2">Pertanyaan Rumus Matematika (Opsional)</label>
+                <div className="flex flex-column mb3">
+                <div className="mathWidth" style={{border:"1px solid rgba(0, 0, 0, 0.125)"}}> 
+                <MathView ref={this.math} value={mathValue}
+                      onFocus={() => {
+                        this.math.current.executeCommand('showVirtualKeyboard');
+                      }}
+                      onBlur={() => {        
+                        this.math.current.executeCommand('hideVirtualKeyboard');
+                      }} 
+                      onContentDidChange={() => {this.setState({mathValue:this.math.current.getValue('latex')});}}    
+                />
+                </div> 
+                <button className="w-30 pointer link dim br2 ba pa2 dib bg-white flex justify-center items-center mt2" style={{height:"25px",fontSize:"12px", marginLeft:"auto"}} onClick={() => this.math.current.executeCommand('showVirtualKeyboard')}><i className="material-icons-outlined mr1" style={{fontSize: "14px"}}>keyboard</i> Buka Virtual Keyboard</button>
+                </div>                
+            </div>
             {pertanyaaanAudio !="" ? (
               <div className="w-100 mb3">              
                <label className="f5 fw4 db mb2">Pertanyaan Audio (Opsional)</label>
@@ -209,6 +223,7 @@ class PageAplikasiQuizEssaySoalEdit extends React.Component{
         mapel:response.data.message.mapel,               
         pertanyaaanImages:response.data.message.data.pertanyaan_images,
         pertanyaaanAudio:response.data.message.data.pertanyaan_audio,
+        mathValue:response.data.message.data.pertanyaan_tex
       });   
     }).catch(error => {
       if(error.response.status == 401){                             
@@ -218,24 +233,17 @@ class PageAplikasiQuizEssaySoalEdit extends React.Component{
   }
   /*--- post new soal ----*/
   updateSoal = async () => {
-    const {toggleMath,croppedImageUrl,editorState,srcAudio} = this.state;
+    const {mathValue,croppedImageUrl,editorState,srcAudio} = this.state;
     this.setState({uploadProgress:true,uploadDisable:true});
     var formData = new FormData();
     
-    let pertanyaaan_images;
-    if(toggleMath){
-      pertanyaaan_images = await toJpeg(this.captureRef.current, {
-        quality: 1,
-        pixelRatio: 1,
-        canvasWidth:500, 
-        canvasHeight:250,
-        backgroundColor:"#fff"
-      });            
-    }else{ pertanyaaan_images = croppedImageUrl;}
-
-    if(pertanyaaan_images != "" || croppedImageUrl != ""){
-      var blobFileImage = this.b64toBlobIMG(pertanyaaan_images);       
+    if(croppedImageUrl != ""){
+      var blobFileImage = this.b64toBlobIMG(croppedImageUrl);       
       formData.append('pertanyaan_images',blobFileImage);      
+    }
+    
+    if(mathValue != "" || mathValue != undefined){
+      formData.append('pertanyaan_tex',mathValue);    
     }
 
     if(srcAudio != ""){

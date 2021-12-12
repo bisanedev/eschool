@@ -162,8 +162,9 @@ class QuizController extends ApiController
                     }       
                 }
             }
-            //insert database            
-            $this->database->insert("quiz_banksoal_pilihan",["tingkatan_id" => $tingkatID,"mapel_id" => $mapelID,"semester_id" => $semesterID,"pertanyaan_text" => $_POST["pertanyaan_text"],"jawaban" => $_POST["jawaban"],"pilihan" => $_POST["pilihan"]]);           
+            //insert database     
+            $tex = isset($_POST["pertanyaan_tex"]) ? $_POST["pertanyaan_tex"]:"";       
+            $this->database->insert("quiz_banksoal_pilihan",["tingkatan_id" => $tingkatID,"mapel_id" => $mapelID,"semester_id" => $semesterID,"pertanyaan_text" => $_POST["pertanyaan_text"],"pertanyaan_tex" => $tex,"jawaban" => $_POST["jawaban"],"pilihan" => $_POST["pilihan"]]);           
             $lastID = $this->database->id();
             //make folder
             if (isset($_FILES["pertanyaan_images"]) || isset($_FILES["pertanyaan_audio"]) || isset($_FILES["files"])){ 
@@ -218,7 +219,7 @@ class QuizController extends ApiController
         $tingkatan = $this->database->select("sekolah_kelastingkatan",["id","nama"],["id" => $tingkatID]); 
         $mapel = $this->database->select("sekolah_mapel",["id","nama"],["id" => $mapelID]); 
         $semester = $this->database->select("sekolah_semesternama",["[>]sekolah_semestertahun" => ["semester_tahun_id" => "id"]],["sekolah_semesternama.id","sekolah_semestertahun.nama(tahun)","sekolah_semesternama.semester"],["sekolah_semesternama.id" => $semesterID]);        
-        $soal = $this->database->select("quiz_banksoal_pilihan",["id","pertanyaan_text","pertanyaan_images","pertanyaan_audio","pilihan[JSON]","jawaban[JSON]"],["id" => $soalID]);            
+        $soal = $this->database->select("quiz_banksoal_pilihan",["id","pertanyaan_text","pertanyaan_images","pertanyaan_tex","pertanyaan_audio","pilihan[JSON]","jawaban[JSON]"],["id" => $soalID]);            
         $data = array("data" => $soal[0] ,"semester" => $semester[0],"tingkatan"=> $tingkatan[0] ,"mapel"=> $mapel[0] );
         echo $this->response->json_response(200, $data);
     }
@@ -259,8 +260,9 @@ class QuizController extends ApiController
                     }       
                 }
             }
-            //update database            
-            $this->database->update("quiz_banksoal_pilihan",["pertanyaan_text" => $_POST["pertanyaan_text"],"jawaban" => $_POST["jawaban"],"pilihan" => $_POST["pilihan"]],["AND" =>["id" => $_POST["id"],"tingkatan_id" => $tingkatID,"mapel_id" => $mapelID,"semester_id" => $semesterID]]);            
+            //update database   
+            $tex = isset($_POST["pertanyaan_tex"]) ? $_POST["pertanyaan_tex"]:"";
+            $this->database->update("quiz_banksoal_pilihan",["pertanyaan_text" => $_POST["pertanyaan_text"],"pertanyaan_tex" => $tex,"jawaban" => $_POST["jawaban"],"pilihan" => $_POST["pilihan"]],["AND" =>["id" => $_POST["id"],"tingkatan_id" => $tingkatID,"mapel_id" => $mapelID,"semester_id" => $semesterID]]);            
             //make folder
             if (isset($_FILES["pertanyaan_images"]) || isset($_FILES["pertanyaan_audio"]) || isset($_FILES["files"])){ 
                 if (!file_exists(__DIR__ ."/../../public/data/soal/pilihan/".$_POST["id"])) {
@@ -390,8 +392,9 @@ class QuizController extends ApiController
                 exit;
             }
                    
-            //insert database            
-            $this->database->insert("quiz_banksoal_essay",["tingkatan_id" => $tingkatID,"mapel_id" => $mapelID,"semester_id" => $semesterID,"pertanyaan_text" => $_POST["pertanyaan_text"]]);           
+            //insert database    
+            $tex = isset($_POST["pertanyaan_tex"]) ? $_POST["pertanyaan_tex"]:"";        
+            $this->database->insert("quiz_banksoal_essay",["tingkatan_id" => $tingkatID,"mapel_id" => $mapelID,"semester_id" => $semesterID,"pertanyaan_text" => $_POST["pertanyaan_text"],"pertanyaan_tex" => $tex]);           
             $lastID = $this->database->id();
             //make folder
             if (isset($_FILES["pertanyaan_images"]) || isset($_FILES["pertanyaan_audio"]) || isset($_FILES["files"])){ 
@@ -425,7 +428,7 @@ class QuizController extends ApiController
         $tingkatan = $this->database->select("sekolah_kelastingkatan",["id","nama"],["id" => $tingkatID]); 
         $mapel = $this->database->select("sekolah_mapel",["id","nama"],["id" => $mapelID]); 
         $semester = $this->database->select("sekolah_semesternama",["[>]sekolah_semestertahun" => ["semester_tahun_id" => "id"]],["sekolah_semesternama.id","sekolah_semestertahun.nama(tahun)","sekolah_semesternama.semester"],["sekolah_semesternama.id" => $semesterID]);        
-        $soal = $this->database->select("quiz_banksoal_essay",["id","pertanyaan_text","pertanyaan_images","pertanyaan_audio"],["id" => $soalID]);            
+        $soal = $this->database->select("quiz_banksoal_essay",["id","pertanyaan_text","pertanyaan_tex","pertanyaan_images","pertanyaan_audio"],["id" => $soalID]);            
         $data = array("data" => $soal[0] ,"semester" => $semester[0],"tingkatan"=> $tingkatan[0] ,"mapel"=> $mapel[0] );
         echo $this->response->json_response(200, $data);
     }
@@ -454,8 +457,9 @@ class QuizController extends ApiController
                 echo $this->response->json_response(400, "Pertanyaan gambar hanya file png, jpeg dan jpg yang bisa di upload");
                 exit;
             }
-            //update database            
-            $this->database->update("quiz_banksoal_essay",["pertanyaan_text" => $_POST["pertanyaan_text"]],["AND" =>["id" => $_POST["id"],"tingkatan_id" => $tingkatID,"mapel_id" => $mapelID,"semester_id" => $semesterID]]);            
+            //update database
+            $tex = isset($_POST["pertanyaan_tex"]) ? $_POST["pertanyaan_tex"]:"";             
+            $this->database->update("quiz_banksoal_essay",["pertanyaan_text" => $_POST["pertanyaan_text"],"pertanyaan_tex" => $tex],["AND" =>["id" => $_POST["id"],"tingkatan_id" => $tingkatID,"mapel_id" => $mapelID,"semester_id" => $semesterID]]);            
             //make folder
             if (isset($_FILES["pertanyaan_images"]) || isset($_FILES["pertanyaan_audio"]) || isset($_FILES["files"])){ 
                 if (!file_exists(__DIR__ ."/../../public/data/soal/essay/".$_POST["id"])) {

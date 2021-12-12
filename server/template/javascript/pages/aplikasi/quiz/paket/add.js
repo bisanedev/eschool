@@ -55,7 +55,11 @@ class PageAplikasiQuizPaketSoalAdd extends React.Component{
         </div>
         <div className="mw9 center cf ph3 flex">
         <div className="w-100">
-        <Cards title="Menambahkan paket soal" bodyClass="flex">
+        <div className="bg-white mr2 br2 mb2" style={{border:"1px solid rgba(0, 0, 0, 0.125)"}}>
+        <div className="pa3 bg-primary white">
+            <span className="f4">Menambahkan paket soal</span>
+        </div>      
+        <div className="flex">
         <div className="w-50 pa3">
           <div className="w-100 mb3">
             <label className="f5 fw4 db mb2">Nama paket soal</label>
@@ -80,7 +84,8 @@ class PageAplikasiQuizPaketSoalAdd extends React.Component{
             </div>      
           </div>
         </div>
-        </Cards>
+        </div>
+        </div>
         </div>
         </div>
         <ToastContainer />

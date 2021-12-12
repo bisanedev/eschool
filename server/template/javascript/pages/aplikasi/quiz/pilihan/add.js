@@ -7,7 +7,6 @@ import { EditorState } from 'draft-js';
 import { Breadcrumb } from '../../../../components/menu';
 import { Cards } from '../../../../components/forms';
 import { ToastContainer, toast } from 'react-toastify';
-import { toJpeg } from 'html-to-image';
 import { convertToHTML } from 'draft-convert';
 import {encode} from 'html-entities';
 import MathView from 'react-math-view';
@@ -30,7 +29,7 @@ class PageAplikasiQuizPilihanSoalAdd extends React.Component{
       croppedImageUrl:"",
       srcAudio:"",
       toggleMath:false,
-      mathValue:"x=\\frac{-b\\pm\\sqrt{b^2-4ac}}{2a}",
+      mathValue:"",
       jawaban:[],
       pilihan:[],
       files:[]          
@@ -40,8 +39,7 @@ class PageAplikasiQuizPilihanSoalAdd extends React.Component{
     this.mapelID = this.props.params.mapelID;
     this.semesterID = this.props.params.semesterID;    
     this.navigate = this.props.navigate; 
-    this.cropper = React.createRef();   
-    this.captureRef = React.createRef();   
+    this.cropper = React.createRef();        
     this.math =  React.createRef();  
   }
 
@@ -54,7 +52,7 @@ class PageAplikasiQuizPilihanSoalAdd extends React.Component{
   }
 
   render() {     
-    const {tingkatan,mapel,semester,src,srcAudio,editorState,errorSelect,uploadProgress,uploadDisable,toggleMath,mathValue,jawaban,pilihan,files} = this.state; 
+    const {tingkatan,mapel,semester,src,srcAudio,editorState,errorSelect,uploadProgress,uploadDisable,mathValue,jawaban,pilihan,files} = this.state; 
     const uploadClass = uploadProgress ? "progress-active":"";     
     return (    
     <div className="konten"> 
@@ -91,36 +89,13 @@ class PageAplikasiQuizPilihanSoalAdd extends React.Component{
               }}
             />
             </div>
-            <div className="w-100 mb3">
-                <div className="flex justify-between items-center mb2">
-                  <label className="f5 fw4 db">Pertanyaan Gambar (Opsional)</label>
-                  <div className="pointer link dim flex items-center" onClick={() => this.setState({toggleMath:!toggleMath})}>
-                    {toggleMath ? "Math":"File"} 
-                    {toggleMath ? (<i className="material-icons" style={{fontSize:25}}>calculate</i>):(<i className="material-icons" style={{fontSize:25}}>crop_original</i>)}
-                  </div>                  
-                </div>
-                {toggleMath ? (
-                  <> 
-                  <div ref={this.captureRef} className="mathWidth" style={{fontSize:"30px"}}> 
-                    <MathView ref={this.math} value={mathValue}
-                      onFocus={() => {
-                        this.math.current.executeCommand('showVirtualKeyboard');
-                      }}
-                      onBlur={() => {        
-                        this.math.current.executeCommand('hideVirtualKeyboard');
-                      }} 
-                      onContentDidChange={() => {this.setState({mathValue:this.math.current.getValue('latex')});}}    
-                    />                                                           
-                  </div>
-                  <button className="w-30 pointer link dim br2 ba pa2 dib bg-white flex justify-center items-center mt2" style={{height:"25px",fontSize:"12px", marginLeft:"auto"}} onClick={() => this.math.current.executeCommand('showVirtualKeyboard')}><i className="material-icons-outlined mr1" style={{fontSize: "14px"}}>keyboard</i> Buka Virtual Keyboard</button>
-                  </>
-                ):(
-                  <div className="flex justify-between items-center mb3">
+            <div className="w-100 mb3">                
+                <label className="f5 fw4 db mb2">Pertanyaan Gambar (Opsional)</label>                 
+                <div className="flex justify-between items-center mb3">
                     <input className="link pv2" type="file" accept="image/*" onChange={this.onSelectFile}/>
                     <button className="pointer link dim br2 ba pa2 dib bg-white" style={{height:"35px"}} onClick={() => this.setState({croppedImageUrl:"",src:""})}>Reset</button>
-                  </div>
-                )}                             
-                {src != null && !toggleMath && src != "" && (
+                </div>                             
+                {src != null && src != "" && (
                   <Cropper
                       src={src}
                       style={{ height: 250, width: "100%" }}                      
@@ -139,6 +114,23 @@ class PageAplikasiQuizPilihanSoalAdd extends React.Component{
                   <h5 className="p-5" style={{display:"flex",alignItems:"center",justifyContent:"center"}}>{errorSelect}</h5>
                 )}
             </div>
+            <div className="w-100 mb3">
+                <label className="f5 fw4 db mb2">Pertanyaan Rumus Matematika (Opsional)</label>
+                <div className="flex flex-column mb3">
+                <div className="mathWidth" style={{border:"1px solid rgba(0, 0, 0, 0.125)"}}> 
+                <MathView ref={this.math} value={mathValue}
+                      onFocus={() => {
+                        this.math.current.executeCommand('showVirtualKeyboard');
+                      }}
+                      onBlur={() => {        
+                        this.math.current.executeCommand('hideVirtualKeyboard');
+                      }} 
+                      onContentDidChange={() => {this.setState({mathValue:this.math.current.getValue('latex')});}}    
+                />
+                </div> 
+                <button className="w-30 pointer link dim br2 ba pa2 dib bg-white flex justify-center items-center mt2" style={{height:"25px",fontSize:"12px", marginLeft:"auto"}} onClick={() => this.math.current.executeCommand('showVirtualKeyboard')}><i className="material-icons-outlined mr1" style={{fontSize: "14px"}}>keyboard</i> Buka Virtual Keyboard</button>
+                </div>                
+            </div> 
             <div className="w-100 mb3">
                 <label className="f5 fw4 db mb2">Pertanyaan Audio (Opsional)</label>
                 <div className="flex justify-between items-center mb3">
@@ -217,9 +209,8 @@ class PageAplikasiQuizPilihanSoalAdd extends React.Component{
             }
             else if(row.type === "math"){
               return <PilihanMath 
-                key={idx} 
-                url=""  
-                value={files[idx].raw}
+                key={idx}          
+                value={row.data}
                 disRem={pilihan.length === idx+1 ? false:true}
                 checked={jawaban.includes(idx) ? true:false}
                 onChange={(value) => this.updateValue(value, idx)}                       
@@ -328,12 +319,8 @@ class PageAplikasiQuizPilihanSoalAdd extends React.Component{
       this.setState({files:file,pilihan:multiple}); 
     }
     else if(multiple[idx].type === "math" && value !=""){
-      var blobFileImage = this.b64toBlobIMG(value);
-      file[idx].nama = "jawaban_"+idx+".jpg";
-      file[idx].file = blobFileImage;
-      file[idx].raw = value;
-      multiple[idx].data = "jawaban_"+idx+".jpg";
-      this.setState({files:file,pilihan:multiple});       
+      multiple[idx].data = value;
+      this.setState({pilihan:multiple});       
     }else if(value === ""){
       file[idx].nama = "";
       file[idx].file = "";
@@ -440,24 +427,17 @@ class PageAplikasiQuizPilihanSoalAdd extends React.Component{
   }
   /*--- post new soal ----*/
   newSoal = async () => {
-    const {toggleMath,croppedImageUrl,editorState,srcAudio,pilihan,files,jawaban} = this.state;
+    const {croppedImageUrl,editorState,srcAudio,pilihan,files,jawaban,mathValue} = this.state;
     this.setState({uploadProgress:true,uploadDisable:true});
     var formData = new FormData();
     
-    let pertanyaaan_images;
-    if(toggleMath){
-      pertanyaaan_images = await toJpeg(this.captureRef.current, {
-        quality: 1,
-        pixelRatio: 1,
-        canvasWidth:500, 
-        canvasHeight:250,
-        backgroundColor:"#fff"
-      });            
-    }else{ pertanyaaan_images = croppedImageUrl;}
-
-    if(pertanyaaan_images != "" || croppedImageUrl != ""){
-      var blobFileImage = this.b64toBlobIMG(pertanyaaan_images);       
+    if(croppedImageUrl != ""){
+      var blobFileImage = this.b64toBlobIMG(croppedImageUrl);       
       formData.append('pertanyaan_images',blobFileImage);      
+    }
+
+    if(mathValue != "" || mathValue != undefined){
+      formData.append('pertanyaan_tex',mathValue);    
     }
 
     if(srcAudio != ""){

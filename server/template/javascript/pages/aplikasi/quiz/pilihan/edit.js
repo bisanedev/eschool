@@ -92,17 +92,6 @@ class PageAplikasiQuizPilihanSoalEdit extends React.Component{
               }}
             />
             </div>
-            {pertanyaaanImages !="" ? (
-            <div className="w-100 mb3">              
-              <label className="f5 fw4 db mb2">Pertanyaan Gambar (Opsional)</label>
-              <div className="relative">
-                <div className="link dim deleteFotoPertanyaan flex justify-center items-center" onClick={() => {this.setState({pertanyaaanImages:""})}}>Ganti foto<i className="material-icons-outlined" style={{fontSize: "14px"}}>close</i></div>
-                    <img src={`data/soal/pilihan/${this.soalID}/${pertanyaaanImages}`} style={{width:"100%",height:"100%"}}/>
-              </div>              
-            </div>
-            ):(
-              this.gambarRender()
-            )}
             <div className="w-100 mb3">
                 <label className="f5 fw4 db mb2">Pertanyaan Rumus Matematika (Opsional)</label>
                 <div className="flex flex-column mb3">
@@ -120,6 +109,17 @@ class PageAplikasiQuizPilihanSoalEdit extends React.Component{
                 <button className="w-30 pointer link dim br2 ba pa2 dib bg-white flex justify-center items-center mt2" style={{height:"25px",fontSize:"12px", marginLeft:"auto"}} onClick={() => this.math.current.executeCommand('showVirtualKeyboard')}><i className="material-icons-outlined mr1" style={{fontSize: "14px"}}>keyboard</i> Buka Virtual Keyboard</button>
                 </div>                
             </div> 
+            {pertanyaaanImages !="" ? (
+            <div className="w-100 mb3">              
+              <label className="f5 fw4 db mb2">Pertanyaan Gambar (Opsional)</label>
+              <div className="relative">
+                <div className="link dim deleteFotoPertanyaan flex justify-center items-center" onClick={() => {this.setState({pertanyaaanImages:""})}}>Ganti foto<i className="material-icons-outlined" style={{fontSize: "14px"}}>close</i></div>
+                    <img src={`data/soal/pilihan/${this.soalID}/${pertanyaaanImages}`} style={{width:"100%",height:"100%"}}/>
+              </div>              
+            </div>
+            ):(
+              this.gambarRender()
+            )}
             {pertanyaaanAudio !="" ? (
               <div className="w-100 mb3">              
                <label className="f5 fw4 db mb2">Pertanyaan Audio (Opsional)</label>

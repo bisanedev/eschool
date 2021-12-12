@@ -89,6 +89,23 @@ class PageAplikasiQuizPilihanSoalAdd extends React.Component{
               }}
             />
             </div>
+            <div className="w-100 mb3">
+                <label className="f5 fw4 db mb2">Pertanyaan Rumus Matematika (Opsional)</label>
+                <div className="flex flex-column mb3">
+                <div className="mathWidth" style={{border:"1px solid rgba(0, 0, 0, 0.125)"}}> 
+                <MathView ref={this.math} value={mathValue}
+                      onFocus={() => {
+                        this.math.current.executeCommand('showVirtualKeyboard');
+                      }}
+                      onBlur={() => {        
+                        this.math.current.executeCommand('hideVirtualKeyboard');
+                      }} 
+                      onContentDidChange={() => {this.setState({mathValue:this.math.current.getValue('latex')});}}    
+                />
+                </div> 
+                <button className="w-30 pointer link dim br2 ba pa2 dib bg-white flex justify-center items-center mt2" style={{height:"25px",fontSize:"12px", marginLeft:"auto"}} onClick={() => this.math.current.executeCommand('showVirtualKeyboard')}><i className="material-icons-outlined mr1" style={{fontSize: "14px"}}>keyboard</i> Buka Virtual Keyboard</button>
+                </div>                
+            </div> 
             <div className="w-100 mb3">                
                 <label className="f5 fw4 db mb2">Pertanyaan Gambar (Opsional)</label>                 
                 <div className="flex justify-between items-center mb3">
@@ -114,23 +131,6 @@ class PageAplikasiQuizPilihanSoalAdd extends React.Component{
                   <h5 className="p-5" style={{display:"flex",alignItems:"center",justifyContent:"center"}}>{errorSelect}</h5>
                 )}
             </div>
-            <div className="w-100 mb3">
-                <label className="f5 fw4 db mb2">Pertanyaan Rumus Matematika (Opsional)</label>
-                <div className="flex flex-column mb3">
-                <div className="mathWidth" style={{border:"1px solid rgba(0, 0, 0, 0.125)"}}> 
-                <MathView ref={this.math} value={mathValue}
-                      onFocus={() => {
-                        this.math.current.executeCommand('showVirtualKeyboard');
-                      }}
-                      onBlur={() => {        
-                        this.math.current.executeCommand('hideVirtualKeyboard');
-                      }} 
-                      onContentDidChange={() => {this.setState({mathValue:this.math.current.getValue('latex')});}}    
-                />
-                </div> 
-                <button className="w-30 pointer link dim br2 ba pa2 dib bg-white flex justify-center items-center mt2" style={{height:"25px",fontSize:"12px", marginLeft:"auto"}} onClick={() => this.math.current.executeCommand('showVirtualKeyboard')}><i className="material-icons-outlined mr1" style={{fontSize: "14px"}}>keyboard</i> Buka Virtual Keyboard</button>
-                </div>                
-            </div> 
             <div className="w-100 mb3">
                 <label className="f5 fw4 db mb2">Pertanyaan Audio (Opsional)</label>
                 <div className="flex justify-between items-center mb3">

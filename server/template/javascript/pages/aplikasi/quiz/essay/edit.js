@@ -83,17 +83,6 @@ class PageAplikasiQuizEssaySoalEdit extends React.Component{
               }}
             />
             </div>
-            {pertanyaaanImages !="" ? (
-            <div className="w-50 mb3">              
-              <label className="f5 fw4 db mb2">Pertanyaan Gambar (Opsional)</label>
-              <div className="relative">
-                <div className="link dim deleteFotoPertanyaan flex justify-center items-center" onClick={() => {this.setState({pertanyaaanImages:""})}}>Ganti foto<i className="material-icons-outlined" style={{fontSize: "14px"}}>close</i></div>
-                    <img src={`data/soal/essay/${this.soalID}/${pertanyaaanImages}`} style={{width:"100%",height:"100%"}}/>
-              </div>              
-            </div>
-            ):(
-              this.gambarRender()
-            )}
             <div className="w-100 mb3">
                 <label className="f5 fw4 db mb2">Pertanyaan Rumus Matematika (Opsional)</label>
                 <div className="flex flex-column mb3">
@@ -111,6 +100,17 @@ class PageAplikasiQuizEssaySoalEdit extends React.Component{
                 <button className="w-30 pointer link dim br2 ba pa2 dib bg-white flex justify-center items-center mt2" style={{height:"25px",fontSize:"12px", marginLeft:"auto"}} onClick={() => this.math.current.executeCommand('showVirtualKeyboard')}><i className="material-icons-outlined mr1" style={{fontSize: "14px"}}>keyboard</i> Buka Virtual Keyboard</button>
                 </div>                
             </div>
+            {pertanyaaanImages !="" ? (
+            <div className="w-50 mb3">              
+              <label className="f5 fw4 db mb2">Pertanyaan Gambar (Opsional)</label>
+              <div className="relative">
+                <div className="link dim deleteFotoPertanyaan flex justify-center items-center" onClick={() => {this.setState({pertanyaaanImages:""})}}>Ganti foto<i className="material-icons-outlined" style={{fontSize: "14px"}}>close</i></div>
+                    <img src={`data/soal/essay/${this.soalID}/${pertanyaaanImages}`} style={{width:"100%",height:"100%"}}/>
+              </div>              
+            </div>
+            ):(
+              this.gambarRender()
+            )}
             {pertanyaaanAudio !="" ? (
               <div className="w-100 mb3">              
                <label className="f5 fw4 db mb2">Pertanyaan Audio (Opsional)</label>
@@ -282,52 +282,33 @@ class PageAplikasiQuizEssaySoalEdit extends React.Component{
   }   
   /*--- foto render --*/
   gambarRender = () => {
-    const {toggleMath,src,errorSelect,mathValue} = this.state;
+    const {src,errorSelect} = this.state;
     return (
-      <div className="w-100 mb3">
-      <div className="flex justify-between items-center mb2">
-        <label className="f5 fw4 db">Pertanyaan Gambar (Opsional)</label>
-         <div className="pointer link dim flex items-center" onClick={() => this.setState({toggleMath:!toggleMath})}>
-          {toggleMath ? "Math":"File"} 
-          {toggleMath ? (<i className="material-icons" style={{fontSize:25}}>calculate</i>):(<i className="material-icons" style={{fontSize:25}}>crop_original</i>)}
-         </div>                  
-      </div>                
-      {toggleMath ? (
-        <> 
-        <div ref={this.captureRef} className="mathWidth" style={{fontSize:"30px"}}> 
-          <MathView ref={this.math} value={mathValue}
-            onFocus={() => {this.math.current.executeCommand('showVirtualKeyboard');}}
-            onBlur={() => {this.math.current.executeCommand('hideVirtualKeyboard');}}
-            onContentDidChange={() => {this.setState({mathValue:this.math.current.getValue('latex')});}}    
-          />                                                           
-        </div>
-        <button className="w-30 pointer link dim br2 ba pa2 dib bg-white flex justify-center items-center mt2" style={{height:"25px",fontSize:"12px", marginLeft:"auto"}} onClick={() => this.math.current.executeCommand('showVirtualKeyboard')}><i className="material-icons-outlined mr1" style={{fontSize: "14px"}}>keyboard</i> Buka Virtual Keyboard</button>
-        </>
-        ):(
-        <div className="flex justify-between items-center mb3">
+    <div className="w-100 mb3">                
+      <label className="f5 fw4 db mb2">Pertanyaan Gambar (Opsional)</label>                 
+      <div className="flex justify-between items-center mb3">
           <input className="link pv2" type="file" accept="image/*" onChange={this.onSelectFile}/>
           <button className="pointer link dim br2 ba pa2 dib bg-white" style={{height:"35px"}} onClick={() => this.setState({croppedImageUrl:"",src:""})}>Reset</button>
-        </div>
-        )}                             
-        {src != null && !toggleMath && src != "" && (
+      </div>                             
+      {src != null && src != "" && (
         <Cropper
-          src={src}
-          style={{ height: 250, width: "100%" }}                      
-          initialAspectRatio={4 / 3}                     
-          guides={false}
-          minCropBoxWidth={600}    
-          minCropBoxHeight={430}
-          crop={this._crop.bind(this)}
-          onInitialized={this.onCropperInit.bind(this)} 
-          ref={this.cropper}
-          cropBoxResizable={false}
-          dragMode={'move'}                     
+            src={src}
+            style={{ height: 250, width: "100%" }}                      
+            initialAspectRatio={4 / 3}                     
+            guides={false}
+            minCropBoxWidth={600}    
+            minCropBoxHeight={430}
+            crop={this._crop.bind(this)}
+            onInitialized={this.onCropperInit.bind(this)} 
+            ref={this.cropper}
+            cropBoxResizable={false}
+            dragMode={'move'}                     
         />
-        )}
-        {src === null && (
-         <h5 className="p-5" style={{display:"flex",alignItems:"center",justifyContent:"center"}}>{errorSelect}</h5>
-        )}
-     </div>
+      )}
+      {src === null && (
+        <h5 className="p-5" style={{display:"flex",alignItems:"center",justifyContent:"center"}}>{errorSelect}</h5>
+      )}
+    </div>
     );
   }
   /*--- audio render ---*/

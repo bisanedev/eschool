@@ -69,7 +69,7 @@ function Pagination(props) {
         {val}
         </span>
         )} 
-        {props.pages < props.pageSize && halaman.map((val, i) => 
+        {props.pages <= props.pageSize && halaman.map((val, i) => 
         <span key={i} onClick={() => props.pilihPage(val)} className={props.current === val ? "dtc link primary pv2 ph3":"dtc link dim pointer gray pv2 ph3"} style={{borderLeft:"1px solid rgba(0, 0, 0, 0.125)"}}>
         {val}
         </span>

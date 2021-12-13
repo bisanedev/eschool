@@ -2,7 +2,7 @@ import React from "react";
 import axios from "axios";
 import { Helmet } from "react-helmet";
 import { Breadcrumb } from "../../../../components/menu";
-import { Cards,InputText,InputNumber } from "../../../../components/forms";
+import { SwitchMini,InputText,InputNumber } from "../../../../components/forms";
 import { ToastContainer, toast } from 'react-toastify';
 
 class PageAplikasiQuizPaketSoalAdd extends React.Component{
@@ -12,8 +12,9 @@ class PageAplikasiQuizPaketSoalAdd extends React.Component{
       this.state = {
           data:[],
           bobotPilihan:0,
-          bobotEssay:0,           
-          isLoading:true,
+          bobotEssay:0,  
+          acak:false,         
+          isLoading:true,      
       } 
 
       this.handleInputChange = this.handleInputChange.bind(this);   
@@ -33,7 +34,7 @@ class PageAplikasiQuizPaketSoalAdd extends React.Component{
 
     
   render() {     
-    const {uploadProgress,uploadDisable,tingkatan,mapel,semester,bobotPilihan,bobotEssay} = this.state; 
+    const {uploadProgress,uploadDisable,tingkatan,mapel,semester,bobotPilihan,bobotEssay,acak} = this.state; 
     const uploadClass = uploadProgress ? "progress-active":""; 
     const totalBobot = parseInt(bobotPilihan)+parseInt(bobotEssay);    
     return (  
@@ -56,8 +57,14 @@ class PageAplikasiQuizPaketSoalAdd extends React.Component{
         <div className="mw9 center cf ph3 flex">
         <div className="w-100">
         <div className="bg-white mr2 br2 mb2" style={{border:"1px solid rgba(0, 0, 0, 0.125)"}}>
-        <div className="pa3 bg-primary white">
-            <span className="f4">Menambahkan paket soal</span>
+        <div className="flex">
+            <span className="pa3 f4 bg-primary white flex items-center" style={{width:"88%"}}>Menambahkan paket soal</span>
+            <div className="w-20 flex justify-center items-center" style={{width:"12%",borderBottom:"1px solid rgba(0, 0, 0, 0.125)"}}>
+              <div className="flex flex-column items-center">
+                <label className="f7 fw4 db mb1">Acak soal & jawaban</label>
+                <SwitchMini name="acak" onChange={this.handleInputChange}/>
+              </div>
+            </div>
         </div>      
         <div className="flex">
         <div className="w-50 pa3">

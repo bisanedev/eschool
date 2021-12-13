@@ -7,6 +7,7 @@ import InputNumber from "./number";
 import InputSearch from "./search";
 import InputColor from "./color";
 import Switcher from "./switch";
+import SwitchMini from "./switchmini";
 
 export {
     Cards,
@@ -17,5 +18,6 @@ export {
     InputNumber,
     InputColor,
     InputMath,
-    Switcher        
+    Switcher,
+    SwitchMini      
 }

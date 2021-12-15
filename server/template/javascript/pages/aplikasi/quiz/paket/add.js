@@ -3,16 +3,21 @@ import axios from "axios";
 import { Helmet } from "react-helmet";
 import { Breadcrumb } from "../../../../components/menu";
 import { SwitchMini,InputText,InputNumber } from "../../../../components/forms";
+import Tabs from "../../../../components/tabs";
 import { ToastContainer, toast } from 'react-toastify';
 
 class PageAplikasiQuizPaketSoalAdd extends React.Component{
 
     constructor(props) {
       super(props);
-      this.state = {
-          data:[],
+      this.state = {  
+          nama:"",
           bobotPilihan:0,
-          bobotEssay:0,  
+          bobotEssay:0,
+          paketPilihan:[],
+          paketEssay:[],
+          pilihan:[],
+          essay:[],
           acak:false,         
           isLoading:true,      
       } 
@@ -54,14 +59,14 @@ class PageAplikasiQuizPaketSoalAdd extends React.Component{
             <li><a href="#"><span>Menambahkan paket soal</span></a></li>   
           </Breadcrumb>   
         </div>
-        <div className="mw9 center cf ph3 flex">
+        <div className="mw9 center cf ph3 flex flex-column">
         <div className="w-100">
-        <div className="bg-white mr2 br2 mb2" style={{border:"1px solid rgba(0, 0, 0, 0.125)"}}>
+        <div className="bg-white br2 mb2" style={{border:"1px solid rgba(0, 0, 0, 0.125)"}}>
         <div className="flex">
             <span className="pa3 f4 bg-primary white flex items-center" style={{width:"88%"}}>Menambahkan paket soal</span>
             <div className="w-20 flex justify-center items-center" style={{width:"12%",borderBottom:"1px solid rgba(0, 0, 0, 0.125)"}}>
               <div className="flex flex-column items-center">
-                <label className="f7 fw4 db mb1">Acak soal & jawaban</label>
+                <label className="f7 fw4 db mb1">Acak urutan soal</label>
                 <SwitchMini name="acak" onChange={this.handleInputChange}/>
               </div>
             </div>
@@ -93,6 +98,27 @@ class PageAplikasiQuizPaketSoalAdd extends React.Component{
         </div>
         </div>
         </div>
+        </div>
+        <div className="w-100 flex mb3">
+          <div className="w-40 mr1">
+            <div className="flex bg-white justify-between items-center ph2" style={{height:"49px",border:"1px solid rgba(0, 0, 0, 0.125)"}}>
+              <span className="f5 b">Soal yang dipilih</span>
+              <span className="f5">20 terpilih</span>
+            </div>
+            <div className="bg-white paket-container">
+              
+            </div>
+          </div>
+          <div className="w-60">
+          <Tabs>
+            <div label="Pilihan ganda">
+              Pilih soal Pilihan ganda
+            </div>
+            <div label="Essay">
+              pilih soal Essay
+            </div>  
+          </Tabs>
+          </div>
         </div>
         </div>
         <ToastContainer />

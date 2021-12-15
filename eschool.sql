@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 13, 2021 at 11:47 AM
+-- Generation Time: Dec 15, 2021 at 06:13 AM
 -- Server version: 10.4.19-MariaDB
 -- PHP Version: 8.0.7
 
@@ -137,7 +137,7 @@ CREATE TABLE `quiz_paketsoal` (
   `mapel_id` int(11) NOT NULL,
   `semester_id` int(11) NOT NULL,
   `nama` varchar(300) NOT NULL,
-  `acak` tinyint(1) NOT NULL,
+  `acak_soal` tinyint(1) NOT NULL,
   `bobot_pilihan` int(11) NOT NULL,
   `bobot_essay` int(11) NOT NULL,
   `pilihan_terpilih` text NOT NULL,

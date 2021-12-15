@@ -50,7 +50,7 @@ class PageSekolahSiswaEdit extends React.Component{
     const {tokenData} = this.props;
     const {jenis,kelasData,kelas,noAbsen,nama,username,superuser,isLoading,src,croppedImageUrl,errorSelect,uploadProgress,uploadDisable,rawUsername,showHapusFoto,foto} = this.state;    
     const uploadClass = uploadProgress ? "progress-active":"";  
-    const NomorAbsens = Array(40).fill(1).map((x, y) => x + y);  
+    const NomorAbsens = Array(100).fill(1).map((x, y) => x + y);  
     return (
     <>  
     <div className="konten"> 

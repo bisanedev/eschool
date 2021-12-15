@@ -44,7 +44,7 @@ class PageSekolahSiswaAdd extends React.Component{
     const {jenis,kelasData,kelas,noAbsen,isLoading,src,croppedImageUrl,errorSelect,uploadProgress,uploadDisable} = this.state; 
     let foto = <img src={jenis === "l" ? "assets/images/cowok.png":"assets/images/cewek.png"} />;  
     const uploadClass = uploadProgress ? "progress-active":"";    
-    const NomorAbsens = Array(40).fill(1).map((x, y) => x + y);
+    const NomorAbsens = Array(100).fill(1).map((x, y) => x + y);
     return (
     <>  
     <div className="konten"> 

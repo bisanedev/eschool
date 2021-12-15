@@ -12156,6 +12156,43 @@ code, .code {
 }
 
 /*# sourceMappingURL=react-draft-wysiwyg.css.map*/
+.paket-container {
+  height: 500px;
+  border: 1px solid rgba(0, 0, 0, 0.125);
+  border-top: none;
+  overflow-y: auto;
+  scrollbar-width: thin;
+}
+
+.tabs {
+  background-color: white;
+  border: 1px solid rgba(0, 0, 0, 0.125);
+}
+
+.tab-list {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+  padding-left: 0;
+  margin: auto;
+  height: 48px;
+}
+
+.tab-list-item {
+  display: inline-block;
+  list-style: none;
+  margin-bottom: -1px;
+  height: 47px;
+  cursor: pointer;
+}
+
+.tab-list-active {
+  background-color: #ddd;
+  border-width: 1px 1px 0 1px;
+}
+
+.tab-content {
+  height: 500px;
+}
+
 /* regular */
 @font-face {
   font-family: "Material Icons";
@@ -13504,6 +13541,21 @@ body {
 /* calendar */
 .react-datepicker__day--selected, .react-datepicker__day--in-selecting-range, .react-datepicker__day--in-range {
   background-color: #0191d7 !important;
+}
+
+/* mini only chrome*/
+::-webkit-scrollbar {
+  width: 12px;
+}
+
+::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.5);
 }
 
 /* coba */

@@ -61,7 +61,7 @@ class PageAplikasiQuizPaketSoalAdd extends React.Component{
         </div>
         <div className="mw9 center cf ph3 flex flex-column">
         <div className="w-100">
-        <div className="bg-white br2 mb2" style={{border:"1px solid rgba(0, 0, 0, 0.125)"}}>
+        <div className="bg-white br2 mb1" style={{border:"1px solid rgba(0, 0, 0, 0.125)"}}>
         <div className="flex">
             <span className="pa3 f4 bg-primary white flex items-center" style={{width:"88%"}}>Menambahkan paket soal</span>
             <div className="w-20 flex justify-center items-center" style={{width:"12%",borderBottom:"1px solid rgba(0, 0, 0, 0.125)"}}>

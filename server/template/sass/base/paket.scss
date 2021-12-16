@@ -4,6 +4,8 @@
     border-top: none;
     overflow-y: auto;
     scrollbar-width: thin;
+    display: flex;
+    flex-direction: column;
 }
 .tabs {
     background-color: white;
@@ -27,5 +29,8 @@
   border-width: 1px 1px 0 1px;
 }
 .tab-content{
-    height: 500px;
+  display: flex;
+  height: 500px;
+  align-items: center;
+  flex-direction: column;  
 }

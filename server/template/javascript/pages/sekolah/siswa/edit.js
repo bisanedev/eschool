@@ -95,7 +95,7 @@ class PageSekolahSiswaEdit extends React.Component{
                 </header> 
                 )}
                 <select className="pa2 db w-100" value={kelas} onChange={this.handleSelectKelas}>
-                <option value="100" disabled>Pilih kelas</option>
+                <option value="disable" disabled>Pilih kelas</option>
                   {kelasData.length > 0 && !isLoading && kelasData.map((value,k) => (
                     <option key={k} label={value.nama} value={value.id}/>                    
                   ))}
@@ -104,7 +104,7 @@ class PageSekolahSiswaEdit extends React.Component{
                 <div className="w-50 ml2">
                 <label className="f5 fw4 db mb2">No urut absen</label>  
                 <select className="pa2 db w-100" value={noAbsen} onChange={this.handleSelectAbsen}>
-                <option value="100" disabled>Pilih nomor</option>
+                <option value="disable" disabled>Pilih nomor</option>
                   {NomorAbsens.map((value,k) => (
                     <option key={k} label={"Nomor "+value} value={value}/>                    
                   ))}
@@ -248,11 +248,17 @@ class PageSekolahSiswaEdit extends React.Component{
   }   
   /*--- select kelas ---*/
   handleSelectKelas = (event) => {
-    this.setState({kelas:event.target.value});                
+    var value = event.target.value;
+    if(value != "disable"){      
+      this.setState({kelas:value},() => this.fetchCountKelas(value));
+    }
   }
   /*--- select nomor ---*/
   handleSelectAbsen = (event) => {
-    this.setState({noAbsen:event.target.value}); 
+    var value = event.target.value;
+    if(value != "disable"){
+      this.setState({noAbsen:event.target.value}); 
+    }   
   }
   /*--- fetch data ---*/
   fetchData = () => {     

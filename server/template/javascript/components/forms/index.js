@@ -19,5 +19,5 @@ export {
     InputColor,
     InputMath,
     Switcher,
-    SwitchMini      
+    SwitchMini
 }

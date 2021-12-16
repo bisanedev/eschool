@@ -98,7 +98,8 @@ class QuizController extends ApiController
         $tingkatan = $this->database->select("sekolah_kelastingkatan",["id","nama"],["id" => $tingkatID]); 
         $mapel = $this->database->select("sekolah_mapel",["id","nama"],["id" => $mapelID]); 
         $semester = $this->database->select("sekolah_semesternama",["[>]sekolah_semestertahun" => ["semester_tahun_id" => "id"]],["sekolah_semesternama.id","sekolah_semestertahun.nama(tahun)","sekolah_semesternama.semester"],["sekolah_semesternama.id" => $semesterID]);
-        $data = array("semester" => $semester[0],"tingkatan"=> $tingkatan[0] ,"mapel"=> $mapel[0] );
+        $semesterData = $this->database->select("sekolah_semesternama",["[>]sekolah_semestertahun" => ["semester_tahun_id" => "id"]],["sekolah_semesternama.id","sekolah_semesternama.id(value)","label" => Medoo::raw("CONCAT(sekolah_semestertahun.nama,' (Semester ',sekolah_semesternama.semester,')')")],["ORDER" => ["id" => "DESC"]]);
+        $data = array("semester" => $semester[0],"tingkatan"=> $tingkatan[0] ,"mapel"=> $mapel[0] , "semesterdata" => $semesterData );
         echo $this->response->json_response(200, $data);
     }    
 
@@ -529,16 +530,16 @@ class QuizController extends ApiController
         $tingkatan = $this->database->select("sekolah_kelastingkatan",["id","nama"],["id" => $tingkatID]); 
         $mapel = $this->database->select("sekolah_mapel",["id","nama"],["id" => $mapelID]);
         $semester = $this->database->select("sekolah_semesternama",["[>]sekolah_semestertahun" => ["semester_tahun_id" => "id"]],["sekolah_semesternama.id","sekolah_semestertahun.nama(tahun)","sekolah_semesternama.semester"],["sekolah_semesternama.id" => $semesterID]);
-        $totalRow = $this->database->count("quiz_paketsoal",["AND" => ["tingkatan_id" => $tingkatID,"mapel_id" => $mapelID ,"semester_id" => $semesterID]]);
+        $totalRow = $this->database->count("quiz_paketsoal",["AND" => ["tingkatan_id" => $tingkatID,"mapel_id" => $mapelID ,"semester_id" => $semesterID]]);        
 
         if(isset($_GET['cari'])){
             $soal = $this->database->select("quiz_paketsoal",["id","nama","acak[bool]","bobot_pilihan","bobot_essay","pilihan_terpilih[JSON]","essay_terpilih[JSON]"],["AND" => ["tingkatan_id" => $tingkatID,"mapel_id" => $mapelID ,"semester_id" => $semesterID],"nama[~]" => $cari]);
-            $data = array("data" => $soal,"totaldata"=>$totalRow ,"tingkatan" => $tingkatan[0] , "mapel" => $mapel[0] , "semester" => $semester[0] ,"nextpage"=> false );
+            $data = array("data" => $soal,"totaldata" => $totalRow ,"tingkatan" => $tingkatan[0] , "mapel" => $mapel[0] , "semester" => $semester[0] ,"nextpage"=> false );
         }else{
             $soal = $this->database->select("quiz_paketsoal",["id","nama","acak[bool]","bobot_pilihan","bobot_essay","pilihan_terpilih[JSON]","essay_terpilih[JSON]"],["AND" => ["tingkatan_id" => $tingkatID,"mapel_id" => $mapelID ,"semester_id" => $semesterID],"LIMIT" => [$mulai,$totalData],"ORDER" => ["id" => "DESC"]]);            
             $pages = ceil($totalRow/$totalData);
             $nextpage = ($page < $pages) ? $page+1 : false;
-            $data = array("data" => $soal,"totaldata"=>$totalRow,"tingkatan" => $tingkatan[0] , "mapel" => $mapel[0] , "semester" => $semester[0],"pages" => $pages,"current" => $page,"nextpage"=> $nextpage );            
+            $data = array("data" => $soal,"totaldata" => $totalRow,"tingkatan" => $tingkatan[0] , "mapel" => $mapel[0] , "semester" => $semester[0],"pages" => $pages,"current" => $page,"nextpage"=> $nextpage );            
         }  
         echo $this->response->json_response(200, $data);   
     }

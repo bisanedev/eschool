@@ -16,10 +16,13 @@ class PageAplikasiQuizPaketSoalAdd extends React.Component{
           bobotEssay:0,
           paketPilihan:[],
           paketEssay:[],
-          pilihan:[],
-          essay:[],
+          dataPilihan:[],
+          dataEssay:[],
           acak:false,         
-          isLoading:true,      
+          isLoading:true, 
+          semesterPickPilihan:null,
+          semesterPickEssay:null,
+          semesterData:[] 
       } 
 
       this.handleInputChange = this.handleInputChange.bind(this);   
@@ -39,7 +42,7 @@ class PageAplikasiQuizPaketSoalAdd extends React.Component{
 
     
   render() {     
-    const {uploadProgress,uploadDisable,tingkatan,mapel,semester,bobotPilihan,bobotEssay,acak} = this.state; 
+    const {uploadProgress,uploadDisable,tingkatan,mapel,semester,bobotPilihan,bobotEssay,acak,paketPilihan,paketEssay,dataPilihan,dataEssay,semesterPickPilihan,semesterPickEssay,semesterData} = this.state; 
     const uploadClass = uploadProgress ? "progress-active":""; 
     const totalBobot = parseInt(bobotPilihan)+parseInt(bobotEssay);    
     return (  
@@ -99,26 +102,42 @@ class PageAplikasiQuizPaketSoalAdd extends React.Component{
         </div>
         </div>
         </div>
-        <div className="w-100 flex mb3">
+        <div className="w-100 flex mb1">
           <div className="w-40 mr1">
-            <div className="flex bg-white justify-between items-center ph2" style={{height:"49px",border:"1px solid rgba(0, 0, 0, 0.125)"}}>
+            <div className="flex bg-white justify-between items-center ph2" style={{height:"50px",border:"1px solid rgba(0, 0, 0, 0.125)"}}>
               <span className="f5 b">Soal yang dipilih</span>
               <span className="f5">20 terpilih</span>
             </div>
             <div className="bg-white paket-container">
-              
+              {paketPilihan.length > 0 && (<span className="f6 b pv1 bb b--primary mb2 primary bw1">Pilihan ganda</span>)}
+
+              {paketEssay.length > 0 && (<span className="f6 b pv1 bb b--primary mb2 primary bw1">Essay</span>)}
+
             </div>
           </div>
           <div className="w-60">
           <Tabs>
             <div label="Pilihan ganda">
-              Pilih soal Pilihan ganda
+                            
+              <div className="flex justify-center items-center pa3 flex-column w-100" style={{border:"3px dashed rgba(0, 0, 0, 0.125)",height:200}}>
+                <span className="f4 gray">Soal pilihan ganda kosong</span>
+                <span className="f7 gray i">Silahkan pilih semester pada tombol dropdown diatas</span>
+              </div>
+              
             </div>
             <div label="Essay">
-              pilih soal Essay
+                            
+              <div className="flex justify-center items-center pa3 flex-column w-100" style={{border:"3px dashed rgba(0, 0, 0, 0.125)",height:200}}>
+                <span className="f4 gray">Soal essay kosong</span>
+                <span className="f7 gray i">Silahkan pilih semester pada tombol dropdown diatas</span>
+              </div>
+                               
             </div>  
           </Tabs>
           </div>
+        </div>
+        <div className="flex items-center justify-center bg-near-white mb3" style={{border:"1px solid rgba(0, 0, 0, 0.125)",height:"58px"}}>            
+            <button type="submit" className={`${uploadClass} dim pointer w-30 tc b f7 link br2 ba ph3 pv2 dib white bg-primary b--primary`} disabled={uploadDisable} onClick={this.newPaket}>Tambahkan paket soal</button> 
         </div>
         </div>
         <ToastContainer />
@@ -155,6 +174,27 @@ class PageAplikasiQuizPaketSoalAdd extends React.Component{
     }      
   }
 
+  handleSelectPilihan = (value) => {
+    this.setState({semesterPickPilihan:value},() => this.fetchPilihanSoal(value));
+  }
+
+  handleSelectEssay = (value) => {
+    this.setState({semesterPickEssay:value},() => this.fetchEssaySoal(value));
+  }
+
+  fetchPilihanSoal = (value) => {  
+    if(value === "disable"){
+      return false;
+    }
+    console.log(value);
+  }
+
+  fetchEssaySoal = (value) => {
+    if(value === "disable"){
+      return false;
+    }
+    console.log(value);
+  }
   /*--- fetch data ---*/
    fetchData = (tingkat,mapel,semester) => {   
     axios.get(
@@ -163,13 +203,18 @@ class PageAplikasiQuizPaketSoalAdd extends React.Component{
       this.setState({
         semester:response.data.message.semester,        
         tingkatan:response.data.message.tingkatan,
-        mapel:response.data.message.mapel        
+        mapel:response.data.message.mapel,
+        semesterData:response.data.message.semesterdata
       });
     }).catch(error => {
       if(error.response.status == 401){                             
         this.logout();
       }
     });
+  }
+  /*--- post data ---*/
+  newPaket = () => {
+    console.log("new paket soal");
   }
   /*--- Logout ---*/
   logout = () => {   

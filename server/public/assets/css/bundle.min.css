@@ -12162,6 +12162,8 @@ code, .code {
   border-top: none;
   overflow-y: auto;
   scrollbar-width: thin;
+  display: flex;
+  flex-direction: column;
 }
 
 .tabs {
@@ -12190,7 +12192,10 @@ code, .code {
 }
 
 .tab-content {
+  display: flex;
   height: 500px;
+  align-items: center;
+  flex-direction: column;
 }
 
 /* regular */

@@ -157,8 +157,8 @@ class PageAplikasiQuizPilihanSoalEdit extends React.Component{
               </span>
             </div>  
             {pilihan.length === 0 && 
-              <div className="flex justify-center items-center pa3" style={{border:"3px dashed rgba(0, 0, 0, 0.125)",height:"125px"}}>
-                <span className="f4 gray">Jawaban Pilihan Ganda Kosong</span>
+              <div className="flex justify-center items-center pa3" style={{border:"3px dashed rgba(0, 0, 0, 0.125)",height:"125px"}}>                
+                <span className="f4 gray">Jawaban pilihan ganda kosong</span>
               </div> 
             }                
             {pilihan.length > 0 && pilihan.map((row, idx) => {

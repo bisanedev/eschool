@@ -5,6 +5,7 @@ import { Breadcrumb } from "../../../../components/menu";
 import { SwitchMini,InputText,InputNumber } from "../../../../components/forms";
 import Tabs from "../../../../components/tabs";
 import { ToastContainer, toast } from 'react-toastify';
+import Select from "react-select/select";
 
 class PageAplikasiQuizPaketSoalAdd extends React.Component{
 
@@ -118,7 +119,7 @@ class PageAplikasiQuizPaketSoalAdd extends React.Component{
           <div className="w-60">
           <Tabs>
             <div label="Pilihan ganda">
-                            
+              <Select value={semesterPickPilihan} onChange={this.handleSelectPilihan} options={semesterData}/>
               <div className="flex justify-center items-center pa3 flex-column w-100" style={{border:"3px dashed rgba(0, 0, 0, 0.125)",height:200}}>
                 <span className="f4 gray">Soal pilihan ganda kosong</span>
                 <span className="f7 gray i">Silahkan pilih semester pada tombol dropdown diatas</span>

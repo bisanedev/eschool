@@ -409,3 +409,22 @@ input:checked + .slider:before {
 .slider.round:before {
   border-radius: 50%;
 }
+
+.rw-widget-picker{
+  border: 1px solid rgba(0, 0, 0, 0.125);
+  border-radius: 0;
+  background-color: #f3f3f3;
+  box-shadow:none;
+}
+
+.rw-widget-picker:focus {
+  border: 1px solid $primary-color;
+}
+
+.rw-dropdown-list-value{
+  padding-top: 3px;
+}
+
+.rw-popup {
+  border-radius: 0;
+}

@@ -66,7 +66,7 @@ class PageSekolahSiswa extends React.Component{
             <div className="w-50 ph2 flex">
               <a type="submit" href="#/sekolah/siswa/add" style={{cursor: "pointer",borderColor:"#0191d7"}} className="flex items-center justify-center link dim br1 ba pa2 dib white bg-primary mr2">                
                 <i className="material-icons-outlined" style={{fontSize:"20px"}}>add</i>
-              </a>
+              </a>              
               <select className="pa2 db w-40" value={kelas} onChange={this.handleSelectKelas}>
                 <option value="all">Semua kelas</option>
                   {kelasData.length > 0 && kelasData.map((value,k) => (

@@ -98,7 +98,7 @@ class QuizController extends ApiController
         $tingkatan = $this->database->select("sekolah_kelastingkatan",["id","nama"],["id" => $tingkatID]); 
         $mapel = $this->database->select("sekolah_mapel",["id","nama"],["id" => $mapelID]); 
         $semester = $this->database->select("sekolah_semesternama",["[>]sekolah_semestertahun" => ["semester_tahun_id" => "id"]],["sekolah_semesternama.id","sekolah_semestertahun.nama(tahun)","sekolah_semesternama.semester"],["sekolah_semesternama.id" => $semesterID]);
-        $semesterData = $this->database->select("sekolah_semesternama",["[>]sekolah_semestertahun" => ["semester_tahun_id" => "id"]],["sekolah_semesternama.id","sekolah_semesternama.id(value)","label" => Medoo::raw("CONCAT(sekolah_semestertahun.nama,' (Semester ',sekolah_semesternama.semester,')')")],["ORDER" => ["id" => "DESC"]]);
+        $semesterData = $this->database->select("sekolah_semesternama",["[>]sekolah_semestertahun" => ["semester_tahun_id" => "id"]],["sekolah_semesternama.id","label" => Medoo::raw("CONCAT(sekolah_semestertahun.nama,' (Semester ',sekolah_semesternama.semester,')')")],["ORDER" => ["id" => "DESC"]]);
         $data = array("semester" => $semester[0],"tingkatan"=> $tingkatan[0] ,"mapel"=> $mapel[0] , "semesterdata" => $semesterData );
         echo $this->response->json_response(200, $data);
     }    

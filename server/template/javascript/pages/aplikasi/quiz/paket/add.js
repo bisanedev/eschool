@@ -4,8 +4,8 @@ import { Helmet } from "react-helmet";
 import { Breadcrumb } from "../../../../components/menu";
 import { SwitchMini,InputText,InputNumber } from "../../../../components/forms";
 import Tabs from "../../../../components/tabs";
+import { DropdownList } from 'react-widgets';
 import { ToastContainer, toast } from 'react-toastify';
-import Select from "react-select/select";
 
 class PageAplikasiQuizPaketSoalAdd extends React.Component{
 
@@ -119,7 +119,9 @@ class PageAplikasiQuizPaketSoalAdd extends React.Component{
           <div className="w-60">
           <Tabs>
             <div label="Pilihan ganda">
-              <Select value={semesterPickPilihan} onChange={this.handleSelectPilihan} options={semesterData}/>
+              <div className="mb2 w-100">
+              <DropdownList filter='contains' data={semesterData} value={semesterPickPilihan} onChange={value => this.handleSelectPilihan(value)} textField="label" dataKey="id" placeholder="Pilih Semester"/>
+              </div>
               <div className="flex justify-center items-center pa3 flex-column w-100" style={{border:"3px dashed rgba(0, 0, 0, 0.125)",height:200}}>
                 <span className="f4 gray">Soal pilihan ganda kosong</span>
                 <span className="f7 gray i">Silahkan pilih semester pada tombol dropdown diatas</span>
@@ -127,7 +129,9 @@ class PageAplikasiQuizPaketSoalAdd extends React.Component{
               
             </div>
             <div label="Essay">
-                            
+              <div className="mb2 w-100">
+              <DropdownList filter='contains' data={semesterData} value={semesterPickEssay} onChange={value => this.handleSelectEssay(value)} textField="label" dataKey="id" placeholder="Pilih Semester"/>            
+              </div>
               <div className="flex justify-center items-center pa3 flex-column w-100" style={{border:"3px dashed rgba(0, 0, 0, 0.125)",height:200}}>
                 <span className="f4 gray">Soal essay kosong</span>
                 <span className="f7 gray i">Silahkan pilih semester pada tombol dropdown diatas</span>
@@ -176,24 +180,18 @@ class PageAplikasiQuizPaketSoalAdd extends React.Component{
   }
 
   handleSelectPilihan = (value) => {
-    this.setState({semesterPickPilihan:value},() => this.fetchPilihanSoal(value));
+    this.setState({semesterPickPilihan:value.id},() => this.fetchPilihanSoal(value.id));
   }
 
   handleSelectEssay = (value) => {
-    this.setState({semesterPickEssay:value},() => this.fetchEssaySoal(value));
+    this.setState({semesterPickEssay:value.id},() => this.fetchEssaySoal(value.id));
   }
 
-  fetchPilihanSoal = (value) => {  
-    if(value === "disable"){
-      return false;
-    }
+  fetchPilihanSoal = (value) => {      
     console.log(value);
   }
 
   fetchEssaySoal = (value) => {
-    if(value === "disable"){
-      return false;
-    }
     console.log(value);
   }
   /*--- fetch data ---*/

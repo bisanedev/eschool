@@ -6,6 +6,10 @@ $secondary-color : #085074;
 $disable-primaryColor : #8c8c8c;
 $disable-secondaryColor : #b3b3b3;
 
+@use "node_modules/react-widgets/scss/styles.scss" with (
+    $list-selected-bg: $primary-color,
+);
+
 @import "./tachyons/tachyons";
 @import "node_modules/react-toastify/scss/main.scss";
 @import "./base/wysiwyg";

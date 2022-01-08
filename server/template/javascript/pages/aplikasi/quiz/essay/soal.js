@@ -98,14 +98,16 @@ class PageAplikasiQuizEssaySoal extends React.Component{
               </div>
             </div> 
           </Table.Header>       
-          <Table.Body column={true}>
+          <Table.Body>
             {data.length > 0 && !isLoading && data.map((value,k) => (
                 <Table.DataSoal key={k} nomor={k+1} text={value.pertanyaan_text}                        
                 checked={selected.includes(value.id)} 
                 onChecked={() => this.onChecked(value.id)}
                 onDelete={() => this.onDelete(value)}
                 linkEdit={`#/aplikasi/quiz/essay/${this.tingkatID}/${this.mapelID}/${this.semesterID}/${value.id}`}
-                onView={() => console.log(value)}
+                dataValue={value}                   
+                linkImages={`data/soal/essay/${value.id}/${value.pertanyaan_images}`}
+                linkAudio={`data/soal/essay/${value.id}/${value.pertanyaan_audio}`}
                 />     
             ))} 
             {isLoading && <Table.Loading nama="soal" /> } 

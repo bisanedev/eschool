@@ -13667,23 +13667,135 @@ div.wrapDataProfile .checkbox-profile:hover input ~ .checkmark {
   background-color: #ccc;
 }
 
-div.tableCell {
-  width: 100%;
+/* data soal */
+div.wrapDataSoal {
   border: 1px solid rgba(0, 0, 0, 0.125);
-  height: 4rem;
-  margin-bottom: 10px;
+  width: 32%;
+  height: 12rem;
+  margin-bottom: 12px;
+  margin-right: 12px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  /* --- popover --- */
+  /* --- end popover --- */
 }
-div.tableCell .w-pertanyaan {
-  width: 85%;
+div.wrapDataSoal .pertanyaaan {
+  font-size: 12px;
+  padding: 5px;
+  background-color: #f7f7f7;
+  height: 80%;
+  overflow-y: auto;
+  scrollbar-width: thin;
 }
-div.tableCell .w-pertanyaan .htmlText p {
+div.wrapDataSoal .pertanyaaan p {
   display: inline;
 }
-div.tableCell .w-pertanyaan .htmlText b, div.tableCell .w-pertanyaan .htmlText strong {
+div.wrapDataSoal .pertanyaaan b, div.wrapDataSoal .pertanyaaan strong {
   font-weight: bold;
 }
-div.tableCell .w-aksi {
-  width: 15%;
+div.wrapDataSoal .pertanyaaanOpsional {
+  height: 20%;
+}
+div.wrapDataSoal .deleteButton {
+  cursor: pointer;
+  border: 1px solid rgba(0, 0, 0, 0.125);
+  height: 20px;
+  width: 20px;
+  border-radius: 10px;
+  color: #fff;
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  background-color: #f00;
+}
+div.wrapDataSoal .editButton {
+  cursor: pointer;
+  border: 1px solid rgba(0, 0, 0, 0.125);
+  padding: 3px;
+  color: #fff;
+  position: absolute;
+  bottom: 28px;
+  border-radius: 20px;
+  right: 25px;
+  background-color: #0191d7;
+  height: 22px;
+  width: 22px;
+}
+div.wrapDataSoal .checkbox-soal {
+  position: absolute;
+  bottom: 48px;
+  right: 1px;
+  user-select: none;
+  padding-left: 21px;
+  cursor: pointer;
+  display: block;
+}
+div.wrapDataSoal .checkbox-soal input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+div.wrapDataSoal .checkbox-soal .checkmark {
+  position: absolute;
+  top: -2px;
+  left: 0;
+  height: 20px;
+  width: 20px;
+  background-color: #f3f3f3;
+  border: 1px solid rgba(0, 0, 0, 0.125);
+  border-radius: 20px;
+}
+div.wrapDataSoal .checkbox-soal .checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+div.wrapDataSoal .checkbox-soal input:checked ~ .checkmark {
+  background-color: #0191d7;
+}
+div.wrapDataSoal .checkbox-soal input:checked ~ .checkmark:after {
+  display: block;
+}
+div.wrapDataSoal .checkbox-soal .checkmark:after {
+  left: 7px;
+  top: 3px;
+  width: 4px;
+  height: 9px;
+  border: solid white;
+  border-width: 0 3px 3px 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+div.wrapDataSoal .checkbox-soal:hover input ~ .checkmark {
+  background-color: #ccc;
+}
+div.wrapDataSoal .popover_wrapper {
+  position: relative;
+  display: inline-block;
+}
+div.wrapDataSoal .popover_content {
+  opacity: 0;
+  visibility: hidden;
+  position: absolute;
+  transform: translate(0, -243px);
+  background-color: #fff;
+  padding: 10px;
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+  width: 400px;
+  height: 220px;
+  margin-left: -245px;
+  overflow-y: auto;
+  border-radius: 3px;
+}
+div.wrapDataSoal .popover_wrapper:hover .popover_content {
+  z-index: 10;
+  opacity: 1;
+  visibility: visible;
+  transition: all 0.5s cubic-bezier(0.75, -0.02, 0.2, 0.97);
 }
 
 /* input */

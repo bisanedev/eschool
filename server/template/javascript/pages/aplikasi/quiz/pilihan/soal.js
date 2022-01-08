@@ -13,7 +13,7 @@ class PageAplikasiQuizPilihanSoal extends React.Component{
     super(props);
     this.state = {
       nextPage:undefined,
-      total:5,
+      total:6,
       totalData:undefined,
       cari:undefined,
       isLoading:true,
@@ -89,24 +89,26 @@ class PageAplikasiQuizPilihanSoal extends React.Component{
                 </div>   
               </div>                                                                          
               <select className="pa2 db gray ml2" value={total} onChange={this.handleSelectChange}>
-                <option label="5" value="5"/>
-                <option label="10" value="10"/>
-                <option label="15" value="15"/>
+                <option label="6" value="6"/>
+                <option label="12" value="12"/>
+                <option label="18" value="18"/>
               </select>
               <div className="flex ml2">                
                 <InputSearch name="cari" value={cari ? cari:""} placeholder={cari ? "":"Cari soal pertanyaan"} onChange={this.handleInputChange} onReset={this.resetCari} onClick={this.handleCari} onKeyPress={this.handleKeyPress}/>
               </div>
             </div> 
           </Table.Header>       
-          <Table.Body column={true}>
+          <Table.Body>
             {data.length > 0 && !isLoading && data.map((value,k) => (
-                <Table.DataSoal key={k} nomor={k+1} text={value.pertanyaan_text}                             
+              <Table.DataSoal key={k} nomor={k+1} text={value.pertanyaan_text}                             
                 checked={selected.includes(value.id)} 
                 onChecked={() => this.onChecked(value.id)}
                 onDelete={() => this.onDelete(value)}
                 linkEdit={`#/aplikasi/quiz/pilihan/${this.tingkatID}/${this.mapelID}/${this.semesterID}/${value.id}`}
-                onView={() => console.log(value)}
-                />     
+                dataValue={value}    
+                linkImages={`data/soal/pilihan/${value.id}/${value.pertanyaan_images}`}
+                linkAudio={`data/soal/pilihan/${value.id}/${value.pertanyaan_audio}`}
+              />     
             ))} 
             {isLoading && <Table.Loading nama="soal" /> } 
             {data.length === 0 && !isLoading && <Table.Empty nama="soal" /> }              

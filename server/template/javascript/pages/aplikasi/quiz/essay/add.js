@@ -5,7 +5,7 @@ import { Helmet } from 'react-helmet';
 import { Editor } from "react-draft-wysiwyg";
 import { EditorState } from 'draft-js';
 import { Breadcrumb } from '../../../../components/menu';
-import { Cards } from '../../../../components/forms';
+import { Cards,SwitchMini} from '../../../../components/forms';
 import { ToastContainer, toast } from 'react-toastify';
 import { convertToHTML } from 'draft-convert';
 import {encode} from 'html-entities';
@@ -24,7 +24,10 @@ class PageAplikasiQuizEssaySoalAdd extends React.Component{
       errorSelect:"",
       croppedImageUrl:"",
       srcAudio:"",
-      mathValue:""        
+      mathValue:"",
+      rumusToggle:false,       
+      audioToggle:false,
+      imageToggle:false,       
     }
     this.handleInputChange = this.handleInputChange.bind(this);  
     this.tingkatID = this.props.params.tingkatID;
@@ -44,7 +47,7 @@ class PageAplikasiQuizEssaySoalAdd extends React.Component{
   }
 
   render() {     
-    const {tingkatan,mapel,semester,src,srcAudio,editorState,errorSelect,uploadProgress,uploadDisable,toggleMath,mathValue,jawaban,pilihan,files} = this.state; 
+    const {tingkatan,mapel,semester,src,srcAudio,editorState,errorSelect,uploadProgress,uploadDisable,mathValue,rumusToggle,audioToggle,imageToggle} = this.state; 
     const uploadClass = uploadProgress ? "progress-active":"";     
     return (    
     <div className="konten"> 
@@ -81,7 +84,11 @@ class PageAplikasiQuizEssaySoalAdd extends React.Component{
             />
             </div>
             <div className="w-100 mb3">
-                <label className="f5 fw4 db mb2">Pertanyaan Rumus Matematika (Opsional)</label>
+                <div className="db mb2 flex justify-between">
+                  <label className="f5 fw4">Pertanyaan Rumus Matematika (Opsional)</label>
+                  <SwitchMini name="rumusToggle" value={rumusToggle} onChange={this.handleInputChange}/>
+                </div>
+                {rumusToggle && (              
                 <div className="flex flex-column mb3">
                 <div className="mathWidth" style={{border:"1px solid rgba(0, 0, 0, 0.125)"}}> 
                 <MathView ref={this.math} value={mathValue}
@@ -95,14 +102,20 @@ class PageAplikasiQuizEssaySoalAdd extends React.Component{
                 />
                 </div>
                 <button className="w-30 pointer link dim br2 ba pa2 dib bg-white flex justify-center items-center mt2" style={{height:"25px",fontSize:"12px", marginLeft:"auto"}} onClick={() => this.math.current.executeCommand('showVirtualKeyboard')}><i className="material-icons-outlined mr1" style={{fontSize: "14px"}}>keyboard</i> Buka Virtual Keyboard</button>
-                </div>                
+                </div> 
+                )}               
             </div> 
             <div className="w-100 mb3">                
-                <label className="f5 fw4 db mb2">Pertanyaan Gambar (Opsional)</label>                 
+                <div className="db mb2 flex justify-between">
+                  <label className="f5 fw4">Pertanyaan Gambar (Opsional)</label>
+                  <SwitchMini name="imageToggle" value={imageToggle} onChange={this.handleInputChange}/>
+                </div>
+                {imageToggle && (                 
                 <div className="flex justify-between items-center mb3">
                     <input className="link pv2" type="file" accept="image/*" onChange={this.onSelectFile}/>
                     <button className="pointer link dim br2 ba pa2 dib bg-white" style={{height:"35px"}} onClick={() => this.setState({croppedImageUrl:"",src:""})}>Reset</button>
-                </div>                             
+                </div> 
+                )}                            
                 {src != null && src != "" && (
                   <Cropper
                       src={src}
@@ -123,13 +136,18 @@ class PageAplikasiQuizEssaySoalAdd extends React.Component{
                 )}
             </div>
             <div className="w-100 mb3">
-                <label className="f5 fw4 db mb2">Pertanyaan Audio (Opsional)</label>
+                <div className="db mb2 flex justify-between">
+                  <label className="f5 fw4">Pertanyaan Audio (Opsional)</label>
+                  <SwitchMini name="audioToggle" value={audioToggle} onChange={this.handleInputChange}/>
+                </div> 
+                {audioToggle && (
                 <div className="flex justify-between items-center mb3">
                   <input className="link pv2" type="file" accept="audio/mp3" onChange={this.onSelectFileAudio}/>
                   <button type="submit" className="pointer link dim br2 ba pa2 dib bg-white" style={{height:"35px"}} onClick={() => this.setState({srcAudio:""})}>
                     Reset
                   </button>
                 </div>
+                )} 
                 {srcAudio != "" && (<audio controls ref="audio_player" className="bg-primary w-100" src={srcAudio}/>)}                                 
             </div> 
           </div>                    

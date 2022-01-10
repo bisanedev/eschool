@@ -544,6 +544,46 @@ class QuizController extends ApiController
         echo $this->response->json_response(200, $data);   
     }
 
+    public function PaketGetSoalPilihan($tingkatID,$mapelID,$semesterID)
+    {
+        $cari = isset($_GET['cari'])? (string)$_GET["cari"]:"%";        
+        $totalData = isset($_GET['total'])? (int)$_GET["total"]:1;             
+        $page = isset($_GET['page'])? (int)$_GET["page"]:1;        
+        $mulai = ($page>1) ? ($page * $totalData) - $totalData :0;        
+        $totalRow = $this->database->count("quiz_banksoal_pilihan",["AND" => ["tingkatan_id" => $tingkatID,"mapel_id" => $mapelID ,"semester_id" => $semesterID]]);
+
+        if(isset($_GET['cari'])){
+            $soal = $this->database->select("quiz_banksoal_pilihan",["id","pertanyaan_text","pertanyaan_tex","pertanyaan_images","pertanyaan_audio"],["AND" => ["tingkatan_id" => $tingkatID,"mapel_id" => $mapelID ,"semester_id" => $semesterID],"pertanyaan_text[~]" => $cari]);
+            $data = array("data" => $soal,"totaldata" => $totalRow ,"nextpage"=> false );
+        }else{
+            $soal = $this->database->select("quiz_banksoal_pilihan",["id","pertanyaan_text","pertanyaan_tex","pertanyaan_images","pertanyaan_audio"],["AND" => ["tingkatan_id" => $tingkatID,"mapel_id" => $mapelID ,"semester_id" => $semesterID],"LIMIT" => [$mulai,$totalData],"ORDER" => ["id" => "DESC"]]);            
+            $pages = ceil($totalRow/$totalData);
+            $nextpage = ($page < $pages) ? $page+1 : false;
+            $data = array("data" => $soal,"totaldata" => $totalRow,"pages" => $pages,"current" => $page,"nextpage"=> $nextpage );            
+        }  
+        echo $this->response->json_response(200, $data);   
+    }
+
+    public function PaketGetSoalEssay($tingkatID,$mapelID,$semesterID)
+    {
+        $cari = isset($_GET['cari'])? (string)$_GET["cari"]:"%";        
+        $totalData = isset($_GET['total'])? (int)$_GET["total"]:1;             
+        $page = isset($_GET['page'])? (int)$_GET["page"]:1;        
+        $mulai = ($page>1) ? ($page * $totalData) - $totalData :0;        
+        $totalRow = $this->database->count("quiz_banksoal_essay",["AND" => ["tingkatan_id" => $tingkatID,"mapel_id" => $mapelID ,"semester_id" => $semesterID]]);
+
+        if(isset($_GET['cari'])){
+            $soal = $this->database->select("quiz_banksoal_essay",["id","pertanyaan_text","pertanyaan_tex","pertanyaan_images","pertanyaan_audio"],["AND" => ["tingkatan_id" => $tingkatID,"mapel_id" => $mapelID ,"semester_id" => $semesterID],"pertanyaan_text[~]" => $cari]);
+            $data = array("data" => $soal,"totaldata" => $totalRow ,"nextpage"=> false );
+        }else{
+            $soal = $this->database->select("quiz_banksoal_essay",["id","pertanyaan_text","pertanyaan_tex","pertanyaan_images","pertanyaan_audio"],["AND" => ["tingkatan_id" => $tingkatID,"mapel_id" => $mapelID ,"semester_id" => $semesterID],"LIMIT" => [$mulai,$totalData],"ORDER" => ["id" => "DESC"]]);            
+            $pages = ceil($totalRow/$totalData);
+            $nextpage = ($page < $pages) ? $page+1 : false;
+            $data = array("data" => $soal,"totaldata" => $totalRow,"pages" => $pages,"current" => $page,"nextpage"=> $nextpage );            
+        }  
+        echo $this->response->json_response(200, $data); 
+    }
+
     public function PaketSoalDelete()
     {
         $_DELETE = RequestParser::parse()->params;        

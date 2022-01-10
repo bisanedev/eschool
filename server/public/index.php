@@ -55,6 +55,8 @@ $dispatcher = FastRoute\simpleDispatcher(function (RouteCollector $r) {
         $r->addRoute('DELETE', '/aplikasi/quiz/essay', ['App\PendidikControllers\QuizController','SoalEssayDelete']);
         $r->addRoute('GET', '/aplikasi/quiz/paket/{tingkatID}/{mapelID}/{semesterID}', ['App\PendidikControllers\QuizController','PaketSoal']);       
         $r->addRoute('DELETE', '/aplikasi/quiz/paket', ['App\PendidikControllers\QuizController','PaketSoalDelete']);        
+        $r->addRoute('GET', '/aplikasi/quiz/paket/{tingkatID}/{mapelID}/{semesterID}/pilihan', ['App\PendidikControllers\QuizController','PaketGetSoalPilihan']);       
+        $r->addRoute('GET', '/aplikasi/quiz/paket/{tingkatID}/{mapelID}/{semesterID}/essay', ['App\PendidikControllers\QuizController','PaketGetSoalEssay']);       
         //profile
         $r->addRoute('POST', '/profile/upload', ['App\PendidikControllers\ProfileController','uploadFoto']);
         $r->addRoute('PATCH', '/profile/password', ['App\PendidikControllers\ProfileController','gantiPassword']);

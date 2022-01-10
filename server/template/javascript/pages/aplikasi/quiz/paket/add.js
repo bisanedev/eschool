@@ -23,7 +23,17 @@ class PageAplikasiQuizPaketSoalAdd extends React.Component{
           isLoading:true, 
           semesterPickPilihan:null,
           semesterPickEssay:null,
-          semesterData:[] 
+          semesterData:[],
+          pagePilihan:undefined,
+          cariPilihan:undefined,          
+          totalDataPilihan:undefined,
+          currPagePilihan:undefined,
+          pagesPilihan:1,
+          pageEssay:undefined,
+          cariEssay:undefined,          
+          totalDataEssay:undefined,
+          currPageEssay:undefined,
+          pagesEssay:1
       } 
 
       this.handleInputChange = this.handleInputChange.bind(this);   
@@ -43,7 +53,7 @@ class PageAplikasiQuizPaketSoalAdd extends React.Component{
 
     
   render() {     
-    const {uploadProgress,uploadDisable,tingkatan,mapel,semester,bobotPilihan,bobotEssay,acak,paketPilihan,paketEssay,dataPilihan,dataEssay,semesterPickPilihan,semesterPickEssay,semesterData} = this.state; 
+    const {uploadProgress,uploadDisable,tingkatan,mapel,semester,bobotPilihan,bobotEssay,paketPilihan,paketEssay,dataPilihan,dataEssay,semesterPickPilihan,semesterPickEssay,semesterData} = this.state; 
     const uploadClass = uploadProgress ? "progress-active":""; 
     const totalBobot = parseInt(bobotPilihan)+parseInt(bobotEssay);    
     return (  
@@ -119,24 +129,39 @@ class PageAplikasiQuizPaketSoalAdd extends React.Component{
           <div className="w-60">
           <Tabs>
             <div label="Pilihan ganda">
-              <div className="mb2 w-100">
-              <DropdownList filter='contains' data={semesterData} value={semesterPickPilihan} onChange={value => this.handleSelectPilihan(value)} textField="label" dataKey="id" placeholder="Pilih Semester"/>
+              <div className="mb2 w-100 flex">
+                <div className="w-50">
+                  <DropdownList filter='contains' data={semesterData} value={semesterPickPilihan} onChange={value => this.handleSelectPilihan(value)} textField="label" dataKey="id" placeholder="Pilih Semester"/>
+                </div>              
               </div>
+              {semesterPickPilihan === null && (
               <div className="flex justify-center items-center pa3 flex-column w-100" style={{border:"3px dashed rgba(0, 0, 0, 0.125)",height:200}}>
-                <span className="f4 gray">Soal pilihan ganda kosong</span>
-                <span className="f7 gray i">Silahkan pilih semester pada tombol dropdown diatas</span>
+                <span className="f3 gray">Silahkan pilih semester pada tombol dropdown diatas</span>                
               </div>
+              )}
+              {dataPilihan.length === 0 && semesterPickPilihan != null &&
+                <div className="flex justify-center items-center pa3 flex-column w-100" style={{border:"3px dashed rgba(0, 0, 0, 0.125)",height:200}}>
+                  <span className="f3 gray">Soal pilih ganda kosong</span>         
+                </div>     
+              }
               
             </div>
             <div label="Essay">
-              <div className="mb2 w-100">
-              <DropdownList filter='contains' data={semesterData} value={semesterPickEssay} onChange={value => this.handleSelectEssay(value)} textField="label" dataKey="id" placeholder="Pilih Semester"/>            
+              <div className="mb2 w-100 flex">
+                <div className="w-50">
+                  <DropdownList filter='contains' data={semesterData} value={semesterPickEssay} onChange={value => this.handleSelectEssay(value)} textField="label" dataKey="id" placeholder="Pilih Semester"/>            
+                </div>
               </div>
+              {semesterPickEssay === null && (
               <div className="flex justify-center items-center pa3 flex-column w-100" style={{border:"3px dashed rgba(0, 0, 0, 0.125)",height:200}}>
-                <span className="f4 gray">Soal essay kosong</span>
-                <span className="f7 gray i">Silahkan pilih semester pada tombol dropdown diatas</span>
+                <span className="f3 gray">Silahkan pilih semester pada tombol dropdown diatas</span> 
               </div>
-                               
+              )} 
+              {dataEssay.length === 0 && semesterPickEssay != null &&
+              <div className="flex justify-center items-center pa3 flex-column w-100" style={{border:"3px dashed rgba(0, 0, 0, 0.125)",height:200}}>
+                <span className="f3 gray">Soal essay kosong</span>         
+              </div> 
+               }                            
             </div>  
           </Tabs>
           </div>
@@ -180,19 +205,47 @@ class PageAplikasiQuizPaketSoalAdd extends React.Component{
   }
 
   handleSelectPilihan = (value) => {
-    this.setState({semesterPickPilihan:value.id},() => this.fetchPilihanSoal(value.id));
+    this.setState({semesterPickPilihan:value.id,pagePilihan:1},() => this.fetchPilihanSoal(this.tingkatID,this.mapelID,value.id));
   }
 
   handleSelectEssay = (value) => {
-    this.setState({semesterPickEssay:value.id},() => this.fetchEssaySoal(value.id));
+    this.setState({semesterPickEssay:value.id,pageEssay:1},() => this.fetchEssaySoal(this.tingkatID,this.mapelID,value.id));
   }
 
-  fetchPilihanSoal = (value) => {      
-    console.log(value);
+  fetchPilihanSoal = (tingkat,mapel,semester) => {      
+    const {pagePilihan,cariPilihan} = this.state;    
+    axios.get(
+      window.location.origin + `/api/pendidik/aplikasi/quiz/paket/${tingkat}/${mapel}/${semester}/pilihan?total=5` + `${pagePilihan ? '&page=' + pagePilihan : ''}`+ `${cariPilihan ? '&cari=' + cariPilihan : ''}` +"&nocache="+Date.now()
+    ).then(response => {      
+      this.setState({
+        dataPilihan:response.data.message.data,
+        totalDataPilihan:response.data.message.totaldata,        
+        currPagePilihan:response.data.message.current,
+        pagesPilihan:response.data.message.pages,  
+      });
+    }).catch(error => {
+      if(error.response.status == 401){                             
+        this.logout();
+      }
+    });
   }
 
-  fetchEssaySoal = (value) => {
-    console.log(value);
+  fetchEssaySoal = (tingkat,mapel,semester) => {
+    const {pageEssay,cariEssay} = this.state;    
+    axios.get(
+      window.location.origin + `/api/pendidik/aplikasi/quiz/paket/${tingkat}/${mapel}/${semester}/essay?total=5` + `${pageEssay ? '&page=' + pageEssay: ''}`+ `${cariEssay ? '&cari=' + cariEssay : ''}` +"&nocache="+Date.now()
+    ).then(response => {      
+      this.setState({
+        dataEssay:response.data.message.data,
+        totalDataEssay:response.data.message.totaldata,        
+        currPageEssay:response.data.message.current,
+        pagesEssay:response.data.message.pages,  
+      });
+    }).catch(error => {
+      if(error.response.status == 401){                             
+        this.logout();
+      }
+    });
   }
   /*--- fetch data ---*/
    fetchData = (tingkat,mapel,semester) => {   

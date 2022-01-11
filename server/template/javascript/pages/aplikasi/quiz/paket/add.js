@@ -138,10 +138,10 @@ class PageAplikasiQuizPaketSoalAdd extends React.Component{
                   <InputSearch name="cariPilihan" disabled={dataPilihan.length === 0 ? true:false} value={cariPilihan ? cariPilihan:""} placeholder={cariPilihan ? "":"Cari soal"} onChange={this.handleInputChange} onReset={this.resetCariPilihan} onClick={this.handleCariPilihan} onKeyPress={this.handleKeyPressPilihan}/>
                 </div>             
               </div>
-              <div className="flex flex-column w-100 pa2" style={{height:"385px"}}>
+              <div className="flex flex-wrap w-100 pa2" style={{height:"385px"}}>
               {semesterPickPilihan === null && (
               <div className="flex justify-center items-center pa3 flex-column w-100" style={{border:"3px dashed rgba(0, 0, 0, 0.125)",height:370}}>
-                <span className="f3 gray">Silahkan pilih semester pada tombol dropdown diatas</span>                
+                <span className="f3 gray">Silahkan pilih semester pada menu dropdown diatas</span>                
               </div>
               )}
               {dataPilihan.length === 0 && semesterPickPilihan != null &&
@@ -175,7 +175,7 @@ class PageAplikasiQuizPaketSoalAdd extends React.Component{
               <div className="flex flex-column w-100 pa2" style={{height:"385px"}}>
               {semesterPickEssay === null && (
               <div className="flex justify-center items-center pa3 flex-column w-100" style={{border:"3px dashed rgba(0, 0, 0, 0.125)",height:370}}>
-                <span className="f3 gray">Silahkan pilih semester pada tombol dropdown diatas</span> 
+                <span className="f3 gray">Silahkan pilih semester pada menu dropdown diatas</span> 
               </div>
               )} 
               {dataEssay.length === 0 && semesterPickEssay != null &&

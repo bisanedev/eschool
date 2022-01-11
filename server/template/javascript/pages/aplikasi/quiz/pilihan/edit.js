@@ -140,7 +140,7 @@ class PageAplikasiQuizPilihanSoalEdit extends React.Component{
             )}                       
           </div>                    
           <div className="flex items-center justify-center bg-near-white" style={{borderTop:"1px solid rgba(0, 0, 0, 0.125)",height:"58px"}}>            
-            <button type="submit" className={`${uploadClass} dim pointer w-30 tc b f7 link br2 ba ph3 pv2 dib white bg-primary b--primary`} disabled={uploadDisable} onClick={this.updateSoal}>Ubah data soal</button> 
+            <button type="submit" className={`${uploadClass} dim pointer w-30 tc b f7 link br2 ba ph3 pv2 dib white bg-primary b--primary`} disabled={uploadDisable} onClick={this.updateSoal}>Perbarui data soal</button> 
           </div>          
           </Cards>
           </div>

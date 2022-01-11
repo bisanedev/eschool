@@ -163,7 +163,7 @@ class PageSekolahSiswaEdit extends React.Component{
                   <img src={jenis==="l" ? "assets/images/cowok.png":"assets/images/cewek.png"}/> 
                 )}
               </div>
-              <button type="submit" style={{cursor: "pointer"}} className={`${uploadClass} dim w-100 tc b f7 link br2 ba ph3 pv2 dib white bg-primary b--primary`} disabled={uploadDisable} onClick={this.updateSiswa}>Ubah data</button>
+              <button type="submit" style={{cursor: "pointer"}} className={`${uploadClass} dim w-100 tc b f7 link br2 ba ph3 pv2 dib white bg-primary b--primary`} disabled={uploadDisable} onClick={this.updateSiswa}>Perbarui data</button>
             </div>                  
           </Cards>
         </div> 

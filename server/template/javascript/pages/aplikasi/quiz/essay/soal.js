@@ -93,7 +93,7 @@ class PageAplikasiQuizEssaySoal extends React.Component{
                 <option label="10" value="10"/>
                 <option label="15" value="15"/>
               </select>
-              <div className="flex ml2">                
+              <div className="ml2">                
                 <InputSearch name="cari" value={cari ? cari:""} placeholder={cari ? "":"Cari soal pertanyaan"} onChange={this.handleInputChange} onReset={this.resetCari} onClick={this.handleCari} onKeyPress={this.handleKeyPress}/>
               </div>
             </div> 

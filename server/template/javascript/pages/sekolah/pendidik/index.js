@@ -87,7 +87,7 @@ class PageSekolahPendidik extends React.Component{
                 <option label="24" value="24"/>
                 <option label="36" value="36"/>
               </select>
-              <div className="flex ml2">                
+              <div className="ml2">                
                 <InputSearch name="cari" value={cari ? cari:""} placeholder={cari ? "":"Cari Users dan pendidik"} onChange={this.handleInputChange} onReset={this.resetCari} onClick={this.handleCari} onKeyPress={this.handleKeyPress}/>
               </div>
             </div> 

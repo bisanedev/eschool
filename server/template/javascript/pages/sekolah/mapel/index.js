@@ -92,7 +92,7 @@ class PageSekolahMapel extends React.Component{
                 <option label="20" value="20"/>
                 <option label="30" value="30"/>
               </select>
-              <div className="flex ml2">                
+              <div className="ml2">                
                 <InputSearch name="cari" value={cari ? cari:""} placeholder={cari ? "":"Cari Mata pelajaran"} onChange={this.handleInputChange} onReset={this.resetCari} onClick={this.handleCari} onKeyPress={this.handleKeyPress}/>
               </div>
             </div> 

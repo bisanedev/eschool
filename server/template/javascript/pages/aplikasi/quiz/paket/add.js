@@ -2,7 +2,7 @@ import React from "react";
 import axios from "axios";
 import { Helmet } from "react-helmet";
 import { Breadcrumb } from "../../../../components/menu";
-import { SwitchMini,InputText,InputNumber } from "../../../../components/forms";
+import { SwitchMini,InputText,InputNumber,InputSearch } from "../../../../components/forms";
 import Tabs from "../../../../components/tabs";
 import { DropdownList } from 'react-widgets';
 import { ToastContainer, toast } from 'react-toastify';
@@ -53,7 +53,7 @@ class PageAplikasiQuizPaketSoalAdd extends React.Component{
 
     
   render() {     
-    const {uploadProgress,uploadDisable,tingkatan,mapel,semester,bobotPilihan,bobotEssay,paketPilihan,paketEssay,dataPilihan,dataEssay,semesterPickPilihan,semesterPickEssay,semesterData} = this.state; 
+    const {uploadProgress,uploadDisable,tingkatan,mapel,semester,bobotPilihan,bobotEssay,paketPilihan,paketEssay,dataPilihan,dataEssay,semesterPickPilihan,semesterPickEssay,semesterData,cariPilihan,cariEssay} = this.state; 
     const uploadClass = uploadProgress ? "progress-active":""; 
     const totalBobot = parseInt(bobotPilihan)+parseInt(bobotEssay);    
     return (  
@@ -130,9 +130,12 @@ class PageAplikasiQuizPaketSoalAdd extends React.Component{
           <Tabs>
             <div label="Pilihan ganda">
               <div className="mb2 w-100 flex">
-                <div className="w-50">
+                <div className="w-50 mr1">
                   <DropdownList filter='contains' data={semesterData} value={semesterPickPilihan} onChange={value => this.handleSelectPilihan(value)} textField="label" dataKey="id" placeholder="Pilih Semester"/>
-                </div>              
+                </div> 
+                <div className="w-50">
+                  <InputSearch name="cariPilihan" disabled={dataPilihan.length === 0 ? true:false} value={cariPilihan ? cariPilihan:""} placeholder={cariPilihan ? "":"Cari soal"} onChange={this.handleInputChange} onReset={this.resetCariPilihan} onClick={this.handleCariPilihan} onKeyPress={this.handleKeyPressPilihan}/>
+                </div>             
               </div>
               {semesterPickPilihan === null && (
               <div className="flex justify-center items-center pa3 flex-column w-100" style={{border:"3px dashed rgba(0, 0, 0, 0.125)",height:200}}>
@@ -141,15 +144,18 @@ class PageAplikasiQuizPaketSoalAdd extends React.Component{
               )}
               {dataPilihan.length === 0 && semesterPickPilihan != null &&
                 <div className="flex justify-center items-center pa3 flex-column w-100" style={{border:"3px dashed rgba(0, 0, 0, 0.125)",height:200}}>
-                  <span className="f3 gray">Soal pilih ganda kosong</span>         
+                  <span className="f3 gray">Data soal pilih ganda kosong</span>         
                 </div>     
               }
               
             </div>
             <div label="Essay">
               <div className="mb2 w-100 flex">
-                <div className="w-50">
+                <div className="w-50 mr1">
                   <DropdownList filter='contains' data={semesterData} value={semesterPickEssay} onChange={value => this.handleSelectEssay(value)} textField="label" dataKey="id" placeholder="Pilih Semester"/>            
+                </div>
+                <div className="w-50">
+                  <InputSearch name="cariEssay" disabled={dataEssay.length === 0 ? true:false} value={cariEssay ? cariEssay:""} placeholder={cariEssay ? "":"Cari soal"} onChange={this.handleInputChange} onReset={this.resetCariEssay} onClick={this.handleCariEssay} onKeyPress={this.handleKeyPressEssay}/>
                 </div>
               </div>
               {semesterPickEssay === null && (
@@ -159,7 +165,7 @@ class PageAplikasiQuizPaketSoalAdd extends React.Component{
               )} 
               {dataEssay.length === 0 && semesterPickEssay != null &&
               <div className="flex justify-center items-center pa3 flex-column w-100" style={{border:"3px dashed rgba(0, 0, 0, 0.125)",height:200}}>
-                <span className="f3 gray">Soal essay kosong</span>         
+                <span className="f3 gray">Data soal essay kosong</span>         
               </div> 
                }                            
             </div>  
@@ -203,7 +209,41 @@ class PageAplikasiQuizPaketSoalAdd extends React.Component{
       this.setState({ [name]: value });
     }      
   }
+  /*--- menu cari ---*/
+  handleCariPilihan = () => {
+    const {cariPilihan,semesterPickPilihan} = this.state;
+    if(cariPilihan != undefined){
+      this.fetchPilihanSoal(this.tingkatID,this.mapelID,semesterPickPilihan);
+    }    
+  }  
+  handleKeyPressPilihan = (event) => {   
+    const {cariPilihan,semesterPickPilihan} = this.state;    
+    if (event.key === 'Enter' && cariPilihan != undefined) {
+        this.fetchPilihanSoal(this.tingkatID,this.mapelID,semesterPickPilihan);
+    }
+  }
+  resetCariPilihan = () => {
+    const {semesterPickPilihan} = this.state; 
+    this.setState({cariPilihan: undefined},() => this.fetchPilihanSoal(this.tingkatID,this.mapelID,semesterPickPilihan));
+  }
 
+  handleCariEssay = () => {
+    const {cariEssay,semesterPickEssay} = this.state;
+    if(cariEssay != undefined){
+      this.fetchEssaySoal(this.tingkatID,this.mapelID,semesterPickEssay);
+    }    
+  }  
+  handleKeyPressEssay = (event) => {   
+    const {cariEssay,semesterPickEssay} = this.state;    
+    if (event.key === 'Enter' && cariEssay!= undefined) {
+        this.fetchEssaySoal(this.tingkatID,this.mapelID,semesterPickEssay);
+    }
+  }
+  resetCariEssay= () => {
+    const {semesterPickEssay} = this.state; 
+    this.setState({cariEssay: undefined},() => this.fetchEssaySoal(this.tingkatID,this.mapelID,semesterPickEssay));
+  }
+  /*--- end menu cari ---*/
   handleSelectPilihan = (value) => {
     this.setState({semesterPickPilihan:value.id,pagePilihan:1},() => this.fetchPilihanSoal(this.tingkatID,this.mapelID,value.id));
   }

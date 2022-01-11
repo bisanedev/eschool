@@ -1,11 +1,10 @@
 import React from "react";
 import { Helmet } from "react-helmet";
 import axios from "axios";
-import {useNavigate } from "react-router-dom";
 import DatePicker from "react-datepicker";
 import Forbidden from "../../other/forbidden";
 import {Breadcrumb} from '../../../components/menu';
-import {InputSearch,InputText} from '../../../components/forms';
+import {InputSearch} from '../../../components/forms';
 import Table from "../../../components/table";
 import {DeleteDialog} from '../../../components/dialog';
 import {AddModal,EditModal} from '../../../components/modal';
@@ -101,7 +100,7 @@ class PageSekolahSemesterSub extends React.Component{
                 <option label="20" value="20"/>
                 <option label="30" value="30"/>
               </select>
-              <div className="flex ml2">                
+              <div className="ml2">                
                 <InputSearch name="cari" value={cari ? cari:""} placeholder={cari ? "":"Cari Semester"} onChange={this.handleInputChange} onReset={this.resetCari} onClick={this.handleCari} onKeyPress={this.handleKeyPress}/>
               </div>
             </div> 

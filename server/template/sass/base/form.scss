@@ -5,6 +5,12 @@ input[type=text]{
     background-color: #f3f3f3;
     height: 41px;
 }
+input[type=text]:disabled {
+  outline: none; 
+  border: 1px solid rgba(255, 234, 234, 0.13);
+  background-color: $disable-secondaryColor;
+  cursor: no-drop;
+}
 input[type=text]:focus {
     border: 1px solid $primary-color;
 }
@@ -47,6 +53,7 @@ input[type=number]:focus {
   border: 1px solid rgba(0, 0, 0, 0.125);
   display: flex;
   background-color: #f3f3f3;
+  width: 100%;
   input[type=text]{
     width: calc(100% - 40px);    
     background: transparent;
@@ -415,7 +422,7 @@ input:checked + .slider:before {
   border-radius: 0;
   background-color: #f3f3f3;
   box-shadow:none;
-  height: 41px;
+  height: 43px;
 }
 
 .rw-widget-picker:focus {

@@ -75,10 +75,8 @@ function NavItem(props){
 }
 
 function NavItemDisabled(props){
-  const location = useLocation().pathname.split('/');  
-  const urlActive = props.url.split('/') ;
   return(
-  <li className={urlActive[1] === location[1]  ? "nav-item active":"nav-item"}>
+  <li className="nav-item">
   <div className="nav-icon icon-disabled">
     {props.ico}
   </div>

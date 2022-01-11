@@ -3,9 +3,10 @@ import axios from 'axios';
 import { Helmet } from 'react-helmet';
 import Forbidden from "../../other/forbidden";
 import { Breadcrumb } from '../../../components/menu';
-import { InputText,InputPassword,Cards,Switcher } from '../../../components/forms';
-import {DeleteDialog} from '../../../components/dialog';
+import { InputText,InputPassword,Cards } from '../../../components/forms';
+import { DeleteDialog } from '../../../components/dialog';
 import { ToastContainer, toast } from 'react-toastify';
+import { DropdownList } from 'react-widgets';
 import Cropper from "react-cropper";
 
 class PageSekolahSiswaEdit extends React.Component{
@@ -48,9 +49,12 @@ class PageSekolahSiswaEdit extends React.Component{
 
   render() { 
     const {tokenData} = this.props;
-    const {jenis,kelasData,kelas,noAbsen,nama,username,superuser,isLoading,src,croppedImageUrl,errorSelect,uploadProgress,uploadDisable,rawUsername,showHapusFoto,foto} = this.state;    
-    const uploadClass = uploadProgress ? "progress-active":"";  
-    const NomorAbsens = Array(100).fill(1).map((x, y) => x + y);  
+    const {jenis,kelasData,kelas,noAbsen,nama,username,isLoading,src,croppedImageUrl,errorSelect,uploadProgress,uploadDisable,rawUsername,showHapusFoto,foto} = this.state;    
+    const uploadClass = uploadProgress ? "progress-active":"";
+    var NomorAbsens = []; 
+    for (var x = 0; x < 100; x++) {
+      NomorAbsens[x] = {id: x+1 , nomor: "Nomor "+(x+1)};
+    } 
     return (
     <>  
     <div className="konten"> 
@@ -94,21 +98,11 @@ class PageSekolahSiswaEdit extends React.Component{
                   </span>
                 </header> 
                 )}
-                <select className="pa2 db w-100" value={kelas} onChange={this.handleSelectKelas}>
-                <option value="disable" disabled>Pilih kelas</option>
-                  {kelasData.length > 0 && !isLoading && kelasData.map((value,k) => (
-                    <option key={k} label={value.nama} value={value.id}/>                    
-                  ))}
-                </select>   
+                <DropdownList filter='contains' data={kelasData} value={kelas} onChange={value => this.handleSelectKelas(value)} textField="nama" dataKey="id" placeholder="Pilih kelas"/>
                 </div>
                 <div className="w-50 ml2">
-                <label className="f5 fw4 db mb2">No urut absen</label>  
-                <select className="pa2 db w-100" value={noAbsen} onChange={this.handleSelectAbsen}>
-                <option value="disable" disabled>Pilih nomor</option>
-                  {NomorAbsens.map((value,k) => (
-                    <option key={k} label={"Nomor "+value} value={value}/>                    
-                  ))}
-                </select>   
+                <label className="f5 fw4 db mb2">No urut absen</label> 
+                <DropdownList filter='contains' data={NomorAbsens} value={noAbsen} onChange={value => this.handleSelectAbsen(value)} textField="nomor" dataKey="id" placeholder="Pilih nomor"/> 
                 </div>
               </div> 
               <div className="w-100 mb3">                
@@ -247,18 +241,12 @@ class PageSekolahSiswaEdit extends React.Component{
     this.setState({jenis: event.target.value});
   }   
   /*--- select kelas ---*/
-  handleSelectKelas = (event) => {
-    var value = event.target.value;
-    if(value != "disable"){      
-      this.setState({kelas:value},() => this.fetchCountKelas(value));
-    }
+  handleSelectKelas = (value) => {
+    this.setState({kelas:value.id},() => this.fetchCountKelas(value.id));
   }
   /*--- select nomor ---*/
-  handleSelectAbsen = (event) => {
-    var value = event.target.value;
-    if(value != "disable"){
-      this.setState({noAbsen:event.target.value}); 
-    }   
+  handleSelectAbsen = (value) => {
+    this.setState({noAbsen:value.id}); 
   }
   /*--- fetch data ---*/
   fetchData = () => {     
@@ -272,7 +260,7 @@ class PageSekolahSiswaEdit extends React.Component{
         jenis:data.jenis,                 
         kelas:data.kelas_id,
         foto:data.foto, 
-        noAbsen:data.no_absens,  
+        noAbsen:parseInt(data.no_absens),  
         username:data.username, 
         rawUsername:data.username        
       },() => this.fetchKelas());

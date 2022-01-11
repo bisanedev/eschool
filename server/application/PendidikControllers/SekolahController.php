@@ -28,7 +28,7 @@ class SekolahController extends ApiController
             $tingkatan = $this->database->select("sekolah_kelastingkatan",["id","nama"],["nama[~]" => $cari]);
             $data = array("data" => $tingkatan,"totaldata"=>$totalRow ,"nextpage"=> false );
         }else{
-            $tingkatan = $this->database->select("sekolah_kelastingkatan",["id","nama"],["LIMIT" => [$mulai,$totalData],"ORDER" => ["id" => "DESC"]]);            
+            $tingkatan = $this->database->select("sekolah_kelastingkatan",["id","nama"],["LIMIT" => [$mulai,$totalData],"ORDER" => ["nama" => "ASC"]]);            
             $pages = ceil($totalRow/$totalData);
             $nextpage = ($page < $pages) ? $page+1 : false;
             $data = array("data" => $tingkatan,"totaldata"=>$totalRow,"pages" => $pages,"current" => $page,"nextpage"=> $nextpage );
@@ -107,7 +107,7 @@ class SekolahController extends ApiController
             $kelas = $this->database->select("sekolah_kelasnama",["id","nama"],["tingkatan_id" => $id,"nama[~]" => $cari]);
             $data = array("data" => $kelas,"totaldata"=>$totalRow ,"tingkatan" => $tingkatan[0]["nama"],"nextpage"=> false );
         }else{
-            $kelas = $this->database->select("sekolah_kelasnama",["id","nama"],["tingkatan_id" => $id,"LIMIT" => [$mulai,$totalData],"ORDER" => ["id" => "DESC"]]);            
+            $kelas = $this->database->select("sekolah_kelasnama",["id","nama"],["tingkatan_id" => $id,"LIMIT" => [$mulai,$totalData],"ORDER" => ["nama" => "ASC"]]);            
             $pages = ceil($totalRow/$totalData);
             $nextpage = ($page < $pages) ? $page+1 : false;
             $data = array("data" => $kelas,"totaldata"=>$totalRow,"tingkatan" => $tingkatan[0]["nama"],"pages" => $pages,"current" => $page,"nextpage"=> $nextpage );
@@ -692,7 +692,7 @@ class SekolahController extends ApiController
         $page = isset($_GET['page'])? (int)$_GET["page"]:1;        
         $kelasID = isset($_GET['kelas'])? (int)$_GET["kelas"]:1;  
         $mulai = ($page>1) ? ($page * $totalData) - $totalData :0;        
-        $kelas = $this->database->select("sekolah_kelasnama",["id","nama"]); 
+        $kelas = $this->database->select("sekolah_kelasnama",["id","nama"],["ORDER" => ["nama" => "ASC"]]); 
         $totalRow = $this->database->count("sekolah_siswa");        
         if(isset($_GET['cari'])){
             $siswa = $this->database->select("sekolah_siswa",["[>]sekolah_kelasnama" => ["kelas_id" => "id"]],["sekolah_siswa.id","sekolah_siswa.nama","sekolah_siswa.jenis","sekolah_siswa.username","sekolah_siswa.no_absens(absen)","sekolah_kelasnama.nama(kelas)"],["sekolah_siswa.nama[~]" => $cari]);
@@ -716,7 +716,7 @@ class SekolahController extends ApiController
 
     public function siswaKelas()
     {
-        $kelas = $this->database->select("sekolah_kelasnama",["id","nama"]); 
+        $kelas = $this->database->select("sekolah_kelasnama",["id","nama"],["ORDER" => ["nama" => "ASC"]]); 
         echo $this->response->json_response(200, $kelas);
     }
 

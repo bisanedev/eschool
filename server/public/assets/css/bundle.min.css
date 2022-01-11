@@ -14234,6 +14234,7 @@ input:checked + .slider:before {
   border-radius: 0;
   background-color: #f3f3f3;
   box-shadow: none;
+  height: 41px;
 }
 
 .rw-widget-picker:focus {
@@ -14246,6 +14247,10 @@ input:checked + .slider:before {
 
 .rw-popup {
   border-radius: 0;
+}
+
+.rw-popup .rw-list {
+  scrollbar-width: thin;
 }
 
 .headings {

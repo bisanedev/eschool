@@ -8,6 +8,7 @@ import Table from "../../../components/table";
 import {DeleteDialog} from '../../../components/dialog';
 import { ToastContainer, toast } from 'react-toastify';
 import {EditModal} from '../../../components/modal';
+import { DropdownList } from 'react-widgets';
 
 class PageSekolahSiswa extends React.Component{
 
@@ -28,8 +29,9 @@ class PageSekolahSiswa extends React.Component{
       showEdit:false,
       singleData:[],
       kelasData:[],
+      kelasDataEdit:[],
       kelas:"all",  
-      kelasEdit:"100",  
+      kelasEdit:'',  
     }    
     this.handleInputChange = this.handleInputChange.bind(this);
     this.navigate = this.props.navigate;
@@ -45,7 +47,7 @@ class PageSekolahSiswa extends React.Component{
   
   render() {     
     const {tokenData} = this.props;
-    const {data,totalData,pages,currPage,total,cari,selected,showDelete,showEdit,isLoading,singleData,showSingleDelete,kelasData,kelas,kelasEdit} = this.state;
+    const {data,totalData,pages,currPage,total,cari,selected,showDelete,showEdit,isLoading,singleData,showSingleDelete,kelasData,kelasDataEdit,kelas,kelasEdit} = this.state;
     return (  
     <div className="konten"> 
       <Helmet>
@@ -66,13 +68,10 @@ class PageSekolahSiswa extends React.Component{
             <div className="w-50 ph2 flex">
               <a type="submit" href="#/sekolah/siswa/add" style={{cursor: "pointer",borderColor:"#0191d7"}} className="flex items-center justify-center link dim br1 ba pa2 dib white bg-primary mr2">                
                 <i className="material-icons-outlined" style={{fontSize:"20px"}}>add</i>
-              </a>              
-              <select className="pa2 db w-40" value={kelas} onChange={this.handleSelectKelas}>
-                <option value="all">Semua kelas</option>
-                  {kelasData.length > 0 && kelasData.map((value,k) => (
-                    <option key={k} label={value.nama} value={value.id}/>                    
-                  ))}
-              </select>
+              </a>
+              <div className="w-40">
+                <DropdownList filter='contains' data={kelasData} value={kelas} onChange={value => this.handleSelectKelas(value)} textField="nama" dataKey="id" placeholder="Pilih kelas"/>           
+              </div>
             </div>
             <div className="w-50 ph2 flex" style={{justifyContent:"flex-end"}}>              
               <button type="submit" style={{cursor: "pointer",fontSize:"13px",border:"1px solid rgba(0, 0, 0, 0.125)"}} className="link dim br1 ba pa2 dib bg-white" onClick={() => this.selectAll()}>
@@ -149,12 +148,7 @@ class PageSekolahSiswa extends React.Component{
         >
           <div className="w-100 pa3">
             <label className="f5 fw4 db mb2">Kelas</label>
-            <select className="pa2 db w-100" value={kelasEdit} onChange={this.handleSelectKelasEdit}>
-              <option value="100" disabled>Pilih kelas</option>
-              {kelasData.length > 0 && kelasData.map((value,k) => (
-                <option key={k} label={value.nama} value={value.id}/>                    
-              ))}
-            </select>            
+            <DropdownList filter='contains' data={kelasDataEdit} value={kelasEdit} onChange={value => this.handleSelectKelasEdit(value)} textField="nama" dataKey="id" placeholder="Pilih kelas"/>                     
           </div>
         </EditModal>             
       </>      
@@ -179,12 +173,12 @@ class PageSekolahSiswa extends React.Component{
     }));  
   };
   /*--- pilih kelas ---*/
-  handleSelectKelas = (event) => {
-    this.setState({kelas:event.target.value,page:1} , () => this.fetchData());
+  handleSelectKelas = (value) => {
+    this.setState({kelas:value.id,page:1} , () => this.fetchData());
   }
   /*--- edit pilih kelas ---*/
-  handleSelectKelasEdit = (event) => {
-    this.setState({kelasEdit:event.target.value});
+  handleSelectKelasEdit = (value) => {
+    this.setState({kelasEdit:value.id});
   }
   /*--- select ALL ---*/
   selectAll = () => {    
@@ -240,15 +234,20 @@ class PageSekolahSiswa extends React.Component{
     this.setState({isLoading:true});
     axios.get(
       window.location.origin + `/api/pendidik/sekolah/siswa?`+ `${total ? 'total=' + total : ''}` + `${kelas != "all" ? '&kelas=' + kelas : ''}` +`${page ? '&page=' + page : ''}`+ `${cari ? '&cari=' + cari : ''}` +"&nocache="+Date.now()
-    ).then(response => {      
+    ).then(response => { 
+      var kelasData = response.data.message.kelas;
       this.setState({
         data:response.data.message.data,
-        kelasData:response.data.message.kelas,
+        kelasDataEdit:kelasData,
         totalData:response.data.message.totaldata,        
         currPage:response.data.message.current,
         pages:response.data.message.pages,        
         isLoading:false
       });
+      let ModifKelasData = [...kelasData];    
+      var allKelas = {id:"all",nama:"Semua kelas"}     
+      ModifKelasData.unshift(allKelas);
+      this.setState({kelasData:ModifKelasData});
     }).catch(error => {
       if(error.response.status == 401){                             
         this.logout();

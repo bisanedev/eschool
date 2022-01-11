@@ -242,7 +242,7 @@ class PageSekolahSiswaEdit extends React.Component{
   }   
   /*--- select kelas ---*/
   handleSelectKelas = (value) => {
-    this.setState({kelas:value.id},() => this.fetchCountKelas(value.id));
+    this.setState({kelas:value.id});
   }
   /*--- select nomor ---*/
   handleSelectAbsen = (value) => {
@@ -288,7 +288,7 @@ class PageSekolahSiswaEdit extends React.Component{
   }
   /*--- patch edit the user ----*/
   updateSiswa = () => {         
-    const {nama,jenis,kelas,noAbsen,username,password,rePassword,superuser,croppedImageUrl,src,rawUsername} = this.state;
+    const {nama,jenis,kelas,noAbsen,username,password,rePassword,croppedImageUrl,src,rawUsername} = this.state;
     var formData = new FormData();
     this.setState({uploadProgress:true,uploadDisable:true});
     if(src != null && src != "" && croppedImageUrl != ""){

@@ -4,6 +4,7 @@ import { Helmet } from "react-helmet";
 import { Breadcrumb } from "../../../../components/menu";
 import { SwitchMini,InputText,InputNumber,InputSearch } from "../../../../components/forms";
 import Tabs from "../../../../components/tabs";
+import Pagination from "../../../../components/table/pagination";
 import { DropdownList } from 'react-widgets';
 import { ToastContainer, toast } from 'react-toastify';
 
@@ -53,7 +54,7 @@ class PageAplikasiQuizPaketSoalAdd extends React.Component{
 
     
   render() {     
-    const {uploadProgress,uploadDisable,tingkatan,mapel,semester,bobotPilihan,bobotEssay,paketPilihan,paketEssay,dataPilihan,dataEssay,semesterPickPilihan,semesterPickEssay,semesterData,cariPilihan,cariEssay,totalDataPilihan,totalDataEssay} = this.state; 
+    const {uploadProgress,uploadDisable,tingkatan,mapel,semester,bobotPilihan,bobotEssay,paketPilihan,paketEssay,dataPilihan,dataEssay,semesterPickPilihan,semesterPickEssay,semesterData,cariPilihan,cariEssay,totalDataPilihan,totalDataEssay,pagesPilihan,currPagePilihan,pagesEssay,currPageEssay} = this.state; 
     const uploadClass = uploadProgress ? "progress-active":""; 
     const totalBobot = parseInt(bobotPilihan)+parseInt(bobotEssay);    
     return (  
@@ -155,7 +156,11 @@ class PageAplikasiQuizPaketSoalAdd extends React.Component{
                   <span className="f6" style={{fontStyle:"italic"}}>Total data : {totalDataPilihan} entri</span>
                 }                
               </div>
-              <div className="w-50 ph2 flex" style={{justifyContent:"flex-end"}}></div>
+              <div className="w-50 ph2 flex" style={{justifyContent:"flex-end"}}>  
+                {totalDataPilihan !=undefined &&               
+                  <Pagination pages={pagesPilihan} current={currPagePilihan} pageSize={3} pilihPage={this.pilihPaginationPilihan} disable={cariPilihan ? true:false} />
+                }
+              </div>
               </div>              
             </div>
             <div label="Essay">
@@ -185,7 +190,11 @@ class PageAplikasiQuizPaketSoalAdd extends React.Component{
                   <span className="f6" style={{fontStyle:"italic"}}>Total data : {totalDataEssay} entri</span>
                 }                
               </div>
-              <div className="w-50 ph2 flex" style={{justifyContent:"flex-end"}}></div>
+              <div className="w-50 ph2 flex" style={{justifyContent:"flex-end"}}>
+                {totalDataEssay !=undefined && 
+                  <Pagination pages={pagesEssay} current={currPageEssay} pageSize={3} pilihPage={this.pilihPaginationEssay} disable={cariEssay ? true:false} />
+                } 
+              </div>
               </div>                       
             </div>  
           </Tabs>
@@ -263,6 +272,16 @@ class PageAplikasiQuizPaketSoalAdd extends React.Component{
     this.setState({cariEssay: undefined},() => this.fetchEssaySoal(this.tingkatID,this.mapelID,semesterPickEssay));
   }
   /*--- end menu cari ---*/
+  /*--- pagination ---*/
+  pilihPaginationPilihan = (nomor) =>{  
+    const {semesterPickPilihan} = this.state;   
+    this.setState({pagePilihan: nomor},() => this.fetchPilihanSoal(this.tingkatID,this.mapelID,semesterPickPilihan));
+  }
+  pilihPaginationEssay = (nomor) =>{  
+    const {semesterPickEssay} = this.state;   
+    this.setState({pageEssay: nomor},() => this.fetchPilihanSoal(this.tingkatID,this.mapelID,semesterPickEssay));
+  }
+  /*--- end pagination ---*/
   handleSelectPilihan = (value) => {
     this.setState({semesterPickPilihan:value.id,pagePilihan:1},() => this.fetchPilihanSoal(this.tingkatID,this.mapelID,value.id));
   }

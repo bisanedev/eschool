@@ -53,7 +53,7 @@ class PageAplikasiQuizPaketSoalAdd extends React.Component{
 
     
   render() {     
-    const {uploadProgress,uploadDisable,tingkatan,mapel,semester,bobotPilihan,bobotEssay,paketPilihan,paketEssay,dataPilihan,dataEssay,semesterPickPilihan,semesterPickEssay,semesterData,cariPilihan,cariEssay} = this.state; 
+    const {uploadProgress,uploadDisable,tingkatan,mapel,semester,bobotPilihan,bobotEssay,paketPilihan,paketEssay,dataPilihan,dataEssay,semesterPickPilihan,semesterPickEssay,semesterData,cariPilihan,cariEssay,totalDataPilihan,totalDataEssay} = this.state; 
     const uploadClass = uploadProgress ? "progress-active":""; 
     const totalBobot = parseInt(bobotPilihan)+parseInt(bobotEssay);    
     return (  
@@ -129,7 +129,7 @@ class PageAplikasiQuizPaketSoalAdd extends React.Component{
           <div className="w-60">
           <Tabs>
             <div label="Pilihan ganda">
-              <div className="mb2 w-100 flex">
+              <div className="w-100 flex pa2">
                 <div className="w-50 mr1">
                   <DropdownList filter='contains' data={semesterData} value={semesterPickPilihan} onChange={value => this.handleSelectPilihan(value)} textField="label" dataKey="id" placeholder="Pilih Semester"/>
                 </div> 
@@ -137,20 +137,29 @@ class PageAplikasiQuizPaketSoalAdd extends React.Component{
                   <InputSearch name="cariPilihan" disabled={dataPilihan.length === 0 ? true:false} value={cariPilihan ? cariPilihan:""} placeholder={cariPilihan ? "":"Cari soal"} onChange={this.handleInputChange} onReset={this.resetCariPilihan} onClick={this.handleCariPilihan} onKeyPress={this.handleKeyPressPilihan}/>
                 </div>             
               </div>
+              <div className="flex flex-column w-100 pa2" style={{height:"385px"}}>
               {semesterPickPilihan === null && (
-              <div className="flex justify-center items-center pa3 flex-column w-100" style={{border:"3px dashed rgba(0, 0, 0, 0.125)",height:200}}>
+              <div className="flex justify-center items-center pa3 flex-column w-100" style={{border:"3px dashed rgba(0, 0, 0, 0.125)",height:370}}>
                 <span className="f3 gray">Silahkan pilih semester pada tombol dropdown diatas</span>                
               </div>
               )}
               {dataPilihan.length === 0 && semesterPickPilihan != null &&
-                <div className="flex justify-center items-center pa3 flex-column w-100" style={{border:"3px dashed rgba(0, 0, 0, 0.125)",height:200}}>
+                <div className="flex justify-center items-center pa3 flex-column w-100" style={{border:"3px dashed rgba(0, 0, 0, 0.125)",height:370}}>
                   <span className="f3 gray">Data soal pilih ganda kosong</span>         
                 </div>     
               }
-              
+              </div> 
+              <div className="flex items-center bg-near-white w-100" style={{borderTop:"1px solid rgba(0, 0, 0, 0.125)",height:"58px"}}>
+              <div className="w-50 ph2">
+                {totalDataPilihan !=undefined && 
+                  <span className="f6" style={{fontStyle:"italic"}}>Total data : {totalDataPilihan} entri</span>
+                }                
+              </div>
+              <div className="w-50 ph2 flex" style={{justifyContent:"flex-end"}}></div>
+              </div>              
             </div>
             <div label="Essay">
-              <div className="mb2 w-100 flex">
+              <div className="w-100 flex pa2">
                 <div className="w-50 mr1">
                   <DropdownList filter='contains' data={semesterData} value={semesterPickEssay} onChange={value => this.handleSelectEssay(value)} textField="label" dataKey="id" placeholder="Pilih Semester"/>            
                 </div>
@@ -158,16 +167,26 @@ class PageAplikasiQuizPaketSoalAdd extends React.Component{
                   <InputSearch name="cariEssay" disabled={dataEssay.length === 0 ? true:false} value={cariEssay ? cariEssay:""} placeholder={cariEssay ? "":"Cari soal"} onChange={this.handleInputChange} onReset={this.resetCariEssay} onClick={this.handleCariEssay} onKeyPress={this.handleKeyPressEssay}/>
                 </div>
               </div>
+              <div className="flex flex-column w-100 pa2" style={{height:"385px"}}>
               {semesterPickEssay === null && (
-              <div className="flex justify-center items-center pa3 flex-column w-100" style={{border:"3px dashed rgba(0, 0, 0, 0.125)",height:200}}>
+              <div className="flex justify-center items-center pa3 flex-column w-100" style={{border:"3px dashed rgba(0, 0, 0, 0.125)",height:370}}>
                 <span className="f3 gray">Silahkan pilih semester pada tombol dropdown diatas</span> 
               </div>
               )} 
               {dataEssay.length === 0 && semesterPickEssay != null &&
-              <div className="flex justify-center items-center pa3 flex-column w-100" style={{border:"3px dashed rgba(0, 0, 0, 0.125)",height:200}}>
+              <div className="flex justify-center items-center pa3 flex-column w-100" style={{border:"3px dashed rgba(0, 0, 0, 0.125)",height:370}}>
                 <span className="f3 gray">Data soal essay kosong</span>         
               </div> 
-               }                            
+              }
+              </div>
+              <div className="flex items-center bg-near-white w-100" style={{borderTop:"1px solid rgba(0, 0, 0, 0.125)",height:"58px"}}>
+              <div className="w-50 ph2">
+                {totalDataEssay !=undefined && 
+                  <span className="f6" style={{fontStyle:"italic"}}>Total data : {totalDataEssay} entri</span>
+                }                
+              </div>
+              <div className="w-50 ph2 flex" style={{justifyContent:"flex-end"}}></div>
+              </div>                       
             </div>  
           </Tabs>
           </div>

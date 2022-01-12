@@ -130,7 +130,7 @@ class PageAplikasiQuizPaketSoalAdd extends React.Component{
           <div className="w-60">
           <Tabs>
             <div label="Pilihan ganda">
-              <div className="w-100 flex pa2">
+              <div className="w-100 flex pa1">
                 <div className="w-50 mr1">
                   <DropdownList filter='contains' data={semesterData} value={semesterPickPilihan} onChange={value => this.handleSelectPilihan(value)} textField="label" dataKey="id" placeholder="Pilih Semester"/>
                 </div> 
@@ -138,14 +138,14 @@ class PageAplikasiQuizPaketSoalAdd extends React.Component{
                   <InputSearch name="cariPilihan" disabled={dataPilihan.length === 0 ? true:false} value={cariPilihan ? cariPilihan:""} placeholder={cariPilihan ? "":"Cari soal"} onChange={this.handleInputChange} onReset={this.resetCariPilihan} onClick={this.handleCariPilihan} onKeyPress={this.handleKeyPressPilihan}/>
                 </div>             
               </div>
-              <div className="flex flex-wrap w-100 pa2" style={{height:"385px"}}>
+              <div className="flex flex-wrap w-100 pa2 body-content">
               {semesterPickPilihan === null && (
-              <div className="flex justify-center items-center pa3 flex-column w-100" style={{border:"3px dashed rgba(0, 0, 0, 0.125)",height:370}}>
+              <div className="flex justify-center items-center pa3 flex-column w-100" style={{border:"3px dashed rgba(0, 0, 0, 0.125)",height:365}}>
                 <span className="f3 gray">Silahkan pilih semester pada menu dropdown diatas</span>                
               </div>
               )}
               {dataPilihan.length === 0 && semesterPickPilihan != null &&
-                <div className="flex justify-center items-center pa3 flex-column w-100" style={{border:"3px dashed rgba(0, 0, 0, 0.125)",height:370}}>
+                <div className="flex justify-center items-center pa3 flex-column w-100" style={{border:"3px dashed rgba(0, 0, 0, 0.125)",height:365}}>
                   <span className="f3 gray">Data soal pilih ganda kosong</span>         
                 </div>     
               }
@@ -164,7 +164,7 @@ class PageAplikasiQuizPaketSoalAdd extends React.Component{
               </div>              
             </div>
             <div label="Essay">
-              <div className="w-100 flex pa2">
+              <div className="w-100 flex pa1">
                 <div className="w-50 mr1">
                   <DropdownList filter='contains' data={semesterData} value={semesterPickEssay} onChange={value => this.handleSelectEssay(value)} textField="label" dataKey="id" placeholder="Pilih Semester"/>            
                 </div>
@@ -172,14 +172,14 @@ class PageAplikasiQuizPaketSoalAdd extends React.Component{
                   <InputSearch name="cariEssay" disabled={dataEssay.length === 0 ? true:false} value={cariEssay ? cariEssay:""} placeholder={cariEssay ? "":"Cari soal"} onChange={this.handleInputChange} onReset={this.resetCariEssay} onClick={this.handleCariEssay} onKeyPress={this.handleKeyPressEssay}/>
                 </div>
               </div>
-              <div className="flex flex-column w-100 pa2" style={{height:"385px"}}>
+              <div className="flex flex-wrap w-100 pa2 body-content">
               {semesterPickEssay === null && (
-              <div className="flex justify-center items-center pa3 flex-column w-100" style={{border:"3px dashed rgba(0, 0, 0, 0.125)",height:370}}>
+              <div className="flex justify-center items-center pa3 flex-column w-100" style={{border:"3px dashed rgba(0, 0, 0, 0.125)",height:365}}>
                 <span className="f3 gray">Silahkan pilih semester pada menu dropdown diatas</span> 
               </div>
               )} 
               {dataEssay.length === 0 && semesterPickEssay != null &&
-              <div className="flex justify-center items-center pa3 flex-column w-100" style={{border:"3px dashed rgba(0, 0, 0, 0.125)",height:370}}>
+              <div className="flex justify-center items-center pa3 flex-column w-100" style={{border:"3px dashed rgba(0, 0, 0, 0.125)",height:365}}>
                 <span className="f3 gray">Data soal essay kosong</span>         
               </div> 
               }
@@ -293,7 +293,7 @@ class PageAplikasiQuizPaketSoalAdd extends React.Component{
   fetchPilihanSoal = (tingkat,mapel,semester) => {      
     const {pagePilihan,cariPilihan} = this.state;    
     axios.get(
-      window.location.origin + `/api/pendidik/aplikasi/quiz/paket/${tingkat}/${mapel}/${semester}/pilihan?total=5` + `${pagePilihan ? '&page=' + pagePilihan : ''}`+ `${cariPilihan ? '&cari=' + cariPilihan : ''}` +"&nocache="+Date.now()
+      window.location.origin + `/api/pendidik/aplikasi/quiz/paket/${tingkat}/${mapel}/${semester}/pilihan?total=6` + `${pagePilihan ? '&page=' + pagePilihan : ''}`+ `${cariPilihan ? '&cari=' + cariPilihan : ''}` +"&nocache="+Date.now()
     ).then(response => {      
       this.setState({
         dataPilihan:response.data.message.data,
@@ -311,7 +311,7 @@ class PageAplikasiQuizPaketSoalAdd extends React.Component{
   fetchEssaySoal = (tingkat,mapel,semester) => {
     const {pageEssay,cariEssay} = this.state;    
     axios.get(
-      window.location.origin + `/api/pendidik/aplikasi/quiz/paket/${tingkat}/${mapel}/${semester}/essay?total=5` + `${pageEssay ? '&page=' + pageEssay: ''}`+ `${cariEssay ? '&cari=' + cariEssay : ''}` +"&nocache="+Date.now()
+      window.location.origin + `/api/pendidik/aplikasi/quiz/paket/${tingkat}/${mapel}/${semester}/essay?total=6` + `${pageEssay ? '&page=' + pageEssay: ''}`+ `${cariEssay ? '&cari=' + cariEssay : ''}` +"&nocache="+Date.now()
     ).then(response => {      
       this.setState({
         dataEssay:response.data.message.data,

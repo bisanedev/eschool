@@ -33,4 +33,9 @@
   height: 500px;
   align-items: center;
   flex-direction: column;  
+  .body-content{
+    height:385px;
+    overflow-y:auto;
+    scrollbar-width: thin;
+  }
 }

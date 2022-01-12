@@ -2,7 +2,7 @@ import React from 'react';
 import {decode} from 'html-entities';
 import MathView from 'react-math-view';
 
-function pilihanSoal(props) {  
+function soalItems(props) {  
     return (  
     <div className="wrapDataSoal bg-white">      
         <div className="pertanyaaan" dangerouslySetInnerHTML={{ __html: decode(props.text, {level: 'html5'}) }}/>
@@ -52,4 +52,4 @@ function pilihanSoal(props) {
     );
 }
 
-export default pilihanSoal;
+export default soalItems;

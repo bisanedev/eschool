@@ -7,6 +7,7 @@ import Tabs from "../../../../components/tabs";
 import Pagination from "../../../../components/table/pagination";
 import { DropdownList } from 'react-widgets';
 import { ToastContainer, toast } from 'react-toastify';
+import SoalItem from "./soalItem";
 
 class PageAplikasiQuizPaketSoalAdd extends React.Component{
 
@@ -139,16 +140,25 @@ class PageAplikasiQuizPaketSoalAdd extends React.Component{
                 </div>             
               </div>
               <div className="flex flex-wrap w-100 pa2 body-content">
-              {semesterPickPilihan === null && (
-              <div className="flex justify-center items-center pa3 flex-column w-100" style={{border:"3px dashed rgba(0, 0, 0, 0.125)",height:365}}>
-                <span className="f3 gray">Silahkan pilih semester pada menu dropdown diatas</span>                
-              </div>
-              )}
-              {dataPilihan.length === 0 && semesterPickPilihan != null &&
+                {semesterPickPilihan === null && (
                 <div className="flex justify-center items-center pa3 flex-column w-100" style={{border:"3px dashed rgba(0, 0, 0, 0.125)",height:365}}>
-                  <span className="f3 gray">Data soal pilih ganda kosong</span>         
-                </div>     
-              }
+                  <span className="f3 gray">Silahkan pilih semester pada menu dropdown diatas</span>                
+                </div>
+                )}
+                {dataPilihan.length === 0 && semesterPickPilihan != null &&
+                  <div className="flex justify-center items-center pa3 flex-column w-100" style={{border:"3px dashed rgba(0, 0, 0, 0.125)",height:365}}>
+                    <span className="f3 gray">Data soal pilih ganda kosong</span>         
+                  </div>     
+                }   
+                {dataPilihan.length > 0 && dataPilihan.map((value,k) => (             
+                  <SoalItem key={k} nomor={k+1} text={value.pertanyaan_text}
+                    checked={paketPilihan.some(item => item.id === value.id)}
+                    onChecked={() => this.onCheckedPilihan(value)}
+                    dataValue={value}    
+                    linkImages={`data/soal/pilihan/${value.id}/${value.pertanyaan_images}`}
+                    linkAudio={`data/soal/pilihan/${value.id}/${value.pertanyaan_audio}`}
+                  />
+                ))}
               </div> 
               <div className="flex items-center bg-near-white w-100" style={{borderTop:"1px solid rgba(0, 0, 0, 0.125)",height:"58px"}}>
               <div className="w-50 ph2">
@@ -183,6 +193,15 @@ class PageAplikasiQuizPaketSoalAdd extends React.Component{
                 <span className="f3 gray">Data soal essay kosong</span>         
               </div> 
               }
+              {dataEssay.length > 0 && dataEssay.map((value,k) => (             
+                <SoalItem key={k} nomor={k+1} text={value.pertanyaan_text}   
+                  checked={paketEssay.some(item => item.id === value.id)}  
+                  onChecked={() => this.onCheckedEssay(value)}
+                  dataValue={value}    
+                  linkImages={`data/soal/essay/${value.id}/${value.pertanyaan_images}`}
+                  linkAudio={`data/soal/essay/${value.id}/${value.pertanyaan_audio}`}
+                />
+              ))}
               </div>
               <div className="flex items-center bg-near-white w-100" style={{borderTop:"1px solid rgba(0, 0, 0, 0.125)",height:"58px"}}>
               <div className="w-50 ph2">
@@ -236,6 +255,29 @@ class PageAplikasiQuizPaketSoalAdd extends React.Component{
     if(numericRegex.test(value) || value === "") {
       this.setState({ [name]: value });
     }      
+  }
+  /*--- Onchecked soal ---*/
+  onCheckedPilihan = (value) => {
+    const {paketPilihan} =  this.state;    
+    var index = paketPilihan.findIndex(x => x.id === value.id);             
+    if (index !== -1) {      
+      paketPilihan.splice(index, 1);
+      this.setState({paketPilihan});
+    }else{      
+      paketPilihan.push(value);
+      this.setState({paketPilihan});      
+    } 
+  }
+  onCheckedEssay = (value) => {
+    const {paketEssay} =  this.state;    
+    var index = paketEssay.findIndex(x => x.id === value.id);             
+    if (index !== -1) {      
+      paketEssay.splice(index, 1);
+      this.setState({paketEssay});
+    }else{      
+      paketEssay.push(value);
+      this.setState({paketEssay});      
+    } 
   }
   /*--- menu cari ---*/
   handleCariPilihan = () => {

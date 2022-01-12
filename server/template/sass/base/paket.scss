@@ -34,8 +34,112 @@
   align-items: center;
   flex-direction: column;  
   .body-content{
-    height:385px;
+    height:392px;
     overflow-y:auto;
     scrollbar-width: thin;
+  }
+}
+/* paket soal item */
+.wrapPaketSoal{
+  border: 1px solid rgba(0, 0, 0, 0.125);
+  width: 47%;
+  height: 11rem;
+  margin-bottom: 12px;
+  margin-right: 12px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  .pertanyaaan{
+    font-size: 12px;
+    padding: 5px;
+    background-color: #f7f7f7;
+    height: 80%;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    p {
+        display: inline;
+    }
+    b,strong {
+        font-weight: bold;
+    }
+}
+.pertanyaaanOpsional{
+    height: 20%;
+}
+.checkbox-soal{
+    position: absolute;
+    bottom: 44px;
+    right: 1px;
+    user-select: none;
+    padding-left: 21px;
+    cursor: pointer;
+    display: block;
+      input {
+          position: absolute;
+          opacity: 0;
+          cursor: pointer;
+          height: 0;
+          width: 0;
+      }
+      .checkmark {
+          position: absolute;
+          top: -2px;
+          left: 0;
+          height: 20px;
+          width: 20px;
+          background-color: #f3f3f3;
+          border: 1px solid rgba(0, 0, 0, 0.125);
+          border-radius: 20px;
+      }
+      .checkmark:after {
+          content: "";
+          position: absolute;
+          display: none;
+      }
+      input:checked ~ .checkmark {
+          background-color: $primary-color;
+      }
+      input:checked ~ .checkmark:after {
+          display: block;
+      }
+      .checkmark:after {    
+          left: 7px;
+          top: 3px;
+          width: 4px;
+          height: 9px;
+          border: solid white;   
+          border-width: 0 3px 3px 0;
+          -webkit-transform: rotate(45deg);
+          -ms-transform: rotate(45deg);
+          transform: rotate(45deg);
+      }
+  }
+  .checkbox-soal:hover input ~ .checkmark {
+      background-color: #ccc;
+  }
+  /* --- popover --- */
+  .popover_wrapper {
+    position: relative;
+    display: inline-block;
+  }
+  .popover_content {
+      opacity: 0;
+      visibility: hidden;
+      position: absolute;
+      transform: translate(0, -140px);
+      background-color: #fff;
+      padding: 10px;
+      box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);        
+      width: 200px;
+      height: 115px;
+      margin-left: -70px;
+      overflow-y: auto;
+      border-radius: 3px;
+  }
+  .popover_wrapper:hover .popover_content {
+      z-index: 10;
+      opacity: 1;
+      visibility: visible;
+      transition: all 0.5s cubic-bezier(0.75, -0.02, 0.2, 0.97);
   }
 }

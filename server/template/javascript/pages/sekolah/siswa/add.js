@@ -267,8 +267,8 @@ class PageSekolahSiswaAdd extends React.Component{
 
     formData.append('nama', nama);
     formData.append('jenis', jenis);    
-    formData.append('kelas', kelas !="100" ? kelas:"");
-    formData.append('absen', noAbsen !="100" ? noAbsen:"");
+    formData.append('kelas', kelas);
+    formData.append('absen', noAbsen);
     formData.append('username', username);      
     formData.append('password', password);
     formData.append('rePassword', rePassword);      

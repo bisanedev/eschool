@@ -511,8 +511,7 @@ class PageAplikasiQuizPilihanSoalAdd extends React.Component{
       if(error.message === "Network Error"){ 
         toast.error("Jaringan internet tidak tersambung");                    
       }     
-    });
-     
+    });     
   }    
   /*--- end post new soal ----*/
   logout = () => {   

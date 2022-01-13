@@ -425,7 +425,40 @@ class PageAplikasiQuizPaketSoalAdd extends React.Component{
   }
   /*--- post data ---*/
   newPaket = () => {
-    console.log("new paket soal");
+    const {nama,acak,bobotPilihan,bobotEssay,paketPilihan,paketEssay} = this.state;    
+    var formData = new FormData();
+    var jumlah = parseInt(bobotEssay === "" ? 0:bobotEssay,10) + parseInt(bobotPilihan === "" ? 0:bobotPilihan,10);
+    if(jumlah > 100 || 100 > jumlah){      
+      this.setState({uploadProgress:false,uploadDisable:false},() => toast.warn("Kedua Bobot Tidak Boleh Melebihi Atau Kurang Dari 100"));
+      return false;
+    }
+    formData.append('nama',nama);
+    formData.append('acak',acak ? 1:0);
+    formData.append('bobot_pilihan',bobotPilihan);
+    formData.append('bobot_essay',bobotEssay);
+    formData.append('paket_pilihan',JSON.stringify(paketPilihan));
+    formData.append('paket_essay',JSON.stringify(paketEssay));    
+    axios({
+      method: 'post',
+      url: `/api/pendidik/aplikasi/quiz/pilihan/${this.tingkatID}/${this.mapelID}/${this.semesterID}/add`,
+      data: formData
+    }).then(response => {                 
+        if(response.data.status == true)
+        {      
+          console.log("berhasil");                                    
+          this.navigate(-1); 
+        }
+    }).catch(error => {                   
+      if(error.response.status == 400){                       
+        this.setState({uploadProgress:false,uploadDisable:false},() => toast.warn(error.response.data.message));
+      }  
+      if(error.response.status == 401){
+        this.logout();
+      }                    
+      if(error.message === "Network Error"){ 
+        toast.error("Jaringan internet tidak tersambung");                    
+      }     
+    });    
   }
   /*--- Logout ---*/
   logout = () => {   

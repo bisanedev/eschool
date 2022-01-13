@@ -544,6 +544,64 @@ class QuizController extends ApiController
         echo $this->response->json_response(200, $data);   
     }
 
+    public function PaketSoalAdd($tingkatID,$mapelID,$semesterID)
+    {
+        $v = new Validator($_POST);
+        $v->rule('required', ['nama','acak','bobot_pilihan','bobot_essay','paket_pilihan','paket_essay']);
+        if($v->validate()) {
+            
+        }else{
+            if($v->errors('nama')){
+                echo $this->response->json_response(400,"Input nama paket kosong"); 
+            } 
+            elseif($v->errors('acak')){
+                echo $this->response->json_response(400,"Input acak kosong"); 
+            }  
+            elseif($v->errors('bobot_pilihan')){
+                echo $this->response->json_response(400,"Input bobot pilihan kosong"); 
+            }
+            elseif($v->errors('bobot_essay')){
+                echo $this->response->json_response(400,"Input bobot essay kosong"); 
+            }
+            elseif($v->errors('paket_pilihan')){
+                echo $this->response->json_response(400,"Input paket pilihan kosong"); 
+            }
+            elseif($v->errors('paket_essay')){
+                echo $this->response->json_response(400,"Input paket essay kosong"); 
+            }            
+        }
+    }
+
+    public function PaketSoalEdit($tingkatID,$mapelID,$semesterID,$paketID)
+    {
+        
+    }
+
+    public function PaketSoalUpdate($tingkatID,$mapelID,$semesterID)
+    {
+        
+    }
+
+    public function PaketSoalDelete()
+    {
+        $_DELETE = RequestParser::parse()->params;        
+        $v = new Validator($_DELETE);
+        $v->rule('required', ['delete']);
+        if($v->validate()) {                          
+            $deleteID = json_decode($_DELETE['delete']);                    
+            $hapus=$this->database->delete("quiz_paketsoal",["AND" => ["id" => $deleteID]]);
+            if($hapus->rowCount() === 0){ 
+                echo $this->response->json_response(400,"Data tidak ditemukan");
+            }else{
+                echo $this->response->json_response(200,"berhasil");
+            }            
+        }else{
+            if($v->errors('delete')){
+                echo $this->response->json_response(400,"delete id kosong"); 
+            }
+        }
+    }
+
     public function PaketGetSoalPilihan($tingkatID,$mapelID,$semesterID)
     {
         $cari = isset($_GET['cari'])? (string)$_GET["cari"]:"%";        
@@ -582,26 +640,6 @@ class QuizController extends ApiController
             $data = array("data" => $soal,"totaldata" => $totalRow,"pages" => $pages,"current" => $page,"nextpage"=> $nextpage );            
         }  
         echo $this->response->json_response(200, $data); 
-    }
-
-    public function PaketSoalDelete()
-    {
-        $_DELETE = RequestParser::parse()->params;        
-        $v = new Validator($_DELETE);
-        $v->rule('required', ['delete']);
-        if($v->validate()) {                          
-            $deleteID = json_decode($_DELETE['delete']);                    
-            $hapus=$this->database->delete("quiz_paketsoal",["AND" => ["id" => $deleteID]]);
-            if($hapus->rowCount() === 0){ 
-                echo $this->response->json_response(400,"Data tidak ditemukan");
-            }else{
-                echo $this->response->json_response(200,"berhasil");
-            }            
-        }else{
-            if($v->errors('delete')){
-                echo $this->response->json_response(400,"delete id kosong"); 
-            }
-        }
     }
 
     function rrmdir($dir) {

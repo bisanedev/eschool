@@ -53,7 +53,8 @@ $dispatcher = FastRoute\simpleDispatcher(function (RouteCollector $r) {
         $r->addRoute('GET', '/aplikasi/quiz/index/essay/{tingkatID}/{mapelID}/{semesterID}/{soalID}', ['App\PendidikControllers\QuizController','SoalEssayEdit']);
         $r->addRoute('POST', '/aplikasi/quiz/essay/{tingkatID}/{mapelID}/{semesterID}/update', ['App\PendidikControllers\QuizController','SoalEssayUpdate']);
         $r->addRoute('DELETE', '/aplikasi/quiz/essay', ['App\PendidikControllers\QuizController','SoalEssayDelete']);
-        $r->addRoute('GET', '/aplikasi/quiz/paket/{tingkatID}/{mapelID}/{semesterID}', ['App\PendidikControllers\QuizController','PaketSoal']);       
+        $r->addRoute('GET', '/aplikasi/quiz/paket/{tingkatID}/{mapelID}/{semesterID}', ['App\PendidikControllers\QuizController','PaketSoal']);
+        $r->addRoute('GET', '/aplikasi/quiz/paket/{tingkatID}/{mapelID}/{semesterID}/add', ['App\PendidikControllers\QuizController','PaketSoalAdd']);
         $r->addRoute('DELETE', '/aplikasi/quiz/paket', ['App\PendidikControllers\QuizController','PaketSoalDelete']);        
         $r->addRoute('GET', '/aplikasi/quiz/paket/{tingkatID}/{mapelID}/{semesterID}/pilihan', ['App\PendidikControllers\QuizController','PaketGetSoalPilihan']);       
         $r->addRoute('GET', '/aplikasi/quiz/paket/{tingkatID}/{mapelID}/{semesterID}/essay', ['App\PendidikControllers\QuizController','PaketGetSoalEssay']);       

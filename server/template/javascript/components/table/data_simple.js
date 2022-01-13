@@ -16,21 +16,21 @@ function DataSimple(props) {
                 <span className="f6 white">{props.subtitle}</span>  
             </div>
             }
-            <div className="h2 flex pa2 dataAction">
+            <div className="h2 flex pa1 dataAction">
                 <div className="w-50">                    
-                    <div className="pv2">
-                    <label className="checkbox-container">Pilih
+                    <div className="pv1">
+                    <label className="checkbox-container" style={{width:78}}>Pilih
                         <input type="checkbox" checked={props.checked} onChange={props.onChecked}/>
                         <span className="checkmark"></span>
                     </label>                       
                     </div>                    
                 </div>                
                 <div className="flex w-50" style={{justifyContent:"flex-end"}}>
-                    <button type="button" onClick={() => props.onEdit()} style={{cursor: "pointer",border:"1px solid rgba(0,0,0,.125)"}} className="ml1 link dim pa2 dib primary bg-light-gray">
-                        <i className="material-icons" style={{fontSize:"18px"}}>edit</i> 
+                    <button type="button" onClick={() => props.onEdit()} style={{border:"1px solid rgba(0,0,0,.125)"}} className="pointer link dim pa1 dib primary bg-light-gray">
+                        <i className="material-icons" style={{fontSize:"16px"}}>edit</i> 
                     </button>
-                    <button type="button" onClick={() => props.onDelete()} style={{cursor: "pointer",border:"1px solid rgba(0,0,0,.125)"}} className="ml1 link dim pa2 dib red bg-light-gray">
-                        <i className="material-icons-sharp" style={{fontSize:"18px"}}>delete</i>
+                    <button type="button" onClick={() => props.onDelete()} style={{border:"1px solid rgba(0,0,0,.125)"}} className="pointer ml1 link dim pa1 dib red bg-light-gray">
+                        <i className="material-icons-sharp" style={{fontSize:"16px"}}>delete</i>
                     </button>
                 </div>                
             </div>

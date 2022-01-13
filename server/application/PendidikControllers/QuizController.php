@@ -220,7 +220,7 @@ class QuizController extends ApiController
         $tingkatan = $this->database->select("sekolah_kelastingkatan",["id","nama"],["id" => $tingkatID]); 
         $mapel = $this->database->select("sekolah_mapel",["id","nama"],["id" => $mapelID]); 
         $semester = $this->database->select("sekolah_semesternama",["[>]sekolah_semestertahun" => ["semester_tahun_id" => "id"]],["sekolah_semesternama.id","sekolah_semestertahun.nama(tahun)","sekolah_semesternama.semester"],["sekolah_semesternama.id" => $semesterID]);        
-        $soal = $this->database->select("quiz_banksoal_pilihan",["id","pertanyaan_text","pertanyaan_images","pertanyaan_tex","pertanyaan_audio","pilihan[JSON]","jawaban[JSON]"],["id" => $soalID]);            
+        $soal = $this->database->select("quiz_banksoal_pilihan",["id","pertanyaan_text","pertanyaan_images","pertanyaan_tex","pertanyaan_audio","pilihan[JSON]","jawaban[JSON]"],["id" => $soalID]);      
         $data = array("data" => $soal[0] ,"semester" => $semester[0],"tingkatan"=> $tingkatan[0] ,"mapel"=> $mapel[0] );
         echo $this->response->json_response(200, $data);
     }
@@ -395,7 +395,7 @@ class QuizController extends ApiController
                    
             //insert database    
             $tex = isset($_POST["pertanyaan_tex"]) ? $_POST["pertanyaan_tex"]:"";        
-            $this->database->insert("quiz_banksoal_essay",["tingkatan_id" => $tingkatID,"mapel_id" => $mapelID,"semester_id" => $semesterID,"pertanyaan_text" => $_POST["pertanyaan_text"],"pertanyaan_tex" => $tex]);           
+            $this->database->insert("quiz_banksoal_essay",["tingkatan_id" => $tingkatID,"mapel_id" => $mapelID,"semester_id" => $semesterID,"pertanyaan_text" => $_POST["pertanyaan_text"],"pertanyaan_tex" => $tex]);
             $lastID = $this->database->id();
             //make folder
             if (isset($_FILES["pertanyaan_images"]) || isset($_FILES["pertanyaan_audio"]) || isset($_FILES["files"])){ 
@@ -429,7 +429,7 @@ class QuizController extends ApiController
         $tingkatan = $this->database->select("sekolah_kelastingkatan",["id","nama"],["id" => $tingkatID]); 
         $mapel = $this->database->select("sekolah_mapel",["id","nama"],["id" => $mapelID]); 
         $semester = $this->database->select("sekolah_semesternama",["[>]sekolah_semestertahun" => ["semester_tahun_id" => "id"]],["sekolah_semesternama.id","sekolah_semestertahun.nama(tahun)","sekolah_semesternama.semester"],["sekolah_semesternama.id" => $semesterID]);        
-        $soal = $this->database->select("quiz_banksoal_essay",["id","pertanyaan_text","pertanyaan_tex","pertanyaan_images","pertanyaan_audio"],["id" => $soalID]);            
+        $soal = $this->database->select("quiz_banksoal_essay",["id","pertanyaan_text","pertanyaan_tex","pertanyaan_images","pertanyaan_audio"],["id" => $soalID]);        
         $data = array("data" => $soal[0] ,"semester" => $semester[0],"tingkatan"=> $tingkatan[0] ,"mapel"=> $mapel[0] );
         echo $this->response->json_response(200, $data);
     }
@@ -533,10 +533,10 @@ class QuizController extends ApiController
         $totalRow = $this->database->count("quiz_paketsoal",["AND" => ["tingkatan_id" => $tingkatID,"mapel_id" => $mapelID ,"semester_id" => $semesterID]]);        
 
         if(isset($_GET['cari'])){
-            $soal = $this->database->select("quiz_paketsoal",["id","nama","acak[bool]","bobot_pilihan","bobot_essay","pilihan_terpilih[JSON]","essay_terpilih[JSON]"],["AND" => ["tingkatan_id" => $tingkatID,"mapel_id" => $mapelID ,"semester_id" => $semesterID],"nama[~]" => $cari]);
+            $soal = $this->database->select("quiz_paketsoal",["id","nama","acak_soal[Bool]","bobot_pilihan","bobot_essay","pilihan_terpilih[JSON]","essay_terpilih[JSON]"],["AND" => ["tingkatan_id" => $tingkatID,"mapel_id" => $mapelID ,"semester_id" => $semesterID],"nama[~]" => $cari]);
             $data = array("data" => $soal,"totaldata" => $totalRow ,"tingkatan" => $tingkatan[0] , "mapel" => $mapel[0] , "semester" => $semester[0] ,"nextpage"=> false );
         }else{
-            $soal = $this->database->select("quiz_paketsoal",["id","nama","acak[bool]","bobot_pilihan","bobot_essay","pilihan_terpilih[JSON]","essay_terpilih[JSON]"],["AND" => ["tingkatan_id" => $tingkatID,"mapel_id" => $mapelID ,"semester_id" => $semesterID],"LIMIT" => [$mulai,$totalData],"ORDER" => ["id" => "DESC"]]);            
+            $soal = $this->database->select("quiz_paketsoal",["id","nama","acak_soal[Bool]","bobot_pilihan","bobot_essay","pilihan_terpilih[JSON]","essay_terpilih[JSON]"],["AND" => ["tingkatan_id" => $tingkatID,"mapel_id" => $mapelID ,"semester_id" => $semesterID],"LIMIT" => [$mulai,$totalData],"ORDER" => ["nama" => "ASC"]]);            
             $pages = ceil($totalRow/$totalData);
             $nextpage = ($page < $pages) ? $page+1 : false;
             $data = array("data" => $soal,"totaldata" => $totalRow,"tingkatan" => $tingkatan[0] , "mapel" => $mapel[0] , "semester" => $semester[0],"pages" => $pages,"current" => $page,"nextpage"=> $nextpage );            
@@ -549,7 +549,10 @@ class QuizController extends ApiController
         $v = new Validator($_POST);
         $v->rule('required', ['nama','acak','bobot_pilihan','bobot_essay','paket_pilihan','paket_essay']);
         if($v->validate()) {
-            
+            $pilihanTerpilih = $this->objectSoalToArray(json_decode($_POST["paket_pilihan"],true));
+            $essayTerpilih = $this->objectSoalToArray(json_decode($_POST["paket_essay"],true));
+            $this->database->insert("quiz_paketsoal",["tingkatan_id" => $tingkatID,"mapel_id" => $mapelID,"semester_id" => $semesterID,"nama" => $_POST["nama"],"acak_soal" => $_POST["acak"],"bobot_pilihan" => $_POST["bobot_pilihan"],"bobot_essay" => $_POST["bobot_essay"],"pilihan_terpilih" =>  json_encode($pilihanTerpilih),"essay_terpilih" => json_encode($essayTerpilih)]);
+            echo $this->response->json_response(200,"berhasil");
         }else{
             if($v->errors('nama')){
                 echo $this->response->json_response(400,"Input nama paket kosong"); 
@@ -574,12 +577,49 @@ class QuizController extends ApiController
 
     public function PaketSoalEdit($tingkatID,$mapelID,$semesterID,$paketID)
     {
-        
+        $tingkatan = $this->database->select("sekolah_kelastingkatan",["id","nama"],["id" => $tingkatID]); 
+        $mapel = $this->database->select("sekolah_mapel",["id","nama"],["id" => $mapelID]); 
+        $semester = $this->database->select("sekolah_semesternama",["[>]sekolah_semestertahun" => ["semester_tahun_id" => "id"]],["sekolah_semesternama.id","sekolah_semestertahun.nama(tahun)","sekolah_semesternama.semester"],["sekolah_semesternama.id" => $semesterID]);        
+        $paket = $this->database->select("quiz_paketsoal",["id","nama","acak_soal[Bool]","bobot_pilihan","bobot_essay","pilihan_terpilih[JSON]","essay_terpilih[JSON]"],["id" => $paketID]);
+        $semesterData = $this->database->select("sekolah_semesternama",["[>]sekolah_semestertahun" => ["semester_tahun_id" => "id"]],["sekolah_semesternama.id","label" => Medoo::raw("CONCAT(sekolah_semestertahun.nama,' (Semester ',sekolah_semesternama.semester,')')")],["ORDER" => ["id" => "DESC"]]);
+        $repaket = $this->reMapPaketSoal($paket[0]);
+        $data = array("data" => $repaket ,"semester" => $semester[0],"tingkatan" => $tingkatan[0] ,"mapel" => $mapel[0] , "semesterdata" => $semesterData);
+        echo $this->response->json_response(200, $data);
     }
 
     public function PaketSoalUpdate($tingkatID,$mapelID,$semesterID)
     {
-        
+        $_PATCH = RequestParser::parse()->params;
+        $v = new Validator($_PATCH);
+        $v->rule('required', ['id','nama','acak','bobot_pilihan','bobot_essay','paket_pilihan','paket_essay']);
+        if($v->validate()) {
+            $pilihanTerpilih = $this->objectSoalToArray(json_decode($_PATCH["paket_pilihan"],true));
+            $essayTerpilih = $this->objectSoalToArray(json_decode($_PATCH["paket_essay"],true));
+            $this->database->update("quiz_paketsoal",["nama" => $_PATCH["nama"],"acak_soal" => $_PATCH["acak"],"bobot_pilihan" => $_PATCH["bobot_pilihan"],"bobot_essay" => $_PATCH["bobot_essay"],"pilihan_terpilih" =>  json_encode($pilihanTerpilih),"essay_terpilih" => json_encode($essayTerpilih)],["AND" =>["id" => $_PATCH["id"],"tingkatan_id" => $tingkatID,"mapel_id" => $mapelID,"semester_id" => $semesterID]]);                       
+            echo $this->response->json_response(200,"berhasil");            
+        }else{
+            if($v->errors('nama')){
+                echo $this->response->json_response(400,"Input nama paket kosong"); 
+            } 
+            elseif($v->errors('id')){
+                echo $this->response->json_response(400,"Input id kosong"); 
+            }
+            elseif($v->errors('acak')){
+                echo $this->response->json_response(400,"Input acak kosong"); 
+            }  
+            elseif($v->errors('bobot_pilihan')){
+                echo $this->response->json_response(400,"Input bobot pilihan kosong"); 
+            }
+            elseif($v->errors('bobot_essay')){
+                echo $this->response->json_response(400,"Input bobot essay kosong"); 
+            }
+            elseif($v->errors('paket_pilihan')){
+                echo $this->response->json_response(400,"Input paket pilihan kosong"); 
+            }
+            elseif($v->errors('paket_essay')){
+                echo $this->response->json_response(400,"Input paket essay kosong"); 
+            }            
+        }
     }
 
     public function PaketSoalDelete()
@@ -640,7 +680,7 @@ class QuizController extends ApiController
             $data = array("data" => $soal,"totaldata" => $totalRow,"pages" => $pages,"current" => $page,"nextpage"=> $nextpage );            
         }  
         echo $this->response->json_response(200, $data); 
-    }
+    }  
 
     function rrmdir($dir) {
         if (is_dir($dir)) {
@@ -654,6 +694,46 @@ class QuizController extends ApiController
           }
           reset($objects);
           rmdir($dir);
+        }
+    }
+
+    function objectSoalToArray($obj)
+    {
+        $soalID = array(); 
+        foreach ($obj as $val) {            
+            $soalID[] = $val['id'];            
+        }        
+        return $soalID;
+    }
+
+    function reMapPaketSoal($data)
+    {        
+        if ( is_array($data) || is_object($data) ){          
+            $object = new stdClass();  
+            $object->id = $data["id"];               
+            $object->nama = $data["nama"];
+            $object->acak_soal = $data["acak_soal"];
+            $object->bobot_pilihan = $data["bobot_pilihan"];
+            $object->bobot_essay = $data["bobot_essay"];
+            if(count($data["pilihan_terpilih"]) > 0){
+                $soalCollect = array();
+                foreach ($data["pilihan_terpilih"] as $soalID) {
+                    $getSoal = $this->database->select("quiz_banksoal_pilihan",["id","pertanyaan_text","pertanyaan_tex","pertanyaan_images","pertanyaan_audio"],["id" => $soalID]);          
+                    $soalCollect[] = $getSoal[0];
+                }    
+                $object->pilihan_terpilih = $soalCollect;                
+            }else{ $object->pilihan_terpilih = $data["pilihan_terpilih"];}
+            if(count($data["essay_terpilih"]) > 0){
+                $soalCollect = array();
+                foreach ($data["essay_terpilih"] as $soalID) {
+                    $getSoal = $this->database->select("quiz_banksoal_essay",["id","pertanyaan_text","pertanyaan_tex","pertanyaan_images","pertanyaan_audio"],["id" => $soalID]);          
+                    $soalCollect[] = $getSoal[0];
+                }    
+                $object->essay_terpilih = $soalCollect; 
+            }else{ $object->essay_terpilih = $data["essay_terpilih"];}   
+            return $object;
+        }else{
+            return false;
         }
     }
 

@@ -53,7 +53,6 @@ class PageAplikasiQuizPaketSoalAdd extends React.Component{
     componentWillUnmount() {
       clearTimeout(this.timer);
     }
-
     
   render() {     
     const {uploadProgress,uploadDisable,tingkatan,mapel,semester,bobotPilihan,bobotEssay,paketPilihan,paketEssay,dataPilihan,dataEssay,semesterPickPilihan,semesterPickEssay,semesterData,cariPilihan,cariEssay,totalDataPilihan,totalDataEssay,pagesPilihan,currPagePilihan,pagesEssay,currPageEssay} = this.state; 
@@ -425,11 +424,20 @@ class PageAplikasiQuizPaketSoalAdd extends React.Component{
   }
   /*--- post data ---*/
   newPaket = () => {
-    const {nama,acak,bobotPilihan,bobotEssay,paketPilihan,paketEssay} = this.state;    
+    const {nama,acak,bobotPilihan,bobotEssay,paketPilihan,paketEssay} = this.state; 
+    this.setState({uploadProgress:true,uploadDisable:true});   
     var formData = new FormData();
     var jumlah = parseInt(bobotEssay === "" ? 0:bobotEssay,10) + parseInt(bobotPilihan === "" ? 0:bobotPilihan,10);
     if(jumlah > 100 || 100 > jumlah){      
-      this.setState({uploadProgress:false,uploadDisable:false},() => toast.warn("Kedua Bobot Tidak Boleh Melebihi Atau Kurang Dari 100"));
+      this.setState({uploadProgress:false,uploadDisable:false},() => toast.warn("Kedua bobot tidak boleh melebihi atau kurang dari 100"));
+      return false;
+    }
+    if(paketPilihan.length > 0 && parseInt(bobotPilihan) === 0){
+      this.setState({uploadProgress:false,uploadDisable:false},() => toast.warn("Bobot soal pilihan ganda wajib di isi"));
+      return false;
+    }
+    if(paketEssay.length > 0 && parseInt(bobotEssay) === 0){
+      this.setState({uploadProgress:false,uploadDisable:false},() => toast.warn("Bobot soal essay wajib di isi"));
       return false;
     }
     formData.append('nama',nama);
@@ -440,7 +448,7 @@ class PageAplikasiQuizPaketSoalAdd extends React.Component{
     formData.append('paket_essay',JSON.stringify(paketEssay));    
     axios({
       method: 'post',
-      url: `/api/pendidik/aplikasi/quiz/pilihan/${this.tingkatID}/${this.mapelID}/${this.semesterID}/add`,
+      url: `/api/pendidik/aplikasi/quiz/paket/${this.tingkatID}/${this.mapelID}/${this.semesterID}/add`,
       data: formData
     }).then(response => {                 
         if(response.data.status == true)

@@ -270,3 +270,27 @@ div.wrapDataSoal{
     }
     /* --- end popover --- */
 }
+
+/* simply */
+div.wrapDataPaket{   
+    width: 23%;
+    margin-right: 10px;
+    margin-bottom: 10px;    
+    border: 1px solid rgba(0, 0, 0, 0.125);
+    height: 11rem;
+    .dataHeader{
+        height: 25%;
+        display: flex;
+        align-items: center;
+    }
+    .dataBody{
+        height: 55%;
+    }
+    .dataAction{
+        height: 20%;
+        border-top: 1px solid rgba(0,0,0,.125);     
+    }
+    .checkbox-container {
+        padding-left: 0 !important;
+    }  
+}

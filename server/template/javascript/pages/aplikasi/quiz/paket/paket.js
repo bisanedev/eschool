@@ -13,7 +13,7 @@ class PageAplikasiQuizPaketSoal extends React.Component{
     super(props);
     this.state = {
       nextPage:undefined,
-      total:10,
+      total:8,
       totalData:undefined,
       cari:undefined,
       isLoading:true,
@@ -89,18 +89,23 @@ class PageAplikasiQuizPaketSoal extends React.Component{
                 </div>   
               </div>                                                                          
               <select className="pa2 db gray ml2" value={total} onChange={this.handleSelectChange}>
-                <option label="10" value="10"/>
-                <option label="20" value="20"/>
-                <option label="30" value="30"/>
+                <option label="8" value="8"/>
+                <option label="16" value="16"/>
+                <option label="24" value="24"/>
               </select>
               <div className="ml2">                
                 <InputSearch name="cari" value={cari ? cari:""} placeholder={cari ? "":"Cari paket soal"} onChange={this.handleInputChange} onReset={this.resetCari} onClick={this.handleCari} onKeyPress={this.handleKeyPress}/>
               </div>
             </div> 
           </Table.Header>       
-          <Table.Body column={true}>
+          <Table.Body>
             {data.length > 0 && !isLoading && data.map((value,k) => (
-              <Table.DataPaket key={k} title={value.nama}           
+              <Table.DataPaket key={k} nama={value.nama}           
+                countPilihan={value.pilihan_terpilih.length}
+                countEssay={value.essay_terpilih.length}
+                bobotPilihan={value.bobot_pilihan}                
+                bobotEssay={value.bobot_essay}
+                acak={value.acak_soal}
                 checked={selected.includes(value.id)} 
                 onChecked={() => this.onChecked(value.id)}
                 onDelete={() => this.onDelete(value)}

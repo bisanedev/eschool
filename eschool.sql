@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 15, 2021 at 06:13 AM
+-- Generation Time: Jan 14, 2022 at 11:45 AM
 -- Server version: 10.4.19-MariaDB
 -- PHP Version: 8.0.7
 
@@ -43,7 +43,8 @@ CREATE TABLE `quiz_banksoal_essay` (
 --
 
 INSERT INTO `quiz_banksoal_essay` (`id`, `tingkatan_id`, `mapel_id`, `semester_id`, `pertanyaan_text`, `pertanyaan_images`, `pertanyaan_tex`, `pertanyaan_audio`) VALUES
-(7, 2, 9, 1, '&lt;p&gt;Pisang sangat bermanfaat bagi kehidupan manusia. Buah kuning ini mengandung zat yang sangat berguna seperti potasium, potasium, gula dan lainnya. Zat ini sangat bermanfaat dalam tubuh. Sebagai contoh, banyak gula dapat digunakan sebagai sumber energi bagi tubuh. Pisang ditanam di tanah subur dan memiliki sumber air. Pisang tidak hanya mengandung zat-zat bermanfaat, mereka juga menghasilkan hormon endorphin.Hormon-hormon ini memberikan kenyamanan bagi mereka yang mengkonsumsinya. &lt;/p&gt;&lt;p&gt;Kalimat-kalimat sumbang ada dalam kalimat? &lt;/p&gt;', '', '', '');
+(7, 2, 9, 1, '&lt;p&gt;Pisang sangat bermanfaat bagi kehidupan manusia. Buah kuning ini mengandung zat yang sangat berguna seperti potasium, potasium, gula dan lainnya. Zat ini sangat bermanfaat dalam tubuh. Sebagai contoh, banyak gula dapat digunakan sebagai sumber energi bagi tubuh. Pisang ditanam di tanah subur dan memiliki sumber air. Pisang tidak hanya mengandung zat-zat bermanfaat, mereka juga menghasilkan hormon endorphin.Hormon-hormon ini memberikan kenyamanan bagi mereka yang mengkonsumsinya. &lt;/p&gt;&lt;p&gt;Kalimat-kalimat sumbang ada dalam kalimat? &lt;/p&gt;', '', '', ''),
+(15, 2, 9, 1, '&lt;p&gt;Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it&lt;br/&gt; over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure &lt;br/&gt;Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the &lt;br/&gt;undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of &amp;quot;de Finibus Bonorum et Malorum&amp;quot; (The Extremes of Good and Evil) by &lt;br/&gt;Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, &amp;quot;Lorem ipsum dolor sit amet..&amp;quot;, comes from a line in section 1.10.32. &lt;/p&gt;', 'pertanyaan.jpg', '\\sum_{n\\mathop=0}^{\\infty}\\sqrt{2}4', 'pertanyaan.mp3');
 
 -- --------------------------------------------------------
 
@@ -69,7 +70,7 @@ CREATE TABLE `quiz_banksoal_pilihan` (
 --
 
 INSERT INTO `quiz_banksoal_pilihan` (`id`, `tingkatan_id`, `mapel_id`, `semester_id`, `pertanyaan_text`, `pertanyaan_images`, `pertanyaan_tex`, `pertanyaan_audio`, `pilihan`, `jawaban`) VALUES
-(72, 2, 9, 1, '&lt;p&gt;1. Menyusun berita dengan mempergunakan bahasa yang singkat dan jelas.&lt;br/&gt;2. Pencarian sumber berita (pengamatan langsung, wawancara, bahan berita)&lt;br/&gt;3. Melakukan wawancara yang bersifat informatif untuk memperoleh fakta,&lt;br/&gt;4. Menemukan pokok-pokok dari hasil yang diperoleh wawancara,&lt;br/&gt;5. Penentuan peristiwa atau kejadian suatu perkara&lt;br/&gt;6. Menyunting naskah berita sesuai dengan EYD.&lt;br/&gt;&lt;br/&gt;Urutan yang tepat dari langkah-langkah menulis berita adalah…. &lt;/p&gt;', '', '', '', '[{\"type\":\"text\",\"data\":\"&lt;p&gt;(5), (2), (3), (4), (1), (6) &lt;/p&gt;\"},{\"type\":\"text\",\"data\":\"&lt;p&gt;(5), (3), (2), (4), (6), (1) &lt;/p&gt;\"},{\"type\":\"text\",\"data\":\"&lt;p&gt;(1), (2), (3), (5), (4), (6) &lt;/p&gt;\"},{\"type\":\"text\",\"data\":\"&lt;p&gt;(5), (2), (3), (6), (4), (1) &lt;/p&gt;\"}]', '[0]'),
+(72, 2, 9, 1, '&lt;p&gt;1. Menyusun berita dengan mempergunakan bahasa yang singkat dan jelas.&lt;br/&gt;2. Pencarian sumber berita (pengamatan langsung, wawancara, bahan berita)&lt;br/&gt;3. Melakukan wawancara yang bersifat informatif untuk memperoleh fakta,&lt;br/&gt;4. Menemukan pokok-pokok dari hasil yang diperoleh wawancara,&lt;br/&gt;5. Penentuan peristiwa atau kejadian suatu perkara&lt;br/&gt;6. Menyunting naskah berita sesuai dengan EYD.&lt;br/&gt;Urutan yang tepat dari langkah-langkah menulis berita adalah…. &lt;/p&gt;', '', '', '', '[{\"type\":\"text\",\"data\":\"&lt;p&gt;(5), (2), (3), (4), (1), (6) &lt;/p&gt;\"},{\"type\":\"text\",\"data\":\"&lt;p&gt;(5), (3), (2), (4), (6), (1) &lt;/p&gt;\"},{\"type\":\"text\",\"data\":\"&lt;p&gt;(1), (2), (3), (5), (4), (6) &lt;/p&gt;\"},{\"type\":\"text\",\"data\":\"&lt;p&gt;(5), (2), (3), (6), (4), (1) &lt;/p&gt;\"}]', '[0]'),
 (73, 2, 9, 1, '&lt;p&gt;Dibawah yang termasuk kedalam fungsi dari sebuah judul adalah,kecuali … &lt;/p&gt;', '', '', '', '[{\"type\":\"text\",\"data\":\"&lt;p&gt;Untuk Memberi kepadatan isi &lt;/p&gt;\"},{\"type\":\"text\",\"data\":\"&lt;p&gt;Merangkum isi cerita &lt;/p&gt;\"},{\"type\":\"text\",\"data\":\"&lt;p&gt;Menserasikan/mempercantik perwajahan surat kabar &lt;/p&gt;\"},{\"type\":\"text\",\"data\":\"&lt;p&gt;Melukiskan suasana berita &lt;/p&gt;\"}]', '[0]'),
 (74, 2, 9, 1, '&lt;p&gt;Yang termasuk ke dalam jenis softnews adalah ….. &lt;/p&gt;', '', '', '', '[{\"type\":\"text\",\"data\":\"&lt;p&gt;Profil atau kisah kesuksesan seseorang &lt;/p&gt;\"},{\"type\":\"text\",\"data\":\"&lt;p&gt;Editorial &lt;/p&gt;\"},{\"type\":\"text\",\"data\":\"&lt;p&gt;Fotografer &lt;/p&gt;\"},{\"type\":\"text\",\"data\":\"&lt;p&gt;Pencahayaan &lt;/p&gt;\"}]', '[0]'),
 (75, 2, 9, 1, '&lt;p&gt;Suatu informasi baru yang diinformasikan melalui koran, majalah, telivisi dan alat-alat media lainnya disebut …. &lt;/p&gt;', '', '', '', '[{\"type\":\"text\",\"data\":\"&lt;p&gt;gosip &lt;/p&gt;\"},{\"type\":\"text\",\"data\":\"&lt;p&gt;berita &lt;/p&gt;\"},{\"type\":\"text\",\"data\":\"&lt;p&gt;iklan &lt;/p&gt;\"},{\"type\":\"text\",\"data\":\"&lt;p&gt;promosi &lt;/p&gt;\"}]', '[1]'),
@@ -78,12 +79,22 @@ INSERT INTO `quiz_banksoal_pilihan` (`id`, `tingkatan_id`, `mapel_id`, `semester
 (78, 2, 9, 1, '&lt;p&gt;Sebuah pesan menarik tentang sebuah produk atau jasa yang ditujukan untuk para khalayak disebut …. &lt;/p&gt;', '', '', '', '[{\"type\":\"text\",\"data\":\"&lt;p&gt;berita &lt;/p&gt;\"},{\"type\":\"text\",\"data\":\"&lt;p&gt;iklan &lt;/p&gt;\"},{\"type\":\"text\",\"data\":\"&lt;p&gt;gosip &lt;/p&gt;\"},{\"type\":\"text\",\"data\":\"&lt;p&gt;pameran &lt;/p&gt;\"}]', '[1]'),
 (79, 2, 9, 1, '&lt;p&gt;Produk atau jasa agar lebih dikenal oleh banyak masyarakat, merupakan …. dari iklan. &lt;/p&gt;', '', '', '', '[{\"type\":\"text\",\"data\":\"&lt;p&gt;tujuan &lt;/p&gt;\"},{\"type\":\"text\",\"data\":\"&lt;p&gt;manfaat &lt;/p&gt;\"},{\"type\":\"text\",\"data\":\"&lt;p&gt;kesimpulan &lt;/p&gt;\"},{\"type\":\"text\",\"data\":\"&lt;p&gt;pesan &lt;/p&gt;\"}]', '[1]'),
 (80, 2, 9, 1, '&lt;p&gt;Perhatikan kutipan teks berikut! &lt;/p&gt;&lt;p&gt;Kamarku lumayan luas dan tertata sangat rapi. Di dekat jendela kamarku&lt;br/&gt;terdapat sebuah tempat tidur kayu sengon. Kasur di tempat tidur itu ditutupi seprei dengan motif pelangi. Meja belajar dengan rak buku tersusun sangat rapi di sebelah kiri tempat tidur. [….] Lemari itu memiliki kaca dan berwarna hijau muda.&lt;br/&gt;Kalimat yang tepat untuk melengkapi paragraf deskripsi tersebut adalah…. &lt;/p&gt;', '', '', '', '[{\"type\":\"text\",\"data\":\"&lt;p&gt;Meja rias dan alat-alat kecantikan terletak di sudut kamar. &lt;/p&gt;\"},{\"type\":\"text\",\"data\":\"&lt;p&gt;Aku memiliki beberapa pakaian yang digantung di belakang pintu. &lt;/p&gt;\"},{\"type\":\"text\",\"data\":\"&lt;p&gt;Di lantai kamar terbentang permadani bermotif batik sumatra. &lt;/p&gt;\"},{\"type\":\"text\",\"data\":\"&lt;p&gt;Sebuah lemari pakaian diletakkan di sebelah kanan meja belajar. &lt;/p&gt;\"}]', '[3]'),
-(81, 2, 9, 1, '&lt;p&gt;Bacalah dengan cermat! &lt;/p&gt;&lt;p&gt;Tahapan-tahapan menulis yakni sebagai berikut: &lt;/p&gt;&lt;ul&gt;&lt;li&gt;Pertama, tentukan topik. &lt;/li&gt;&lt;li&gt;Kedua,kumpulkan data. &lt;/li&gt;&lt;li&gt;Ketiga, buat kerangka karangannya terlebih dahulu. &lt;/li&gt;&lt;li&gt;Keempat, kembangkan kerangka menjadi tulisan. &lt;/li&gt;&lt;li&gt;Kelima, tentukan judul karangan.&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;&lt;br/&gt;Jenis teks eksposisi diatas adalah …. &lt;/p&gt;', '', '', '', '[{\"type\":\"text\",\"data\":\"&lt;p&gt; sebab-akibat &lt;/p&gt;\"},{\"type\":\"text\",\"data\":\"&lt;p&gt;definisi &lt;/p&gt;\"},{\"type\":\"text\",\"data\":\"&lt;p&gt;perbandingan &lt;/p&gt;\"},{\"type\":\"text\",\"data\":\"&lt;p&gt;proses &lt;/p&gt;\"}]', '[3]'),
+(81, 2, 9, 1, '&lt;p&gt;Bacalah dengan cermat! &lt;/p&gt;&lt;p&gt;Tahapan-tahapan menulis yakni sebagai berikut: &lt;/p&gt;&lt;ul&gt;&lt;li&gt;Pertama, tentukan topik. &lt;/li&gt;&lt;li&gt;Kedua,kumpulkan data. &lt;/li&gt;&lt;li&gt;Ketiga, buat kerangka karangannya terlebih dahulu. &lt;/li&gt;&lt;li&gt;Keempat, kembangkan kerangka menjadi tulisan. &lt;/li&gt;&lt;li&gt;Kelima, tentukan judul karangan.&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Jenis teks eksposisi diatas adalah …. &lt;/p&gt;', '', '', '', '[{\"type\":\"text\",\"data\":\"&lt;p&gt; sebab-akibat &lt;/p&gt;\"},{\"type\":\"text\",\"data\":\"&lt;p&gt;definisi &lt;/p&gt;\"},{\"type\":\"text\",\"data\":\"&lt;p&gt;perbandingan &lt;/p&gt;\"},{\"type\":\"text\",\"data\":\"&lt;p&gt;proses &lt;/p&gt;\"}]', '[3]'),
 (82, 2, 9, 1, '&lt;p&gt;Bacalah dengan cermat!&lt;br/&gt;Setiap orang memiliki kesukaan membaca yang berbeda-beda. Hal ini &lt;br/&gt;disebabkan biasanya karena adanya perbedaan umur, jenis kelamin, tingkat&lt;br/&gt; pendidikan, atau profesi yang berbeda. Selain itu juga, bisa juga &lt;br/&gt;disebabkan oleh tujuan membaca yang berbeda. &lt;/p&gt;&lt;p&gt;Hal yang dibicarakan dalam teks tersebut adalah … &lt;/p&gt;', '', '', '', '[{\"type\":\"text\",\"data\":\"&lt;p&gt;Perbedaan setiap orang dalam memilih tempat membaca. &lt;/p&gt;\"},{\"type\":\"text\",\"data\":\"&lt;p&gt;Alasan orang untuk membaca bermacam-macam buku &lt;/p&gt;\"},{\"type\":\"text\",\"data\":\"&lt;p&gt;Penyebab orang membaca bermacam-macam buku. &lt;/p&gt;\"},{\"type\":\"text\",\"data\":\"&lt;p&gt;Perbedaan setiap orang dalam memilih bacaan. &lt;/p&gt;\"}]', '[3]'),
 (84, 2, 9, 1, '&lt;p&gt;Bacalah puisi berikut! &lt;/p&gt;&lt;p&gt;&lt;em&gt;Wahai sahabat&lt;br/&gt;Untuk selamanya&lt;br/&gt;Kita percaya&lt;br/&gt;Tebarkan arah jangan pernah lelah&lt;br/&gt;Untukmu sahabat &lt;/em&gt;&lt;/p&gt;&lt;p&gt;Tema puisi diatas adalah ….. &lt;/p&gt;', '', '', '', '[{\"type\":\"text\",\"data\":\"&lt;p&gt;Persahabatan &lt;/p&gt;\"},{\"type\":\"text\",\"data\":\"&lt;p&gt;Permusuhan &lt;/p&gt;\"},{\"type\":\"text\",\"data\":\"&lt;p&gt;Perdamaian &lt;/p&gt;\"},{\"type\":\"text\",\"data\":\"&lt;p&gt;Percintaan &lt;/p&gt;\"}]', '[0]'),
 (85, 2, 9, 1, '&lt;p&gt;Bacalah puisi berikut! &lt;/p&gt;&lt;p&gt;&lt;em&gt;Wahai sahabat&lt;/em&gt;&lt;/p&gt;&lt;p&gt;&lt;em&gt;Untuk selamanyaKita percaya&lt;/em&gt;&lt;/p&gt;&lt;p&gt;&lt;em&gt;Tebarkan arah jangan pernah lelah&lt;/em&gt;&lt;/p&gt;&lt;p&gt;&lt;em&gt;Untukmu sahabat &lt;/em&gt; &lt;/p&gt;&lt;p&gt;Suasana yang terbangun didalam puisi diatas adalah … &lt;/p&gt;', '', '', '', '[{\"type\":\"text\",\"data\":\"&lt;p&gt;sedih &lt;/p&gt;\"},{\"type\":\"text\",\"data\":\"&lt;p&gt;emosi &lt;/p&gt;\"},{\"type\":\"text\",\"data\":\"&lt;p&gt;gembira &lt;/p&gt;\"},{\"type\":\"text\",\"data\":\"&lt;p&gt;penuh semangat &lt;/p&gt;\"}]', '[3]'),
 (86, 2, 9, 1, '&lt;p&gt;Tujuan puisi salah satunya adalah …. &lt;/p&gt;', '', '', '', '[{\"type\":\"text\",\"data\":\"&lt;p&gt;menyampaikan pesan atau kritikan yang sifatnya membangun &lt;/p&gt;\"},{\"type\":\"text\",\"data\":\"&lt;p&gt;mencari kesenangan pribadi saja &lt;/p&gt;\"},{\"type\":\"text\",\"data\":\"&lt;p&gt;luapan hati&lt;/p&gt;\"},{\"type\":\"text\",\"data\":\"&lt;p&gt;meberikan kesimpulan masalah &lt;/p&gt;\"}]', '[0]'),
-(87, 2, 9, 1, '&lt;p&gt;Berikut ini merupakan jenis-jenis puisi,kecuali …. &lt;/p&gt;', '', '', '', '[{\"type\":\"text\",\"data\":\"&lt;p&gt; puisi majemuk &lt;/p&gt;\"},{\"type\":\"text\",\"data\":\"&lt;p&gt;puisi lama &lt;/p&gt;\"},{\"type\":\"text\",\"data\":\"&lt;p&gt;puisi kontemporer &lt;/p&gt;\"},{\"type\":\"text\",\"data\":\"&lt;p&gt; puisi baru &lt;/p&gt;\"}]', '[0]');
+(87, 2, 9, 1, '&lt;p&gt;Berikut ini merupakan jenis-jenis puisi,kecuali …. &lt;/p&gt;', '', '', '', '[{\"type\":\"text\",\"data\":\"&lt;p&gt; puisi majemuk &lt;/p&gt;\"},{\"type\":\"text\",\"data\":\"&lt;p&gt;puisi lama &lt;/p&gt;\"},{\"type\":\"text\",\"data\":\"&lt;p&gt;puisi kontemporer &lt;/p&gt;\"},{\"type\":\"text\",\"data\":\"&lt;p&gt; puisi baru &lt;/p&gt;\"}]', '[0]'),
+(97, 2, 1, 1, '&lt;p&gt;Berikut yang mana rumus untuk mencari luas dan keliling lingkaran … &lt;/p&gt;', '', '', '', '[{\"type\":\"text\",\"data\":\"&lt;p&gt; L = Л x r dan K = 2 x Л x r &lt;/p&gt;\"},{\"type\":\"text\",\"data\":\"&lt;p&gt;L = Л x r x r dan K = 2 x Л &lt;/p&gt;\"},{\"type\":\"text\",\"data\":\"&lt;p&gt;L = K = 2 x Л x r dan Л x r² &lt;/p&gt;\"},{\"type\":\"text\",\"data\":\"&lt;p&gt;L = K = 2 x Л x r dan Л x r² &lt;/p&gt;\"}]', '[2]'),
+(98, 2, 1, 1, '&lt;p&gt;Jam dinding bundar memiliki d 28 cm. Maka berapa keliling jam dinding tersebut …. &lt;/p&gt;', '', '', '', '[{\"type\":\"text\",\"data\":\"&lt;p&gt;86 Cm &lt;/p&gt;\"},{\"type\":\"text\",\"data\":\"&lt;p&gt;88 Cm &lt;/p&gt;\"},{\"type\":\"text\",\"data\":\"&lt;p&gt;90 Cm  &lt;/p&gt;\"},{\"type\":\"text\",\"data\":\"&lt;p&gt;92 Cm &lt;/p&gt;\"}]', '[1]'),
+(99, 2, 1, 1, '&lt;p&gt;Diketahui bahwa dari keliling sebuah lingkaran adalah 154 cm. Maka dari jari-jari lingkaran adalah …. &lt;/p&gt;', '', '', '', '[{\"type\":\"text\",\"data\":\"&lt;p&gt;24 Cm &lt;/p&gt;\"},{\"type\":\"text\",\"data\":\"&lt;p&gt;24,5 Cm &lt;/p&gt;\"},{\"type\":\"text\",\"data\":\"&lt;p&gt;25 Cm &lt;/p&gt;\"},{\"type\":\"text\",\"data\":\"&lt;p&gt;25,5 Cm &lt;/p&gt;\"}]', '[1]'),
+(100, 2, 1, 1, '&lt;p&gt;Selembarh kertas yang memiliki bentuk lingkaran dengan nilai kelilingnya 616 cm. Maka diameter kertas ini adalah …. &lt;/p&gt;', '', '', '', '[{\"type\":\"text\",\"data\":\"&lt;p&gt;28 Cm &lt;/p&gt;\"},{\"type\":\"text\",\"data\":\"&lt;p&gt;32 Cm &lt;/p&gt;\"},{\"type\":\"text\",\"data\":\"&lt;p&gt;26 Cm &lt;/p&gt;\"},{\"type\":\"text\",\"data\":\"&lt;p&gt;22 Cm &lt;/p&gt;\"}]', '[0]'),
+(101, 2, 1, 1, '&lt;p&gt;Okta mempunyai hulahop yang kelilingnya 210 cm. Jika dihitung berapa jari-jari dari hulahop Okta …. &lt;/p&gt;', '', '', '', '[{\"type\":\"text\",\"data\":\"&lt;p&gt;33,6 Cm &lt;/p&gt;\"},{\"type\":\"text\",\"data\":\"&lt;p&gt;30 Cm &lt;/p&gt;\"},{\"type\":\"text\",\"data\":\"&lt;p&gt;31 Cm &lt;/p&gt;\"},{\"type\":\"text\",\"data\":\"&lt;p&gt;33,4 Cm &lt;/p&gt;\"}]', '[3]'),
+(102, 2, 1, 1, '&lt;p&gt;Luas lingkaran adalah 2,464 cm². Lalu, keliling lingkaran tersebut ialah …. &lt;/p&gt;', '', '', '', '[{\"type\":\"text\",\"data\":\"&lt;p&gt;168 Cm &lt;/p&gt;\"},{\"type\":\"text\",\"data\":\"&lt;p&gt;174 Cm &lt;/p&gt;\"},{\"type\":\"text\",\"data\":\"&lt;p&gt;176 Cm &lt;/p&gt;\"},{\"type\":\"text\",\"data\":\"&lt;p&gt;182 Cm &lt;/p&gt;\"}]', '[2]'),
+(103, 2, 1, 1, '&lt;p&gt;Sebuah taman yang berbentuk lingkaran kelilingnya 3.850 m. Maka jika dihitung diameter dari taman tersebut ialah …. &lt;/p&gt;', '', '', '', '[{\"type\":\"text\",\"data\":\"&lt;p&gt;1200 m &lt;/p&gt;\"},{\"type\":\"text\",\"data\":\"&lt;p&gt;1.220 m &lt;/p&gt;\"},{\"type\":\"text\",\"data\":\"&lt;p&gt;1.225 m &lt;/p&gt;\"},{\"type\":\"text\",\"data\":\"&lt;p&gt;1.230 m &lt;/p&gt;\"}]', '[1]'),
+(104, 2, 1, 1, '&lt;p&gt;Kinanti menjahit taplak meja bentuknya bundar dengan d = 1,4 m. Setelah &lt;br/&gt;selesai jika diukur berapa keliling lingkaran taplak meja tersebut … &lt;/p&gt;', '', '', '', '[{\"type\":\"text\",\"data\":\"&lt;p&gt;3,5 m &lt;/p&gt;\"},{\"type\":\"text\",\"data\":\"&lt;p&gt;3,75 m &lt;/p&gt;\"},{\"type\":\"text\",\"data\":\"&lt;p&gt;4,4 m &lt;/p&gt;\"},{\"type\":\"text\",\"data\":\"&lt;p&gt;4.15 m &lt;/p&gt;\"}]', '[2]'),
+(106, 2, 9, 1, '&lt;p&gt;test image / audio / math&lt;/p&gt;', 'pertanyaan.jpg', '\\int_0^{\\infty}\\frac{\\differentialD2}{\\differentialD x}2', 'pertanyaan.mp3', '[{\"type\":\"text\",\"data\":\"&lt;p&gt;hollaaa&lt;/p&gt;\"},{\"type\":\"text\",\"data\":\"&lt;p&gt;test&lt;/p&gt;\"},{\"type\":\"text\",\"data\":\"&lt;p&gt;baong&lt;/p&gt;\"}]', '[0]'),
+(107, 2, 9, 1, '&lt;p&gt;asdsadsasadsadas&lt;/p&gt;', 'pertanyaan.jpg', '', 'pertanyaan.mp3', '[{\"type\":\"text\",\"data\":\"&lt;p&gt;ssss&lt;/p&gt;\"},{\"type\":\"text\",\"data\":\"&lt;p&gt;wwwww&lt;/p&gt;\"}]', '[1]');
 
 -- --------------------------------------------------------
 
@@ -97,11 +108,11 @@ CREATE TABLE `quiz_exam` (
   `tingkatan_id` int(11) NOT NULL,
   `mapel_id` int(11) NOT NULL,
   `semester_id` int(11) NOT NULL,
-  `nama` varchar(300) NOT NULL,
+  `nama` varchar(200) NOT NULL,
   `mulai` datetime NOT NULL,
   `selesai` datetime NOT NULL,
-  `paket_soal` varchar(300) NOT NULL,
-  `kisi_exam` text NOT NULL
+  `paket_soal` text NOT NULL,
+  `kisi_exam` varchar(30) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -144,6 +155,14 @@ CREATE TABLE `quiz_paketsoal` (
   `essay_terpilih` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data for table `quiz_paketsoal`
+--
+
+INSERT INTO `quiz_paketsoal` (`id`, `tingkatan_id`, `mapel_id`, `semester_id`, `nama`, `acak_soal`, `bobot_pilihan`, `bobot_essay`, `pilihan_terpilih`, `essay_terpilih`) VALUES
+(4, 2, 9, 1, 'Paket A', 1, 80, 20, '[\"87\",\"86\",\"107\",\"106\",\"85\",\"80\",\"79\",\"77\",\"78\",\"72\"]', '[\"15\",\"7\"]'),
+(5, 2, 9, 1, 'Paket B', 1, 80, 20, '[\"87\",\"86\",\"107\",\"106\",\"85\",\"80\",\"79\",\"77\",\"78\",\"72\"]', '[\"15\",\"7\"]');
+
 -- --------------------------------------------------------
 
 --
@@ -165,7 +184,17 @@ INSERT INTO `sekolah_kelasnama` (`id`, `tingkatan_id`, `nama`) VALUES
 (2, 1, 'Kelas 7B'),
 (3, 2, 'Kelas 8A'),
 (4, 2, 'Kelas 8B'),
-(15, 15, 'Kelas 9A');
+(15, 15, 'Kelas 9A'),
+(19, 1, 'Kelas 7C'),
+(20, 1, 'Kelas 7D'),
+(21, 1, 'Kelas 7E'),
+(22, 2, 'Kelas 8C'),
+(23, 2, 'Kelas 8D'),
+(24, 2, 'Kelas 8E'),
+(25, 15, 'Kelas 9B'),
+(26, 15, 'Kelas 9C'),
+(27, 15, 'Kelas 9D'),
+(28, 15, 'Kelas 9E');
 
 -- --------------------------------------------------------
 
@@ -261,7 +290,7 @@ INSERT INTO `sekolah_semestertahun` (`id`, `nama`) VALUES
 
 CREATE TABLE `sekolah_siswa` (
   `id` int(11) NOT NULL,
-  `nama` varchar(300) NOT NULL,
+  `nama` varchar(200) NOT NULL,
   `jenis` varchar(5) NOT NULL,
   `username` varchar(30) NOT NULL,
   `foto` tinyint(1) NOT NULL,
@@ -280,8 +309,8 @@ CREATE TABLE `sekolah_siswa` (
 INSERT INTO `sekolah_siswa` (`id`, `nama`, `jenis`, `username`, `foto`, `no_absens`, `kelas_id`, `password`, `expired_token`, `unique_token`, `device_token`) VALUES
 (1, 'Adisty Titania', 'p', 'adisty', 1, 1, 1, '$2a$10$pR9ZEuPIIpEgBBMyD8G79uXZplUN5zB39xmlNni//KgajnGEwvW02', 1668574465, '619339813f15e', ''),
 (2, 'Auristela Allisya Lesham Shaenette', 'p', 'auristela', 1, 2, 1, '$2a$10$Y.rlT1vKIWPpkb68XsS7ZeJTrw3gJL3nsCIHI5A6.EBMPyIUOZpdW', 1668521970, '61926c727dffb', NULL),
-(3, 'Mastah Mandeliman', 'l', 'mandeliman', 1, 1, 2, '$2a$10$eSAZXak6xEZFFFBBS6Y6fuAu1VN4Ac2cHx5gFcYAm/qEQTrTPiQ4u', 1668518828, '6192602c9dc12', NULL),
-(4, 'Moho Man', 'l', 'moho', 1, 2, 2, '$2a$10$Q66RXXyIgvFpCa2V5iFk0uR/2JJZZ15Ls6pkrQtnr8I4GGxTtp2cu', 1668518919, '619260879ec22', NULL);
+(3, 'Mastah Mandeliman', 'l', 'mandeliman', 1, 1, 19, '$2a$10$eSAZXak6xEZFFFBBS6Y6fuAu1VN4Ac2cHx5gFcYAm/qEQTrTPiQ4u', 1668518828, '6192602c9dc12', NULL),
+(4, 'Moho Man', 'l', 'moho', 1, 2, 19, '$2a$10$Q66RXXyIgvFpCa2V5iFk0uR/2JJZZ15Ls6pkrQtnr8I4GGxTtp2cu', 1668518919, '619260879ec22', NULL);
 
 -- --------------------------------------------------------
 
@@ -291,7 +320,7 @@ INSERT INTO `sekolah_siswa` (`id`, `nama`, `jenis`, `username`, `foto`, `no_abse
 
 CREATE TABLE `sekolah_users` (
   `id` int(11) NOT NULL,
-  `nama` varchar(300) NOT NULL,
+  `nama` varchar(200) NOT NULL,
   `jenis` varchar(5) NOT NULL,
   `username` varchar(30) NOT NULL,
   `password` varchar(300) NOT NULL,
@@ -308,9 +337,9 @@ CREATE TABLE `sekolah_users` (
 --
 
 INSERT INTO `sekolah_users` (`id`, `nama`, `jenis`, `username`, `password`, `foto`, `mapel_id`, `superuser`, `expired_token`, `unique_token`, `device_token`) VALUES
-(1, 'Administrator', 'l', 'admin', '$2a$10$uJWzRaqj52lXZGP6yeG0..g6S8EfynirIddkDM3XdmbfGY5x5vrti', 1, '[]', 1, 1669032498, '619a36b2e7ff4', ''),
-(2, 'Marbuah Almakaroni', 'p', 'marbuah', '$2a$12$K/vRFyhWiIwitDqY5fcqQOIZvWGlfplnOJPbkOYuJm8RshDC5V9gG', 1, '[\"1\"]', 1, 1637931253, '619f87755924f', ''),
-(15, 'Adhisti Arisha ', 'p', 'adhisti', '$2a$10$F/T0Q2n9I6blfK4YsY9FYO6xQxOOnoYdmLAnlZKnwBUmLCz8Psc7.', 1, '[\"3\",\"6\"]', 0, 1668945547, '6198e30be8a32', NULL);
+(1, 'Administrator', 'l', 'admin', '$2a$10$uJWzRaqj52lXZGP6yeG0..g6S8EfynirIddkDM3XdmbfGY5x5vrti', 1, '[]', 1, 1673409388, '61dcffec7519d', ''),
+(2, 'Marbuah Almakaroni', 'p', 'marbuah', '$2a$12$K/vRFyhWiIwitDqY5fcqQOIZvWGlfplnOJPbkOYuJm8RshDC5V9gG', 1, '[\"1\"]', 1, 1673518140, '61dea8bc079a7', ''),
+(15, 'Adhisti Arisha ', 'p', 'adhisti', '$2a$10$F/T0Q2n9I6blfK4YsY9FYO6xQxOOnoYdmLAnlZKnwBUmLCz8Psc7.', 1, '[\"3\",\"6\"]', 0, 1673408882, '61dcfdf2e25a6', NULL);
 
 --
 -- Indexes for dumped tables
@@ -417,19 +446,19 @@ ALTER TABLE `sekolah_users`
 -- AUTO_INCREMENT for table `quiz_banksoal_essay`
 --
 ALTER TABLE `quiz_banksoal_essay`
-  MODIFY `id` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `quiz_banksoal_pilihan`
 --
 ALTER TABLE `quiz_banksoal_pilihan`
-  MODIFY `id` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=93;
+  MODIFY `id` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=109;
 
 --
 -- AUTO_INCREMENT for table `quiz_exam`
 --
 ALTER TABLE `quiz_exam`
-  MODIFY `id` int(50) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `quiz_exam_jawabansiswa`
@@ -441,13 +470,13 @@ ALTER TABLE `quiz_exam_jawabansiswa`
 -- AUTO_INCREMENT for table `quiz_paketsoal`
 --
 ALTER TABLE `quiz_paketsoal`
-  MODIFY `id` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `sekolah_kelasnama`
 --
 ALTER TABLE `sekolah_kelasnama`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- AUTO_INCREMENT for table `sekolah_kelastingkatan`
@@ -477,7 +506,7 @@ ALTER TABLE `sekolah_semestertahun`
 -- AUTO_INCREMENT for table `sekolah_siswa`
 --
 ALTER TABLE `sekolah_siswa`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `sekolah_users`

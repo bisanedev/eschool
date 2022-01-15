@@ -92,6 +92,32 @@ class QuizController extends ApiController
         $data = array("data" => $newData,"tingkatan"=> $tingkatan[0] ,"mapel"=> $mapel[0] );
         echo $this->response->json_response(200, $data);
     }
+
+    public function IndexTingkatanExam()
+    {                  
+        $data = $this->database->select("sekolah_kelastingkatan",["id","nama"]); 
+        $newData = $this->reMapExamTingkatanJumlah($data);        
+        echo $this->response->json_response(200, $newData);
+    }
+
+    public function IndexMapelExam($tingkatID)
+    {                
+        $tingkatan = $this->database->select("sekolah_kelastingkatan",["id","nama"],["id" => $tingkatID]); 
+        $mapel = $this->database->select("sekolah_mapel",["id","nama","color"]);      
+        $newData = $this->reMapExamMapelJumlah($mapel,$tingkatID);
+        $data = array("data" => $newData,"tingkatan" => $tingkatan[0]);
+        echo $this->response->json_response(200, $data);
+    }
+
+    public function IndexSemesterExam($tingkatID,$mapelID)
+    {                
+        $tingkatan = $this->database->select("sekolah_kelastingkatan",["id","nama"],["id" => $tingkatID]); 
+        $mapel = $this->database->select("sekolah_mapel",["id","nama"],["id" => $mapelID]); 
+        $semester = $this->database->select("sekolah_semesternama",["[>]sekolah_semestertahun" => ["semester_tahun_id" => "id"]],["sekolah_semesternama.id","sekolah_semestertahun.nama(tahun)","sekolah_semesternama.semester"]);        
+        $newData = $this->reMapExamSemesterJumlah($semester,$tingkatID,$mapelID);
+        $data = array("data" => $newData,"tingkatan"=> $tingkatan[0] ,"mapel"=> $mapel[0] );
+        echo $this->response->json_response(200, $data);
+    }
     
     public function IndexForms($tingkatID,$mapelID,$semesterID)
     {
@@ -745,7 +771,7 @@ class QuizController extends ApiController
                 $object = new stdClass();  
                 $object->id = $val["id"];               
                 $object->nama = $val["nama"];                 
-                $object->jumlah = $this->database->count("quiz_banksoal_pilihan",["tingkatan_id" => $val["id"]]);; 
+                $object->jumlah = $this->database->count("quiz_banksoal_pilihan",["tingkatan_id" => $val["id"]]); 
                 $recollect[] = $object;
             }
             return $recollect;
@@ -798,7 +824,7 @@ class QuizController extends ApiController
                 $object = new stdClass();  
                 $object->id = $val["id"];               
                 $object->nama = $val["nama"];                 
-                $object->jumlah = $this->database->count("quiz_banksoal_essay",["tingkatan_id" => $val["id"]]);; 
+                $object->jumlah = $this->database->count("quiz_banksoal_essay",["tingkatan_id" => $val["id"]]); 
                 $recollect[] = $object;
             }
             return $recollect;
@@ -851,7 +877,7 @@ class QuizController extends ApiController
                 $object = new stdClass();  
                 $object->id = $val["id"];               
                 $object->nama = $val["nama"];                 
-                $object->jumlah = $this->database->count("quiz_paketsoal",["tingkatan_id" => $val["id"]]);; 
+                $object->jumlah = $this->database->count("quiz_paketsoal",["tingkatan_id" => $val["id"]]); 
                 $recollect[] = $object;
             }
             return $recollect;
@@ -888,6 +914,74 @@ class QuizController extends ApiController
                 $object->semester = $val["semester"];   
                 $object->tahun = $val["tahun"];              
                 $object->jumlah = $this->database->count("quiz_paketsoal",["AND" => ["tingkatan_id" => $tingkatID,"mapel_id" => $mapelID,"semester_id" => $val["id"]]]);    
+                $recollect[] = $object;
+            }
+            return $recollect;
+        }else{
+            return false;
+        }  
+    }
+
+    function reMapExamTingkatanJumlah($data)
+    {
+        if ( is_array($data) || is_object($data) ){            
+            $userID = $this->token->claims()->get('uid');
+            $recollect = array();
+            foreach ($data as $val) {
+                $object = new stdClass();  
+                $object->id = $val["id"];               
+                $object->nama = $val["nama"];
+                if($this->user["superuser"] === "1"){
+                    $object->jumlah = $this->database->count("quiz_exam",["tingkatan_id" => $val["id"]]);
+                }else{
+                    $object->jumlah = $this->database->count("quiz_exam",["AND" => ["tingkatan_id" => $val["id"],"user_id" => $userID]]);
+                }                 
+                $recollect[] = $object;
+            }
+            return $recollect;
+        }else{
+            return false;
+        }    
+    }
+
+    function reMapExamMapelJumlah($data,$tingkatID)
+    {
+        if ( is_array($data) || is_object($data) ){
+            $userID = $this->token->claims()->get('uid');
+            $recollect = array();
+            foreach ($data as $val) {
+                $object = new stdClass();  
+                $object->id = $val["id"];               
+                $object->nama = $val["nama"];   
+                $object->color = $val["color"];
+                if($this->user["superuser"] === "1"){                    
+                    $object->jumlah = $this->database->count("quiz_exam",["AND" => ["tingkatan_id" => $tingkatID,"mapel_id" => $val["id"]]]);    
+                }else{
+                    $object->jumlah = $this->database->count("quiz_exam",["AND" => ["user_id" => $userID,"tingkatan_id" => $tingkatID,"mapel_id" => $val["id"]]]);                    
+                }                
+                $recollect[] = $object;
+            }
+            return $recollect;
+        }else{
+            return false;
+        }    
+    }
+
+    function reMapExamSemesterJumlah($data,$tingkatID,$mapelID)
+    {
+        if ( is_array($data) || is_object($data) ){
+            $userID = $this->token->claims()->get('uid');
+            $recollect = array();
+            foreach ($data as $val) {
+                $object = new stdClass();  
+                $object->id = $val["id"];               
+                $object->semester = $val["semester"];   
+                $object->tahun = $val["tahun"];                              
+                if($this->user["superuser"] === "1"){                      
+                    $object->jumlah = $this->database->count("quiz_exam",["AND" => ["tingkatan_id" => $tingkatID,"mapel_id" => $mapelID,"semester_id" => $val["id"]]]);
+                }else{
+                    $object->jumlah = $this->database->count("quiz_exam",["AND" => ["user_id" => $userID,"tingkatan_id" => $tingkatID,"mapel_id" => $mapelID,"semester_id" => $val["id"]]]);                    
+                }
                 $recollect[] = $object;
             }
             return $recollect;

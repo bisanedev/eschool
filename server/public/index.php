@@ -42,6 +42,9 @@ $dispatcher = FastRoute\simpleDispatcher(function (RouteCollector $r) {
         $r->addRoute('GET', '/aplikasi/quiz/index/paket', ['App\PendidikControllers\QuizController','IndexTingkatanPaket']);
         $r->addRoute('GET', '/aplikasi/quiz/index/paket/{tingkatID}', ['App\PendidikControllers\QuizController','IndexMapelPaket']);
         $r->addRoute('GET', '/aplikasi/quiz/index/paket/{tingkatID}/{mapelID}', ['App\PendidikControllers\QuizController','IndexSemesterPaket']);
+        $r->addRoute('GET', '/aplikasi/quiz/index/exam', ['App\PendidikControllers\QuizController','IndexTingkatanExam']);
+        $r->addRoute('GET', '/aplikasi/quiz/index/exam/{tingkatID}', ['App\PendidikControllers\QuizController','IndexMapelExam']);
+        $r->addRoute('GET', '/aplikasi/quiz/index/exam/{tingkatID}/{mapelID}', ['App\PendidikControllers\QuizController','IndexSemesterExam']);
         $r->addRoute('GET', '/aplikasi/quiz/index/{tingkatID}/{mapelID}/{semesterID}', ['App\PendidikControllers\QuizController','IndexForms']);
         $r->addRoute('GET', '/aplikasi/quiz/pilihan/{tingkatID}/{mapelID}/{semesterID}', ['App\PendidikControllers\QuizController','SoalPilihan']);       
         $r->addRoute('POST', '/aplikasi/quiz/pilihan/{tingkatID}/{mapelID}/{semesterID}/add', ['App\PendidikControllers\QuizController','SoalPilihanAdd']);

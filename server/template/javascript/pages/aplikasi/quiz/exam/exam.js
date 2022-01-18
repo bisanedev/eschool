@@ -48,14 +48,14 @@ class PageAplikasiQuizExamIndex extends React.Component{
     return (  
     <div className="konten"> 
       <Helmet>
-        <title>Ujian kelas - Nama Sekolah</title>
+        <title>Ujian - Nama Sekolah</title>
       </Helmet>  
         <div className="headings">
-          <div className="title">Ujian kelas</div>
-          <div className="subtitle">Data ujian kelas untuk tingkatan {tingkatan != null ? tingkatan.nama:"memuat..."}, mata pelajaran {mapel != null ? mapel.nama:"memuat..."} dan {semester != null ? semester.tahun+" (semester "+semester.semester+")":"memuat..."}</div>
+          <div className="title">Ujian</div>
+          <div className="subtitle">Data ujian untuk tingkatan {tingkatan != null ? tingkatan.nama:"memuat..."}, mata pelajaran {mapel != null ? mapel.nama:"memuat..."} dan {semester != null ? semester.tahun+" (semester "+semester.semester+")":"memuat..."}</div>
           <Breadcrumb homeUrl="/aplikasi" homeText="Aplikasi"> 
             <li><a href="#/aplikasi/quiz"><span>Kuis platform</span></a></li>   
-            <li><a href="#/aplikasi/quiz/exam"><span>Ujian kelas</span></a></li>               
+            <li><a href="#/aplikasi/quiz/exam"><span>Ujian</span></a></li>               
             <li><a href={"#/aplikasi/quiz/exam/"+this.tingkatID}><span>{tingkatan != null ? tingkatan.nama:"memuat..."}</span></a></li>  
             <li><a href={"#/aplikasi/quiz/exam/"+this.tingkatID+"/"+this.mapelID}><span>{mapel != null ? mapel.nama:"memuat..."}</span></a></li>
             <li><a href={"#/aplikasi/quiz/exam/"+this.tingkatID+"/"+this.mapelID+"/"+this.semesterID}><span>{semester != null ? semester.tahun+" (semester "+semester.semester+")":"memuat..."}</span></a></li>            
@@ -94,7 +94,7 @@ class PageAplikasiQuizExamIndex extends React.Component{
                 <option label="24" value="24"/>
               </select>
               <div className="ml2">                
-                <InputSearch name="cari" value={cari ? cari:""} placeholder={cari ? "":"Cari ujian kelas"} onChange={this.handleInputChange} onReset={this.resetCari} onClick={this.handleCari} onKeyPress={this.handleKeyPress}/>
+                <InputSearch name="cari" value={cari ? cari:""} placeholder={cari ? "":"Cari ujian"} onChange={this.handleInputChange} onReset={this.resetCari} onClick={this.handleCari} onKeyPress={this.handleKeyPress}/>
               </div>
             </div> 
           </Table.Header>       
@@ -106,8 +106,8 @@ class PageAplikasiQuizExamIndex extends React.Component{
               onDelete={() => this.onDelete(value)}
               />     
             ))} 
-            {isLoading && <Table.Loading nama="ujian kelas" /> } 
-            {data.length === 0 && !isLoading && <Table.Empty nama="ujian kelas" /> }              
+            {isLoading && <Table.Loading nama="ujian" /> } 
+            {data.length === 0 && !isLoading && <Table.Empty nama="ujian" /> }              
           </Table.Body>
           <Table.Footer>
             <div className="w-50 ph2">

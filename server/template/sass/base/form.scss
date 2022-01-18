@@ -4,6 +4,7 @@ input[type=text]{
     border: 1px solid rgba(0, 0, 0, 0.125);
     background-color: #f3f3f3;
     height: 41px;
+    width: 100%;
 }
 input[type=text]:disabled {
   outline: none; 
@@ -439,4 +440,8 @@ input:checked + .slider:before {
 
 .rw-popup .rw-list {
   scrollbar-width: thin;
+}
+/* calendar */
+.react-datepicker__day--selected,.react-datepicker__day--in-selecting-range,.react-datepicker__day--in-range{
+  background-color: $primary-color !important;
 }

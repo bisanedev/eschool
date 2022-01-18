@@ -36,10 +36,10 @@ class PageAplikasiQuizExamSemester extends React.Component{
         </Helmet>
         <div className="headings">
           <div className="title">Kuis platform</div>
-          <div className="subtitle">Halaman informasi ujian kelas</div>
+          <div className="subtitle">Halaman informasi ujian</div>
           <Breadcrumb homeUrl="/aplikasi" homeText="Aplikasi">                                            
             <li><a href="#/aplikasi/quiz"><span>Kuis platform</span></a></li>   
-            <li><a href="#/aplikasi/quiz/exam"><span>Ujian kelas</span></a></li>               
+            <li><a href="#/aplikasi/quiz/exam"><span>Ujian</span></a></li>               
             <li><a href={"#/aplikasi/quiz/exam/"+this.tingkatID}><span>{tingkatan != null ? tingkatan.nama:"memuat..."}</span></a></li>  
             <li><a href={"#/aplikasi/quiz/exam/"+this.tingkatID+"/"+this.mapelID}><span>{mapel != null ? mapel.nama:"memuat..."}</span></a></li>                  
           </Breadcrumb>

@@ -13951,6 +13951,7 @@ input[type=text] {
   border: 1px solid rgba(0, 0, 0, 0.125);
   background-color: #f3f3f3;
   height: 41px;
+  width: 100%;
 }
 
 input[type=text]:disabled {
@@ -14408,6 +14409,11 @@ input:checked + .slider:before {
   scrollbar-width: thin;
 }
 
+/* calendar */
+.react-datepicker__day--selected, .react-datepicker__day--in-selecting-range, .react-datepicker__day--in-range {
+  background-color: #0191d7 !important;
+}
+
 .headings {
   margin-left: 16px;
 }
@@ -14656,11 +14662,6 @@ body {
   font-style: normal;
   font-weight: 300;
   font-size: 15px;
-}
-
-/* calendar */
-.react-datepicker__day--selected, .react-datepicker__day--in-selecting-range, .react-datepicker__day--in-range {
-  background-color: #0191d7 !important;
 }
 
 /* mini only chrome*/

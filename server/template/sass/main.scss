@@ -36,10 +36,6 @@ body {
     font-weight: 300;   
     font-size: 15px; 
 }
-/* calendar */
-.react-datepicker__day--selected,.react-datepicker__day--in-selecting-range,.react-datepicker__day--in-range{
-    background-color: $primary-color !important;
-}
 /* mini only chrome*/
 ::-webkit-scrollbar {
     width: 12px;

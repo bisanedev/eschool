@@ -8,7 +8,6 @@ import DatePicker from "react-datepicker";
 import { ToastContainer, toast } from 'react-toastify';
 
 class PageAplikasiQuizExamAdd extends React.Component{
-
   constructor(props) {
     super(props);
     this.state = {
@@ -23,7 +22,7 @@ class PageAplikasiQuizExamAdd extends React.Component{
       selesai:"",
       paketSoal:[],
       mulai:new Date(),
-      selesai:new Date(),
+      selesai:new Date().setHours(new Date().getHours() + 1),
       imageToggle:false,
     }
     this.handleInputChange = this.handleInputChange.bind(this);  
@@ -34,7 +33,7 @@ class PageAplikasiQuizExamAdd extends React.Component{
     this.cropper = React.createRef();    
   }
 
-  componentDidMount() {
+  componentDidMount() {   
     this.timer = setTimeout(() => this.fetchData(this.tingkatID,this.mapelID,this.semesterID),300); 
   }
   
@@ -44,7 +43,7 @@ class PageAplikasiQuizExamAdd extends React.Component{
 
   render() {     
     const {tingkatan,mapel,semester,src,errorSelect,uploadProgress,uploadDisable,mulai,selesai,imageToggle} = this.state; 
-    const uploadClass = uploadProgress ? "progress-active":"";     
+    const uploadClass = uploadProgress ? "progress-active":"";    
     return (    
     <div className="konten"> 
         <Helmet>
@@ -73,11 +72,11 @@ class PageAplikasiQuizExamAdd extends React.Component{
             <div className="w-100 flex mb3">
               <div className="w-50 mr1">
                 <label className="f5 fw4 db mb2">Mulai ujian</label>
-                <DatePicker showTimeSelect selected={mulai} onChange={(date) => this.setState({mulai:date})} timeClassName={this.handleColor} dateFormat="dd/mm/yyyy h:mm"/>
+                <DatePicker showTimeSelect selected={mulai} onChange={(date) => this.setState({mulai:date})} dateFormat="dd/MM/yyyy HH:mm"/>
               </div>
               <div className="w-50">
                 <label className="f5 fw4 db mb2">Akhir ujian</label>
-                <DatePicker showTimeSelect selected={selesai} onChange={(date) => this.setState({selesai:date})} timeClassName={this.handleColor} dateFormat="dd/mm/yyyy h:mm"/>
+                <DatePicker showTimeSelect selected={selesai} onChange={(date) => this.setState({selesai:date})} dateFormat="dd/MM/yyyy HH:mm"/>
               </div>            
             </div>            
             <div className="w-100 mb3">                                  
@@ -136,10 +135,6 @@ class PageAplikasiQuizExamAdd extends React.Component{
   }
   onEditorStateChange = (editorState) => {
     this.setState({editorState});
-  };
-  /* --- time ---*/
-  handleColor = (time) => {
-    return time.getHours() > 12 ? "text-success" : "text-error";
   };
   /* --- Crop Foto Pertanyaan ---*/
   _crop = () => {         

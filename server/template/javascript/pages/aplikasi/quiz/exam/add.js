@@ -130,6 +130,11 @@ class PageAplikasiQuizExamAdd extends React.Component{
                   onChecked={() => this.onChecked(value.id)}
                 />                
               ))}
+              {paketData.length === 0 &&
+              <div className="flex justify-center items-center pa3 flex-column w-100" style={{border:"3px dashed rgba(0, 0, 0, 0.125)",height:200}}>
+                <span className="f3 gray">Data paket soal kosong</span>         
+              </div> 
+              }
               </div>
             </div>
           </div>

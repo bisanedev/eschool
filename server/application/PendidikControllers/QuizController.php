@@ -747,6 +747,16 @@ class QuizController extends ApiController
         }          
     }
 
+    public function ExamAddInfo($tingkatID,$mapelID,$semesterID)
+    {
+        $tingkatan = $this->database->select("sekolah_kelastingkatan",["id","nama"],["id" => $tingkatID]); 
+        $mapel = $this->database->select("sekolah_mapel",["id","nama"],["id" => $mapelID]); 
+        $semester = $this->database->select("sekolah_semesternama",["[>]sekolah_semestertahun" => ["semester_tahun_id" => "id"]],["sekolah_semesternama.id","sekolah_semestertahun.nama(tahun)","sekolah_semesternama.semester"],["sekolah_semesternama.id" => $semesterID]);
+        $paketData = $this->database->select("quiz_paketsoal",["id","nama","acak_soal[Bool]","bobot_pilihan","bobot_essay","pilihan_terpilih[JSON]","essay_terpilih[JSON]"],["AND" => ["tingkatan_id" => $tingkatID,"mapel_id" => $mapelID,"semester_id" => $semesterID]]); 
+        $data = array("semester" => $semester[0],"tingkatan"=> $tingkatan[0] ,"mapel"=> $mapel[0] , "paketdata" => $paketData );
+        echo $this->response->json_response(200, $data);
+    }
+
     public function ExamDelete()
     {
         $_DELETE = RequestParser::parse()->params;        

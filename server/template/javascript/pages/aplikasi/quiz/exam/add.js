@@ -5,6 +5,7 @@ import { Helmet } from 'react-helmet';
 import { Breadcrumb } from '../../../../components/menu';
 import { Cards ,SwitchMini,InputText} from '../../../../components/forms';
 import DatePicker from "react-datepicker";
+import PaketItem from "./paketItem";
 import { ToastContainer, toast } from 'react-toastify';
 
 class PageAplikasiQuizExamAdd extends React.Component{
@@ -21,6 +22,7 @@ class PageAplikasiQuizExamAdd extends React.Component{
       mulai:"",
       selesai:"",
       paketSoal:[],
+      paketData:[],
       mulai:new Date(),
       selesai:new Date().setHours(new Date().getHours() + 1),
       imageToggle:false,
@@ -42,7 +44,7 @@ class PageAplikasiQuizExamAdd extends React.Component{
   }
 
   render() {     
-    const {tingkatan,mapel,semester,src,errorSelect,uploadProgress,uploadDisable,mulai,selesai,imageToggle} = this.state; 
+    const {tingkatan,mapel,semester,src,errorSelect,uploadProgress,uploadDisable,mulai,selesai,paketSoal,paketData,imageToggle} = this.state; 
     const uploadClass = uploadProgress ? "progress-active":"";    
     return (    
     <div className="konten"> 
@@ -61,10 +63,10 @@ class PageAplikasiQuizExamAdd extends React.Component{
             <li><a href="#"><span>Menambahkan ujian</span></a></li>   
           </Breadcrumb>   
         </div>
-        <div className="mw9 center cf ph3 flex" style={{marginBottom:300}}>
-          <div className="w-50">
-          <Cards title="Menambahkan ujian" bodyClass="flex flex-column">
-          <div className="pa3">                               
+        <div className="mw9 center cf ph3 flex">          
+          <Cards title="Menambahkan ujian" custom="w-100" bodyClass="flex flex-column">
+          <div className="flex">
+          <div className="w-50 flex flex-column pa3">                                        
             <div className="w-100 mb3">
               <label className="f5 fw4 db mb2">Nama ujian</label>
               <InputText name="nama" placeholder="ketik nama ujian disini" onChange={this.handleInputChange} />
@@ -109,18 +111,33 @@ class PageAplikasiQuizExamAdd extends React.Component{
                   <h5 className="p-5" style={{display:"flex",alignItems:"center",justifyContent:"center"}}>{errorSelect}</h5>
                 )}
             </div> 
-          </div>                    
+          </div>                                            
+          <div className="w-50 flex flex-column pa3">
+            <div className="w-100 mb3">
+              <div className="flex mb2 justify-between items-center">
+                <label className="f5 fw4">Paket yang dipilih</label> 
+                <label className="f5 fw4">{paketSoal.length} Terpilih</label>
+              </div>              
+              <div className="flex flex-wrap">
+              {paketData.length > 0 && paketData.map((value,k) => (
+                <PaketItem key={k} nama={value.nama}
+                  countPilihan={value.pilihan_terpilih.length}
+                  countEssay={value.essay_terpilih.length}
+                  bobotPilihan={value.bobot_pilihan}                
+                  bobotEssay={value.bobot_essay}
+                  acak={value.acak_soal}
+                  checked={paketSoal.includes(value.id)}
+                  onChecked={() => this.onChecked(value.id)}
+                />                
+              ))}
+              </div>
+            </div>
+          </div>
+          </div>
           <div className="flex items-center justify-center bg-near-white" style={{borderTop:"1px solid rgba(0, 0, 0, 0.125)",height:"58px"}}>            
             <button type="submit" className={`${uploadClass} dim pointer w-30 tc b f7 link br2 ba ph3 pv2 dib white bg-primary b--primary`} disabled={uploadDisable} onClick={this.newExam}>Tambahkan ujian</button> 
-          </div>          
-          </Cards>
           </div>
-          <div className="w-50 flex flex-column">
-            <div className="flex justify-center items-center" style={{height:"55px"}}>
-          
-            </div>  
-            
-          </div>
+          </Cards>          
         </div>
         <ToastContainer />
     </div>    
@@ -183,15 +200,29 @@ class PageAplikasiQuizExamAdd extends React.Component{
       reader.readAsDataURL(e.target.files[0]);   
     }
   };
+
+  onChecked = (id) => {
+    const {paketSoal} =  this.state;    
+    var index = paketSoal.indexOf(id);             
+    if (index !== -1) {      
+      paketSoal.splice(index, 1);
+      this.setState({paketSoal});
+    }else{      
+      paketSoal.push(id);
+      this.setState({paketSoal});      
+    }  
+  };
+
   /* --- end of file select audio Pertanyaan ---*/
   fetchData = (tingkat,mapel,semester) => {   
     axios.get(
-      window.location.origin + `/api/pendidik/aplikasi/quiz/index/${tingkat}/${mapel}/${semester}?&nocache=`+Date.now()
+      window.location.origin + `/api/pendidik/aplikasi/quiz/index/exam/${tingkat}/${mapel}/${semester}?&nocache=`+Date.now()
     ).then(response => {      
       this.setState({
         semester:response.data.message.semester,        
         tingkatan:response.data.message.tingkatan,
-        mapel:response.data.message.mapel        
+        mapel:response.data.message.mapel,
+        paketData:response.data.message.paketdata
       });
     }).catch(error => {
       if(error.response.status == 401){                             

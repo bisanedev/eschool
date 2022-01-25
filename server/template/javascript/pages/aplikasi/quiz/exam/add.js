@@ -26,6 +26,7 @@ class PageAplikasiQuizExamAdd extends React.Component{
       mulai:new Date(),
       selesai:new Date().setHours(new Date().getHours() + 1),
       imageToggle:false,
+      loading:true,
     }
     this.handleInputChange = this.handleInputChange.bind(this);  
     this.tingkatID = this.props.params.tingkatID;
@@ -44,7 +45,7 @@ class PageAplikasiQuizExamAdd extends React.Component{
   }
 
   render() {     
-    const {tingkatan,mapel,semester,src,errorSelect,uploadProgress,uploadDisable,mulai,selesai,paketSoal,paketData,imageToggle} = this.state; 
+    const {tingkatan,mapel,semester,src,errorSelect,uploadProgress,uploadDisable,mulai,selesai,paketSoal,paketData,imageToggle,loading} = this.state; 
     const uploadClass = uploadProgress ? "progress-active":"";    
     return (    
     <div className="konten"> 
@@ -115,7 +116,7 @@ class PageAplikasiQuizExamAdd extends React.Component{
           <div className="w-50 flex flex-column pa3">
             <div className="w-100 mb3">
               <div className="flex mb2 justify-between items-center">
-                <label className="f5 fw4">Paket yang dipilih</label> 
+                <label className="f5 fw4">Paket soal yang dipilih</label> 
                 <label className="f5 fw4">{paketSoal.length} Terpilih</label>
               </div>              
               <div className="flex flex-wrap">
@@ -130,11 +131,16 @@ class PageAplikasiQuizExamAdd extends React.Component{
                   onChecked={() => this.onChecked(value.id)}
                 />                
               ))}
-              {paketData.length === 0 &&
+              {paketData.length === 0 && !loading &&
               <div className="flex justify-center items-center pa3 flex-column w-100" style={{border:"3px dashed rgba(0, 0, 0, 0.125)",height:200}}>
                 <span className="f3 gray">Data paket soal kosong</span>         
               </div> 
               }
+              {loading && (
+              <div className="flex justify-center items-center pa3 w-100" style={{height:200}}>
+                <div className="loader mb3"></div>      
+              </div>                
+              )}              
               </div>
             </div>
           </div>
@@ -227,7 +233,8 @@ class PageAplikasiQuizExamAdd extends React.Component{
         semester:response.data.message.semester,        
         tingkatan:response.data.message.tingkatan,
         mapel:response.data.message.mapel,
-        paketData:response.data.message.paketdata
+        paketData:response.data.message.paketdata,
+        loading:false
       });
     }).catch(error => {
       if(error.response.status == 401){                             

@@ -65,6 +65,9 @@ $dispatcher = FastRoute\simpleDispatcher(function (RouteCollector $r) {
         $r->addRoute('GET', '/aplikasi/quiz/paket/{tingkatID}/{mapelID}/{semesterID}/essay', ['App\PendidikControllers\QuizController','PaketGetSoalEssay']);
         $r->addRoute('GET', '/aplikasi/quiz/exam/{tingkatID}/{mapelID}/{semesterID}', ['App\PendidikControllers\QuizController','Exam']);
         $r->addRoute('GET', '/aplikasi/quiz/index/exam/{tingkatID}/{mapelID}/{semesterID}', ['App\PendidikControllers\QuizController','ExamAddInfo']);
+        $r->addRoute('POST', '/aplikasi/quiz/exam/{tingkatID}/{mapelID}/{semesterID}/add', ['App\PendidikControllers\QuizController','ExamAdd']);
+        $r->addRoute('GET', '/aplikasi/quiz/exam/{tingkatID}/{mapelID}/{semesterID}/exam/{examID}', ['App\PendidikControllers\QuizController','ExamEdit']);
+        $r->addRoute('POST', '/aplikasi/quiz/exam/{tingkatID}/{mapelID}/{semesterID}/update', ['App\PendidikControllers\QuizController','ExamUpdate']);
         $r->addRoute('DELETE', '/aplikasi/quiz/exam', ['App\PendidikControllers\QuizController','ExamDelete']);        
         //profile
         $r->addRoute('POST', '/profile/upload', ['App\PendidikControllers\ProfileController','uploadFoto']);

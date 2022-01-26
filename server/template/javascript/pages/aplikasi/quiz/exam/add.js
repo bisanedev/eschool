@@ -5,6 +5,7 @@ import { Helmet } from 'react-helmet';
 import { Breadcrumb } from '../../../../components/menu';
 import { Cards ,SwitchMini,InputText,InputNumber} from '../../../../components/forms';
 import DatePicker from "react-datepicker";
+import moment from "moment";
 import PaketItem from "./paketItem";
 import { ToastContainer, toast } from 'react-toastify';
 
@@ -18,9 +19,7 @@ class PageAplikasiQuizExamAdd extends React.Component{
       src: "",
       errorSelect:"",
       croppedImageUrl:"",
-      nama:"",     
-      mulai:"",
-      selesai:"",
+      nama:"",    
       nilai:"",
       paketSoal:[],
       paketData:[],
@@ -75,7 +74,7 @@ class PageAplikasiQuizExamAdd extends React.Component{
                 <InputText name="nama" value={nama} placeholder="ketik nama ujian disini" onChange={this.handleInputChange} />
               </div>
               <div className="w-50">
-                <label className="f5 fw4 db mb2">Nilai minimum / KKM</label>
+                <label className="f5 fw4 db mb2">Kriteria Ketuntasan Minimal</label>
                 <InputNumber name="nilai" value={nilai} placeholder="ketik nilai angka minimum" onChange={this.handleChangeNilai} />
               </div>
             </div>
@@ -259,53 +258,24 @@ class PageAplikasiQuizExamAdd extends React.Component{
   }
   /*--- post new ujian ----*/
   newExam = async () => {
-    const {croppedImageUrl,editorState,srcAudio,pilihan,files,jawaban,mathValue} = this.state;
+    const {croppedImageUrl,nama,nilai,mulai,selesai,paketSoal} = this.state;
     this.setState({uploadProgress:true,uploadDisable:true});
     var formData = new FormData();
-    
+    formData.append('nama',nama);
+    formData.append('nilai',nilai);
+    formData.append('mulai',moment(mulai).format('YYYY-MM-DD HH:mm'));
+    formData.append('selesai',moment(selesai).format('YYYY-MM-DD HH:mm'));
+    if(paketSoal.length != 0){
+      formData.append('paket_soal',JSON.stringify(paketSoal));
+    }
     if(croppedImageUrl != ""){
       var blobFileImage = this.b64toBlobIMG(croppedImageUrl);       
-      formData.append('pertanyaan_images',blobFileImage);      
+      formData.append('kisi',blobFileImage);      
     }
-
-    if(mathValue != undefined){
-      formData.append('pertanyaan_tex',mathValue);    
-    }
-
-    if(srcAudio != ""){
-      var blobFileMp3 = this.b64toBlobMP3(srcAudio);       
-      formData.append('pertanyaan_audio',blobFileMp3);      
-    }
-    
-    var jawabanJSON = jawaban.length === 0 ? "" : JSON.stringify(jawaban);       
-    formData.append('jawaban',jawabanJSON);
-   
-    formData.append('pertanyaan_text',encode(convertToHTML(editorState.getCurrentContent())));
-    /*--loop check if empty --*/
-    for (var key in pilihan) {
-      if (pilihan.hasOwnProperty(key)) {        
-        if(pilihan[key].data === ""){
-          this.setState({uploadProgress:false,uploadDisable:false},() => toast.warn("Periksa file jawaban ada yang kosong !!"));          
-          return false;
-        }
-      }
-    }
-    /*-- loop array pilihan --*/        
-    for (var key in files) {
-      if (files.hasOwnProperty(key)) { 
-        if(files[key].nama != ""){
-          formData.append("files[]",files[key].file,files[key].nama);  
-        }             
-      }
-    }
-    /*-- end loop array pilihan --*/
-    /*-- Pilihan JSON --*/
-    var pilihanJSON = pilihan.length === 0 ? "" : JSON.stringify(pilihan);
-    formData.append('pilihan',pilihanJSON);
-    /*-- End Pilihan JSON --*/
+    /*-- AXIOS POST --*/
     axios({
       method: 'post',
-      url: `/api/pendidik/aplikasi/quiz/pilihan/${this.tingkatID}/${this.mapelID}/${this.semesterID}/add`,
+      url: `/api/pendidik/aplikasi/quiz/exam/${this.tingkatID}/${this.mapelID}/${this.semesterID}/add`,
       data: formData,
       headers: {
         "Content-Type": "multipart/form-data"

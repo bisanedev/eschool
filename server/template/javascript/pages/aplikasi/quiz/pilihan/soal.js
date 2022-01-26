@@ -106,8 +106,8 @@ class PageAplikasiQuizPilihanSoal extends React.Component{
                 onDelete={() => this.onDelete(value)}
                 linkEdit={`#/aplikasi/quiz/pilihan/${this.tingkatID}/${this.mapelID}/${this.semesterID}/${value.id}`}
                 dataValue={value}    
-                linkImages={`data/soal/pilihan/${value.id}/${value.pertanyaan_images}`}
-                linkAudio={`data/soal/pilihan/${value.id}/${value.pertanyaan_audio}`}
+                linkImages={`data/quiz/soal/pilihan/${value.id}/${value.pertanyaan_images}`}
+                linkAudio={`data/quiz/soal/pilihan/${value.id}/${value.pertanyaan_audio}`}
               />     
             ))} 
             {isLoading && <Table.Loading nama="soal" /> } 

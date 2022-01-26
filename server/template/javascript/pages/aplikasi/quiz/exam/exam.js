@@ -100,7 +100,8 @@ class PageAplikasiQuizExamIndex extends React.Component{
           </Table.Header>       
           <Table.Body>
             {data.length > 0 && !isLoading && data.map((value,k) => (
-              <Table.DataSimple link={true} key={k} title={value.nama}              
+              <Table.DataSimple link={true} key={k} title={value.nama}  
+              href={`#/aplikasi/quiz/exam/${this.tingkatID}/${this.mapelID}/${this.semesterID}/${value.id}`}             
               checked={selected.includes(value.id)} 
               onChecked={() => this.onChecked(value.id)}
               onDelete={() => this.onDelete(value)}

@@ -121,7 +121,7 @@ class PageAplikasiQuizPilihanSoalEdit extends React.Component{
               <label className="f5 fw4 db mb2">Pertanyaan Gambar (Opsional)</label>
               <div className="relative">
                 <div className="link dim deleteFotoPertanyaan flex justify-center items-center" onClick={() => {this.setState({pertanyaaanImages:""})}}>Ganti foto<i className="material-icons-outlined" style={{fontSize: "14px"}}>close</i></div>
-                    <img src={`data/soal/pilihan/${this.soalID}/${pertanyaaanImages}`} style={{width:"100%",height:"100%"}}/>
+                    <img src={`data/quiz/soal/pilihan/${this.soalID}/${pertanyaaanImages}`} style={{width:"100%",height:"100%"}}/>
               </div>              
             </div>
             ):(
@@ -132,7 +132,7 @@ class PageAplikasiQuizPilihanSoalEdit extends React.Component{
                <label className="f5 fw4 db mb2">Pertanyaan Audio (Opsional)</label>
                <div className="relative pv3">
                <div className="link dim deleteFotoPertanyaan flex justify-center items-center" onClick={() => {this.setState({pertanyaaanAudio:""})}}>Ganti Audio<i className="material-icons-outlined" style={{fontSize: "14px"}}>close</i></div>
-                <audio controls className="bg-primary w-100" src={`data/soal/pilihan/${this.soalID}/${pertanyaaanAudio}`}/>                 
+                <audio controls className="bg-primary w-100" src={`data/quiz/soal/pilihan/${this.soalID}/${pertanyaaanAudio}`}/>                 
                </div>              
               </div>
             ):(
@@ -183,7 +183,7 @@ class PageAplikasiQuizPilihanSoalEdit extends React.Component{
             else if(row.type === "image"){
                return (<PilihanImage 
                   key={idx} 
-                  url={row.data != "" ? `data/soal/pilihan/${this.soalID}/${row.data}`:""}
+                  url={row.data != "" ? `data/quiz/soal/pilihan/${this.soalID}/${row.data}`:""}
                   disRem={pilihan.length === idx+1 ? false:true}
                   checked={jawaban.includes(idx) ? true:false}
                   onChange={(value) => this.updateValue(value, idx)} 
@@ -195,7 +195,7 @@ class PageAplikasiQuizPilihanSoalEdit extends React.Component{
               return <PilihanAudio 
                 key={idx}                 
                 value={files[idx].raw}
-                url={row.data != "" ? `data/soal/pilihan/${this.soalID}/${row.data}`:""}
+                url={row.data != "" ? `data/quiz/soal/pilihan/${this.soalID}/${row.data}`:""}
                 disRem={pilihan.length === idx+1 ? false:true}
                 checked={jawaban.includes(idx) ? true:false}      
                 onChange={(value) => this.updateValue(value, idx)}           

@@ -3,7 +3,7 @@ import axios from 'axios';
 import Cropper from "react-cropper";
 import { Helmet } from 'react-helmet';
 import { Breadcrumb } from '../../../../components/menu';
-import { Cards ,SwitchMini,InputText} from '../../../../components/forms';
+import { Cards ,SwitchMini,InputText,InputNumber} from '../../../../components/forms';
 import DatePicker from "react-datepicker";
 import PaketItem from "./paketItem";
 import { ToastContainer, toast } from 'react-toastify';
@@ -21,6 +21,7 @@ class PageAplikasiQuizExamAdd extends React.Component{
       nama:"",     
       mulai:"",
       selesai:"",
+      nilai:"",
       paketSoal:[],
       paketData:[],
       mulai:new Date(),
@@ -45,7 +46,7 @@ class PageAplikasiQuizExamAdd extends React.Component{
   }
 
   render() {     
-    const {tingkatan,mapel,semester,src,errorSelect,uploadProgress,uploadDisable,mulai,selesai,paketSoal,paketData,imageToggle,loading} = this.state; 
+    const {tingkatan,mapel,semester,src,errorSelect,uploadProgress,uploadDisable,nama,mulai,selesai,nilai,paketSoal,paketData,imageToggle,loading} = this.state; 
     const uploadClass = uploadProgress ? "progress-active":"";    
     return (    
     <div className="konten"> 
@@ -68,9 +69,15 @@ class PageAplikasiQuizExamAdd extends React.Component{
           <Cards title="Menambahkan ujian" custom="w-100" bodyClass="flex flex-column">
           <div className="flex">
           <div className="w-50 flex flex-column pa3">                                        
-            <div className="w-100 mb3">
-              <label className="f5 fw4 db mb2">Nama ujian</label>
-              <InputText name="nama" placeholder="ketik nama ujian disini" onChange={this.handleInputChange} />
+            <div className="w-100 flex mb3">
+              <div className="w-50 mr1">
+                <label className="f5 fw4 db mb2">Nama ujian</label>
+                <InputText name="nama" value={nama} placeholder="ketik nama ujian disini" onChange={this.handleInputChange} />
+              </div>
+              <div className="w-50">
+                <label className="f5 fw4 db mb2">Nilai minimum / KKM</label>
+                <InputNumber name="nilai" value={nilai} placeholder="ketik nilai angka minimum" onChange={this.handleChangeNilai} />
+              </div>
             </div>
             <div className="w-100 flex mb3">
               <div className="w-50 mr1">
@@ -81,7 +88,7 @@ class PageAplikasiQuizExamAdd extends React.Component{
                 <label className="f5 fw4 db mb2">Akhir ujian</label>
                 <DatePicker showTimeSelect selected={selesai} onChange={(date) => this.setState({selesai:date})} dateFormat="dd/MM/yyyy HH:mm"/>
               </div>            
-            </div>            
+            </div>                        
             <div className="w-100 mb3">                                  
                 <div className="db mb2 flex justify-between">
                   <label className="f5 fw4">Kisi-kisi Ujian (Opsional)</label>
@@ -161,14 +168,22 @@ class PageAplikasiQuizExamAdd extends React.Component{
     const name = target.name;
     this.setState({ [name]: value});    
   }
-  onEditorStateChange = (editorState) => {
-    this.setState({editorState});
-  };
+
+  handleChangeNilai = (event) => { 
+    const {nilai} = this.state;    
+    const target = event.target;     
+    const value = target.validity.valid ? target.value : nilai;    
+    const name = target.name;    
+    const numericRegex = /^(0|[1-9][0-9]?|100)$/;
+    if(numericRegex.test(value) || value === "") {
+      this.setState({ [name]: value });
+    }     
+  }
   /* --- Crop Foto Pertanyaan ---*/
   _crop = () => {         
     const foto = this.cropper.getCroppedCanvas({
-      width: 500,
-      height: 250,
+      width: 935,
+      height: 595,
       fillColor: '#fff',
       imageSmoothingEnabled: false,
       imageSmoothingQuality: 'high',

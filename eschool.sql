@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 14, 2022 at 11:45 AM
+-- Generation Time: Jan 26, 2022 at 03:46 PM
 -- Server version: 10.4.19-MariaDB
 -- PHP Version: 8.0.7
 
@@ -111,6 +111,7 @@ CREATE TABLE `quiz_exam` (
   `nama` varchar(200) NOT NULL,
   `mulai` datetime NOT NULL,
   `selesai` datetime NOT NULL,
+  `nilai_minimal` varchar(30) NOT NULL,
   `paket_soal` text NOT NULL,
   `kisi_exam` varchar(30) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -160,7 +161,7 @@ CREATE TABLE `quiz_paketsoal` (
 --
 
 INSERT INTO `quiz_paketsoal` (`id`, `tingkatan_id`, `mapel_id`, `semester_id`, `nama`, `acak_soal`, `bobot_pilihan`, `bobot_essay`, `pilihan_terpilih`, `essay_terpilih`) VALUES
-(4, 2, 9, 1, 'Paket A', 1, 80, 20, '[\"87\",\"86\",\"107\",\"106\",\"85\",\"80\",\"79\",\"77\",\"78\",\"72\"]', '[\"15\",\"7\"]'),
+(4, 2, 9, 1, 'Paket A', 1, 80, 20, '[\"72\",\"74\",\"73\",\"76\",\"75\",\"78\",\"80\",\"79\",\"82\",\"81\"]', '[\"15\",\"7\"]'),
 (5, 2, 9, 1, 'Paket B', 1, 80, 20, '[\"87\",\"86\",\"107\",\"106\",\"85\",\"80\",\"79\",\"77\",\"78\",\"72\"]', '[\"15\",\"7\"]');
 
 -- --------------------------------------------------------
@@ -337,9 +338,9 @@ CREATE TABLE `sekolah_users` (
 --
 
 INSERT INTO `sekolah_users` (`id`, `nama`, `jenis`, `username`, `password`, `foto`, `mapel_id`, `superuser`, `expired_token`, `unique_token`, `device_token`) VALUES
-(1, 'Administrator', 'l', 'admin', '$2a$10$uJWzRaqj52lXZGP6yeG0..g6S8EfynirIddkDM3XdmbfGY5x5vrti', 1, '[]', 1, 1673409388, '61dcffec7519d', ''),
-(2, 'Marbuah Almakaroni', 'p', 'marbuah', '$2a$12$K/vRFyhWiIwitDqY5fcqQOIZvWGlfplnOJPbkOYuJm8RshDC5V9gG', 1, '[\"1\"]', 1, 1673518140, '61dea8bc079a7', ''),
-(15, 'Adhisti Arisha ', 'p', 'adhisti', '$2a$10$F/T0Q2n9I6blfK4YsY9FYO6xQxOOnoYdmLAnlZKnwBUmLCz8Psc7.', 1, '[\"3\",\"6\"]', 0, 1673408882, '61dcfdf2e25a6', NULL);
+(1, 'Administrator', 'l', 'admin', '$2a$10$uJWzRaqj52lXZGP6yeG0..g6S8EfynirIddkDM3XdmbfGY5x5vrti', 1, '[]', 1, 1674036384, '61e69120784c0', ''),
+(2, 'Marbuah Almakaroni', 'p', 'marbuah', '$2a$12$K/vRFyhWiIwitDqY5fcqQOIZvWGlfplnOJPbkOYuJm8RshDC5V9gG', 1, '[\"1\"]', 1, 1673854031, '61e3c8cfd8494', ''),
+(15, 'Adhisti Arisha ', 'p', 'adhisti', '$2a$10$F/T0Q2n9I6blfK4YsY9FYO6xQxOOnoYdmLAnlZKnwBUmLCz8Psc7.', 1, '[\"3\",\"6\"]', 0, 1673765860, '61e2706461247', NULL);
 
 --
 -- Indexes for dumped tables
@@ -458,7 +459,7 @@ ALTER TABLE `quiz_banksoal_pilihan`
 -- AUTO_INCREMENT for table `quiz_exam`
 --
 ALTER TABLE `quiz_exam`
-  MODIFY `id` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `quiz_exam_jawabansiswa`

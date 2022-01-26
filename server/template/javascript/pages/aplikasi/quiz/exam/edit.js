@@ -13,6 +13,7 @@ class PageAplikasiQuizExamEdit extends React.Component{
   constructor(props) {
     super(props);
     this.state = {
+      id:"",
       tingkatan:null,
       mapel:null,
       semester:null,      
@@ -21,6 +22,7 @@ class PageAplikasiQuizExamEdit extends React.Component{
       croppedImageUrl:"",
       nama:"",    
       nilai:"",
+      kisi:"",
       paketSoal:[],
       paketData:[],
       mulai:new Date(),
@@ -46,7 +48,7 @@ class PageAplikasiQuizExamEdit extends React.Component{
   }
 
   render() {     
-    const {tingkatan,mapel,semester,src,errorSelect,uploadProgress,uploadDisable,nama,mulai,selesai,nilai,paketSoal,paketData,imageToggle,loading} = this.state; 
+    const {tingkatan,mapel,semester,src,errorSelect,uploadProgress,uploadDisable,nama,mulai,kisi,selesai,nilai,paketSoal,paketData,imageToggle,loading} = this.state; 
     const uploadClass = uploadProgress ? "progress-active":"";    
     return (    
     <div className="konten"> 
@@ -88,37 +90,18 @@ class PageAplikasiQuizExamEdit extends React.Component{
                 <label className="f5 fw4 db mb2">Akhir ujian</label>
                 <DatePicker showTimeSelect selected={selesai} onChange={(date) => this.setState({selesai:date})} dateFormat="dd/MM/yyyy HH:mm"/>
               </div>            
-            </div>                        
-            <div className="w-100 mb3">                                  
-                <div className="db mb2 flex justify-between">
-                  <label className="f5 fw4">Kisi-kisi Ujian (Opsional)</label>
-                  <SwitchMini name="imageToggle" value={imageToggle} onChange={this.handleInputChange}/>
-                </div>  
-                {imageToggle && (
-                  <div className="flex justify-between items-center mb3">
-                   <input className="link pv2" type="file" accept="image/*" onChange={this.onSelectFile}/>
-                   <button className="pointer link dim br2 ba pa2 dib bg-white" style={{height:"35px"}} onClick={() => this.setState({croppedImageUrl:"",src:""})}>Reset</button>
-                  </div>  
-                )}                               
-                {src != null && src != "" && (
-                  <Cropper
-                      src={src}
-                      style={{ height: 250, width: "100%" }}                      
-                      initialAspectRatio={4 / 3}                     
-                      guides={false}
-                      minCropBoxWidth={600}    
-                      minCropBoxHeight={430}
-                      crop={this._crop.bind(this)}
-                      onInitialized={this.onCropperInit.bind(this)} 
-                      ref={this.cropper}
-                      cropBoxResizable={false}
-                      dragMode={'move'}                     
-                  />
-                )}
-                {src === null && (
-                  <h5 className="p-5" style={{display:"flex",alignItems:"center",justifyContent:"center"}}>{errorSelect}</h5>
-                )}
-            </div> 
+            </div>             
+            {kisi !="" ? (
+            <div className="w-100 mb3">              
+              <label className="f5 fw4 db mb2">Kisi-kisi Ujian (Opsional)</label>
+              <div className="relative">
+                <div className="link dim deleteFotoPertanyaan flex justify-center items-center" onClick={() => {this.setState({kisi:""})}}>Ganti foto<i className="material-icons-outlined" style={{fontSize: "14px"}}>close</i></div>
+                    <img src={`data/quiz/exam/${this.examID}/${kisi}?nocache=`+Date.now()} style={{width:"100%",height:"100%"}}/>
+              </div>              
+            </div>
+            ):(
+              this.gambarRender()
+            )}            
           </div>                                            
           <div className="w-50 flex flex-column pa3">
             <div className="w-100 mb3">
@@ -238,6 +221,43 @@ class PageAplikasiQuizExamEdit extends React.Component{
       this.setState({paketSoal});      
     }  
   };
+
+   /*--- foto render --*/ 
+   gambarRender = () => {
+    const {src,errorSelect,imageToggle} = this.state;
+    return (
+      <div className="w-100 mb3"> 
+      <div className="db mb2 flex justify-between">
+        <label className="f5 fw4">Kisi-kisi Ujian (Opsional)</label>
+        <SwitchMini name="imageToggle" value={imageToggle} onChange={this.handleInputChange}/>
+      </div>              
+      {imageToggle && (
+        <div className="flex justify-between items-center mb3">
+          <input className="link pv2" type="file" accept="image/*" onChange={this.onSelectFile}/>
+          <button className="pointer link dim br2 ba pa2 dib bg-white" style={{height:"35px"}} onClick={() => this.setState({croppedImageUrl:"",src:""})}>Reset</button>
+        </div>
+      )}                            
+      {src != null && src != "" && (
+        <Cropper
+          src={src}
+          style={{ height: 250, width: "100%" }}                      
+          initialAspectRatio={4 / 3}                     
+          guides={false}
+          minCropBoxWidth={600}    
+          minCropBoxHeight={430}
+          crop={this._crop.bind(this)}
+          onInitialized={this.onCropperInit.bind(this)} 
+          ref={this.cropper}
+          cropBoxResizable={false}
+          dragMode={'move'}                     
+        />
+      )}
+      {src === null && (
+         <h5 className="p-5" style={{display:"flex",alignItems:"center",justifyContent:"center"}}>{errorSelect}</h5>
+      )}
+     </div>
+    );
+  }
 
   /* --- end of file select audio Pertanyaan ---*/
   fetchData = (tingkat,mapel,semester,exam) => {   

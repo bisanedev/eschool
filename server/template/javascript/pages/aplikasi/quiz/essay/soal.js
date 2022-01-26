@@ -106,7 +106,7 @@ class PageAplikasiQuizEssaySoal extends React.Component{
                 onDelete={() => this.onDelete(value)}
                 linkEdit={`#/aplikasi/quiz/essay/${this.tingkatID}/${this.mapelID}/${this.semesterID}/${value.id}`}
                 dataValue={value}                   
-                linkImages={`data/quiz/soal/essay/${value.id}/${value.pertanyaan_images}`}
+                linkImages={`data/quiz/soal/essay/${value.id}/${value.pertanyaan_images}?nocache=`+Date.now()}
                 linkAudio={`data/quiz/soal/essay/${value.id}/${value.pertanyaan_audio}`}
                 />     
             ))} 

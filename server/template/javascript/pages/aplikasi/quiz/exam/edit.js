@@ -48,7 +48,7 @@ class PageAplikasiQuizExamEdit extends React.Component{
   }
 
   render() {     
-    const {tingkatan,mapel,semester,src,errorSelect,uploadProgress,uploadDisable,nama,mulai,kisi,selesai,nilai,paketSoal,paketData,imageToggle,loading} = this.state; 
+    const {tingkatan,mapel,semester,uploadProgress,uploadDisable,nama,mulai,kisi,selesai,nilai,paketSoal,paketData,loading} = this.state; 
     const uploadClass = uploadProgress ? "progress-active":"";    
     return (    
     <div className="konten"> 
@@ -87,7 +87,7 @@ class PageAplikasiQuizExamEdit extends React.Component{
                 <DatePicker showTimeSelect selected={mulai} onChange={(date) => this.setState({mulai:date})} dateFormat="dd/MM/yyyy HH:mm"/>
               </div>
               <div className="w-50">
-                <label className="f5 fw4 db mb2">Akhir ujian</label>
+                <label className="f5 fw4 db mb2">Selesai ujian</label>
                 <DatePicker showTimeSelect selected={selesai} onChange={(date) => this.setState({selesai:date})} dateFormat="dd/MM/yyyy HH:mm"/>
               </div>            
             </div>             

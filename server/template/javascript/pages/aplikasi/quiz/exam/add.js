@@ -84,7 +84,7 @@ class PageAplikasiQuizExamAdd extends React.Component{
                 <DatePicker showTimeSelect selected={mulai} onChange={(date) => this.setState({mulai:date})} dateFormat="dd/MM/yyyy HH:mm"/>
               </div>
               <div className="w-50">
-                <label className="f5 fw4 db mb2">Akhir ujian</label>
+                <label className="f5 fw4 db mb2">Selesai ujian</label>
                 <DatePicker showTimeSelect selected={selesai} onChange={(date) => this.setState({selesai:date})} dateFormat="dd/MM/yyyy HH:mm"/>
               </div>            
             </div>                        

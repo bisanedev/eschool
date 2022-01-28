@@ -101,22 +101,45 @@ class QuizController extends ApiController
     }
 
     public function IndexMapelExam($tingkatID)
-    {                
-        $tingkatan = $this->database->select("sekolah_kelastingkatan",["id","nama"],["id" => $tingkatID]); 
-        $mapel = $this->database->select("sekolah_mapel",["id","nama","color"]);      
-        $newData = $this->reMapExamMapelJumlah($mapel,$tingkatID);
-        $data = array("data" => $newData,"tingkatan" => $tingkatan[0]);
-        echo $this->response->json_response(200, $data);
+    {          
+        $mapelList = json_decode($this->user["mapel_id"],true);
+        if($this->user["superuser"] === "1"){      
+            $tingkatan = $this->database->select("sekolah_kelastingkatan",["id","nama"],["id" => $tingkatID]); 
+            $mapel = $this->database->select("sekolah_mapel",["id","nama","color"]);      
+            $newData = $this->reMapExamMapelJumlah($mapel,$tingkatID);
+            $data = array("data" => $newData,"tingkatan" => $tingkatan[0]);
+            echo $this->response->json_response(200, $data);
+        }else if(count($mapelList) > 0){
+            $tingkatan = $this->database->select("sekolah_kelastingkatan",["id","nama"],["id" => $tingkatID]); 
+            $mapel = $this->database->select("sekolah_mapel",["id","nama","color"],["id" => $mapelList]);      
+            $newData = $this->reMapExamMapelJumlah($mapel,$tingkatID);
+            $data = array("data" => $newData,"tingkatan" => $tingkatan[0]);
+            echo $this->response->json_response(200, $data);
+        }else{
+            echo $this->response->json_response(400, "Anda bukan Pendidik atau Administrator jadi gak punya IZIN");
+        }
     }
 
     public function IndexSemesterExam($tingkatID,$mapelID)
-    {                
-        $tingkatan = $this->database->select("sekolah_kelastingkatan",["id","nama"],["id" => $tingkatID]); 
-        $mapel = $this->database->select("sekolah_mapel",["id","nama"],["id" => $mapelID]); 
-        $semester = $this->database->select("sekolah_semesternama",["[>]sekolah_semestertahun" => ["semester_tahun_id" => "id"]],["sekolah_semesternama.id","sekolah_semestertahun.nama(tahun)","sekolah_semesternama.semester"]);        
-        $newData = $this->reMapExamSemesterJumlah($semester,$tingkatID,$mapelID);
-        $data = array("data" => $newData,"tingkatan"=> $tingkatan[0] ,"mapel"=> $mapel[0] );
-        echo $this->response->json_response(200, $data);
+    {           
+        $mapelList = json_decode($this->user["mapel_id"],true);
+        if($this->user["superuser"] === "1"){
+            $tingkatan = $this->database->select("sekolah_kelastingkatan",["id","nama"],["id" => $tingkatID]); 
+            $mapel = $this->database->select("sekolah_mapel",["id","nama"],["id" => $mapelID]); 
+            $semester = $this->database->select("sekolah_semesternama",["[>]sekolah_semestertahun" => ["semester_tahun_id" => "id"]],["sekolah_semesternama.id","sekolah_semestertahun.nama(tahun)","sekolah_semesternama.semester"]);        
+            $newData = $this->reMapExamSemesterJumlah($semester,$tingkatID,$mapelID);
+            $data = array("data" => $newData,"tingkatan"=> $tingkatan[0] ,"mapel"=> $mapel[0]);
+            echo $this->response->json_response(200, $data);
+        }else if(count($mapelList) > 0 && in_array($mapelID,$mapelList)){
+            $tingkatan = $this->database->select("sekolah_kelastingkatan",["id","nama"],["id" => $tingkatID]); 
+            $mapel = $this->database->select("sekolah_mapel",["id","nama"],["id" => $mapelID]); 
+            $semester = $this->database->select("sekolah_semesternama",["[>]sekolah_semestertahun" => ["semester_tahun_id" => "id"]],["sekolah_semesternama.id","sekolah_semestertahun.nama(tahun)","sekolah_semesternama.semester"]);        
+            $newData = $this->reMapExamSemesterJumlah($semester,$tingkatID,$mapelID);
+            $data = array("data" => $newData,"tingkatan"=> $tingkatan[0] ,"mapel"=> $mapel[0]);
+            echo $this->response->json_response(200, $data);
+        }else{
+            echo $this->response->json_response(400, "Anda bukan Pendidik atau Administrator jadi gak punya IZIN");
+        }
     }
     
     public function IndexForms($tingkatID,$mapelID,$semesterID)
@@ -719,7 +742,8 @@ class QuizController extends ApiController
         $mapel = $this->database->select("sekolah_mapel",["id","nama"],["id" => $mapelID]);
         $semester = $this->database->select("sekolah_semesternama",["[>]sekolah_semestertahun" => ["semester_tahun_id" => "id"]],["sekolah_semesternama.id","sekolah_semestertahun.nama(tahun)","sekolah_semesternama.semester"],["sekolah_semesternama.id" => $semesterID]);
         $userID = $this->token->claims()->get('uid');
-
+        $mapelList = json_decode($this->user["mapel_id"],true);
+        
         if($this->user["superuser"] === "1"){
             $totalRow = $this->database->count("quiz_exam",["AND" => ["tingkatan_id" => $tingkatID,"mapel_id" => $mapelID ,"semester_id" => $semesterID]]);
             if(isset($_GET['cari'])){
@@ -732,7 +756,7 @@ class QuizController extends ApiController
                 $data = array("data" => $soal,"totaldata" => $totalRow,"tingkatan" => $tingkatan[0] , "mapel" => $mapel[0] , "semester" => $semester[0],"pages" => $pages,"current" => $page,"nextpage"=> $nextpage );            
             }  
             echo $this->response->json_response(200, $data);
-        }else{
+        }else if(count($mapelList) > 0 && in_array($mapelID,$mapelList)){
             $totalRow = $this->database->count("quiz_exam",["AND" => ["user_id" => $userID,"tingkatan_id" => $tingkatID,"mapel_id" => $mapelID ,"semester_id" => $semesterID]]);
             if(isset($_GET['cari'])){
                 $soal = $this->database->select("quiz_exam",["id","nama","mulai","selesai","paket_soal[JSON]","kisi_exam"],["AND" => ["user_id" => $userID,"tingkatan_id" => $tingkatID,"mapel_id" => $mapelID ,"semester_id" => $semesterID],"nama[~]" => $cari]);
@@ -744,11 +768,19 @@ class QuizController extends ApiController
                 $data = array("data" => $soal,"totaldata" => $totalRow,"tingkatan" => $tingkatan[0] , "mapel" => $mapel[0] , "semester" => $semester[0],"pages" => $pages,"current" => $page,"nextpage"=> $nextpage );            
             }  
             echo $this->response->json_response(200, $data);
+        }else{
+            echo $this->response->json_response(400, "Anda bukan Pendidik atau Administrator jadi gak punya IZIN");
         }          
     }
 
     public function ExamAddInfo($tingkatID,$mapelID,$semesterID)
     {
+        $mapelList = json_decode($this->user["mapel_id"],true);
+        if($this->user["superuser"] != "1" && !in_array($mapelID,$mapelList)){
+            echo $this->response->json_response(400, "Anda bukan Pendidik atau Administrator jadi gak punya IZIN");
+            exit;
+        }
+        
         $tingkatan = $this->database->select("sekolah_kelastingkatan",["id","nama"],["id" => $tingkatID]); 
         $mapel = $this->database->select("sekolah_mapel",["id","nama"],["id" => $mapelID]); 
         $semester = $this->database->select("sekolah_semesternama",["[>]sekolah_semestertahun" => ["semester_tahun_id" => "id"]],["sekolah_semesternama.id","sekolah_semestertahun.nama(tahun)","sekolah_semesternama.semester"],["sekolah_semesternama.id" => $semesterID]);
@@ -759,6 +791,12 @@ class QuizController extends ApiController
 
     public function ExamAdd($tingkatID,$mapelID,$semesterID)
     {
+        $mapelList = json_decode($this->user["mapel_id"],true);
+        if($this->user["superuser"] != "1" && !in_array($mapelID,$mapelList)){
+            echo $this->response->json_response(400, "Anda bukan Pendidik atau Administrator jadi gak punya IZIN");
+            exit;
+        }
+
         $v = new Validator($_POST);
         $userID = $this->token->claims()->get('uid');
         $v->rule('required', ['nama','nilai','mulai','selesai','paket_soal']);
@@ -808,6 +846,12 @@ class QuizController extends ApiController
 
     public function ExamEdit($tingkatID,$mapelID,$semesterID,$examID)
     {
+        $mapelList = json_decode($this->user["mapel_id"],true);
+        if($this->user["superuser"] != "1" && !in_array($mapelID,$mapelList)){
+            echo $this->response->json_response(400, "Anda bukan Pendidik atau Administrator jadi gak punya IZIN");
+            exit;
+        }
+
         $tingkatan = $this->database->select("sekolah_kelastingkatan",["id","nama"],["id" => $tingkatID]); 
         $mapel = $this->database->select("sekolah_mapel",["id","nama"],["id" => $mapelID]); 
         $semester = $this->database->select("sekolah_semesternama",["[>]sekolah_semestertahun" => ["semester_tahun_id" => "id"]],["sekolah_semesternama.id","sekolah_semestertahun.nama(tahun)","sekolah_semesternama.semester"],["sekolah_semesternama.id" => $semesterID]);
@@ -819,6 +863,12 @@ class QuizController extends ApiController
 
     public function ExamUpdate($tingkatID,$mapelID,$semesterID)
     {
+        $mapelList = json_decode($this->user["mapel_id"],true);
+        if($this->user["superuser"] != "1" && !in_array($mapelID,$mapelList)){
+            echo $this->response->json_response(400, "Anda bukan Pendidik atau Administrator jadi gak punya IZIN");
+            exit;
+        }
+        
         $v = new Validator($_POST);
         $userID = $this->token->claims()->get('uid');
         $v->rule('required', ['id','nama','nilai','mulai','selesai','paket_soal']);

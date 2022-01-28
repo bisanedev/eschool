@@ -3,6 +3,7 @@ import axios from 'axios';
 import Cropper from "react-cropper";
 import { Helmet } from 'react-helmet';
 import { Breadcrumb } from '../../../../components/menu';
+import Forbidden from "../../../other/forbidden";
 import { Cards ,SwitchMini,InputText,InputNumber} from '../../../../components/forms';
 import DatePicker from "react-datepicker";
 import moment from "moment";
@@ -19,6 +20,7 @@ class PageAplikasiQuizExamAdd extends React.Component{
       src: "",
       errorSelect:"",
       croppedImageUrl:"",
+      userID:"",
       nama:"",    
       nilai:"",
       paketSoal:[],
@@ -27,13 +29,15 @@ class PageAplikasiQuizExamAdd extends React.Component{
       selesai:new Date().setHours(new Date().getHours() + 1),
       imageToggle:false,
       loading:true,
+      akses:true,
     }
     this.handleInputChange = this.handleInputChange.bind(this);  
     this.tingkatID = this.props.params.tingkatID;
     this.mapelID = this.props.params.mapelID;
     this.semesterID = this.props.params.semesterID;    
-    this.navigate = this.props.navigate; 
-    this.cropper = React.createRef();    
+    this.navigate = this.props.navigate;     
+    this.cropper = React.createRef();  
+    this.tokenData = this.props.tokenData;  
   }
 
   componentDidMount() {   
@@ -44,14 +48,16 @@ class PageAplikasiQuizExamAdd extends React.Component{
     clearTimeout(this.timer);
   }
 
-  render() {     
-    const {tingkatan,mapel,semester,src,errorSelect,uploadProgress,uploadDisable,nama,mulai,selesai,nilai,paketSoal,paketData,imageToggle,loading} = this.state; 
+  render() {    
+    const {akses,tingkatan,mapel,semester,src,errorSelect,uploadProgress,uploadDisable,userID,nama,mulai,selesai,nilai,paketSoal,paketData,imageToggle,loading} = this.state; 
     const uploadClass = uploadProgress ? "progress-active":"";    
     return (    
     <div className="konten"> 
         <Helmet>
             <title>Ujian - Nama Sekolah</title>
         </Helmet> 
+        {!akses ? (<Forbidden location={this.props.location}/>):(
+        <>
         <div className="headings">    
           <div className="title">Ujian</div>
           <div className="subtitle">Data ujian untuk tingkatan {tingkatan != null ? tingkatan.nama:"memuat..."}, mata pelajaran {mapel != null ? mapel.nama:"memuat..."} dan {semester != null ? semester.tahun+" (semester "+semester.semester+")":"memuat..."}</div>
@@ -67,7 +73,12 @@ class PageAplikasiQuizExamAdd extends React.Component{
         <div className="mw9 center cf ph3 flex">          
           <Cards title="Menambahkan ujian" custom="w-100" bodyClass="flex flex-column">
           <div className="flex">
-          <div className="w-50 flex flex-column pa3">                                        
+          <div className="w-50 flex flex-column pa3">   
+            {this.tokenData.superuser && (
+              <div className="w-100 flex mb3">
+                <label className="f5 fw4 db mb2">Pilih Pendidik</label>
+              </div>
+            )}                                     
             <div className="w-100 flex mb3">
               <div className="w-50 mr1">
                 <label className="f5 fw4 db mb2">Nama ujian</label>
@@ -156,6 +167,8 @@ class PageAplikasiQuizExamAdd extends React.Component{
           </div>
           </Cards>          
         </div>
+        </>
+        )}
         <ToastContainer />
     </div>    
     );
@@ -248,9 +261,13 @@ class PageAplikasiQuizExamAdd extends React.Component{
         tingkatan:response.data.message.tingkatan,
         mapel:response.data.message.mapel,
         paketData:response.data.message.paketdata,
+        userData:response.data.message.userdata,
         loading:false
-      });
+      });      
     }).catch(error => {
+      if(error.response.status == 400){
+        this.setState({akses:false});
+      }
       if(error.response.status == 401){                             
         this.logout();
       }
@@ -258,9 +275,14 @@ class PageAplikasiQuizExamAdd extends React.Component{
   }
   /*--- post new ujian ----*/
   newExam = async () => {
-    const {croppedImageUrl,nama,nilai,mulai,selesai,paketSoal} = this.state;
+    const {croppedImageUrl,userID,nama,nilai,mulai,selesai,paketSoal} = this.state;
     this.setState({uploadProgress:true,uploadDisable:true});
     var formData = new FormData();
+    if(this.tokenData.superuser){
+      formData.append('user_id',userID);
+    }else{
+      formData.append('user_id',this.tokenData.uid);
+    }    
     formData.append('nama',nama);
     formData.append('nilai',nilai);
     formData.append('mulai',moment(mulai).format('YYYY-MM-DD HH:mm'));

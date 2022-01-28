@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 26, 2022 at 03:46 PM
+-- Generation Time: Jan 28, 2022 at 08:18 PM
 -- Server version: 10.4.19-MariaDB
 -- PHP Version: 8.0.7
 
@@ -115,6 +115,13 @@ CREATE TABLE `quiz_exam` (
   `paket_soal` text NOT NULL,
   `kisi_exam` varchar(30) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `quiz_exam`
+--
+
+INSERT INTO `quiz_exam` (`id`, `user_id`, `tingkatan_id`, `mapel_id`, `semester_id`, `nama`, `mulai`, `selesai`, `nilai_minimal`, `paket_soal`, `kisi_exam`) VALUES
+(14, 2, 2, 9, 1, 'coba Marbuah', '2022-02-01 07:00:00', '2022-02-01 09:30:00', '50', '[\"4\",\"5\"]', '');
 
 -- --------------------------------------------------------
 
@@ -339,8 +346,8 @@ CREATE TABLE `sekolah_users` (
 
 INSERT INTO `sekolah_users` (`id`, `nama`, `jenis`, `username`, `password`, `foto`, `mapel_id`, `superuser`, `expired_token`, `unique_token`, `device_token`) VALUES
 (1, 'Administrator', 'l', 'admin', '$2a$10$uJWzRaqj52lXZGP6yeG0..g6S8EfynirIddkDM3XdmbfGY5x5vrti', 1, '[]', 1, 1674036384, '61e69120784c0', ''),
-(2, 'Marbuah Almakaroni', 'p', 'marbuah', '$2a$12$K/vRFyhWiIwitDqY5fcqQOIZvWGlfplnOJPbkOYuJm8RshDC5V9gG', 1, '[\"1\"]', 1, 1673854031, '61e3c8cfd8494', ''),
-(15, 'Adhisti Arisha ', 'p', 'adhisti', '$2a$10$F/T0Q2n9I6blfK4YsY9FYO6xQxOOnoYdmLAnlZKnwBUmLCz8Psc7.', 1, '[\"3\",\"6\"]', 0, 1673765860, '61e2706461247', NULL);
+(2, 'Marbuah Almakaroni', 'p', 'marbuah', '$2a$12$K/vRFyhWiIwitDqY5fcqQOIZvWGlfplnOJPbkOYuJm8RshDC5V9gG', 1, '[\"9\",\"1\"]', 0, 1674933449, '61f4414942806', ''),
+(15, 'Adhisti Arisha ', 'p', 'adhisti', '$2a$10$F/T0Q2n9I6blfK4YsY9FYO6xQxOOnoYdmLAnlZKnwBUmLCz8Psc7.', 1, '[\"3\",\"6\"]', 0, 1674925503, '61f4223f18438', NULL);
 
 --
 -- Indexes for dumped tables
@@ -459,7 +466,7 @@ ALTER TABLE `quiz_banksoal_pilihan`
 -- AUTO_INCREMENT for table `quiz_exam`
 --
 ALTER TABLE `quiz_exam`
-  MODIFY `id` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `quiz_exam_jawabansiswa`

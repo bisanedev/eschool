@@ -780,12 +780,14 @@ class QuizController extends ApiController
             echo $this->response->json_response(400, "Anda bukan Pendidik atau Administrator jadi gak punya IZIN");
             exit;
         }
-        
+
         $tingkatan = $this->database->select("sekolah_kelastingkatan",["id","nama"],["id" => $tingkatID]); 
         $mapel = $this->database->select("sekolah_mapel",["id","nama"],["id" => $mapelID]); 
         $semester = $this->database->select("sekolah_semesternama",["[>]sekolah_semestertahun" => ["semester_tahun_id" => "id"]],["sekolah_semesternama.id","sekolah_semestertahun.nama(tahun)","sekolah_semesternama.semester"],["sekolah_semesternama.id" => $semesterID]);
         $paketData = $this->database->select("quiz_paketsoal",["id","nama","acak_soal[Bool]","bobot_pilihan","bobot_essay","pilihan_terpilih[JSON]","essay_terpilih[JSON]"],["AND" => ["tingkatan_id" => $tingkatID,"mapel_id" => $mapelID,"semester_id" => $semesterID]]);        
-        $data = array("semester" => $semester[0],"tingkatan"=> $tingkatan[0],"mapel" => $mapel[0],"paketdata" => $paketData);
+        $userData = $this->database->select("sekolah_users",["id","nama","jenis","username","mapel_id[JSON]"]);
+        $userFilter = $this->userFilterMapel($userData,$mapelID);
+        $data = array("semester" => $semester[0],"tingkatan"=> $tingkatan[0],"mapel" => $mapel[0],"paketdata" => $paketData,"userdata" => $userFilter);
         echo $this->response->json_response(200, $data);
     }
 
@@ -797,9 +799,8 @@ class QuizController extends ApiController
             exit;
         }
 
-        $v = new Validator($_POST);
-        $userID = $this->token->claims()->get('uid');
-        $v->rule('required', ['nama','nilai','mulai','selesai','paket_soal']);
+        $v = new Validator($_POST);        
+        $v->rule('required', ['user_id','nama','nilai','mulai','selesai','paket_soal']);
         if($v->validate()) { 
             if (isset($_FILES["kisi"]) && $_FILES["kisi"]["size"] > 2000000) {
                 echo $this->response->json_response(400, "Ukuran pertanyaan gambar melebihi 2MB");
@@ -810,7 +811,7 @@ class QuizController extends ApiController
                 echo $this->response->json_response(400, "Pertanyaan gambar hanya file png, jpeg dan jpg yang bisa di upload");
                 exit;
             }           
-            $this->database->insert("quiz_exam",["user_id" => $userID,"tingkatan_id" => $tingkatID,"mapel_id" => $mapelID,"semester_id" => $semesterID,"nama" => $_POST["nama"],"mulai" => $_POST["mulai"],"selesai" => $_POST["selesai"],"nilai_minimal" => $_POST["nilai"] ,"paket_soal" => $_POST["paket_soal"]]);
+            $this->database->insert("quiz_exam",["user_id" => $_POST["user_id"],"tingkatan_id" => $tingkatID,"mapel_id" => $mapelID,"semester_id" => $semesterID,"nama" => $_POST["nama"],"mulai" => $_POST["mulai"],"selesai" => $_POST["selesai"],"nilai_minimal" => $_POST["nilai"] ,"paket_soal" => $_POST["paket_soal"]]);
             $lastID = $this->database->id();
             //make folder
             if (isset($_FILES["kisi"])){ 
@@ -828,7 +829,10 @@ class QuizController extends ApiController
         }else{
             if($v->errors('nama')){
                 echo $this->response->json_response(400,"Input nama ujian kosong"); 
-            } 
+            }             
+            elseif($v->errors('user_id')){
+                echo $this->response->json_response(400,"Input userid kosong"); 
+            }  
             elseif($v->errors('nilai')){
                 echo $this->response->json_response(400,"Input nilai minimal kosong"); 
             }  
@@ -856,8 +860,10 @@ class QuizController extends ApiController
         $mapel = $this->database->select("sekolah_mapel",["id","nama"],["id" => $mapelID]); 
         $semester = $this->database->select("sekolah_semesternama",["[>]sekolah_semestertahun" => ["semester_tahun_id" => "id"]],["sekolah_semesternama.id","sekolah_semestertahun.nama(tahun)","sekolah_semesternama.semester"],["sekolah_semesternama.id" => $semesterID]);
         $paketData = $this->database->select("quiz_paketsoal",["id","nama","acak_soal[Bool]","bobot_pilihan","bobot_essay","pilihan_terpilih[JSON]","essay_terpilih[JSON]"],["AND" => ["tingkatan_id" => $tingkatID,"mapel_id" => $mapelID,"semester_id" => $semesterID]]); 
-        $examData = $this->database->select("quiz_exam",["id","nama","mulai","selesai","nilai_minimal","paket_soal[JSON]","kisi_exam"],["id" => $examID]);
-        $data = array("semester" => $semester[0],"tingkatan"=> $tingkatan[0],"mapel" => $mapel[0],"paketdata" => $paketData,"data" => $examData[0]);
+        $examData = $this->database->select("quiz_exam",["id","user_id","nama","mulai","selesai","nilai_minimal","paket_soal[JSON]","kisi_exam"],["id" => $examID]);
+        $userData = $this->database->select("sekolah_users",["id","nama","jenis","username","mapel_id[JSON]"]);
+        $userFilter = $this->userFilterMapel($userData,$mapelID);
+        $data = array("semester" => $semester[0],"tingkatan" => $tingkatan[0],"mapel" => $mapel[0],"paketdata" => $paketData,"userdata" => $userFilter,"data" => $examData[0]);
         echo $this->response->json_response(200, $data);
     }
 
@@ -869,9 +875,8 @@ class QuizController extends ApiController
             exit;
         }
         
-        $v = new Validator($_POST);
-        $userID = $this->token->claims()->get('uid');
-        $v->rule('required', ['id','nama','nilai','mulai','selesai','paket_soal']);
+        $v = new Validator($_POST);        
+        $v->rule('required', ['id','nama','nilai','mulai','selesai','paket_soal','user_id']);
         if($v->validate()) { 
             if (isset($_FILES["kisi"]) && $_FILES["kisi"]["size"] > 2000000) {
                 echo $this->response->json_response(400, "Ukuran pertanyaan gambar melebihi 2MB");
@@ -895,11 +900,14 @@ class QuizController extends ApiController
                 move_uploaded_file($_FILES["kisi"]["tmp_name"],$location); 
                 $this->database->update("quiz_exam",["kisi_exam" => "kisi.jpg"],["id" => $examID]);                  
             }
-            $this->database->update("quiz_exam",["nama" => $_POST["nama"],"mulai" => $_POST["mulai"],"selesai" => $_POST["selesai"],"nilai_minimal" => $_POST["nilai"],"paket_soal" => $_POST["paket_soal"]],["AND" => ["tingkatan_id" => $tingkatID,"mapel_id" => $mapelID,"semester_id" => $semesterID,"id" => $examID]]);
+            $this->database->update("quiz_exam",["user_id" => $_POST["user_id"], "nama" => $_POST["nama"],"mulai" => $_POST["mulai"],"selesai" => $_POST["selesai"],"nilai_minimal" => $_POST["nilai"],"paket_soal" => $_POST["paket_soal"]],["AND" => ["tingkatan_id" => $tingkatID,"mapel_id" => $mapelID,"semester_id" => $semesterID,"id" => $examID]]);
             echo $this->response->json_response(200,"berhasil");
         }else{
             if($v->errors('nama')){
                 echo $this->response->json_response(400,"Input nama ujian kosong"); 
+            } 
+            elseif($v->errors('user_id')){
+                echo $this->response->json_response(400,"Input userid kosong"); 
             } 
             elseif($v->errors('nilai')){
                 echo $this->response->json_response(400,"Input nilai minimal kosong"); 
@@ -1230,6 +1238,26 @@ class QuizController extends ApiController
         }else{
             return false;
         }  
+    }
+
+    function userFilterMapel($data,$mapelID)
+    {
+        if ( is_array($data) || is_object($data) ){
+            $recollect = array();
+            foreach ($data as $val) {
+                if(in_array($mapelID,$val["mapel_id"])){
+                    $object = new stdClass();
+                    $object->id = $val["id"];
+                    $object->nama = $val["nama"];
+                    $object->jenis = $val["jenis"];
+                    $object->username = $val["username"];                                    
+                    $recollect[] = $object;
+                }                
+            }
+            return $recollect;
+        }else{
+            return false;
+        } 
     }
     
 }

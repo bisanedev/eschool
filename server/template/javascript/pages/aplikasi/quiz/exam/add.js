@@ -8,6 +8,7 @@ import { Cards ,SwitchMini,InputText,InputNumber} from '../../../../components/f
 import DatePicker from "react-datepicker";
 import moment from "moment";
 import PaketItem from "./paketItem";
+import PendidikItem from "./pendidikItem";
 import { ToastContainer, toast } from 'react-toastify';
 
 class PageAplikasiQuizExamAdd extends React.Component{
@@ -25,6 +26,7 @@ class PageAplikasiQuizExamAdd extends React.Component{
       nilai:"",
       paketSoal:[],
       paketData:[],
+      userData:[],
       mulai:new Date(),
       selesai:new Date().setHours(new Date().getHours() + 1),
       imageToggle:false,
@@ -49,7 +51,7 @@ class PageAplikasiQuizExamAdd extends React.Component{
   }
 
   render() {    
-    const {akses,tingkatan,mapel,semester,src,errorSelect,uploadProgress,uploadDisable,userID,nama,mulai,selesai,nilai,paketSoal,paketData,imageToggle,loading} = this.state; 
+    const {akses,tingkatan,mapel,semester,src,errorSelect,uploadProgress,uploadDisable,userID,userData,nama,mulai,selesai,nilai,paketSoal,paketData,imageToggle,loading} = this.state; 
     const uploadClass = uploadProgress ? "progress-active":"";    
     return (    
     <div className="konten"> 
@@ -73,12 +75,7 @@ class PageAplikasiQuizExamAdd extends React.Component{
         <div className="mw9 center cf ph3 flex">          
           <Cards title="Menambahkan ujian" custom="w-100" bodyClass="flex flex-column">
           <div className="flex">
-          <div className="w-50 flex flex-column pa3">   
-            {this.tokenData.superuser && (
-              <div className="w-100 flex mb3">
-                <label className="f5 fw4 db mb2">Pilih Pendidik</label>
-              </div>
-            )}                                     
+          <div className="w-50 flex flex-column pa3">                                   
             <div className="w-100 flex mb3">
               <div className="w-50 mr1">
                 <label className="f5 fw4 db mb2">Nama ujian</label>
@@ -98,7 +95,22 @@ class PageAplikasiQuizExamAdd extends React.Component{
                 <label className="f5 fw4 db mb2">Selesai ujian</label>
                 <DatePicker showTimeSelect selected={selesai} onChange={(date) => this.setState({selesai:date})} dateFormat="dd/MM/yyyy HH:mm"/>
               </div>            
-            </div>                        
+            </div>
+            {this.tokenData.superuser && (
+              <div className="w-100 mb3">
+                <label className="f5 fw4 db mb2">Pilih Pendidik</label>
+                {loading && (
+                <div className="flex justify-center items-center pa3 w-100" style={{height:200}}>
+                  <div className="loader mb3"></div>      
+                </div>                
+                )}
+                <div className="flex flex-wrap">
+                  {userData.length > 0 && userData.map((value,k) => (
+                    <PendidikItem key={k} data={value} checked={value.id === userID ? true:false} onChecked={() => this.onCheckedPengajar(value.id)} src={"data/users/"+value.username+".jpg?nocache="+Date.now()}/>                    
+                  ))}
+                </div>
+              </div>
+            )}                        
             <div className="w-100 mb3">                                  
                 <div className="db mb2 flex justify-between">
                   <label className="f5 fw4">Kisi-kisi Ujian (Opsional)</label>
@@ -238,7 +250,9 @@ class PageAplikasiQuizExamAdd extends React.Component{
       reader.readAsDataURL(e.target.files[0]);   
     }
   };
-
+  onCheckedPengajar = (id) => {
+    this.setState({userID:id});
+  }
   onChecked = (id) => {
     const {paketSoal} =  this.state;    
     var index = paketSoal.indexOf(id);             

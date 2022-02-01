@@ -747,10 +747,10 @@ class QuizController extends ApiController
         if($this->user["superuser"] === "1"){
             $totalRow = $this->database->count("quiz_exam",["AND" => ["tingkatan_id" => $tingkatID,"mapel_id" => $mapelID ,"semester_id" => $semesterID]]);
             if(isset($_GET['cari'])){
-                $soal = $this->database->select("quiz_exam",["id","nama","mulai","selesai","nilai_minimal","paket_soal[JSON]","kisi_exam"],["AND" => ["tingkatan_id" => $tingkatID,"mapel_id" => $mapelID ,"semester_id" => $semesterID],"nama[~]" => $cari]);
+                $soal = $this->database->select("quiz_exam",["[>]sekolah_users" => ["user_id" => "id"]],["quiz_exam.id","quiz_exam.nama","quiz_exam.mulai","quiz_exam.selesai","quiz_exam.nilai_minimal","quiz_exam.paket_soal[JSON]","quiz_exam.kisi_exam","sekolah_users.nama(pendidik)","sekolah_users.jenis","sekolah_users.username","sekolah_users.foto[Bool]"],["AND" => ["quiz_exam.tingkatan_id" => $tingkatID,"quiz_exam.mapel_id" => $mapelID ,"quiz_exam.semester_id" => $semesterID],"quiz_exam.nama[~]" => $cari]);
                 $data = array("data" => $soal,"totaldata" => $totalRow ,"tingkatan" => $tingkatan[0] , "mapel" => $mapel[0] , "semester" => $semester[0] ,"nextpage"=> false );
             }else{
-                $soal = $this->database->select("quiz_exam",["id","nama","mulai","selesai","nilai_minimal","paket_soal[JSON]","kisi_exam"],["AND" => ["tingkatan_id" => $tingkatID,"mapel_id" => $mapelID ,"semester_id" => $semesterID],"LIMIT" => [$mulai,$totalData],"ORDER" => ["nama" => "ASC"]]);            
+                $soal = $this->database->select("quiz_exam",["[>]sekolah_users" => ["user_id" => "id"]],["quiz_exam.id","quiz_exam.nama","quiz_exam.mulai","quiz_exam.selesai","quiz_exam.nilai_minimal","quiz_exam.paket_soal[JSON]","quiz_exam.kisi_exam","sekolah_users.nama(pendidik)","sekolah_users.jenis","sekolah_users.username","sekolah_users.foto[Bool]"],["AND" => ["quiz_exam.tingkatan_id" => $tingkatID,"quiz_exam.mapel_id" => $mapelID ,"quiz_exam.semester_id" => $semesterID],"LIMIT" => [$mulai,$totalData],"ORDER" => ["quiz_exam.nama" => "ASC"]]);            
                 $pages = ceil($totalRow/$totalData);
                 $nextpage = ($page < $pages) ? $page+1 : false;
                 $data = array("data" => $soal,"totaldata" => $totalRow,"tingkatan" => $tingkatan[0] , "mapel" => $mapel[0] , "semester" => $semester[0],"pages" => $pages,"current" => $page,"nextpage"=> $nextpage );            
@@ -759,10 +759,10 @@ class QuizController extends ApiController
         }else if(count($mapelList) > 0 && in_array($mapelID,$mapelList)){
             $totalRow = $this->database->count("quiz_exam",["AND" => ["user_id" => $userID,"tingkatan_id" => $tingkatID,"mapel_id" => $mapelID ,"semester_id" => $semesterID]]);
             if(isset($_GET['cari'])){
-                $soal = $this->database->select("quiz_exam",["id","nama","mulai","selesai","paket_soal[JSON]","kisi_exam"],["AND" => ["user_id" => $userID,"tingkatan_id" => $tingkatID,"mapel_id" => $mapelID ,"semester_id" => $semesterID],"nama[~]" => $cari]);
+                $soal = $this->database->select("quiz_exam",["[>]sekolah_users" => ["user_id" => "id"]],["quiz_exam.id","quiz_exam.nama","quiz_exam.mulai","quiz_exam.selesai","quiz_exam.nilai_minimal","quiz_exam.paket_soal[JSON]","quiz_exam.kisi_exam","sekolah_users.nama(pendidik)","sekolah_users.jenis","sekolah_users.username","sekolah_users.foto[Bool]"],["AND" => ["quiz_exam.user_id" => $userID,"quiz_exam.tingkatan_id" => $tingkatID,"quiz_exam.mapel_id" => $mapelID ,"quiz_exam.semester_id" => $semesterID],"quiz_exam.nama[~]" => $cari]);
                 $data = array("data" => $soal,"totaldata" => $totalRow ,"tingkatan" => $tingkatan[0] , "mapel" => $mapel[0] , "semester" => $semester[0] ,"nextpage"=> false );
             }else{
-                $soal = $this->database->select("quiz_exam",["id","nama","mulai","selesai","paket_soal[JSON]","kisi_exam"],["AND" => ["user_id" => $userID,"tingkatan_id" => $tingkatID,"mapel_id" => $mapelID ,"semester_id" => $semesterID],"LIMIT" => [$mulai,$totalData],"ORDER" => ["nama" => "ASC"]]);            
+                $soal = $this->database->select("quiz_exam",["[>]sekolah_users" => ["user_id" => "id"]],["quiz_exam.id","quiz_exam.nama","quiz_exam.mulai","quiz_exam.selesai","quiz_exam.nilai_minimal","quiz_exam.paket_soal[JSON]","quiz_exam.kisi_exam","sekolah_users.nama(pendidik)","sekolah_users.jenis","sekolah_users.username","sekolah_users.foto[Bool]"],["AND" => ["quiz_exam.user_id" => $userID,"quiz_exam.tingkatan_id" => $tingkatID,"quiz_exam.mapel_id" => $mapelID ,"quiz_exam.semester_id" => $semesterID],"LIMIT" => [$mulai,$totalData],"ORDER" => ["quiz_exam.nama" => "ASC"]]);            
                 $pages = ceil($totalRow/$totalData);
                 $nextpage = ($page < $pages) ? $page+1 : false;
                 $data = array("data" => $soal,"totaldata" => $totalRow,"tingkatan" => $tingkatan[0] , "mapel" => $mapel[0] , "semester" => $semester[0],"pages" => $pages,"current" => $page,"nextpage"=> $nextpage );            

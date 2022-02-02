@@ -13921,7 +13921,7 @@ div.wrapDataSoal .popover_wrapper:hover .popover_content {
   transition: all 0.5s cubic-bezier(0.75, -0.02, 0.2, 0.97);
 }
 
-/* simply */
+/* data paket */
 div.wrapDataPaket {
   width: 23%;
   margin-right: 10px;
@@ -13943,6 +13943,29 @@ div.wrapDataPaket .dataAction {
 }
 div.wrapDataPaket .checkbox-container {
   padding-left: 0 !important;
+}
+
+/* data exam */
+div.wrapDataExam {
+  width: 23%;
+  margin-right: 10px;
+  margin-bottom: 10px;
+  border: 1px solid rgba(0, 0, 0, 0.125);
+  height: 9.5rem;
+}
+div.wrapDataExam .user {
+  width: 40%;
+}
+div.wrapDataExam .user .pendidik_nama {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  max-width: 93px;
+  display: block;
+  font-size: 11px;
+}
+div.wrapDataExam .data {
+  width: 60%;
 }
 
 /* input */

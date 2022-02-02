@@ -271,7 +271,7 @@ div.wrapDataSoal{
     /* --- end popover --- */
 }
 
-/* simply */
+/* data paket */
 div.wrapDataPaket{   
     width: 23%;
     margin-right: 10px;
@@ -293,4 +293,26 @@ div.wrapDataPaket{
     .checkbox-container {
         padding-left: 0 !important;
     }  
+}
+/* data exam */
+div.wrapDataExam{
+    width: 23%;
+    margin-right: 10px;
+    margin-bottom: 10px;    
+    border: 1px solid rgba(0, 0, 0, 0.125);
+    height: 9.5rem;
+    .user{
+        width: 40%;    
+        .pendidik_nama{
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            max-width: 93px;
+            display: block;
+            font-size: 11px;
+        }
+    }
+    .data{
+        width: 60%;
+    }
 }

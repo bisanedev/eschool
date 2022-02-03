@@ -296,23 +296,53 @@ div.wrapDataPaket{
 }
 /* data exam */
 div.wrapDataExam{
-    width: 23%;
+    width: 24%;
     margin-right: 10px;
     margin-bottom: 10px;    
     border: 1px solid rgba(0, 0, 0, 0.125);
     height: 9.5rem;
     .user{
-        width: 40%;    
+        width: 40%;
+        background-color: #f3f3f3;
         .pendidik_nama{
             overflow: hidden;
             white-space: nowrap;
             text-overflow: ellipsis;
-            max-width: 93px;
+            max-width: 94px;
             display: block;
             font-size: 11px;
-        }
+        }      
+    }
+    .user:hover .tooltiptext  {
+        visibility: visible;
     }
     .data{
         width: 60%;
+        .title{
+            font-size: 13px;
+            height: 15%;
+            font-weight: bold;
+            color: #fff;
+            background-color: $primary-color;
+        }
+        .body{
+            height: 67%;            
+            font-size: 13px;
+            .title-waktu{
+                margin-bottom: 2px;
+                .jam{                    
+                    color: white;
+                }               
+            }
+            .tgl{
+                background-color: #aaaeae;
+                display: block;         
+            }
+        }
+        .footer{
+            background-color: #f3f3f3;
+            height: 13%;
+            display: block;
+        }
     }
 }

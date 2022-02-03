@@ -301,9 +301,11 @@ div.wrapDataExam{
     margin-bottom: 10px;    
     border: 1px solid rgba(0, 0, 0, 0.125);
     height: 9.5rem;
+    position: relative;
     .user{
         width: 40%;
-        background-color: #f3f3f3;
+        background-color: #565757;
+        color: white;
         .pendidik_nama{
             overflow: hidden;
             white-space: nowrap;
@@ -324,6 +326,13 @@ div.wrapDataExam{
             font-weight: bold;
             color: #fff;
             background-color: $primary-color;
+            .elipsis{
+                overflow: hidden;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+                max-width: 130px;
+                display: block;
+            }
         }
         .body{
             height: 67%;            
@@ -335,14 +344,88 @@ div.wrapDataExam{
                 }               
             }
             .tgl{
-                background-color: #aaaeae;
-                display: block;         
+                display: block;
+                font-size: 12px;
+                font-weight: bold;    
             }
         }
         .footer{
             background-color: #f3f3f3;
-            height: 13%;
+            height: 18%;
+            display: flex;
+            width: 100%;
+            justify-content: space-between;
+            align-items: center;
+        }
+    }
+    .deleteButton{
+        cursor: pointer;
+        border: 1px solid white;
+        height: 20px;
+        width: 20px;
+        border-radius: 10px;
+        color: #fff;
+        position: absolute;
+        top: -8px;
+        right: -8px;
+        background-color: #f00;
+    }
+    .checkbox-exam{
+        position: absolute;
+        bottom: 40px;
+        left: 75px;
+        user-select: none;
+        padding-left: 21px;
+        cursor: pointer;
+        display: block;
+        input {
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+            height: 0;
+            width: 0;
+        }
+        .checkmark {
+            position: absolute;
+            top: -2px;
+            left: 0;
+            height: 15px;
+            width: 15px;
+            background-color: #f3f3f3;
+            border: 1px solid rgba(0, 0, 0, 0.125);
+            border-radius: 2px;
+        }
+        .checkmark:after {
+            content: "";
+            position: absolute;
+            display: none;
+        }
+        input:checked ~ .checkmark {
+            background-color: $primary-color;
+        }
+        input:checked ~ .checkmark:after {
             display: block;
+        }
+        .checkmark:after {    
+            left: 5px;
+            width: 4px;
+            height: 9px;
+            border: solid white;
+            border-width: 0 2px 2px 0;
+            -webkit-transform: rotate(45deg);
+            -ms-transform: rotate(45deg);
+            transform: rotate(45deg);
+        }
+    }
+    .checkbox-exam:hover input ~ .checkmark {
+        background-color: #ccc;
+    }
+    .status{
+        position: absolute;
+        top:-10px;
+        .state{
+            font-size: 10px;
+            color: white;       
         }
     }
 }

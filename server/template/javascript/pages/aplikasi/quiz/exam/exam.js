@@ -101,7 +101,8 @@ class PageAplikasiQuizExamIndex extends React.Component{
           <Table.Body>
             {data.length > 0 && !isLoading && data.map((value,k) => (
               <Table.DataExam key={k} nama={value.nama} data={value} src={"data/users/"+value.username+".jpg?nocache="+Date.now()}
-              href={`#/aplikasi/quiz/exam/${this.tingkatID}/${this.mapelID}/${this.semesterID}/${value.id}`}             
+              onEdit={`#/aplikasi/quiz/exam/${this.tingkatID}/${this.mapelID}/${this.semesterID}/${value.id}`}             
+              onLihat={`#/aplikasi/quiz/exam/${this.tingkatID}/${this.mapelID}/${this.semesterID}/${value.id}`} 
               checked={selected.includes(value.id)} 
               onChecked={() => this.onChecked(value.id)}
               onDelete={() => this.onDelete(value)}

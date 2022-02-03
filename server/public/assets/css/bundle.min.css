@@ -13952,10 +13952,12 @@ div.wrapDataExam {
   margin-bottom: 10px;
   border: 1px solid rgba(0, 0, 0, 0.125);
   height: 9.5rem;
+  position: relative;
 }
 div.wrapDataExam .user {
   width: 40%;
-  background-color: #f3f3f3;
+  background-color: #565757;
+  color: white;
 }
 div.wrapDataExam .user .pendidik_nama {
   overflow: hidden;
@@ -13978,6 +13980,13 @@ div.wrapDataExam .data .title {
   color: #fff;
   background-color: #0191d7;
 }
+div.wrapDataExam .data .title .elipsis {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  max-width: 130px;
+  display: block;
+}
 div.wrapDataExam .data .body {
   height: 67%;
   font-size: 13px;
@@ -13989,13 +13998,87 @@ div.wrapDataExam .data .body .title-waktu .jam {
   color: white;
 }
 div.wrapDataExam .data .body .tgl {
-  background-color: #aaaeae;
   display: block;
+  font-size: 12px;
+  font-weight: bold;
 }
 div.wrapDataExam .data .footer {
   background-color: #f3f3f3;
-  height: 13%;
+  height: 18%;
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+}
+div.wrapDataExam .deleteButton {
+  cursor: pointer;
+  border: 1px solid white;
+  height: 20px;
+  width: 20px;
+  border-radius: 10px;
+  color: #fff;
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  background-color: #f00;
+}
+div.wrapDataExam .checkbox-exam {
+  position: absolute;
+  bottom: 40px;
+  left: 75px;
+  user-select: none;
+  padding-left: 21px;
+  cursor: pointer;
   display: block;
+}
+div.wrapDataExam .checkbox-exam input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+div.wrapDataExam .checkbox-exam .checkmark {
+  position: absolute;
+  top: -2px;
+  left: 0;
+  height: 15px;
+  width: 15px;
+  background-color: #f3f3f3;
+  border: 1px solid rgba(0, 0, 0, 0.125);
+  border-radius: 2px;
+}
+div.wrapDataExam .checkbox-exam .checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+div.wrapDataExam .checkbox-exam input:checked ~ .checkmark {
+  background-color: #0191d7;
+}
+div.wrapDataExam .checkbox-exam input:checked ~ .checkmark:after {
+  display: block;
+}
+div.wrapDataExam .checkbox-exam .checkmark:after {
+  left: 5px;
+  width: 4px;
+  height: 9px;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+div.wrapDataExam .checkbox-exam:hover input ~ .checkmark {
+  background-color: #ccc;
+}
+div.wrapDataExam .status {
+  position: absolute;
+  top: -10px;
+}
+div.wrapDataExam .status .state {
+  font-size: 10px;
+  color: white;
 }
 
 /* input */

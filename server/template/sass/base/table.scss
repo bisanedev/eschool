@@ -320,33 +320,33 @@ div.wrapDataExam{
     }
     .data{
         width: 60%;
-        .title{
-            font-size: 13px;
-            height: 15%;
-            font-weight: bold;
-            color: #fff;
-            background-color: $primary-color;
-            .elipsis{
-                overflow: hidden;
-                white-space: nowrap;
-                text-overflow: ellipsis;
-                max-width: 130px;
-                display: block;
-            }
-        }
         .body{
-            height: 67%;            
-            font-size: 11px;
+            height: 82%;                       
             .title-waktu{
                 margin-bottom: 2px;
+                font-size: 11px;
+                color: $font-color;  
                 .jam{                    
-                    color: white;
+                    color: white !important;
                 }               
             }
             .tgl{
                 display: block;
                 font-size: 12px;
-                font-weight: bold;    
+                font-weight: bold; 
+                color: $font-color;   
+            }
+            .title{
+                font-size: 13px;         
+                font-weight: bold;
+                color: $primary-color;            
+                .elipsis{
+                    overflow: hidden;
+                    white-space: nowrap;
+                    text-overflow: ellipsis;
+                    max-width: 130px;
+                    display: block;
+                }
             }
         }
         .footer{
@@ -354,7 +354,7 @@ div.wrapDataExam{
             height: 18%;
             display: flex;
             width: 100%;
-            justify-content: space-between;
+            justify-content: center;
             align-items: center;
         }
     }

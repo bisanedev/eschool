@@ -13973,41 +13973,41 @@ div.wrapDataExam .user:hover .tooltiptext {
 div.wrapDataExam .data {
   width: 60%;
 }
-div.wrapDataExam .data .title {
-  font-size: 13px;
-  height: 15%;
-  font-weight: bold;
-  color: #fff;
-  background-color: #0191d7;
+div.wrapDataExam .data .body {
+  height: 82%;
 }
-div.wrapDataExam .data .title .elipsis {
+div.wrapDataExam .data .body .title-waktu {
+  margin-bottom: 2px;
+  font-size: 11px;
+  color: #333;
+}
+div.wrapDataExam .data .body .title-waktu .jam {
+  color: white !important;
+}
+div.wrapDataExam .data .body .tgl {
+  display: block;
+  font-size: 12px;
+  font-weight: bold;
+  color: #333;
+}
+div.wrapDataExam .data .body .title {
+  font-size: 13px;
+  font-weight: bold;
+  color: #0191d7;
+}
+div.wrapDataExam .data .body .title .elipsis {
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
   max-width: 130px;
   display: block;
 }
-div.wrapDataExam .data .body {
-  height: 67%;
-  font-size: 11px;
-}
-div.wrapDataExam .data .body .title-waktu {
-  margin-bottom: 2px;
-}
-div.wrapDataExam .data .body .title-waktu .jam {
-  color: white;
-}
-div.wrapDataExam .data .body .tgl {
-  display: block;
-  font-size: 12px;
-  font-weight: bold;
-}
 div.wrapDataExam .data .footer {
   background-color: #f3f3f3;
   height: 18%;
   display: flex;
   width: 100%;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
 }
 div.wrapDataExam .deleteButton {

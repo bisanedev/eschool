@@ -13,11 +13,11 @@ function DataExam(props) {
                     {props.data.pendidik}               
                 </span>
             </div>
-            <div className="data">               
-                <div className="title flex items-center justify-center pa1">
-                    <span className="elipsis">{props.nama}</span>
-                </div>
-                <div className="body flex flex-column justify-center items-center ph1">
+            <div className="data">                
+                <a className="body link dim flex flex-column justify-center items-center ph1" href={props.onEdit}>
+                    <div className="title flex items-center justify-center pa1 mb2">
+                        <span className="elipsis">{props.nama}</span>
+                    </div>
                     <div className="mb1 w-100">
                         <div className="flex justify-between title-waktu">
                             <span>Mulai</span>
@@ -32,22 +32,10 @@ function DataExam(props) {
                         </div>
                         <span className="tgl">{moment(props.data.selesai).format('dddd')}, {moment(props.data.selesai).format('DD/MM/YYYY')}</span>
                     </div>
-                    <div className="w-100">
-                        <div className="flex w-100 justify-between title-waktu">
-                            <span>KKM</span>
-                            <span className="ph1 bg-gold">{props.data.nilai_minimal}</span>
-                        </div>
-                        <span className="db b" style={{fontSize:12}}>{props.data.paket_soal.length} paket soal</span>
-                    </div>
-                </div>  
-                <div className="footer">
-                    <a className="flex pa2 link dim pointer primary" style={{fontSize:11}} href={props.onLihat}>
-                        <i className="material-icons" style={{fontSize:"11px"}}>leaderboard</i>&nbsp; Lihat nilai
-                    </a>
-                    <a className="flex pa2 link dim pointer primary" style={{fontSize:11}} href={props.onEdit}>
-                        <i className="material-icons" style={{fontSize:"11px"}}>edit</i>&nbsp; Ubah
-                    </a>
-                </div>  
+                </a>                  
+                <a className="pa2 link dim pointer primary footer" style={{fontSize:11}} href={props.onLihat}>
+                    <i className="material-icons" style={{fontSize:"11px"}}>leaderboard</i>&nbsp; Lihat nilai
+                </a>                  
             </div>
             </div>
             <div onClick={() => props.onDelete()} className="link dim deleteButton flex justify-center items-center">

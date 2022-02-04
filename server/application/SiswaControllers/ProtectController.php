@@ -15,7 +15,7 @@ class ProtectController extends ApiController
 
     public function index()
     {        
-        $data = $this->database->select("siswa",["id","nama","username"]);
+        $data = $this->database->select("sekolah_siswa",["id","nama","username"]);
         echo $this->response->json_response(200, $data );
     }
 

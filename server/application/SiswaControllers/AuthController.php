@@ -54,7 +54,7 @@ class AuthController
                     ->withClaim('jenis',$cekAuth[0]['jenis'])                    
                     ->withClaim('uniqueToken',$uniqueToken)                    
                     ->getToken($this->jwt->signer(), $this->jwt->signingKey());
-                    $this->database->update("siswa",["expired_token" => $now->modify('+1 year')->getTimestamp(),"unique_token" => $uniqueToken],["id" => $cekAuth[0]['id']]);                    
+                    $this->database->update("sekolah_siswa",["expired_token" => $now->modify('+1 year')->getTimestamp(),"unique_token" => $uniqueToken],["id" => $cekAuth[0]['id']]);                    
                     //$data = array("user" => $objectUserData,"token" => $token->toString() );
                     echo $this->response->json_response(200,$token->toString());
                 }else{
@@ -71,7 +71,7 @@ class AuthController
                     ->withClaim('jenis',$cekAuth[0]['jenis'])                    
                     ->withClaim('uniqueToken',$uniqueToken)      
                     ->getToken($this->jwt->signer(), $this->jwt->signingKey());
-                    $this->database->update("siswa",["expired_token" => $now->modify('+1 day')->getTimestamp(),"unique_token" => $uniqueToken],["id" => $cekAuth[0]['id']]);                    
+                    $this->database->update("sekolah_siswa",["expired_token" => $now->modify('+1 day')->getTimestamp(),"unique_token" => $uniqueToken],["id" => $cekAuth[0]['id']]);                    
                     //$data = array("user" => $objectUserData,"token" => $token->toString() );
                     echo $this->response->json_response(200,$token->toString());
                 }                 

@@ -4,9 +4,9 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/services.dart';
 import 'dart:async';
 import 'dart:convert';
-import '../utils/globals.dart' as globals;
-import '../widget/tombol.dart';
-import '../response/message.dart';
+import '../../components/utils/globals.dart' as globals;
+import '../../components/widget/tombol.dart';
+import '../../components/response/message.dart';
 
 
 class LoginScreen extends StatefulWidget {          

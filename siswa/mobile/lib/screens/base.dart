@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../utils/globals.dart' as globals;
-import './aplikasi_screen.dart';
-import './pencapaian_screen.dart';
-import 'profile_screen.dart';
+import '../../components/utils/globals.dart' as globals;
+import '../aplikasi/aplikasi_screen.dart';
+import '../pencapaian/pencapaian_screen.dart';
+import '../profile/profile_screen.dart';
 import './coba.dart';
 
 class BaseScreen extends StatefulWidget {          

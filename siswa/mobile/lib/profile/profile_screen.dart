@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
-import '../utils/globals.dart' as globals;
-import '../widget/custom_bars.dart';
-import '../response/profile.dart';
+import '../../components/utils/globals.dart' as globals;
+import '../../components/widget/custom_bars.dart';
+import '../../components/response/profile.dart';
 
 class ProfileScreen extends StatefulWidget {  
   final String? userToken; 
@@ -23,7 +23,7 @@ class _ProfileScreen extends State<ProfileScreen> {
     super.initState();    
     Future.delayed(Duration(milliseconds: 500)).then((_) {       
       setState(() {
-          futureProfile = getProfile();  
+          //futureProfile = getProfile();  
       });       
     }); 
         

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import '../../widget/tombol.dart';
-import '../../widget/custom_bars.dart';
-import '../../utils/globals.dart' as globals;
+import '../../components/widget/tombol.dart';
+import '../../components/widget/custom_bars.dart';
+import '../../components/utils/globals.dart' as globals;
 import '../screens/coba.dart';
 
 class AplikasiScreen extends StatelessWidget { 

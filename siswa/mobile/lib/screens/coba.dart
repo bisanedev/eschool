@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
-import '../utils/globals.dart' as globals;
+import '../components/utils/globals.dart' as globals;
 
 class CobaScreen extends StatefulWidget {
   final String? userToken; 

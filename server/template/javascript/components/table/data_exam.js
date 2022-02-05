@@ -32,10 +32,16 @@ function DataExam(props) {
                         </div>
                         <span className="tgl">{moment(props.data.selesai).format('dddd')}, {moment(props.data.selesai).format('DD/MM/YYYY')}</span>
                     </div>
-                </a>                  
-                <a className="pa2 link dim pointer primary footer" style={{fontSize:11}} href={props.onLihat}>
-                    <i className="material-icons" style={{fontSize:"11px"}}>leaderboard</i>&nbsp; Lihat nilai
-                </a>                  
+                </a>
+                {moment().isAfter(props.data.selesai) ?                  
+                    <a className="pa2 link dim pointer primary footer" style={{fontSize:11}} href={props.onLihat}>
+                        <i className="material-icons" style={{fontSize:"11px"}}>leaderboard</i>&nbsp; Lihat nilai
+                    </a> 
+                :
+                    <div className="pa2 disable-secondary footer" style={{fontSize:11}}>
+                        <i className="material-icons" style={{fontSize:"11px"}}>leaderboard</i>&nbsp; Lihat nilai
+                    </div>
+                }                
             </div>
             </div>
             <div onClick={() => props.onDelete()} className="link dim deleteButton flex justify-center items-center">

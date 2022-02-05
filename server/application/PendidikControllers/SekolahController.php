@@ -648,14 +648,18 @@ class SekolahController extends ApiController
         $v = new Validator($_DELETE);
         $v->rule('required', ['delete','metode']);
         if($v->validate()) {
-            $data = json_decode($_DELETE["delete"],true);
+            $data = json_decode($_DELETE["delete"],true);            
             if($_DELETE["metode"] === "single"){
                 if($data["id"] === "1"){
                     echo $this->response->json_response(400, "Administrator Dilarang Di Hapus");
                     exit;
+                }                
+                $hapus = $this->database->delete("sekolah_users",["AND" => ["id" => $data["id"]]]); 
+                if($this->database->error){
+                    echo $this->response->json_response(400,"Pendidik tidak bisa dihapus, silahkan hapus data yang terkait");
+                    exit;
                 }
-                unlink(__DIR__ ."/../../public/data/users/".$data["username"].".jpg");
-                $hapus = $this->database->delete("sekolah_users",["AND" => ["id" => $data["id"]]]);                
+                unlink(__DIR__ ."/../../public/data/users/".$data["username"].".jpg");               
                 if($hapus->rowCount() === 0){
                     echo $this->response->json_response(400,"Data tidak ditemukan ".$data["id"]);
                 }else{                
@@ -667,11 +671,15 @@ class SekolahController extends ApiController
                 if(in_array("1", $arrayData[0])){
                     echo $this->response->json_response(400, "Administrator Dilarang Di Hapus");
                     exit;
+                }                 
+                $hapus = $this->database->delete("sekolah_users",["AND" => ["id" => $arrayData[0]]]);
+                if($this->database->error){
+                    echo $this->response->json_response(400,"Pendidik tidak bisa dihapus, silahkan hapus data yang terkait");
+                    exit;
                 }
                 foreach ($arrayData[1] as $username) {
                     unlink(__DIR__ ."/../../public/data/users/".$username.".jpg");
-                }                
-                $hapus = $this->database->delete("sekolah_users",["AND" => ["id" => $arrayData[0]]]);                
+                } 
                 if($hapus->rowCount() === 0){
                     echo $this->response->json_response(400,"Data tidak ditemukan");
                 }else{                

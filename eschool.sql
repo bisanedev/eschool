@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 28, 2022 at 08:18 PM
+-- Generation Time: Feb 05, 2022 at 04:32 AM
 -- Server version: 10.4.19-MariaDB
 -- PHP Version: 8.0.7
 
@@ -121,7 +121,10 @@ CREATE TABLE `quiz_exam` (
 --
 
 INSERT INTO `quiz_exam` (`id`, `user_id`, `tingkatan_id`, `mapel_id`, `semester_id`, `nama`, `mulai`, `selesai`, `nilai_minimal`, `paket_soal`, `kisi_exam`) VALUES
-(14, 2, 2, 9, 1, 'coba Marbuah', '2022-02-01 07:00:00', '2022-02-01 09:30:00', '50', '[\"4\",\"5\"]', '');
+(14, 2, 2, 9, 1, 'Remidial Ujian Semester', '2022-02-03 07:00:00', '2022-02-04 09:30:00', '50', '[\"4\",\"5\"]', ''),
+(15, 25, 2, 9, 1, 'Ujian Mid Semester', '2022-01-31 14:46:00', '2022-01-31 15:46:00', '65', '[\"4\",\"5\"]', ''),
+(16, 1, 2, 9, 1, 'Ujian Harian ke 1', '2022-02-03 06:03:00', '2022-02-03 07:03:00', '50', '[\"4\",\"5\"]', ''),
+(17, 25, 2, 9, 1, 'Ujian Semester', '2022-02-05 14:46:00', '2022-02-05 15:46:00', '65', '[\"4\",\"5\"]', '');
 
 -- --------------------------------------------------------
 
@@ -315,7 +318,7 @@ CREATE TABLE `sekolah_siswa` (
 --
 
 INSERT INTO `sekolah_siswa` (`id`, `nama`, `jenis`, `username`, `foto`, `no_absens`, `kelas_id`, `password`, `expired_token`, `unique_token`, `device_token`) VALUES
-(1, 'Adisty Titania', 'p', 'adisty', 1, 1, 1, '$2a$10$pR9ZEuPIIpEgBBMyD8G79uXZplUN5zB39xmlNni//KgajnGEwvW02', 1668574465, '619339813f15e', ''),
+(1, 'Adisty Titania', 'p', 'adisty', 1, 1, 1, '$2a$10$pR9ZEuPIIpEgBBMyD8G79uXZplUN5zB39xmlNni//KgajnGEwvW02', 1675469142, '61fc6dd6ee450', ''),
 (2, 'Auristela Allisya Lesham Shaenette', 'p', 'auristela', 1, 2, 1, '$2a$10$Y.rlT1vKIWPpkb68XsS7ZeJTrw3gJL3nsCIHI5A6.EBMPyIUOZpdW', 1668521970, '61926c727dffb', NULL),
 (3, 'Mastah Mandeliman', 'l', 'mandeliman', 1, 1, 19, '$2a$10$eSAZXak6xEZFFFBBS6Y6fuAu1VN4Ac2cHx5gFcYAm/qEQTrTPiQ4u', 1668518828, '6192602c9dc12', NULL),
 (4, 'Moho Man', 'l', 'moho', 1, 2, 19, '$2a$10$Q66RXXyIgvFpCa2V5iFk0uR/2JJZZ15Ls6pkrQtnr8I4GGxTtp2cu', 1668518919, '619260879ec22', NULL);
@@ -345,9 +348,10 @@ CREATE TABLE `sekolah_users` (
 --
 
 INSERT INTO `sekolah_users` (`id`, `nama`, `jenis`, `username`, `password`, `foto`, `mapel_id`, `superuser`, `expired_token`, `unique_token`, `device_token`) VALUES
-(1, 'Administrator', 'l', 'admin', '$2a$10$uJWzRaqj52lXZGP6yeG0..g6S8EfynirIddkDM3XdmbfGY5x5vrti', 1, '[]', 1, 1674036384, '61e69120784c0', ''),
+(1, 'Administrator', 'l', 'admin', '$2a$10$uJWzRaqj52lXZGP6yeG0..g6S8EfynirIddkDM3XdmbfGY5x5vrti', 1, '[\"9\"]', 1, 1674036384, '61e69120784c0', ''),
 (2, 'Marbuah Almakaroni', 'p', 'marbuah', '$2a$12$K/vRFyhWiIwitDqY5fcqQOIZvWGlfplnOJPbkOYuJm8RshDC5V9gG', 1, '[\"9\",\"1\"]', 0, 1674933449, '61f4414942806', ''),
-(15, 'Adhisti Arisha ', 'p', 'adhisti', '$2a$10$F/T0Q2n9I6blfK4YsY9FYO6xQxOOnoYdmLAnlZKnwBUmLCz8Psc7.', 1, '[\"3\",\"6\"]', 0, 1674925503, '61f4223f18438', NULL);
+(15, 'Adhisti Arisha ', 'p', 'adhisti', '$2a$10$F/T0Q2n9I6blfK4YsY9FYO6xQxOOnoYdmLAnlZKnwBUmLCz8Psc7.', 1, '[\"3\",\"6\"]', 0, 1674925503, '61f4223f18438', NULL),
+(25, 'Meong Ganas', 'p', 'meow', '$2a$12$K/vRFyhWiIwitDqY5fcqQOIZvWGlfplnOJPbkOYuJm8RshDC5V9gG', 1, '[\"9\"]', 0, 1674933449, '61f4414942806', '');
 
 --
 -- Indexes for dumped tables
@@ -466,13 +470,13 @@ ALTER TABLE `quiz_banksoal_pilihan`
 -- AUTO_INCREMENT for table `quiz_exam`
 --
 ALTER TABLE `quiz_exam`
-  MODIFY `id` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT for table `quiz_exam_jawabansiswa`
 --
 ALTER TABLE `quiz_exam_jawabansiswa`
-  MODIFY `id` int(50) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `quiz_paketsoal`
@@ -520,7 +524,7 @@ ALTER TABLE `sekolah_siswa`
 -- AUTO_INCREMENT for table `sekolah_users`
 --
 ALTER TABLE `sekolah_users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- Constraints for dumped tables
@@ -555,7 +559,7 @@ ALTER TABLE `quiz_exam`
 -- Constraints for table `quiz_exam_jawabansiswa`
 --
 ALTER TABLE `quiz_exam_jawabansiswa`
-  ADD CONSTRAINT `FK_quiz_exam_jawabansiswa_quiz_exam` FOREIGN KEY (`exam_id`) REFERENCES `quiz_exam` (`id`),
+  ADD CONSTRAINT `FK_quiz_exam_jawabansiswa_quiz_exam` FOREIGN KEY (`exam_id`) REFERENCES `quiz_exam` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `FK_quiz_exam_jawabansiswa_quiz_paketsoal` FOREIGN KEY (`paket_id`) REFERENCES `quiz_paketsoal` (`id`),
   ADD CONSTRAINT `FK_quiz_exam_jawabansiswa_sekolah_siswa` FOREIGN KEY (`siswa_id`) REFERENCES `sekolah_siswa` (`id`);
 

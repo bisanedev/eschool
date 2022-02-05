@@ -6,7 +6,7 @@ import 'dart:async';
 import 'dart:convert';
 import '../../components/utils/globals.dart' as globals;
 import '../../components/widget/tombol.dart';
-import '../../components/response/message.dart';
+import './login_response.dart';
 
 
 class LoginScreen extends StatefulWidget {          
@@ -18,7 +18,7 @@ class _LoginScreen extends State<LoginScreen> {
 
   final username = TextEditingController();
   final password = TextEditingController();
-  Future<ResponseMessage>? futureLogin;
+  Future<LoginResponse>? futureLogin;  
   bool _obscureText = true;
 
   @override  
@@ -92,24 +92,31 @@ class _LoginScreen extends State<LoginScreen> {
       ),
     );
 
-    final futureBuilder = FutureBuilder<ResponseMessage>(
+    final futureBuilder = FutureBuilder<LoginResponse>(
         future: futureLogin,
         builder: (context, snapshot)  {
-        if (snapshot.connectionState == ConnectionState.done && snapshot.hasData) {        
-        /* --- simpan token ---*/
-          if(snapshot.data!.status == true){
-          simpanToken(snapshot.data?.message ?? "");
+        if (snapshot.hasError){
+          /* --- response ketika koneksi tak terhubung ---*/        
+          return Center(
+            child:Text("Jaringan tidak terhubung ke server",style: TextStyle(color: Colors.red))
+          );
+        }
+        else if (snapshot.connectionState == ConnectionState.done && snapshot.hasData) {                       
+        /* --- simpan token & userData ---*/        
+          if(snapshot.data!.status == true){           
+          simpanToken(snapshot.data!.message!.token ?? "");
+          simpanUserData(snapshot.data!.message!.user);
           /* --- Navigate route apps --- */  
-            WidgetsBinding.instance?.addPostFrameCallback((_) {                    
+            WidgetsBinding.instance!.addPostFrameCallback((_) {                    
               Navigator.pushReplacementNamed(context, '/');
             });
-          }else{
-          /* --- response ketika salah input ,username & password  ---*/          
+          }else{ 
+            /* --- response ketika salah input ,username & password  ---*/                    
             return Center(
-                child:Text("${snapshot.data?.message}",style: TextStyle(color: Colors.red))
+                child:Text("${snapshot.data?.pesanError}",style: TextStyle(color: Colors.red))
             );  
-          }        
-        }
+          } 
+        }     
         return Container(
           padding: const EdgeInsets.all(8.0),
           child: Center(
@@ -145,9 +152,15 @@ class _LoginScreen extends State<LoginScreen> {
   void simpanToken(String userToken) async {    
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString('userToken', userToken);    
-  }  
+  } 
+  /* --- simpan userData ---*/
+  void simpanUserData(User? userData) async {    
+    SharedPreferences prefs = await SharedPreferences.getInstance();    
+    prefs.setString('userData', jsonEncode(userData!.toJson()));        
+  }   
+
   /* --- fungsi post data ---*/
-  Future<ResponseMessage>? postLogin(String username,String password) async {
+  Future<LoginResponse> postLogin(String username,String password) async {
     final response = await http.post(
       Uri.http(globals.serverIP, '/api/siswa/auth'),  
       body: <String, String>{
@@ -156,8 +169,12 @@ class _LoginScreen extends State<LoginScreen> {
         'remember': 'Yes'       
       },     
     );
-    Map<String, dynamic> error = jsonDecode(response.body);    
-    return ResponseMessage.fromJson(jsonDecode(response.body));    
+    Map<String, dynamic> error = jsonDecode(response.body);
+    if (response.statusCode == 200) {
+      return LoginResponse.fromJson(jsonDecode(response.body)); 
+    }else{      
+      return LoginResponse(status: false,pesanError: error['message']);
+    }       
   }
   //----
 }

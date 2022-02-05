@@ -27,15 +27,18 @@ class AuthController
         $v = new Validator($_POST);
         $v->rule('required', ['username', 'password']);
         if($v->validate()) {      
-        $cekAuth = $this->database->select("sekolah_siswa",["id","username","jenis","password","unique_token"],[
-                "username" => $_POST["username"]
+        $cekAuth = $this->database->select("sekolah_siswa",["[>]sekolah_kelasnama" => ["kelas_id" => "id"]],["sekolah_siswa.id","sekolah_siswa.nama","sekolah_siswa.username","sekolah_siswa.jenis","sekolah_siswa.no_absens","sekolah_siswa.foto[Bool]","sekolah_siswa.password","sekolah_kelasnama.nama(kelas)","sekolah_siswa.unique_token"],[
+                "sekolah_siswa.username" => $_POST["username"]
         ]);        
         if(!empty($cekAuth)){            
             if($bcrypt->verify($_POST["password"], $cekAuth[0]['password'])){
                 $objectUserData = new stdClass();                
-                $objectUserData->id = $cekAuth[0]["id"];               
+                $objectUserData->nama = $cekAuth[0]["nama"];                 
                 $objectUserData->username = $cekAuth[0]["username"];                
-                $objectUserData->jenis = $cekAuth[0]["jenis"]; 
+                $objectUserData->jenis = $cekAuth[0]["jenis"];
+                $objectUserData->foto = $cekAuth[0]["foto"];
+                $objectUserData->kelas = $cekAuth[0]["kelas"];
+                $objectUserData->no_absens = $cekAuth[0]["no_absens"];                
                 // create token                
                 $now = new DateTimeImmutable(); 
                 $uniqueToken = uniqid();                       
@@ -55,8 +58,8 @@ class AuthController
                     ->withClaim('uniqueToken',$uniqueToken)                    
                     ->getToken($this->jwt->signer(), $this->jwt->signingKey());
                     $this->database->update("sekolah_siswa",["expired_token" => $now->modify('+1 year')->getTimestamp(),"unique_token" => $uniqueToken],["id" => $cekAuth[0]['id']]);                    
-                    //$data = array("user" => $objectUserData,"token" => $token->toString() );
-                    echo $this->response->json_response(200,$token->toString());
+                    $data = array("user" => $objectUserData,"token" => $token->toString() );
+                    echo $this->response->json_response(200,$data);
                 }else{
                     // expired 24 jam
                     $token = $this->jwt->builder()
@@ -72,8 +75,8 @@ class AuthController
                     ->withClaim('uniqueToken',$uniqueToken)      
                     ->getToken($this->jwt->signer(), $this->jwt->signingKey());
                     $this->database->update("sekolah_siswa",["expired_token" => $now->modify('+1 day')->getTimestamp(),"unique_token" => $uniqueToken],["id" => $cekAuth[0]['id']]);                    
-                    //$data = array("user" => $objectUserData,"token" => $token->toString() );
-                    echo $this->response->json_response(200,$token->toString());
+                    $data = array("user" => $objectUserData,"token" => $token->toString() );
+                    echo $this->response->json_response(200,$data);
                 }                 
             }else{
                 echo $this->response->json_response(401, "Password Salah!"); 

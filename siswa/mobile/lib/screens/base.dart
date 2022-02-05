@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../components/utils/globals.dart' as globals;
 import '../aplikasi/aplikasi_screen.dart';
-import '../pencapaian/pencapaian_screen.dart';
+import '../prestasi/prestasi_screen.dart';
 import '../profile/profile_screen.dart';
 import './coba.dart';
 
@@ -44,7 +44,7 @@ class _BaseScreen extends State<BaseScreen> {
             ),
              BottomNavigationBarItem(
               icon: Icon(Icons.insights),
-              label: 'Pencapaian',
+              label: 'Prestasi',
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.person_outline),
@@ -71,7 +71,7 @@ class _BaseScreen extends State<BaseScreen> {
       '/': (context) {
         return [
           AplikasiScreen(userToken: userToken),
-          PencapaianScreen(userToken: userToken),
+          PrestasiScreen(userToken: userToken),
           ProfileScreen(
             userToken: userToken,
             logOut: logOut,

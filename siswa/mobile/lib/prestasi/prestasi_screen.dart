@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-class PencapaianScreen extends StatelessWidget {
+class PrestasiScreen extends StatelessWidget {
   final String? userToken;    
-  const PencapaianScreen({Key? key,this.userToken}) : super(key: key);
+  const PrestasiScreen({Key? key,this.userToken}) : super(key: key);
   
   @override
   Widget build(BuildContext context) {

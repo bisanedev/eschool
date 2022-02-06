@@ -13822,7 +13822,6 @@ div.wrapDataSoal .pertanyaaanOpsional {
 }
 div.wrapDataSoal .deleteButton {
   cursor: pointer;
-  border: 1px solid rgba(0, 0, 0, 0.125);
   height: 20px;
   width: 20px;
   border-radius: 10px;
@@ -14012,7 +14011,6 @@ div.wrapDataExam .data .footer {
 }
 div.wrapDataExam .deleteButton {
   cursor: pointer;
-  border: 1px solid white;
   height: 20px;
   width: 20px;
   border-radius: 10px;

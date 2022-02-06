@@ -132,8 +132,8 @@ class PageAplikasiQuizPaketSoalAdd extends React.Component{
                   <SoalSelected key={k} nomor={k+1} text={value.pertanyaan_text}
                     onDelete={() => this.onDeletePilihan(value)}
                     dataValue={value}    
-                    linkImages={`data/soal/pilihan/${value.id}/${value.pertanyaan_images}`}
-                    linkAudio={`data/soal/pilihan/${value.id}/${value.pertanyaan_audio}`}
+                    linkImages={`data/quiz/soal/pilihan/${value.id}/${value.pertanyaan_images}`}
+                    linkAudio={`data/quiz/soal/pilihan/${value.id}/${value.pertanyaan_audio}`}
                   />                
               ))}
               {paketEssay.length > 0 && (<div className="f6 b pv1 db bb b--primary mb3 primary bw1 mb2 flex justify-between"><span>Essay</span><span>{paketEssay.length} soal</span></div>)}
@@ -141,8 +141,8 @@ class PageAplikasiQuizPaketSoalAdd extends React.Component{
               <SoalSelected key={k} nomor={k+1} text={value.pertanyaan_text}
                 onDelete={() => this.onDeleteEssay(value)}
                 dataValue={value}    
-                linkImages={`data/soal/essay/${value.id}/${value.pertanyaan_images}`}
-                linkAudio={`data/soal/essay/${value.id}/${value.pertanyaan_audio}`}
+                linkImages={`data/quiz/soal/essay/${value.id}/${value.pertanyaan_images}`}
+                linkAudio={`data/quiz/soal/essay/${value.id}/${value.pertanyaan_audio}`}
               />
               ))}
             </div>
@@ -174,8 +174,8 @@ class PageAplikasiQuizPaketSoalAdd extends React.Component{
                     checked={paketPilihan.some(item => item.id === value.id)}
                     onChecked={() => this.onCheckedPilihan(value)}
                     dataValue={value}    
-                    linkImages={`data/soal/pilihan/${value.id}/${value.pertanyaan_images}`}
-                    linkAudio={`data/soal/pilihan/${value.id}/${value.pertanyaan_audio}`}
+                    linkImages={`data/quiz/soal/pilihan/${value.id}/${value.pertanyaan_images}`}
+                    linkAudio={`data/quiz/soal/pilihan/${value.id}/${value.pertanyaan_audio}`}
                   />
                 ))}
               </div> 
@@ -217,8 +217,8 @@ class PageAplikasiQuizPaketSoalAdd extends React.Component{
                   checked={paketEssay.some(item => item.id === value.id)}  
                   onChecked={() => this.onCheckedEssay(value)}
                   dataValue={value}    
-                  linkImages={`data/soal/essay/${value.id}/${value.pertanyaan_images}`}
-                  linkAudio={`data/soal/essay/${value.id}/${value.pertanyaan_audio}`}
+                  linkImages={`data/quiz/soal/essay/${value.id}/${value.pertanyaan_images}`}
+                  linkAudio={`data/quiz/soal/essay/${value.id}/${value.pertanyaan_audio}`}
                 />
               ))}
               </div>

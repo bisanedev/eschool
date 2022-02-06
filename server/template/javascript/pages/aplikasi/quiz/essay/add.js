@@ -148,7 +148,7 @@ class PageAplikasiQuizEssaySoalAdd extends React.Component{
                   </button>
                 </div>
                 )} 
-                {srcAudio != "" && (<audio controls ref="audio_player" className="bg-primary w-100" src={srcAudio}/>)}                                 
+                {srcAudio != "" && (<audio controls ref="audio_player" className="w-100" src={srcAudio}/>)}                                 
             </div> 
           </div>                    
           <div className="flex items-center justify-center bg-near-white" style={{borderTop:"1px solid rgba(0, 0, 0, 0.125)",height:"58px"}}>            

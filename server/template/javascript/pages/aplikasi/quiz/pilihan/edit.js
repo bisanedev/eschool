@@ -132,7 +132,7 @@ class PageAplikasiQuizPilihanSoalEdit extends React.Component{
                <label className="f5 fw4 db mb2">Pertanyaan Audio (Opsional)</label>
                <div className="relative pv3">
                <div className="link dim deleteFotoPertanyaan flex justify-center items-center" onClick={() => {this.setState({pertanyaaanAudio:""})}}>Ganti Audio<i className="material-icons-outlined" style={{fontSize: "14px"}}>close</i></div>
-                <audio controls className="bg-primary w-100" src={`data/quiz/soal/pilihan/${this.soalID}/${pertanyaaanAudio}`}/>                 
+                <audio controls className="w-100" src={`data/quiz/soal/pilihan/${this.soalID}/${pertanyaaanAudio}`}/>                 
                </div>              
               </div>
             ):(

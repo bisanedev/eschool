@@ -24,9 +24,10 @@ class _LoginScreen extends State<LoginScreen> {
 
   @override  
   void initState() {        
-    super.initState();     
+    super.initState();  
   }  
 
+ @override
   Widget build(BuildContext context) {
 
     final logo = Hero(
@@ -159,7 +160,6 @@ class _LoginScreen extends State<LoginScreen> {
     SharedPreferences prefs = await SharedPreferences.getInstance();    
     prefs.setString('userData', jsonEncode(userData!.toJson()));        
   }   
-
   /* --- fungsi post data ---*/
   Future<LoginResponse> postLogin(String username,String password) async {
     final response = await http.post(

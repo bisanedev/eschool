@@ -17,7 +17,7 @@ class _CobaScreen extends State<CobaScreen> {
   @override
   void initState() {        
     super.initState();    
-    Future.delayed(Duration(milliseconds: 500)).then((_) {       
+    Future.delayed(const Duration(milliseconds: 500)).then((_) {       
       setState(() {
           futureCoba = getData();  
       });       

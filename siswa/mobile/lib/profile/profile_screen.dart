@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../globals.dart' as globals;
 import '../../components/models/user_model.dart';
+import '../screens/coba.dart';
 
 class ProfileScreen extends StatefulWidget {  
   final String? userToken; 
@@ -46,14 +47,18 @@ class _ProfileScreen extends State<ProfileScreen> {
         children: [
           Image.network(userImageUrl()),    
           Expanded(
-            child: Column(
+            child:Padding(
+              padding: const EdgeInsets.all(5.0),
+              child:Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Text("${widget.userData?.nama}",style: const TextStyle(fontWeight: FontWeight.bold,fontSize:18)),
-                  Text("${widget.userData?.kelas}",style:  const TextStyle(color:Colors.grey,fontSize:16))
+                  Text("${widget.userData?.nama}",overflow: TextOverflow.ellipsis,style: const TextStyle(fontWeight: FontWeight.bold,fontSize:18)),
+                  Text("${widget.userData?.kelas}",style: const TextStyle(color:Colors.grey,fontSize:16))
                 ],
+              ),
             )
+         
           )                  
         ],
       ),
@@ -73,6 +78,26 @@ class _ProfileScreen extends State<ProfileScreen> {
     )  
   );
 
+  final bodyMenu = Column(
+    mainAxisAlignment: MainAxisAlignment.center,
+    crossAxisAlignment: CrossAxisAlignment.center,
+    children: [
+      ElevatedButton(onPressed:() {
+              Navigator.push(context, MaterialPageRoute(
+                builder: (context) => CobaScreen(userToken: widget.userToken,)
+              ));
+      }, child: const Text('Ganti foto profil')),
+      const SizedBox(height: 10.0),  
+      ElevatedButton(onPressed:() {
+              Navigator.push(context, MaterialPageRoute(
+                builder: (context) => CobaScreen(userToken: widget.userToken,)
+              ));
+      }, child: const Text('Ganti password')),
+      const SizedBox(height: 10.0),  
+      ElevatedButton(onPressed:widget.logOut, child: const Text('Logout Pak!')),      
+    ]
+  );
+
   return Scaffold(      
       body: Stack(
         alignment: Alignment.center,
@@ -87,11 +112,12 @@ class _ProfileScreen extends State<ProfileScreen> {
               ),
               Flexible(
                 flex: 3,
-                child: Container(                  
+                child: Container(
+                  padding: const EdgeInsets.all(8.0),                 
                   color: Colors.white,
                   width: double.infinity,
                   height: double.infinity,
-                  child: Text("tinggi $height"),
+                  child: bodyMenu,
                 ),
 
               )

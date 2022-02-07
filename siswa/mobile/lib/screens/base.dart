@@ -31,6 +31,7 @@ class _BaseScreen extends State<BaseScreen> {
     GlobalKey<NavigatorState>()
   ];
 
+  @override
   Widget build(BuildContext context) {
 
     return Scaffold(

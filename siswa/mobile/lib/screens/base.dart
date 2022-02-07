@@ -108,7 +108,7 @@ class _BaseScreen extends State<BaseScreen> {
       setState((){      
         userToken = prefs.getString('userToken') ?? '';
         userData = UserData.fromJson(userMap); 
-      });
+    });
   }
 
   void logOut() async {    

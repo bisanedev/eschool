@@ -14,8 +14,7 @@ class ProfileScreen extends StatefulWidget {
   _ProfileScreen createState() => _ProfileScreen();
 }
 
-class _ProfileScreen extends State<ProfileScreen> {        
-
+class _ProfileScreen extends State<ProfileScreen> {         
 
   @override
   void initState() {        
@@ -29,7 +28,42 @@ class _ProfileScreen extends State<ProfileScreen> {
   double width = MediaQuery.of(context).size.width;
   double height = MediaQuery.of(context).size.height;
 
-    return Scaffold(      
+  final CardProfile = Positioned(
+    top: height/4,
+    child: Container(
+      height: 150,
+      decoration: BoxDecoration(
+      color:Colors.white,             
+      borderRadius: BorderRadius.all(Radius.circular(2)),
+      boxShadow: [
+          BoxShadow(
+          color: Colors.grey.withOpacity(0.6),
+          blurRadius: 5.0,
+          spreadRadius: 0,
+          offset: Offset(0,5),
+          ),
+        ],
+      ),              
+      width: width-60,
+      child: Row(
+        children: [
+          Image.network(userImageUrl()),    
+          Expanded(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text("${widget.userData?.nama}"),
+                  Text("${widget.userData?.kelas}")
+                ],
+            )
+          )                  
+        ],
+      ),
+    )
+  );
+
+  return Scaffold(      
       body: Stack(
         alignment: Alignment.center,
         children:<Widget>[
@@ -40,48 +74,28 @@ class _ProfileScreen extends State<ProfileScreen> {
             height: height,
             child: Text("tinggi ${height}"),
           ),
-          Positioned(
-            top: height/4,            
-            child: Container(
-              height: 180,
-              decoration: BoxDecoration(                  
-                color:Colors.white,             
-                borderRadius: BorderRadius.all(Radius.circular(2)),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.withOpacity(0.6),
-                    blurRadius: 5.0,
-                    spreadRadius: 0,
-                    offset: Offset(0,5),
-                  ),
-                ],
-              ),              
-              width: width-60,
-              child: Row(                      
-                children: [
-                  Image.network('http://'+globals.serverIP+'/data/siswa/adisty.jpg'),    
-                  Expanded(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Text("${widget.userData?.nama}"),
-                          Text("${widget.userData?.kelas}")
-                        ],
-                      )
-                    )                  
-                ],
-              ),
-            )
-          )
+          CardProfile
 
         ]
       ),
     );
   }
   /*--- Script here ---*/
- 
-
+  String userImageUrl(){
+    int noCacheProfile = 0;
+    String userName = widget.userData?.username ?? "kosong";
+    String cewek = 'http://'+globals.serverIP+'/assets/images/cewek.png';
+    String cowok = 'http://'+globals.serverIP+'/assets/images/cowok.png';
+    bool hasFoto = widget.userData?.foto ?? false;
+    String jenis = widget.userData?.jenis ?? "p";
+    if(hasFoto){
+      return 'http://${globals.serverIP}/data/siswa/${userName}.jpg?nocache=${noCacheProfile++};';
+    }else if( jenis == "l"){
+        return cowok;      
+    }else {
+      return cewek;
+    }        
+  }
   @override
   void dispose() {    
     super.dispose();

@@ -102,12 +102,13 @@ class _BaseScreen extends State<BaseScreen> {
   }
 
   void getToken() async {
-     SharedPreferences prefs = await SharedPreferences.getInstance();     
-     Map<String, dynamic> userMap = jsonDecode(prefs.getString('userData') ?? "");               
-     setState((){
+    print("udah tau pertama login keluar error => Unexpected end of JSON input");
+    SharedPreferences prefs = await SharedPreferences.getInstance(); 
+      Map<String, dynamic> userMap = jsonDecode(prefs.getString('userData') ?? "");
+      setState((){      
         userToken = prefs.getString('userToken') ?? '';
-        userData = UserData.fromJson(userMap);
-     });     
+        userData = UserData.fromJson(userMap); 
+      });
   }
 
   void logOut() async {    

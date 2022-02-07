@@ -29,7 +29,7 @@ class _MyAppState  extends State<MyApp> {
         visualDensity: VisualDensity.adaptivePlatformDensity,
         fontFamily: 'TitilliumWeb',                
       ),
-      initialRoute: '/cek-auth',
+      initialRoute: '/cek-auth',      
       routes: {
         '/': (context) => BaseScreen(),
         '/cek-auth': (context) => CheckAuth(),

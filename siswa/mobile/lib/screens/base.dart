@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'globals.dart' as globals;
+import '../globals.dart' as globals;
 import '../aplikasi/aplikasi_screen.dart';
 import '../prestasi/prestasi_screen.dart';
 import '../profile/profile_screen.dart';

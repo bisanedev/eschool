@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
-import '../screens/globals.dart' as globals;
+import '../globals.dart' as globals;
 import '../../components/models/user_model.dart';
 
 class ProfileScreen extends StatefulWidget {  

@@ -4,7 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/services.dart';
 import 'dart:async';
 import 'dart:convert';
-import '../screens/globals.dart' as globals;
+import '../globals.dart' as globals;
 import '../../components/widget/tombol.dart';
 import 'login_response.dart';
 

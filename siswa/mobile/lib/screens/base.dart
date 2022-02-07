@@ -114,8 +114,8 @@ class _BaseScreen extends State<BaseScreen> {
         userData = UserData.fromJson(userMap); 
       });
     } catch (e) {
-      print(e);
-    }   
+      print('Karena Belum Login : '+e.toString());
+    }
   }
 
   void logOut() async {    

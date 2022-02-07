@@ -45,7 +45,26 @@ class _ProfileScreen extends State<ProfileScreen> {
       width: width-70,
       child: Row(
         children: [
-          Image.network(userImageUrl()),    
+          Stack(
+            children:[
+              Image.network(userImageUrl()),
+              Positioned(
+                bottom: 5,
+                left: 5,
+                child: Container(                  
+                  padding: EdgeInsets.only(bottom: 3.0,top: 3.0,left: 6.0,right: 6.0),
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                    color:Colors.white,             
+                    borderRadius: const BorderRadius.all(Radius.circular(2)),             
+                  ), 
+                  child:  Text("${widget.userData?.noAbsens}",style: const TextStyle(fontSize:14)),
+                )
+              )
+
+             
+            ]            
+          ),
           Expanded(
             child:Padding(
               padding: const EdgeInsets.all(5.0),

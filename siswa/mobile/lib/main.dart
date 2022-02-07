@@ -32,7 +32,7 @@ class _MyAppState  extends State<MyApp> {
       ),
       initialRoute: '/cek-auth',      
       routes: {
-        '/': (context) => BaseScreen(),
+        '/': (context) => const BaseScreen(),
         '/cek-auth': (context) => const CheckAuth(),
         '/login': (context) => const LoginScreen()       
       },

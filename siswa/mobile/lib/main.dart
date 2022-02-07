@@ -4,10 +4,11 @@ import 'login/login_screen.dart';
 import './screens/check_auth.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatefulWidget{
+  const MyApp({Key? key}) : super(key: key); 
   @override   
   _MyAppState createState() => _MyAppState();  
 }
@@ -31,9 +32,9 @@ class _MyAppState  extends State<MyApp> {
       ),
       initialRoute: '/cek-auth',      
       routes: {
-        '/': (context) => BaseScreen(),
-        '/cek-auth': (context) => CheckAuth(),
-        '/login': (context) => LoginScreen()        
+        '/': (context) => const BaseScreen(),
+        '/cek-auth': (context) => const CheckAuth(),
+        '/login': (context) => const LoginScreen()        
       },
     );
   }

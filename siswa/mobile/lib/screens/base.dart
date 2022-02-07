@@ -5,10 +5,11 @@ import '../aplikasi/aplikasi_screen.dart';
 import '../prestasi/prestasi_screen.dart';
 import '../profile/profile_screen.dart';
 import '../components/models/user_model.dart';
-import './coba.dart';
+//import './coba.dart';
 import 'dart:convert';
 
-class BaseScreen extends StatefulWidget {          
+class BaseScreen extends StatefulWidget {
+  const BaseScreen({Key? key}) : super(key: key);           
   @override  
   _BaseScreen createState() => _BaseScreen();
 }
@@ -24,23 +25,24 @@ class _BaseScreen extends State<BaseScreen> {
     getToken();            
   }
 
-  List<GlobalKey<NavigatorState>> _navigatorKeys = [
+  final List<GlobalKey<NavigatorState>> _navigatorKeys = [
     GlobalKey<NavigatorState>(),
     GlobalKey<NavigatorState>(),
     GlobalKey<NavigatorState>()
   ];
 
   Widget build(BuildContext context) {
+
     return Scaffold(
         body: Stack(
           children: [
-            _buildOffstageNavigator(0),
-            _buildOffstageNavigator(1),
-            _buildOffstageNavigator(2),
+            _createOffstageNavigator(0),
+            _createOffstageNavigator(1),
+            _createOffstageNavigator(2),
           ],
         ),
         bottomNavigationBar: BottomNavigationBar(
-          items: <BottomNavigationBarItem>[
+          items: const <BottomNavigationBarItem>[
             BottomNavigationBarItem(
               icon: Icon(Icons.apps),
               label: 'Aplikasi',
@@ -55,7 +57,7 @@ class _BaseScreen extends State<BaseScreen> {
             ),     
           ],
           currentIndex: _selectedIndex,
-          selectedItemColor: globals.BaseColor,
+          selectedItemColor: globals.baseColor,
           backgroundColor: Colors.white,
           unselectedItemColor: Colors.grey,
           onTap: _onItemTapped,
@@ -85,7 +87,7 @@ class _BaseScreen extends State<BaseScreen> {
     };
   }
 
-  Widget _buildOffstageNavigator(int index) {
+  Widget _createOffstageNavigator(int index) {
     var routeBuilders = _routeBuilders(context, index);
 
     return Offstage(
@@ -117,9 +119,9 @@ class _BaseScreen extends State<BaseScreen> {
     Navigator.pushReplacementNamed(context, '/login');   
   }
 
-  void _next() {
-    Navigator.push(context, MaterialPageRoute(builder: (context) => CobaScreen()));
-  }
+  // void _next() {
+  //   Navigator.push(context, MaterialPageRoute(builder: (context) => const CobaScreen()));
+  // }
 
 
 /* ---  end script ---*/

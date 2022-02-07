@@ -14,8 +14,8 @@ class AplikasiScreen extends StatelessWidget {
         appBar: CustomBars(title:"Aplikasi"),
         body: Center(
           child: Column(children: [
-            Text('Hello to Aplikasi Screen'),
-            SimpleElevatedButton( child: Text("CobaScreen"), color: globals.BaseColor,onPressed:() {
+            const Text('Hello to Aplikasi Screen'),
+            SimpleElevatedButton( child: const Text("CobaScreen"), color: globals.baseColor,onPressed:() {
               Navigator.push(context, MaterialPageRoute(
                 builder: (context) => CobaScreen(userToken: userToken,)
               ));

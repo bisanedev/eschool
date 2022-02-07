@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'dart:async';
-import 'dart:convert';
 import '../globals.dart' as globals;
 import '../../components/models/user_model.dart';
 
@@ -28,23 +25,23 @@ class _ProfileScreen extends State<ProfileScreen> {
   double width = MediaQuery.of(context).size.width;
   double height = MediaQuery.of(context).size.height;
 
-  final CardProfile = Positioned(
+  final cardProfile = Positioned(
     top: height/4,
     child: Container(
       height: 150,
       decoration: BoxDecoration(
       color:Colors.white,             
-      borderRadius: BorderRadius.all(Radius.circular(2)),
+      borderRadius: const BorderRadius.all(Radius.circular(2)),
       boxShadow: [
           BoxShadow(
           color: Colors.grey.withOpacity(0.6),
           blurRadius: 5.0,
           spreadRadius: 0,
-          offset: Offset(0,5),
+          offset: const Offset(0,5),
           ),
         ],
       ),              
-      width: width-60,
+      width: width-70,
       child: Row(
         children: [
           Image.network(userImageUrl()),    
@@ -53,8 +50,8 @@ class _ProfileScreen extends State<ProfileScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Text("${widget.userData?.nama}"),
-                  Text("${widget.userData?.kelas}")
+                  Text("${widget.userData?.nama}",style: const TextStyle(fontWeight: FontWeight.bold,fontSize:18)),
+                  Text("${widget.userData?.kelas}",style:  const TextStyle(color:Colors.grey,fontSize:16))
                 ],
             )
           )                  
@@ -63,18 +60,44 @@ class _ProfileScreen extends State<ProfileScreen> {
     )
   );
 
+  final headerTitle = Container(                  
+    color: globals.baseColor,
+    width: double.infinity,
+    height: double.infinity,
+    child: const Padding(
+      padding: EdgeInsets.all(20.0),
+      child: Align(
+        alignment: Alignment.topCenter,
+        child: Text("PROFIL",style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize:20)),
+      )
+    )  
+  );
+
   return Scaffold(      
       body: Stack(
         alignment: Alignment.center,
-        children:<Widget>[
-          Container(
-            padding: const EdgeInsets.all(16.0),
-            color: Colors.white,
-            width: width,
-            height: height,
-            child: Text("tinggi ${height}"),
+        children:<Widget>[          
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Flexible(
+                flex: 2,
+                child: headerTitle 
+              ),
+              Flexible(
+                flex: 3,
+                child: Container(                  
+                  color: Colors.white,
+                  width: double.infinity,
+                  height: double.infinity,
+                  child: Text("tinggi $height"),
+                ),
+
+              )
+            ],
           ),
-          CardProfile
+          cardProfile
         ]
       ),
     );
@@ -88,7 +111,7 @@ class _ProfileScreen extends State<ProfileScreen> {
     bool hasFoto = widget.userData?.foto ?? false;
     String jenis = widget.userData?.jenis ?? "p";
     if(hasFoto){
-      return '${globals.protokol}${globals.serverIP}/data/siswa/${userName}.jpg?nocache=${noCacheProfile++};';
+      return '${globals.protokol}${globals.serverIP}/data/siswa/$userName.jpg?nocache=$noCacheProfile++;';
     }else if( jenis == "l"){
         return cowok;      
     }else {

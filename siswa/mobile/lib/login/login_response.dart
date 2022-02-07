@@ -7,14 +7,14 @@ class LoginResponse {
 
   LoginResponse.fromJson(Map<String, dynamic> json) {
     status = json['status'];    
-    message = json['message'] != null ? new Message.fromJson(json['message']) : null;    
+    message = json['message'] != null ? Message.fromJson(json['message']) : null;    
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['status'] = this.status;    
-    if (this.message != null) {
-      data['message'] = this.message!.toJson();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['status'] = status;    
+    if (message != null) {
+      data['message'] = message!.toJson();
     }
     return data;
   }
@@ -27,16 +27,16 @@ class Message {
   Message({this.user, this.token});
 
   Message.fromJson(Map<String, dynamic> json) {
-    user = json['user'] != null ? new User.fromJson(json['user']) : null;
+    user = json['user'] != null ? User.fromJson(json['user']) : null;
     token = json['token'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.user != null) {
-      data['user'] = this.user!.toJson();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (user != null) {
+      data['user'] = user!.toJson();
     }
-    data['token'] = this.token;
+    data['token'] = token;
     return data;
   }
 }
@@ -67,13 +67,13 @@ class User {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['nama'] = this.nama;
-    data['username'] = this.username;
-    data['jenis'] = this.jenis;
-    data['foto'] = this.foto;
-    data['kelas'] = this.kelas;
-    data['no_absens'] = this.noAbsens;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['nama'] = nama;
+    data['username'] = username;
+    data['jenis'] = jenis;
+    data['foto'] = foto;
+    data['kelas'] = kelas;
+    data['no_absens'] = noAbsens;
     return data;
   }
 }

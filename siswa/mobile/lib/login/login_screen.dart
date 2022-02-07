@@ -9,7 +9,8 @@ import '../../components/widget/tombol.dart';
 import 'login_response.dart';
 
 
-class LoginScreen extends StatefulWidget {          
+class LoginScreen extends StatefulWidget {    
+  const LoginScreen({Key? key}) : super(key: key);      
   @override
   _LoginScreen createState() => _LoginScreen();
 }
@@ -39,16 +40,16 @@ class _LoginScreen extends State<LoginScreen> {
       autofocus: false,      
       decoration: InputDecoration(
         hintText: 'Username',
-        fillColor: Color(0xfff3f3f3),
+        fillColor: const Color(0xfff3f3f3),
         filled: true,
-        prefixIcon: Icon(Icons.person),
-        contentPadding: EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
+        prefixIcon: const Icon(Icons.person),
+        contentPadding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
         enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(width: 1, color: Color.fromRGBO(0, 0, 0, 0.125)),
+            borderSide: const BorderSide(width: 1, color: Color.fromRGBO(0, 0, 0, 0.125)),
             borderRadius: BorderRadius.circular(0),
         ),
         focusedBorder: OutlineInputBorder(
-            borderSide: BorderSide(width: 1, color: globals.BaseColor),
+            borderSide: BorderSide(width: 1, color: globals.baseColor),
             borderRadius: BorderRadius.circular(0),
         ),     
       ),      
@@ -63,16 +64,16 @@ class _LoginScreen extends State<LoginScreen> {
       obscureText: _obscureText,
       decoration: InputDecoration(        
         hintText: 'Password',
-        fillColor: Color(0xfff3f3f3), 
+        fillColor: const Color(0xfff3f3f3), 
         filled: true,
-        prefixIcon: Icon(Icons.lock),
-        contentPadding: EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
+        prefixIcon: const Icon(Icons.lock),
+        contentPadding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
         enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(width: 1, color: Color.fromRGBO(0, 0, 0, 0.125)),
+            borderSide: const BorderSide(width: 1, color: Color.fromRGBO(0, 0, 0, 0.125)),
             borderRadius: BorderRadius.circular(0),
         ),
         focusedBorder: OutlineInputBorder(
-            borderSide: BorderSide(width: 1, color: globals.BaseColor),
+            borderSide: BorderSide(width: 1, color: globals.baseColor),
             borderRadius: BorderRadius.circular(0),
         ),      
         suffixIcon: GestureDetector(
@@ -83,12 +84,12 @@ class _LoginScreen extends State<LoginScreen> {
     );
 
     final loginButton = Padding(
-      padding: EdgeInsets.symmetric(vertical: 16.0),
+      padding: const EdgeInsets.symmetric(vertical: 16.0),
       child: Material(
         borderRadius: BorderRadius.circular(30.0),
-        shadowColor: globals.BaseColor,
+        shadowColor: globals.baseColor,
         elevation: 5.0,
-        child: SimpleElevatedButton( child: const Text("Login"), color: globals.BaseColor,onPressed: () async {setState(() { futureLogin = postLogin(username.text,password.text);});},)
+        child: SimpleElevatedButton( child: const Text("Login"), color: globals.baseColor,onPressed: () async {setState(() { futureLogin = postLogin(username.text,password.text);});},)
       ),
     );
 
@@ -97,7 +98,7 @@ class _LoginScreen extends State<LoginScreen> {
         builder: (context, snapshot)  {
         if (snapshot.hasError){
           /* --- response ketika koneksi tak terhubung ---*/        
-          return Center(
+          return const Center(
             child:Text("Jaringan tidak terhubung ke server",style: TextStyle(color: Colors.red))
           );
         }
@@ -113,13 +114,13 @@ class _LoginScreen extends State<LoginScreen> {
           }else{ 
             /* --- response ketika salah input ,username & password  ---*/                    
             return Center(
-                child:Text("${snapshot.data?.pesanError}",style: TextStyle(color: Colors.red))
+                child:Text("${snapshot.data?.pesanError}",style: const TextStyle(color: Colors.red))
             );  
           } 
         }     
         return Container(
           padding: const EdgeInsets.all(8.0),
-          child: Center(
+          child: const Center(
             child: CircularProgressIndicator(),
           )              
         );        
@@ -132,14 +133,14 @@ class _LoginScreen extends State<LoginScreen> {
       body: Center(
         child: ListView(
           shrinkWrap: true,
-          padding: EdgeInsets.only(left: 24.0, right: 24.0),
+          padding: const EdgeInsets.only(left: 24.0, right: 24.0),
           children: <Widget>[
             logo,
-            SizedBox(height: 48.0),            
+            const SizedBox(height: 48.0),            
             usernameInput,
-            SizedBox(height: 8.0),
+            const SizedBox(height: 8.0),
             passwordInput,
-            SizedBox(height: 15.0),
+            const SizedBox(height: 15.0),
             loginButton,
             if(futureLogin != null) futureBuilder
           ],

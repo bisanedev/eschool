@@ -13,7 +13,7 @@ class PrestasiScreen extends StatelessWidget {
       body: Center(
         child: Column(
           children: [
-            Text('Hello to Aplikasi Screen'),
+            const Text('Hello to Aplikasi Screen'),
             Text(userToken ?? "meow")
           ]
         ),

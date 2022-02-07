@@ -24,13 +24,13 @@ class UserData {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['nama'] = this.nama;
-    data['username'] = this.username;
-    data['jenis'] = this.jenis;
-    data['foto'] = this.foto;
-    data['kelas'] = this.kelas;
-    data['no_absens'] = this.noAbsens;
+   final Map<String, dynamic> data = <String, dynamic>{};
+    data['nama'] = nama;
+    data['username'] = username;
+    data['jenis'] = jenis;
+    data['foto'] = foto;
+    data['kelas'] = kelas;
+    data['no_absens'] = noAbsens;
     return data;
   }
 }

@@ -9,6 +9,7 @@ import '../components/models/user_model.dart';
 import 'dart:convert';
 
 class BaseScreen extends StatefulWidget {
+
   const BaseScreen({Key? key}) : super(key: key);           
   @override  
   _BaseScreen createState() => _BaseScreen();
@@ -21,8 +22,8 @@ class _BaseScreen extends State<BaseScreen> {
 
   @override  
   void initState() {        
-    super.initState();
-    getToken();            
+    super.initState();   
+    getToken();    
   }
 
   final List<GlobalKey<NavigatorState>> _navigatorKeys = [
@@ -104,14 +105,17 @@ class _BaseScreen extends State<BaseScreen> {
     );
   }
 
-  void getToken() async {
-    print("udah tau pertama login keluar error => Unexpected end of JSON input");
-    SharedPreferences prefs = await SharedPreferences.getInstance(); 
+  void getToken() async {    
+    try {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
       Map<String, dynamic> userMap = jsonDecode(prefs.getString('userData') ?? "");
       setState((){      
         userToken = prefs.getString('userToken') ?? '';
         userData = UserData.fromJson(userMap); 
-    });
+      });
+    } catch (e) {
+      print(e);
+    }   
   }
 
   void logOut() async {    
@@ -124,6 +128,9 @@ class _BaseScreen extends State<BaseScreen> {
   //   Navigator.push(context, MaterialPageRoute(builder: (context) => const CobaScreen()));
   // }
 
-
+  @override
+  void dispose() {    
+    super.dispose();
+  }
 /* ---  end script ---*/
 }

@@ -14,7 +14,7 @@ class MyApp extends StatefulWidget{
 }
 
 class _MyAppState  extends State<MyApp> {  
-  
+
   @override
   void initState() {
     super.initState();    
@@ -32,9 +32,9 @@ class _MyAppState  extends State<MyApp> {
       ),
       initialRoute: '/cek-auth',      
       routes: {
-        '/': (context) => const BaseScreen(),
+        '/': (context) => BaseScreen(),
         '/cek-auth': (context) => const CheckAuth(),
-        '/login': (context) => const LoginScreen()        
+        '/login': (context) => const LoginScreen()       
       },
     );
   }

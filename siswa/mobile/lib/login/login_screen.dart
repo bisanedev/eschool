@@ -107,7 +107,7 @@ class _LoginScreen extends State<LoginScreen> {
         /* --- simpan token & userData ---*/        
           if(snapshot.data!.status == true){           
           simpanToken(snapshot.data!.message!.token ?? "");
-          simpanUserData(snapshot.data!.message!.user);
+          simpanUserData(snapshot.data!.message!.user);          
           /* --- Navigate route apps --- */  
             WidgetsBinding.instance!.addPostFrameCallback((_) {                    
               Navigator.pushReplacementNamed(context, '/');

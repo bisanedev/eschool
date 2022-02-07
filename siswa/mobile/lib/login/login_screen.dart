@@ -6,7 +6,7 @@ import 'dart:async';
 import 'dart:convert';
 import '../../components/utils/globals.dart' as globals;
 import '../../components/widget/tombol.dart';
-import './login_response.dart';
+import 'login_response.dart';
 
 
 class LoginScreen extends StatefulWidget {          

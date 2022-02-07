@@ -4,7 +4,9 @@ import '../../components/utils/globals.dart' as globals;
 import '../aplikasi/aplikasi_screen.dart';
 import '../prestasi/prestasi_screen.dart';
 import '../profile/profile_screen.dart';
+import '../components/models/user_model.dart';
 import './coba.dart';
+import 'dart:convert';
 
 class BaseScreen extends StatefulWidget {          
   @override  
@@ -14,6 +16,7 @@ class BaseScreen extends StatefulWidget {
 class _BaseScreen extends State<BaseScreen> {
   int _selectedIndex = 0;
   String? userToken;
+  UserData? userData;
 
   @override  
   void initState() {        
@@ -74,6 +77,7 @@ class _BaseScreen extends State<BaseScreen> {
           PrestasiScreen(userToken: userToken),
           ProfileScreen(
             userToken: userToken,
+            userData: userData,
             logOut: logOut,
           ),
         ].elementAt(index);
@@ -98,9 +102,11 @@ class _BaseScreen extends State<BaseScreen> {
   }
 
   void getToken() async {
-     SharedPreferences prefs = await SharedPreferences.getInstance();                
+     SharedPreferences prefs = await SharedPreferences.getInstance();     
+     Map<String, dynamic> userMap = jsonDecode(prefs.getString('userData') ?? "");               
      setState((){
         userToken = prefs.getString('userToken') ?? '';
+        userData = UserData.fromJson(userMap);
      });     
   }
 

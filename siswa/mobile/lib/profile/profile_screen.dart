@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
-import '../../components/utils/globals.dart' as globals;
+import '../screens/globals.dart' as globals;
 import '../../components/models/user_model.dart';
 
 class ProfileScreen extends StatefulWidget {  
@@ -75,7 +75,6 @@ class _ProfileScreen extends State<ProfileScreen> {
             child: Text("tinggi ${height}"),
           ),
           CardProfile
-
         ]
       ),
     );
@@ -84,18 +83,19 @@ class _ProfileScreen extends State<ProfileScreen> {
   String userImageUrl(){
     int noCacheProfile = 0;
     String userName = widget.userData?.username ?? "kosong";
-    String cewek = 'http://'+globals.serverIP+'/assets/images/cewek.png';
-    String cowok = 'http://'+globals.serverIP+'/assets/images/cowok.png';
+    String cewek = '${globals.protokol}${globals.serverIP}/assets/images/cewek.png';
+    String cowok = '${globals.protokol}${globals.serverIP}/assets/images/cowok.png';
     bool hasFoto = widget.userData?.foto ?? false;
     String jenis = widget.userData?.jenis ?? "p";
     if(hasFoto){
-      return 'http://${globals.serverIP}/data/siswa/${userName}.jpg?nocache=${noCacheProfile++};';
+      return '${globals.protokol}${globals.serverIP}/data/siswa/${userName}.jpg?nocache=${noCacheProfile++};';
     }else if( jenis == "l"){
         return cowok;      
     }else {
       return cewek;
     }        
   }
+
   @override
   void dispose() {    
     super.dispose();

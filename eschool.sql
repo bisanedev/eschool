@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 05, 2022 at 04:32 AM
+-- Generation Time: Feb 08, 2022 at 03:55 AM
 -- Server version: 10.4.19-MariaDB
 -- PHP Version: 8.0.7
 
@@ -124,7 +124,7 @@ INSERT INTO `quiz_exam` (`id`, `user_id`, `tingkatan_id`, `mapel_id`, `semester_
 (14, 2, 2, 9, 1, 'Remidial Ujian Semester', '2022-02-03 07:00:00', '2022-02-04 09:30:00', '50', '[\"4\",\"5\"]', ''),
 (15, 25, 2, 9, 1, 'Ujian Mid Semester', '2022-01-31 14:46:00', '2022-01-31 15:46:00', '65', '[\"4\",\"5\"]', ''),
 (16, 1, 2, 9, 1, 'Ujian Harian ke 1', '2022-02-03 06:03:00', '2022-02-03 07:03:00', '50', '[\"4\",\"5\"]', ''),
-(17, 25, 2, 9, 1, 'Ujian Semester', '2022-02-05 14:46:00', '2022-02-05 15:46:00', '65', '[\"4\",\"5\"]', '');
+(17, 25, 2, 9, 1, 'Ujian Semester', '2022-02-06 14:46:00', '2022-02-06 15:46:00', '65', '[\"4\",\"5\"]', '');
 
 -- --------------------------------------------------------
 
@@ -303,7 +303,7 @@ CREATE TABLE `sekolah_siswa` (
   `id` int(11) NOT NULL,
   `nama` varchar(200) NOT NULL,
   `jenis` varchar(5) NOT NULL,
-  `username` varchar(30) NOT NULL,
+  `username` varchar(60) NOT NULL,
   `foto` tinyint(1) NOT NULL,
   `no_absens` int(11) NOT NULL,
   `kelas_id` int(11) NOT NULL,
@@ -318,10 +318,10 @@ CREATE TABLE `sekolah_siswa` (
 --
 
 INSERT INTO `sekolah_siswa` (`id`, `nama`, `jenis`, `username`, `foto`, `no_absens`, `kelas_id`, `password`, `expired_token`, `unique_token`, `device_token`) VALUES
-(1, 'Adisty Titania', 'p', 'adisty', 1, 1, 1, '$2a$10$pR9ZEuPIIpEgBBMyD8G79uXZplUN5zB39xmlNni//KgajnGEwvW02', 1675469142, '61fc6dd6ee450', ''),
-(2, 'Auristela Allisya Lesham Shaenette', 'p', 'auristela', 1, 2, 1, '$2a$10$Y.rlT1vKIWPpkb68XsS7ZeJTrw3gJL3nsCIHI5A6.EBMPyIUOZpdW', 1668521970, '61926c727dffb', NULL),
-(3, 'Mastah Mandeliman', 'l', 'mandeliman', 1, 1, 19, '$2a$10$eSAZXak6xEZFFFBBS6Y6fuAu1VN4Ac2cHx5gFcYAm/qEQTrTPiQ4u', 1668518828, '6192602c9dc12', NULL),
-(4, 'Moho Man', 'l', 'moho', 1, 2, 19, '$2a$10$Q66RXXyIgvFpCa2V5iFk0uR/2JJZZ15Ls6pkrQtnr8I4GGxTtp2cu', 1668518919, '619260879ec22', NULL);
+(1, 'Adisty Titania', 'p', 'adisty', 1, 1, 1, '$2a$10$pR9ZEuPIIpEgBBMyD8G79uXZplUN5zB39xmlNni//KgajnGEwvW02', 1675770053, '620105452451a', ''),
+(2, 'Auristela Allisya Lesham Shaenette Wahono Wahyudi', 'p', 'auristela', 1, 2, 1, '$2a$10$Y.rlT1vKIWPpkb68XsS7ZeJTrw3gJL3nsCIHI5A6.EBMPyIUOZpdW', 1675771488, '62010ae0b7bd8', NULL),
+(3, 'Mastah Mandeliman', 'l', 'mandeliman', 1, 1, 19, '$2a$10$eSAZXak6xEZFFFBBS6Y6fuAu1VN4Ac2cHx5gFcYAm/qEQTrTPiQ4u', 1675770538, '6201072a70856', NULL),
+(4, 'Moho Man', 'l', 'moho', 1, 2, 19, '$2a$10$Q66RXXyIgvFpCa2V5iFk0uR/2JJZZ15Ls6pkrQtnr8I4GGxTtp2cu', 1675768792, '62010058ccb36', NULL);
 
 -- --------------------------------------------------------
 
@@ -440,7 +440,7 @@ ALTER TABLE `sekolah_semestertahun`
 --
 ALTER TABLE `sekolah_siswa`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `username` (`username`),
+  ADD UNIQUE KEY `username` (`username`) USING BTREE,
   ADD KEY `kelas_id` (`kelas_id`);
 
 --
@@ -524,7 +524,7 @@ ALTER TABLE `sekolah_siswa`
 -- AUTO_INCREMENT for table `sekolah_users`
 --
 ALTER TABLE `sekolah_users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- Constraints for dumped tables

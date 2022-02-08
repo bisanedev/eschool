@@ -100,7 +100,7 @@ class PageSekolahSiswaAdd extends React.Component{
                 </div>
               </div>            
               <div className="w-100 mb3">
-                <label className="f5 fw4 db mb2">Username</label>
+                <label className="f5 fw4 db mb2">Username / NISN (Nomor Induk Siswa Nasional)</label>
                 <InputText name="username" placeholder="ketik username yang di inginkan disini" onChange={this.handleInputChange}/>
               </div>
               <div className="w-100 mb3 flex">

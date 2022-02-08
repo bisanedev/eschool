@@ -52,9 +52,9 @@ class _ProfileScreen extends State<ProfileScreen> {
                 bottom: 5,
                 left: 5,
                 child: Container(                  
-                  padding: EdgeInsets.only(bottom: 3.0,top: 3.0,left: 6.0,right: 6.0),
+                  padding: const EdgeInsets.only(bottom: 3.0,top: 3.0,left: 6.0,right: 6.0),
                   alignment: Alignment.center,
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                     color:Colors.white,             
                     borderRadius: const BorderRadius.all(Radius.circular(2)),             
                   ), 

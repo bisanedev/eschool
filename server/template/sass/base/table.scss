@@ -65,7 +65,7 @@ div.wrapDataProfile{
     }
     .nomorAbsen{
         position: absolute;
-        top: 2px;
+        bottom: 60px;
         background-color: #f7f7f5;
         width: 20px;
         height: 20px;
@@ -303,7 +303,7 @@ div.wrapDataExam{
     position: relative;
     .user{
         width: 40%;
-        background-color: #565757;
+        background-color: #333;
         color: white;
         .pendidik_nama{
             overflow: hidden;

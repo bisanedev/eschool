@@ -56,25 +56,43 @@ class _ProfileScreen extends State<ProfileScreen> {
                   alignment: Alignment.center,
                   decoration: const BoxDecoration(
                     color:Colors.white,             
-                    borderRadius: const BorderRadius.all(Radius.circular(2)),             
+                    borderRadius: BorderRadius.all(Radius.circular(2)),             
                   ), 
                   child:  Text("${widget.userData?.noAbsens}",style: const TextStyle(fontSize:14)),
                 )
-              )
-
-             
+              )             
             ]            
           ),
           Expanded(
             child:Padding(
-              padding: const EdgeInsets.all(5.0),
-              child:Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
+              padding: const EdgeInsets.all(8.0),
+              child:Stack(
                 children: [
-                  Text("${widget.userData?.nama}",overflow: TextOverflow.ellipsis,style: const TextStyle(fontWeight: FontWeight.bold,fontSize:18)),
-                  Text("${widget.userData?.kelas}",style: const TextStyle(color:Colors.grey,fontSize:16))
-                ],
+                  Align(
+                    alignment: Alignment.center,
+                    child:Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Text("${widget.userData?.nama}",overflow: TextOverflow.ellipsis,style: TextStyle(color:globals.fontColor,fontWeight: FontWeight.bold,fontSize:18)),
+                          Text("${widget.userData?.username}",style: const TextStyle(color:Colors.grey,fontSize:16)),
+                        ],
+                    ),
+                  ),
+                  Positioned(
+                    bottom: 3,
+                    right: 3,
+                    child: Container(                  
+                      padding: const EdgeInsets.only(bottom: 3.0,top: 3.0,left: 6.0,right: 6.0),
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                        color: globals.fontColor,             
+                        borderRadius: const BorderRadius.all(Radius.circular(2)),             
+                      ), 
+                      child: Text("${widget.userData?.kelas}",style: const TextStyle(color:Colors.white,fontSize:14)),
+                    )
+                  )
+                ]
               ),
             )
          
@@ -113,7 +131,27 @@ class _ProfileScreen extends State<ProfileScreen> {
               ));
       }, child: const Text('Ganti password')),
       const SizedBox(height: 10.0),  
-      ElevatedButton(onPressed:widget.logOut, child: const Text('Logout Pak!')),      
+      ElevatedButton(onPressed: () => showDialog<String>(
+        context: context,
+        builder: (BuildContext context) => AlertDialog(
+          title: const Text('Logout'),
+          content: const Text('Apakah anda yakin logout ??'),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () => Navigator.pop(context, 'Cancel'),
+              style: ButtonStyle(backgroundColor: MaterialStateProperty.all(const Color(0xFFe9e9ed))),
+              child: Text('Batal',style: TextStyle(color: globals.fontColor)),
+            ),   
+            TextButton(
+              onPressed: widget.logOut,
+              style: ButtonStyle(backgroundColor: MaterialStateProperty.all(const Color(0xFFFF0000))),
+              child: const Text('Logout',style: TextStyle(color: Colors.white)),
+            ),
+          ],
+        ),
+      ),
+        child: const Text('Logout Pak!')
+      ),      
     ]
   );
 

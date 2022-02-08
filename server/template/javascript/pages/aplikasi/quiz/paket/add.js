@@ -150,6 +150,12 @@ class PageAplikasiQuizPaketSoalAdd extends React.Component{
           <div className="w-60">
           <Tabs>
             <div label="Pilihan ganda">
+              {parseInt(bobotPilihan) === 0 || bobotPilihan === "" ? (
+                <div className="flex justify-center items-center flex-column" style={{border:"3px dashed rgba(0, 0, 0, 0.125)",margin:10,width:"97%",height:"97%"}}>                  
+                  <span className="f3 gray">Silahkan isi bobot soal pilihan ganda pada menu diatas</span>
+                </div>
+              ):(
+              <>
               <div className="w-100 flex pa1">
                 <div className="w-50 mr1">
                   <DropdownList filter='contains' data={semesterData} value={semesterPickPilihan} onChange={value => this.handleSelectPilihan(value)} textField="label" dataKey="id" placeholder="Pilih Semester"/>
@@ -190,10 +196,18 @@ class PageAplikasiQuizPaketSoalAdd extends React.Component{
                   <Pagination pages={pagesPilihan} current={currPagePilihan} pageSize={3} pilihPage={this.pilihPaginationPilihan} disable={cariPilihan ? true:false} />
                 }
               </div>
-              </div>              
+              </div> 
+              </>
+              )}                           
             </div>
             <div label="Essay">
-              <div className="w-100 flex pa1">
+              {parseInt(bobotEssay) === 0 || bobotEssay === "" ? (
+                <div className="flex justify-center items-center flex-column" style={{border:"3px dashed rgba(0, 0, 0, 0.125)",margin:10,width:"97%",height:"97%"}}>
+                  <span className="f3 gray">Silahkan isi bobot nilai soal essay pada menu diatas</span>
+                </div>
+              ):(
+              <>
+                <div className="w-100 flex pa1">
                 <div className="w-50 mr1">
                   <DropdownList filter='contains' data={semesterData} value={semesterPickEssay} onChange={value => this.handleSelectEssay(value)} textField="label" dataKey="id" placeholder="Pilih Semester"/>            
                 </div>
@@ -233,7 +247,9 @@ class PageAplikasiQuizPaketSoalAdd extends React.Component{
                   <Pagination pages={pagesEssay} current={currPageEssay} pageSize={3} pilihPage={this.pilihPaginationEssay} disable={cariEssay ? true:false} />
                 } 
               </div>
-              </div>                       
+              </div>  
+              </>
+              )}                                 
             </div>  
           </Tabs>
           </div>

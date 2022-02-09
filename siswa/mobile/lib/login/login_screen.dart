@@ -40,7 +40,7 @@ class _LoginScreen extends State<LoginScreen> {
       keyboardType: TextInputType.text,
       autofocus: false,      
       decoration: InputDecoration(
-        hintText: 'Username',
+        hintText: 'Username / NISN',
         fillColor: const Color(0xfff3f3f3),
         filled: true,
         prefixIcon: const Icon(Icons.person),

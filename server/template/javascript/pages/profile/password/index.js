@@ -31,7 +31,7 @@ class PageProfilePassword extends React.Component{
         </Helmet>   
         <div className="headings">
           <div className="title">Ganti password</div>
-          <div className="subtitle">Silahkan untuk mengubah kata sandi Anda </div>          
+          <div className="subtitle">Silahkan untuk menganti kata sandi anda </div>          
           <Breadcrumb homeUrl="/profile" homeText="Profil"> 
             <li><a href="#/profile/password"><span>Password</span></a></li>                        
           </Breadcrumb>   

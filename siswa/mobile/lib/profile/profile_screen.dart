@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../globals.dart' as globals;
-import '../../components/models/user_model.dart';
+import '../components/models/user_model.dart';
 import './menu_button.dart';
 import './foto_screen.dart';
 import './password_screen.dart';
@@ -58,7 +58,7 @@ class _ProfileScreen extends State<ProfileScreen> {
                   padding: const EdgeInsets.only(bottom: 3.0,top: 3.0,left: 6.0,right: 6.0),
                   alignment: Alignment.center,
                   decoration: const BoxDecoration(
-                    color:Color(0xfff3f3f3),             
+                    color:Colors.white,             
                     borderRadius: BorderRadius.all(Radius.circular(2)),             
                   ), 
                   child:  Text("${widget.userData?.noAbsens}",style: const TextStyle(fontSize:14)),
@@ -104,22 +104,28 @@ class _ProfileScreen extends State<ProfileScreen> {
     )
   );
 
-  final headerTitle = Container(                  
-    color: globals.baseColor,
-    width: double.infinity,
-    height: double.infinity,
-    child: const Padding(
-      padding: EdgeInsets.all(20.0),
-      child: Align(
-        alignment: Alignment.topCenter,
-        child: Text("PROFIL",style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize:20)),
+  final headerTitle = Stack(
+    children: [    
+      Container(     
+        decoration: BoxDecoration(          
+          color: globals.baseColor,
+        ),        
+        width: double.infinity,
+        height: double.infinity,
+        child: const Padding(
+          padding: EdgeInsets.only(top:40.0),
+          child: Align(
+            alignment: Alignment.topCenter,
+            child: Text("PROFIL",style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize:20)),
+          )
+        )  
       )
-    )  
+    ],
   );
 
-  final bodyMenu = Column(
-    mainAxisAlignment: MainAxisAlignment.center,
-    crossAxisAlignment: CrossAxisAlignment.center,
+  final bodyMenu = ListView(
+    shrinkWrap: true,
+    padding: const EdgeInsets.all(20.0),
     children: [
       MenuButton(
         onPressed:() {
@@ -175,7 +181,7 @@ class _ProfileScreen extends State<ProfileScreen> {
   return Scaffold(      
       body: Stack(
         alignment: Alignment.center,
-        children:<Widget>[          
+        children:<Widget>[                 
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -188,10 +194,10 @@ class _ProfileScreen extends State<ProfileScreen> {
                 flex: 3,
                 child: Container(
                   padding: const EdgeInsets.all(8.0),                 
-                  color: Colors.white,
+                  color: const Color(0xFFf3f3f3),
                   width: double.infinity,
                   height: double.infinity,
-                  child: bodyMenu,
+                  child: Center(child:bodyMenu),
                 ),
 
               )

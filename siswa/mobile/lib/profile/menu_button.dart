@@ -18,8 +18,8 @@ class MenuButton extends StatelessWidget {
         height: 54,
         width: width-120,
         decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(5),                    
+          color: const Color(0xfff3f3f3),
+          borderRadius: BorderRadius.circular(5),                           
           boxShadow: [
             BoxShadow(
               color: Colors.grey[300]!,
@@ -54,7 +54,7 @@ class MenuButton extends StatelessWidget {
             Expanded(              
               child:Align(
                 alignment: Alignment.center,
-                child: Text(textData ?? "kosong",style: TextStyle(fontWeight: FontWeight.bold,color: globals.fontColor,fontSize: 15)),
+                child: Text(textData ?? "kosong",style: TextStyle(fontWeight: FontWeight.bold,color: globals.fontColor,fontSize: 18)),
               )
             )          
           ]

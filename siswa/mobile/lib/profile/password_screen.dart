@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
+import '../components/widget/header_bars.dart';
+import '../components/paint/curve_painter.dart';
 import '../globals.dart' as globals;
 
 class PasswordScreen extends StatefulWidget {
@@ -20,21 +22,61 @@ class _PasswordScreen extends State<PasswordScreen> {
 
   @override
   Widget build(BuildContext context) {
-   
-    return MaterialApp(      
-      home: Scaffold(
-        appBar: AppBar(
-          title: const Text('password'),
+
+    double width = MediaQuery.of(context).size.width;
+    double height = MediaQuery.of(context).size.height;
+
+    final headerTitle = Stack(
+      children: [
+        Container(
+          color: Colors.transparent,
+          height: 180,
+          width: width,
+          child: CustomPaint(
+            painter: CurvePainter(),
+          ),
         ),
-        body: Center(
-          child: ListView(
-          shrinkWrap: true,
-          padding: EdgeInsets.only(left: 24.0, right: 24.0),
-          children:[
-            ElevatedButton(onPressed: () { Navigator.pop(context);}, child: Text('Go back!')),
-            Text(widget.userToken?? "meow")
-          ]
-        ),
+        Container(
+          height: 180,
+          width: width,          
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: EdgeInsets.only(left: 30),
+                child: Text("Ganti password",style: TextStyle(fontSize: 25,color: Colors.white,fontWeight: FontWeight.bold))
+              ),
+              Padding(
+                padding: EdgeInsets.only(left: 30),
+                child: Text("Silahkan untuk menganti kata sandi anda",style: TextStyle(fontSize: 13,color: Colors.white)),
+              )              
+            ],
+          ),
+        )         
+
+      ],
+    );
+
+    return Scaffold(
+      appBar: HeaderBars(
+        textBack:"Profil",          
+        onBack:() { Navigator.pop(context);}
+      ),
+      body: Container(
+        width: width,
+        height: height,
+        color: Color(0xFFf3f3f3),
+        child: Column(
+          children: [
+            headerTitle,
+            Expanded(
+              child: Container(
+                color: Colors.transparent,
+                child: Text("Form Password Disini"),
+              )
+            )
+          ],
         ),
       ),
     );
@@ -48,3 +90,4 @@ class _PasswordScreen extends State<PasswordScreen> {
   }
   /*--- End Script Here ---*/
 }
+

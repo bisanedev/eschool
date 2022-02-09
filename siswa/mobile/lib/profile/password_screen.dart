@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'dart:async';
-import 'dart:convert';
 import '../components/widget/header_bars.dart';
 import '../components/paint/curve_painter.dart';
-import '../globals.dart' as globals;
+
 
 class PasswordScreen extends StatefulWidget {
   final String? userToken; 
@@ -35,7 +32,7 @@ class _PasswordScreen extends State<PasswordScreen> {
           child: CustomPaint(
             painter: CurvePainter(),
           ),
-        ),
+        ),        
         Container(
           height: 180,
           width: width,          
@@ -43,11 +40,11 @@ class _PasswordScreen extends State<PasswordScreen> {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Padding(
+              const Padding(
                 padding: EdgeInsets.only(left: 30),
                 child: Text("Ganti password",style: TextStyle(fontSize: 25,color: Colors.white,fontWeight: FontWeight.bold))
-              ),
-              Padding(
+              ),              
+              const Padding(
                 padding: EdgeInsets.only(left: 30),
                 child: Text("Silahkan untuk menganti kata sandi anda",style: TextStyle(fontSize: 13,color: Colors.white)),
               )              
@@ -66,14 +63,14 @@ class _PasswordScreen extends State<PasswordScreen> {
       body: Container(
         width: width,
         height: height,
-        color: Color(0xFFf3f3f3),
+        color: Colors.white,
         child: Column(
           children: [
             headerTitle,
             Expanded(
               child: Container(
                 color: Colors.transparent,
-                child: Text("Form Password Disini"),
+                child: const Text("Form Password Disini"),
               )
             )
           ],

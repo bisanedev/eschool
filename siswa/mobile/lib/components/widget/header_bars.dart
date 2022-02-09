@@ -22,8 +22,8 @@ class HeaderBars extends StatelessWidget implements PreferredSizeWidget {
         onTap: onBack as void Function()?,            
         child: Row(
           children: [
-          const Icon(Icons.arrow_back_ios_new,color: Colors.white,size: 30.0),
-          Text(textBack ?? "kosong",style: const TextStyle(color: Colors.white, fontSize: 15.0 ))
+            const Icon(Icons.arrow_back_ios_new,color: Colors.white,size: 30.0),
+            Text(textBack ?? "kosong",style: const TextStyle(color: Colors.white, fontSize: 15.0 ))            
           ]
         ),
       )

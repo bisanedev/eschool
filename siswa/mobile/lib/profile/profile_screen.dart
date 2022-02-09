@@ -194,7 +194,7 @@ class _ProfileScreen extends State<ProfileScreen> {
                 flex: 3,
                 child: Container(
                   padding: const EdgeInsets.all(8.0),                 
-                  color: const Color(0xFFf3f3f3),
+                  color:  Colors.white,
                   width: double.infinity,
                   height: double.infinity,
                   child: Center(child:bodyMenu),

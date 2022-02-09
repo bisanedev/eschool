@@ -18,21 +18,15 @@ class MenuButton extends StatelessWidget {
         height: 54,
         width: width-120,
         decoration: BoxDecoration(
-          color: const Color(0xfff3f3f3),
+          color: Colors.white,
           borderRadius: BorderRadius.circular(5),                           
           boxShadow: [
-            BoxShadow(
+           BoxShadow(
               color: Colors.grey[300]!,
-              offset:  const Offset(4, 4),
-              blurRadius: 15,
-              spreadRadius: 1,
+              blurRadius: 5.0,
+              spreadRadius: 0,
+              offset: const Offset(0,5),
             ),
-            const BoxShadow(
-              color: Colors.white,
-              offset: Offset(-4,-4),
-              blurRadius: 15,
-              spreadRadius: 1,
-            )
           ]
         ),
         child: Row(      
@@ -52,8 +46,9 @@ class MenuButton extends StatelessWidget {
               ),
             ),            
             Expanded(              
-              child:Align(
+              child:Container(
                 alignment: Alignment.center,
+                color: const Color(0xfff3f3f3),
                 child: Text(textData ?? "kosong",style: TextStyle(fontWeight: FontWeight.bold,color: globals.fontColor,fontSize: 18)),
               )
             )          

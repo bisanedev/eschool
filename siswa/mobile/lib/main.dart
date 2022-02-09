@@ -28,7 +28,7 @@ class _MyAppState  extends State<MyApp> {
       theme: ThemeData(      
         primarySwatch: Colors.blue,        
         visualDensity: VisualDensity.adaptivePlatformDensity,
-        fontFamily: 'TitilliumWeb',                
+        fontFamily: 'TitilliumWeb',                      
       ),
       initialRoute: '/cek-auth',      
       routes: {

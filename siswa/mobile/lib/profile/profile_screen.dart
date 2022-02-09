@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import '../globals.dart' as globals;
 import '../../components/models/user_model.dart';
-import '../screens/coba.dart';
+import './menu_button.dart';
+import './foto_screen.dart';
+import './password_screen.dart';
+
 
 class ProfileScreen extends StatefulWidget {  
   final String? userToken; 
@@ -35,7 +38,7 @@ class _ProfileScreen extends State<ProfileScreen> {
       borderRadius: const BorderRadius.all(Radius.circular(2)),
       boxShadow: [
           BoxShadow(
-          color: Colors.grey.withOpacity(0.6),
+          color: Colors.grey[300]!,
           blurRadius: 5.0,
           spreadRadius: 0,
           offset: const Offset(0,5),
@@ -55,7 +58,7 @@ class _ProfileScreen extends State<ProfileScreen> {
                   padding: const EdgeInsets.only(bottom: 3.0,top: 3.0,left: 6.0,right: 6.0),
                   alignment: Alignment.center,
                   decoration: const BoxDecoration(
-                    color:Colors.white,             
+                    color:Color(0xfff3f3f3),             
                     borderRadius: BorderRadius.all(Radius.circular(2)),             
                   ), 
                   child:  Text("${widget.userData?.noAbsens}",style: const TextStyle(fontSize:14)),
@@ -94,8 +97,7 @@ class _ProfileScreen extends State<ProfileScreen> {
                   )
                 ]
               ),
-            )
-         
+            )         
           )                  
         ],
       ),
@@ -119,39 +121,54 @@ class _ProfileScreen extends State<ProfileScreen> {
     mainAxisAlignment: MainAxisAlignment.center,
     crossAxisAlignment: CrossAxisAlignment.center,
     children: [
-      ElevatedButton(onPressed:() {
-              Navigator.push(context, MaterialPageRoute(
-                builder: (context) => CobaScreen(userToken: widget.userToken,)
-              ));
-      }, child: const Text('Ganti foto profil')),
-      const SizedBox(height: 10.0),  
-      ElevatedButton(onPressed:() {
-              Navigator.push(context, MaterialPageRoute(
-                builder: (context) => CobaScreen(userToken: widget.userToken,)
-              ));
-      }, child: const Text('Ganti password')),
-      const SizedBox(height: 10.0),  
-      ElevatedButton(onPressed: () => showDialog<String>(
-        context: context,
-        builder: (BuildContext context) => AlertDialog(
-          title: const Text('Logout'),
-          content: const Text('Apakah anda yakin logout ??'),
-          actions: <Widget>[
-            TextButton(
-              onPressed: () => Navigator.pop(context, 'Cancel'),
-              style: ButtonStyle(backgroundColor: MaterialStateProperty.all(const Color(0xFFe9e9ed))),
-              child: Text('Batal',style: TextStyle(color: globals.fontColor)),
-            ),   
-            TextButton(
-              onPressed: widget.logOut,
-              style: ButtonStyle(backgroundColor: MaterialStateProperty.all(const Color(0xFFFF0000))),
-              child: const Text('Logout',style: TextStyle(color: Colors.white)),
-            ),
-          ],
-        ),
-      ),
-        child: const Text('Logout Pak!')
-      ),      
+      MenuButton(
+        onPressed:() {
+          Navigator.push(context, MaterialPageRoute(
+            builder: (context) => FotoScreen(userToken: widget.userToken,)
+          ));
+        },
+        color: globals.baseColor,
+        iconData: Icons.photo_camera,
+        textData: "Ganti foto profil"
+      ),  
+      const SizedBox(height: 15.0),
+      MenuButton(
+        onPressed:() {
+          Navigator.push(context, MaterialPageRoute(
+            builder: (context) => PasswordScreen(userToken: widget.userToken,)
+          ));
+        },
+        color: globals.baseColor,
+        iconData: Icons.lock,
+        textData: "Ganti password"
+      ), 
+      const SizedBox(height: 15.0),
+      MenuButton(
+        onPressed:() {
+          showDialog<String>(
+                context: context,
+                builder: (BuildContext context) => AlertDialog(
+                  title: const Text('Logout'),
+                  content: const Text('Apakah anda yakin logout ??'),
+                  actions: <Widget>[
+                    TextButton(
+                      onPressed: () => Navigator.pop(context, 'Cancel'),
+                      style: ButtonStyle(backgroundColor: MaterialStateProperty.all(const Color(0xFFe9e9ed))),
+                      child: Text('Batal',style: TextStyle(color: globals.fontColor)),
+                    ),   
+                    TextButton(
+                      onPressed: widget.logOut,
+                      style: ButtonStyle(backgroundColor: MaterialStateProperty.all(const Color(0xFFFF0000))),
+                      child: const Text('Logout',style: TextStyle(color: Colors.white)),
+                    ),
+                  ],
+                ),
+          );
+        },
+        color: const Color(0xFFFF0000),
+        iconData: Icons.power_settings_new,
+        textData: "Logout"
+      ),         
     ]
   );
 

@@ -18,6 +18,7 @@ class _PasswordScreen extends State<PasswordScreen> {
   final curpassword = TextEditingController();
   final newpassword = TextEditingController();
   final repassword = TextEditingController();
+  bool isLoading = false;
 
   @override
   void initState() {        
@@ -85,7 +86,7 @@ class _PasswordScreen extends State<PasswordScreen> {
                     const SizedBox(height: 10.0),
                     InputPassword(label:"Ketik ulang password baru",placeholder:"konfirmasi kombinasi password baru",controller: repassword),
                     const SizedBox(height: 15.0),
-                    InputButton(label:"Perbarui password",iconData:Icons.lock,color: globals.baseColor, onPressed: () => {updatePassword()})                  
+                    InputButton(label:"Perbarui password",color: globals.baseColor, isLoading:isLoading,onPressed: () => {updatePassword()})                  
                   ],
                 ),
               )
@@ -97,7 +98,9 @@ class _PasswordScreen extends State<PasswordScreen> {
   }
   /*--- Script here ---*/
   void updatePassword() {
-    print("perbarui password");
+    setState(() {
+      isLoading = !isLoading;
+    });    
   }
 
   @override

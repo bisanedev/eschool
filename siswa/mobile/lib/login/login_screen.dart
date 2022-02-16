@@ -15,12 +15,13 @@ class LoginScreen extends StatefulWidget {
   _LoginScreen createState() => _LoginScreen();
 }
 
-class _LoginScreen extends State<LoginScreen> { 
+class _LoginScreen extends State<LoginScreen> {
 
   final username = TextEditingController();
   final password = TextEditingController();
   Future<LoginResponse>? futureLogin;  
   bool _obscureText = true;
+  bool isLoading = false;
 
   @override  
   void initState() {        
@@ -90,7 +91,31 @@ class _LoginScreen extends State<LoginScreen> {
         borderRadius: BorderRadius.circular(30.0),
         shadowColor: globals.baseColor,
         elevation: 5.0,
-        child: SimpleElevatedButton( child: const Text("Login"), color: globals.baseColor,onPressed: () async {setState(() { futureLogin = postLogin(username.text,password.text);});},)
+        child: SimpleElevatedButton( 
+          child: isLoading == true ? 
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SizedBox(
+                  child: CircularProgressIndicator(color: globals.baseColor),
+                  height: 18.0,
+                  width: 18.0,
+              ),
+              const SizedBox(width: 10),
+              Text("Authentikasi",style:const TextStyle(fontSize: 17,color: Colors.white,fontWeight: FontWeight.bold)),
+            ],
+          )
+          :
+          const Text("Authentikasi",style:const TextStyle(fontSize: 17,color: Colors.white,fontWeight: FontWeight.bold)), 
+          color: isLoading == true ? globals.baseColor.withOpacity(0.3):globals.baseColor,
+          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+          onPressed: () async {
+            setState(() {              
+              isLoading = true; 
+              futureLogin = postLogin(username.text,password.text);
+            });
+          }
+        )
       ),
     );
 
@@ -119,12 +144,7 @@ class _LoginScreen extends State<LoginScreen> {
             );  
           } 
         }     
-        return Container(
-          padding: const EdgeInsets.all(8.0),
-          child: const Center(
-            child: CircularProgressIndicator(),
-          )              
-        );        
+        return SizedBox(width: 20,height: 20);        
         },
     );         
 
@@ -173,7 +193,8 @@ class _LoginScreen extends State<LoginScreen> {
     Map<String, dynamic> error = jsonDecode(response.body);
     if (response.statusCode == 200) {
       return LoginResponse.fromJson(jsonDecode(response.body)); 
-    }else{      
+    }else{
+      setState(() { isLoading = false; });
       return LoginResponse(status: false,pesanError: error['message']);
     }       
   }

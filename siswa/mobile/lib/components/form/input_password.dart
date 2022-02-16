@@ -26,7 +26,7 @@ class _InputPassword extends State<InputPassword> {
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(widget.label ?? "kosong",style:TextStyle(fontSize: 18,color: globals.fontColor,fontWeight: FontWeight.bold)),
+        Text(widget.label ?? "kosong",style:TextStyle(fontSize: 17,color: globals.fontColor,fontWeight: FontWeight.bold)),
         TextFormField(
           controller: widget.controller,
           autofocus: false,      

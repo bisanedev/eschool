@@ -20,7 +20,7 @@ class InputButton extends StatelessWidget {
     return ElevatedButton.icon(
       onPressed: onPressed as void Function()?,
       icon: Icon(iconData),
-      label: Text(label ?? "kosong",style:TextStyle(fontSize: 18,color: Colors.white,fontWeight: FontWeight.bold)),
+      label: Text(label ?? "kosong",style:TextStyle(fontSize: 17,color: Colors.white,fontWeight: FontWeight.bold)),
       style: ElevatedButton.styleFrom(primary: color, padding: padding),
     );
   }

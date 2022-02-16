@@ -5,7 +5,7 @@ import '../components/paint/curve_painter.dart';
 class FotoScreen extends StatefulWidget {
   final String? userToken; 
   const FotoScreen({Key? key,this.userToken}) : super(key: key); 
-    @override
+  @override
   _FotoScreen createState() => _FotoScreen();
 } 
 
@@ -24,26 +24,25 @@ class _FotoScreen extends State<FotoScreen> {
 
     final headerTitle = Stack(
       children: [
-        Container(
-          color: Colors.transparent,
+        SizedBox(          
           height: 180,
           width: width,
           child: CustomPaint(
             painter: CurvePainter(),
           ),
-        ),        
-        Container(
+        ),     
+        SizedBox(
           height: 180,
           width: width,          
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Padding(
+            children: const <Widget>[
+              Padding(
                 padding: EdgeInsets.only(left: 30),
                 child: Text("Ganti foto",style: TextStyle(fontSize: 25,color: Colors.white,fontWeight: FontWeight.bold))
               ),              
-              const Padding(
+              Padding(
                 padding: EdgeInsets.only(left: 30),
                 child: Text("Silahkan untuk mengganti foto profil anda",style: TextStyle(fontSize: 13,color: Colors.white)),
               )              

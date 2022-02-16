@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../components/widget/tombol.dart';
+import '../components/form/tombol.dart';
 import '../../components/widget/custom_bars.dart';
 import '../globals.dart' as globals;
 import '../screens/coba.dart';

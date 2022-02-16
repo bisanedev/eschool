@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import '../components/widget/header_bars.dart';
 import '../components/paint/curve_painter.dart';
 import '../components/form/input_password.dart';
+import '../components/form/input_button.dart';
+import '../globals.dart' as globals;
 
 
 class PasswordScreen extends StatefulWidget {
@@ -46,7 +48,7 @@ class _PasswordScreen extends State<PasswordScreen> {
             children: const<Widget>[
               Padding(
                 padding: EdgeInsets.only(left: 30),
-                child: Text("Ganti password",style: TextStyle(fontSize: 25,color: Colors.white,fontWeight: FontWeight.bold))
+                child: Text("Ganti password",style:TextStyle(fontSize: 25,color: Colors.white,fontWeight: FontWeight.bold))
               ),              
               Padding(
                 padding: EdgeInsets.only(left: 30),
@@ -77,12 +79,13 @@ class _PasswordScreen extends State<PasswordScreen> {
                   shrinkWrap: true,
                   padding: const EdgeInsets.only(left: 24.0, right: 24.0),
                   children: <Widget>[
-                    InputPassword(placeholder:"Password saat ini",controller: curpassword),
+                    InputPassword(label:"Password saat ini",placeholder:"Password dipakai saat ini",controller: curpassword),
                     const SizedBox(height: 10.0),
-                    InputPassword(placeholder:"Password baru",controller: newpassword),
+                    InputPassword(label:"Password baru",placeholder:"kombinasi password baru disini",controller: newpassword),
                     const SizedBox(height: 10.0),
-                    InputPassword(placeholder:"Ketik ulang password baru",controller: repassword),
-                    const SizedBox(height: 15.0),                   
+                    InputPassword(label:"Ketik ulang password baru",placeholder:"konfirmasi kombinasi password baru",controller: repassword),
+                    const SizedBox(height: 15.0),
+                    InputButton(label:"Perbarui password",iconData:Icons.lock,color: globals.baseColor, onPressed: () => {updatePassword()})                  
                   ],
                 ),
               )
@@ -93,6 +96,9 @@ class _PasswordScreen extends State<PasswordScreen> {
     );
   }
   /*--- Script here ---*/
+  void updatePassword() {
+    print("perbarui password");
+  }
 
   @override
   void dispose() {    

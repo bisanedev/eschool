@@ -5,7 +5,7 @@ import 'package:flutter/services.dart';
 import 'dart:async';
 import 'dart:convert';
 import '../globals.dart' as globals;
-import '../../components/widget/tombol.dart';
+import '../components/form/tombol.dart';
 import 'login_response.dart';
 
 

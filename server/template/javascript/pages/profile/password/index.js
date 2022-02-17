@@ -27,7 +27,7 @@ class PageProfilePassword extends React.Component{
     <>  
     <div className="konten"> 
         <Helmet>
-          <title>Ganti Password - Nama Sekolah</title>
+          <title>Ganti password - Nama Sekolah</title>
         </Helmet>   
         <div className="headings">
           <div className="title">Ganti password</div>
@@ -51,7 +51,7 @@ class PageProfilePassword extends React.Component{
                 <InputPassword name="rePassword" onChange={this.handleInputChange}/>                
               </div>
               <div className="w-100 mb3 flex justify-end">
-                <button type="submit" style={{cursor: "pointer"}} className="w-30 tc f6 link dim br2 ba ph3 pv2 mb2 mt2 dib white bg-primary b--primary" onClick={this.changePassword}>Ganti Password</button>
+                <button type="submit" style={{cursor: "pointer"}} className="w-30 tc f6 link dim br2 ba ph3 pv2 mb2 mt2 dib white bg-primary b--primary" onClick={this.changePassword}>Perbarui password</button>
               </div>
           </Cards>
         </div>                              

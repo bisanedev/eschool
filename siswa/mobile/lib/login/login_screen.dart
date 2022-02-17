@@ -102,11 +102,11 @@ class _LoginScreen extends State<LoginScreen> {
                   width: 18.0,
               ),
               const SizedBox(width: 10),
-              Text("Authentikasi",style:const TextStyle(fontSize: 17,color: Colors.white,fontWeight: FontWeight.bold)),
+              const Text("Authentikasi",style:TextStyle(fontSize: 17,color: Colors.white,fontWeight: FontWeight.bold)),
             ],
           )
           :
-          const Text("Authentikasi",style:const TextStyle(fontSize: 17,color: Colors.white,fontWeight: FontWeight.bold)), 
+          const Text("Authentikasi",style:TextStyle(fontSize: 17,color: Colors.white,fontWeight: FontWeight.bold)), 
           color: isLoading == true ? globals.baseColor.withOpacity(0.3):globals.baseColor,
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
           onPressed: () async {
@@ -144,7 +144,7 @@ class _LoginScreen extends State<LoginScreen> {
             );  
           } 
         }     
-        return SizedBox(width: 20,height: 20);        
+        return const SizedBox(width: 20,height: 20);        
         },
     );         
 

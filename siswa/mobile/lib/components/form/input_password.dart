@@ -4,9 +4,10 @@ import '../../globals.dart' as globals;
 class InputPassword extends StatefulWidget {
   final String? label;
   final String? placeholder;
+  final String? errorMessage;
   final TextEditingController? controller;
 
-  const InputPassword({this.label,this.placeholder,this.controller,Key? key}): super(key: key);
+  const InputPassword({this.label,this.placeholder,this.errorMessage,this.controller,Key? key}): super(key: key);
   @override
   _InputPassword createState() => _InputPassword();
 }
@@ -33,6 +34,7 @@ class _InputPassword extends State<InputPassword> {
           obscureText: _obscureText,
           decoration: InputDecoration(        
             hintText: widget.placeholder,
+            errorText: widget.errorMessage,
             fillColor: const Color(0xfff3f3f3), 
             filled: true,        
             contentPadding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
@@ -43,7 +45,15 @@ class _InputPassword extends State<InputPassword> {
             focusedBorder: OutlineInputBorder(
                 borderSide: BorderSide(width: 1, color: globals.baseColor),
                 borderRadius: BorderRadius.circular(0),
-            ),      
+            ), 
+            errorBorder:OutlineInputBorder(
+              borderSide: const BorderSide(width: 1, color: Colors.red),
+              borderRadius: BorderRadius.circular(0),
+            ),
+            focusedErrorBorder: OutlineInputBorder(
+              borderSide: const BorderSide(width: 1, color: Colors.red),
+              borderRadius: BorderRadius.circular(0),
+            ),     
             suffixIcon: GestureDetector(
               onTap: () { setState(() { _obscureText = !_obscureText;}); },
               child: Icon( _obscureText ? Icons.visibility : Icons.visibility_off,semanticLabel:_obscureText ? 'show password' : 'hide password'),

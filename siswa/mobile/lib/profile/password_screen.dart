@@ -80,11 +80,11 @@ class _PasswordScreen extends State<PasswordScreen> {
                   shrinkWrap: true,
                   padding: const EdgeInsets.only(left: 24.0, right: 24.0),
                   children: <Widget>[
-                    InputPassword(label:"Password saat ini",placeholder:"Password dipakai saat ini",controller: curpassword),
+                    InputPassword(label:"Password saat ini",errorMessage: "password error",placeholder:"Password dipakai saat ini",controller: curpassword),
                     const SizedBox(height: 10.0),
-                    InputPassword(label:"Password baru",placeholder:"kombinasi password baru disini",controller: newpassword),
+                    InputPassword(label:"Password baru",errorMessage: "password error",placeholder:"kombinasi password baru disini",controller: newpassword),
                     const SizedBox(height: 10.0),
-                    InputPassword(label:"Ketik ulang password baru",placeholder:"konfirmasi kombinasi password baru",controller: repassword),
+                    InputPassword(label:"Ketik ulang password baru",errorMessage: "password error",placeholder:"konfirmasi kombinasi password baru",controller: repassword),
                     const SizedBox(height: 15.0),
                     InputButton(label:"Perbarui password",color: globals.baseColor, isLoading:isLoading,onPressed: () => {updatePassword()})                  
                   ],
@@ -102,6 +102,14 @@ class _PasswordScreen extends State<PasswordScreen> {
       isLoading = !isLoading;
     });    
   }
+
+  /* --- find string eror ---*/
+  bool checkContains(String? pesan,String cari){
+    RegExp exp = RegExp( "\\b" + cari + "\\b", caseSensitive: false, ); 
+    bool containe = exp.hasMatch(pesan ?? "null");
+    return containe;
+  }
+  //----
 
   @override
   void dispose() {    

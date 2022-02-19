@@ -22,6 +22,9 @@ class _LoginScreen extends State<LoginScreen> {
   Future<LoginResponse>? futureLogin;  
   bool _obscureText = true;
   bool isLoading = false;
+  bool usernameError = false;
+  bool passwordError = false;
+  String? errorMessage;
 
   @override  
   void initState() {        
@@ -42,6 +45,7 @@ class _LoginScreen extends State<LoginScreen> {
       autofocus: false,      
       decoration: InputDecoration(
         hintText: 'Username / NISN',
+        errorText: usernameError ? errorMessage:null,     
         fillColor: const Color(0xfff3f3f3),
         filled: true,
         prefixIcon: const Icon(Icons.person),
@@ -49,6 +53,14 @@ class _LoginScreen extends State<LoginScreen> {
         enabledBorder: OutlineInputBorder(
             borderSide: const BorderSide(width: 1, color: Color.fromRGBO(0, 0, 0, 0.125)),
             borderRadius: BorderRadius.circular(0),
+        ),
+        errorBorder:OutlineInputBorder(
+          borderSide: const BorderSide(width: 1, color: Colors.red),
+          borderRadius: BorderRadius.circular(0),
+        ),
+        focusedErrorBorder: OutlineInputBorder(
+          borderSide: const BorderSide(width: 1, color: Colors.red),
+          borderRadius: BorderRadius.circular(0),
         ),
         focusedBorder: OutlineInputBorder(
             borderSide: BorderSide(width: 1, color: globals.baseColor),
@@ -65,7 +77,8 @@ class _LoginScreen extends State<LoginScreen> {
       autofocus: false,      
       obscureText: _obscureText,
       decoration: InputDecoration(        
-        hintText: 'Password',
+        hintText: 'Password',   
+        errorText: passwordError ? errorMessage:null,     
         fillColor: const Color(0xfff3f3f3), 
         filled: true,
         prefixIcon: const Icon(Icons.lock),
@@ -73,6 +86,14 @@ class _LoginScreen extends State<LoginScreen> {
         enabledBorder: OutlineInputBorder(
             borderSide: const BorderSide(width: 1, color: Color.fromRGBO(0, 0, 0, 0.125)),
             borderRadius: BorderRadius.circular(0),
+        ),
+        errorBorder:OutlineInputBorder(
+          borderSide: const BorderSide(width: 1, color: Colors.red),
+          borderRadius: BorderRadius.circular(0),
+        ),
+        focusedErrorBorder: OutlineInputBorder(
+          borderSide: const BorderSide(width: 1, color: Colors.red),
+          borderRadius: BorderRadius.circular(0),
         ),
         focusedBorder: OutlineInputBorder(
             borderSide: BorderSide(width: 1, color: globals.baseColor),
@@ -112,6 +133,8 @@ class _LoginScreen extends State<LoginScreen> {
           onPressed: () async {
             setState(() {              
               isLoading = true; 
+              usernameError = false;
+              passwordError = false;
               futureLogin = postLogin(username.text,password.text);
             });
           }
@@ -138,10 +161,10 @@ class _LoginScreen extends State<LoginScreen> {
               Navigator.pushReplacementNamed(context, '/');
             });
           }else{ 
-            /* --- response ketika salah input ,username & password  ---*/                    
+            /* --- response ketika salah input ,username & password  ---*/             
             return Center(
-                child:Text("${snapshot.data?.pesanError}",style: const TextStyle(color: Colors.red))
-            );  
+              child:Text("${snapshot.data?.pesanError}",style: const TextStyle(color: Colors.red))
+            );                     
           } 
         }     
         return const SizedBox(width: 20,height: 20);        
@@ -192,11 +215,29 @@ class _LoginScreen extends State<LoginScreen> {
     );
     Map<String, dynamic> error = jsonDecode(response.body);
     if (response.statusCode == 200) {
-      return LoginResponse.fromJson(jsonDecode(response.body)); 
-    }else{
-      setState(() { isLoading = false; });
-      return LoginResponse(status: false,pesanError: error['message']);
+      return LoginResponse.fromJson(jsonDecode(response.body));
+    }else{      
+      if(error['message']['error'] == "username"){        
+        setState(() { 
+          isLoading = false; 
+          errorMessage = error['message']['data'];
+          usernameError = true;
+        });
+      }
+      if(error['message']['error'] == "password"){
+        setState(() { 
+          isLoading = false; 
+          errorMessage = error['message']['data'];
+          passwordError = true;
+        });
+      }
+      return LoginResponse(status: false,pesanError: "");      
     }       
   }
   //----
+  @override
+  void dispose() {    
+    super.dispose();
+  }
+  /*--- End Script Here ---*/
 }

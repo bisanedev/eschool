@@ -74,7 +74,7 @@ class AuthController
                 echo $this->response->json_response(401, "Password Salah!"); 
             }
         }else{
-            echo $this->response->json_response(401, "User tidak di temukan"); 
+            echo $this->response->json_response(401, "Username tidak di temukan"); 
         }
         } else {
             // Errors  

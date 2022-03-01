@@ -5,6 +5,8 @@ use Notihnio\RequestParser\RequestParser;
 use App\Utils\HeaderResponse;
 use Medoo\Medoo;
 use Lcobucci\JWT\Configuration;
+use Bcrypt\Bcrypt;
+use Valitron\Validator;
 
 class ProfileController extends ApiController
 {                 
@@ -46,11 +48,14 @@ class ProfileController extends ApiController
             }            
         }else{
             if($v->errors('curPassword')){
-                echo $this->response->json_response(400,"Input password saat ini kosong"); 
+                $data = array("error" => "curpassword","data" => "Input password saat ini kosong" );
+                echo $this->response->json_response(400,$data);                
             }elseif($v->errors('newPassword')){
-                echo $this->response->json_response(400,"Input password baru kosong"); 
+                $data = array("error" => "newpassword","data" => "Input password baru kosong" );
+                echo $this->response->json_response(400,$data);                 
             }elseif($v->errors('rePassword')){
-                echo $this->response->json_response(400,"Input ketik ulang password baru kosong");
+                $data = array("error" => "repassword","data" => "Input ketik ulang password baru kosong" );
+                echo $this->response->json_response(400,$data);             
             }            
         } 
     }

@@ -128,7 +128,7 @@ class _LoginScreen extends State<LoginScreen> {
           )
           :
           const Text("Authentikasi",style:TextStyle(fontSize: 17,color: Colors.white,fontWeight: FontWeight.bold)), 
-          color: isLoading == true ? globals.baseColor.withOpacity(0.3):globals.baseColor,
+          color: isLoading == true ? globals.baseColor.withOpacity(0.5):globals.baseColor,
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
           onPressed: () async {
             setState(() {              

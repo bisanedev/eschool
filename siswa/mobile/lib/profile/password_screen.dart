@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import '../components/widget/header_bars.dart';
 import '../components/paint/curve_painter.dart';
 import '../components/form/input_password.dart';
 import '../components/form/input_button.dart';
 import '../globals.dart' as globals;
+import 'dart:convert';
 
 
 class PasswordScreen extends StatefulWidget {
@@ -97,19 +99,37 @@ class _PasswordScreen extends State<PasswordScreen> {
     );
   }
   /*--- Script here ---*/
-  void updatePassword() {
+  void updatePassword() async {
     setState(() {
-      isLoading = !isLoading;
-    });    
-  }
-
-  /* --- find string eror ---*/
-  bool checkContains(String? pesan,String cari){
-    RegExp exp = RegExp( "\\b" + cari + "\\b", caseSensitive: false, ); 
-    bool containe = exp.hasMatch(pesan ?? "null");
-    return containe;
-  }
-  //----
+      isLoading = true;
+    });
+    final Map<String, String> queryParameters = <String, String>{
+      'nocache': DateTime.now().millisecondsSinceEpoch.toString(),
+    };
+    final response = await http.patch(
+      Uri.http(globals.serverIP, '/api/siswa/profile/password',queryParameters),  
+      body: <String, String>{
+        'curPassword': curpassword.text,
+        'newPassword': newpassword.text,
+        'rePassword': repassword.text       
+      }, 
+      headers:{       
+       'Authorization': 'Bearer '+widget.userToken.toString(),          
+      }    
+    );
+    Map<String, dynamic> error = jsonDecode(response.body);
+    if (response.statusCode == 200) {
+      setState(() {
+        isLoading = false;
+      });
+      print(error['message']);
+    }else{      
+      print(error['message']);
+      setState(() {
+        isLoading = false;
+      });
+    }
+  }  
 
   @override
   void dispose() {    

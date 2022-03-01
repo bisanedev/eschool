@@ -448,3 +448,15 @@ input:checked + .slider:before {
 .react-datepicker__time-container .react-datepicker__time .react-datepicker__time-box ul.react-datepicker__time-list li.react-datepicker__time-list-item--selected {
   background-color: $primary-color !important;
 }
+
+/* input error message */
+.pesan-error{
+  color: red;
+  font-size: 12px;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  hyphens: auto;
+}
+.error{  
+  border: 1px solid red !important;
+}

@@ -13,7 +13,9 @@ class Login extends React.Component{
       isLogin:false,      
       rememberMe:false,
       username:"",
-      password:"",                 
+      password:"",
+      errorUsername:"",         
+      errorPassword:"",
     }
     this.handleInputChange = this.handleInputChange.bind(this);
     this.navigate = this.props.navigate;
@@ -27,7 +29,7 @@ class Login extends React.Component{
   }
 
   render() {
-    const {isLogin,rememberMe} = this.state;
+    const {isLogin,rememberMe,errorUsername,errorPassword} = this.state;
     if(isLogin){return <Navigate to={"/aplikasi"} />;} 
     return (
     <>
@@ -42,11 +44,11 @@ class Login extends React.Component{
           <h4 className="fw4" style={{fontSize:"22px",lineHeight:0}}>User & Pendidik Login</h4>
           <div className="w-100 ph3 mb2">
             <label className="f5 fw4 db mb2">Username</label>
-            <InputText name="username" onChange={this.handleInputChange} />                      
+            <InputText name="username" onChange={this.handleInputChange} errorMessage={errorUsername} />                      
           </div>
           <div className="w-100 ph3 pr3 mb3">
             <label className="f5 fw4 db mb2">Password</label>
-            <InputPassword name="password" onChange={this.handleInputChange}/>           
+            <InputPassword name="password" onChange={this.handleInputChange} errorMessage={errorPassword} />           
           </div>
           <div className="rowButton w-100 ph3">            
             <Checkbox name="rememberMe" text="Ingat saya" checked={rememberMe} onChange={this.handleInputChange} />
@@ -71,7 +73,8 @@ class Login extends React.Component{
   } 
   //submit
   SubmitLogin = () => {
-    const {username,password,rememberMe} = this.state;       
+    const {username,password,rememberMe} = this.state;
+    this.setState({errorUsername:"",errorPassword:""});    
     var formData = new FormData();
     formData.append('username', username);
     formData.append('password', password);    
@@ -89,7 +92,12 @@ class Login extends React.Component{
         }
     }).catch(error => {
         if(error.response.status == 401){
-          toast.warn(error.response.data.message);         
+          if(error.response.data.message.error == "username"){            
+            this.setState({errorUsername:error.response.data.message.data});
+          }
+          else if(error.response.data.message.error == "password"){
+            this.setState({errorPassword:error.response.data.message.data});
+          }                  
         }        
         if(error.message === "Network Error"){ 
           toast.error("Jaringan internet tidak tersambung");                    

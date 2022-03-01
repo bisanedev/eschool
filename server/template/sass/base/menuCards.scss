@@ -2,8 +2,7 @@ div.wrapCard{
     width:22%;    
     margin-right:18px;
     margin-bottom:18px;
-    div.cardMenu{
-        height: 260px;  
+    div.cardMenu{        
         border: 1px solid rgba(0,0,0,.125);     
         div.cardMenuLocked{
             position: absolute;
@@ -64,7 +63,7 @@ div.wrapCard{
     }
 
     .menuText{ 
-        height: 220px;       
+        height: 36vh;       
         border: 1px solid rgba(0,0,0,.125);
         display: flex;
         align-items: center;

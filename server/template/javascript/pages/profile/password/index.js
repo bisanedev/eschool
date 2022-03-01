@@ -12,7 +12,10 @@ class PageProfilePassword extends React.Component{
     this.state = {
       curPassword:"",            
       newPassword:"",      
-      rePassword:""      
+      rePassword:"",
+      curPasswordError:"",
+      newPasswordError:"",
+      rePasswordError:""
     }
     this.handleInputChange = this.handleInputChange.bind(this);
     this.navigate = this.props.navigate;    
@@ -22,7 +25,8 @@ class PageProfilePassword extends React.Component{
 
   }
 
-  render() {       
+  render() {
+    const {curPasswordError,newPasswordError,rePasswordError} = this.state;       
     return (
     <>  
     <div className="konten"> 
@@ -40,17 +44,17 @@ class PageProfilePassword extends React.Component{
           <Cards title="Masukan password baru anda" custom="w-60" bodyClass="pa3">
               <div className="w-100 mb3">
                 <label className="f5 fw4 db mb2">Password saat ini</label>
-                <InputPassword name="curPassword" onChange={this.handleInputChange}/>
+                <InputPassword name="curPassword" onChange={this.handleInputChange} errorMessage={curPasswordError}/>
               </div>
               <div className="w-100 mb3">
                 <label className="f5 fw4 db mb2">Password baru</label>
-                <InputPassword name="newPassword" onChange={this.handleInputChange}/>
+                <InputPassword name="newPassword" onChange={this.handleInputChange} errorMessage={newPasswordError}/>
               </div>
               <div className="w-100 mb3">
                 <label className="f5 fw4 db mb2">Ketik ulang password baru</label>
-                <InputPassword name="rePassword" onChange={this.handleInputChange}/>                
+                <InputPassword name="rePassword" onChange={this.handleInputChange} errorMessage={rePasswordError}/>                
               </div>
-              <div className="w-100 mb3 flex justify-end">
+              <div className="w-100 flex justify-end">
                 <button type="submit" style={{cursor: "pointer"}} className="w-30 tc f6 link dim br2 ba ph3 pv2 mb2 mt2 dib white bg-primary b--primary" onClick={this.changePassword}>Perbarui password</button>
               </div>
           </Cards>
@@ -70,7 +74,7 @@ class PageProfilePassword extends React.Component{
 
   changePassword = () => {   
     const {curPassword,newPassword,rePassword} = this.state;           
-
+    this.setState({curPasswordError:"",newPasswordError:"",rePasswordError:""}); 
     var formData = new FormData();
     formData.append('curPassword', curPassword);
     formData.append('newPassword', newPassword);    
@@ -86,8 +90,16 @@ class PageProfilePassword extends React.Component{
           this.navigate('/profile');
         }
     }).catch(error => {                   
-      if(error.response.status == 400){               
-        toast.warn(error.response.data.message);               
+      if(error.response.status == 400){
+        if(error.response.data.message.error == "curpassword"){            
+          this.setState({curPasswordError:error.response.data.message.data});
+        }
+        else if(error.response.data.message.error == "newpassword"){
+          this.setState({newPasswordError:error.response.data.message.data});
+        }  
+        else if(error.response.data.message.error == "repassword"){
+          this.setState({rePasswordError:error.response.data.message.data});
+        }                                            
       }  
       if(error.response.status == 401){
         this.logout();

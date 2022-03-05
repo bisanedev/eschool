@@ -28,7 +28,8 @@ class PageSekolahSemester extends React.Component{
       showAdd:false,
       showEdit:false,
       singleData:[],
-      tahun:"" 
+      tahun:"",
+      errorTahun:""
     }    
     this.handleInputChange = this.handleInputChange.bind(this);
     this.navigate = this.props.navigate;
@@ -44,7 +45,7 @@ class PageSekolahSemester extends React.Component{
 
   render() {     
     const {tokenData} = this.props;
-    const {data,totalData,pages,currPage,total,cari,selected,showDelete,showSingleDelete,singleData,showAdd,showEdit,isLoading,tahun} = this.state;
+    const {data,totalData,pages,currPage,total,cari,selected,showDelete,showSingleDelete,singleData,showAdd,showEdit,isLoading,errorTahun} = this.state;
     return (  
     <div className="konten"> 
       <Helmet>
@@ -63,7 +64,7 @@ class PageSekolahSemester extends React.Component{
         <Table>
           <Table.Header>
             <div className="w-50 ph2">
-              <button type="submit" style={{cursor: "pointer",borderColor:"#0191d7"}} className="link dim br1 ba pa2 dib white bg-primary" onClick={() => this.setState({showAdd:true})}>
+              <button type="submit" style={{cursor: "pointer",borderColor:"#0191d7"}} className="link dim br1 ba pa2 dib white bg-primary" onClick={() => this.setState({showAdd:true,errorTahun:""})}>
                 <i className="material-icons-outlined" style={{fontSize:"20px"}}>add</i>
               </button>
             </div>
@@ -127,10 +128,10 @@ class PageSekolahSemester extends React.Component{
         <DeleteDialog show={showSingleDelete} 
           title="Hapus" subtitle={"Yakin hapus data "+singleData.nama+" ??"} 
           close={() => this.setState({showSingleDelete:false})}        
-          onClick={() => this.singleDelete(singleData.id)}
+          onClick={() => this.singleDelete(singleData)}
         />
         <AddModal show={showAdd}
-            height="200px"
+            height="220px"
             width="400px" 
             title="Menambahkan tahun ajaran" 
             close={() => this.setState({showAdd:false})}        
@@ -138,12 +139,12 @@ class PageSekolahSemester extends React.Component{
         >
           <div className="w-100 pa3">
             <label className="f5 fw4 db mb2">Tahun ajaran</label>
-            <InputText name="tahun" placeholder="ketik disini" onChange={this.handleInputChange} />             
+            <InputText name="tahun" placeholder="ketik disini" onChange={this.handleInputChange} errorMessage={errorTahun}/>             
           </div>
         </AddModal>
         <EditModal
           show={showEdit}
-          height="200px"
+          height="220px"
           width="400px" 
           title="Mengubah tahun ajaran" 
           close={() => this.setState({showEdit:false})}        
@@ -151,12 +152,11 @@ class PageSekolahSemester extends React.Component{
         >
           <div className="w-100 pa3">
             <label className="f5 fw4 db mb2">Tahun ajaran</label>
-            <InputText value={singleData.nama} placeholder="ketik disini" onChange={this.handleEditChange}/>             
+            <InputText value={singleData.nama} placeholder="ketik disini" onChange={this.handleEditChange} errorMessage={errorTahun}/>             
           </div>
         </EditModal>        
       </>
-      )}
-      <ToastContainer />         
+      )}             
     </div>
     );
   }
@@ -257,20 +257,23 @@ class PageSekolahSemester extends React.Component{
     }).then(response => {
       if(response.data.status == true)
       {        
+        toast.success("Data "+tahun+" berhasil ditambahkan");
         this.setState({showAdd:false,page:1},() => this.fetchData());        
       }
     }).catch(error => {
       if(error.response.status == 401){
         this.logout();
       }
-      if(error.response.status == 400){       
-        toast.warn(error.response.data.message);  
+      if(error.response.status == 400){   
+        if(error.response.data.message["nama"]){   
+          this.setState({errorTahun:error.response.data.message["nama"]}); 
+        }         
       }
     });
   }
   /*--- Edit Data ---*/
   onEdit = (data) => {
-    this.setState({showEdit:true,singleData:data})
+    this.setState({showEdit:true,singleData:data,errorTahun:""})
   }
   ubahData = () => {    
     const {singleData} = this.state;
@@ -284,14 +287,17 @@ class PageSekolahSemester extends React.Component{
     }).then(response => {
       if(response.data.status == true)
       {        
+        toast.success("Data "+singleData.nama+" berhasil diperbarui");
         this.setState({showEdit:false},() => this.fetchData());        
       }
     }).catch(error => {
       if(error.response.status == 401){
         this.logout();
       }
-      if(error.response.status == 400){       
-        toast.warn(error.response.data.message);  
+      if(error.response.status == 400){     
+        if(error.response.data.message["nama"]){   
+          this.setState({errorTahun:error.response.data.message["nama"]}); 
+        }          
       }
     });
   }
@@ -299,9 +305,9 @@ class PageSekolahSemester extends React.Component{
   onDelete = (data) => {
     this.setState({showSingleDelete:true,singleData:data})
   }
-  singleDelete = (id) => {        
+  singleDelete = (data) => {        
     var formData = new FormData();
-    formData.append('delete', id);    
+    formData.append('delete', data.id);    
     axios({
       method: 'delete',
       url: window.location.origin +'/api/pendidik/sekolah/tahun',
@@ -309,6 +315,7 @@ class PageSekolahSemester extends React.Component{
     }).then(response => {
       if(response.data.status == true)
       {        
+        toast.success("Data "+ data.nama +" berhasil dihapus");
         this.setState({showSingleDelete:false},() => this.fetchData());        
       }
     }).catch(error => {
@@ -332,6 +339,7 @@ class PageSekolahSemester extends React.Component{
     }).then(response => {
       if(response.data.status == true)
       {        
+        toast.success(selected.length +" data berhasil dihapus");
         this.setState({showDelete:false,selected:[]},() => this.fetchData());        
       }
     }).catch(error => {

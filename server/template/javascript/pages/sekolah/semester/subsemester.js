@@ -35,7 +35,9 @@ class PageSekolahSemesterSub extends React.Component{
       semester:1,
       semesterStart:"",
       semesterEnd:"",
-      tahunAjaran:"",
+      tahunAjaran:"",      
+      errorSemesterStart:"",
+      errorSemesterEnd:"",
     }    
     this.handleInputChange = this.handleInputChange.bind(this);
     this.semesterID = this.props.params.semesterID;
@@ -52,7 +54,7 @@ class PageSekolahSemesterSub extends React.Component{
 
   render() {           
     const {tokenData} = this.props;        
-    const {data,totalData,pages,currPage,total,cari,selected,showDelete,showSingleDelete,singleData,showAdd,showEdit,isLoading,tahunAjaran,semester,semesterStart,semesterEnd} = this.state;
+    const {data,totalData,pages,currPage,total,cari,selected,showDelete,showSingleDelete,singleData,showAdd,showEdit,isLoading,tahunAjaran,semester,semesterStart,semesterEnd,errorSemesterStart,errorSemesterEnd} = this.state;
     return (  
     <div className="konten"> 
       <Helmet>
@@ -72,7 +74,7 @@ class PageSekolahSemesterSub extends React.Component{
         <Table>
           <Table.Header>
             <div className="w-50 ph2">
-              <button type="submit" style={{cursor: "pointer",borderColor:"#0191d7"}} className="link dim br1 ba pa2 dib white bg-primary" onClick={() => this.setState({showAdd:true})}>                
+              <button type="submit" style={{cursor: "pointer",borderColor:"#0191d7"}} className="link dim br1 ba pa2 dib white bg-primary" onClick={() => this.setState({showAdd:true,errorSemesterStart:"",errorSemesterEnd:""})}>
                 <i className="material-icons-outlined" style={{fontSize:"20px"}}>add</i>
               </button>
             </div>
@@ -136,10 +138,10 @@ class PageSekolahSemesterSub extends React.Component{
         <DeleteDialog show={showSingleDelete} 
           title="Hapus" subtitle={"Yakin hapus semester "+singleData.semester+" ??"} 
           close={() => this.setState({showSingleDelete:false})}        
-          onClick={() => this.singleDelete(singleData.id)}
+          onClick={() => this.singleDelete(singleData)}
         />
         <AddModal show={showAdd}
-            height="360px"
+            height="380px"
             width="400px" 
             title="Menambahkan semester" 
             close={() => this.setState({showAdd:false})}        
@@ -152,15 +154,16 @@ class PageSekolahSemesterSub extends React.Component{
                 <option label="Semester 2" value="2"/>                
             </select> 
             <label className="f5 fw4 db mb2">Tanggal awal semester</label>
-            <DatePicker className="mb2 input-reset ba b--black-20 pa2 db w-100" 
+            <DatePicker className={"input-reset ba b--black-20 pa2 db w-100 " + (errorSemesterStart != "" ? "error":"mb2")} 
               dateFormat="dd/MM/yyyy" selected={semesterStart} 
               onChange={(date) => this.setState({semesterStart:date})}
               selectsStart
               startDate={semesterStart}
               endDate={semesterEnd}
             />
+            {errorSemesterStart != "" && ( <span className="pesan-error mb2">{errorSemesterStart}</span> )}            
             <label className="f5 fw4 db mb2">Tanggal akhir semester</label>
-            <DatePicker className="mb2 input-reset ba b--black-20 pa2 db w-100" 
+            <DatePicker className={"input-reset ba b--black-20 pa2 db w-100 " + (errorSemesterEnd != "" ? "error":"mb2")} 
               dateFormat="dd/MM/yyyy" selected={semesterEnd} 
               onChange={(date) => this.setState({semesterEnd:date})}
               selectsEnd
@@ -168,11 +171,12 @@ class PageSekolahSemesterSub extends React.Component{
               endDate={semesterEnd}
               minDate={semesterStart}
             />
+            {errorSemesterEnd != "" && ( <span className="pesan-error mb2">{errorSemesterEnd}</span> )}            
           </div>
         </AddModal>
         <EditModal
           show={showEdit}
-          height="360px"
+          height="380px"
           width="400px" 
           title="Mengubah data semester" 
           close={() => this.setState({showEdit:false})}        
@@ -185,15 +189,16 @@ class PageSekolahSemesterSub extends React.Component{
                 <option label="Semester 2" value="2"/>               
             </select>
             <label className="f5 fw4 db mb2">Tanggal awal semester</label>
-            <DatePicker className="mb2 input-reset ba b--black-20 pa2 db w-100" 
+            <DatePicker className={"input-reset ba b--black-20 pa2 db w-100 " + (errorSemesterStart != "" ? "error":"mb2") } 
               dateFormat="dd/MM/yyyy" selected={moment(singleData.semester_start).toDate()} 
               onChange={(date) => this.handleSemesterWaktuStartEditChange(date)}
               selectsStart
               startDate={moment(singleData.semester_start).toDate()}
               endDate={moment(singleData.semester_end).toDate()}
             />
+            {errorSemesterStart != "" && ( <span className="pesan-error mb2">{errorSemesterStart}</span> )}
             <label className="f5 fw4 db mb2">Tanggal akhir semester</label>
-            <DatePicker className="mb2 input-reset ba b--black-20 pa2 db w-100" 
+            <DatePicker className={"input-reset ba b--black-20 pa2 db w-100 " + (errorSemesterEnd != "" ? "error":"mb2")}
               dateFormat="dd/MM/yyyy" selected={moment(singleData.semester_end).toDate()} 
               onChange={(date) => this.handleSemesterWaktuEndEditChange(date)}
               selectsEnd
@@ -201,11 +206,11 @@ class PageSekolahSemesterSub extends React.Component{
               endDate={moment(singleData.semester_end).toDate()}
               minDate={moment(singleData.semester_start).toDate()}
             />
+            {errorSemesterEnd != "" && ( <span className="pesan-error mb2">{errorSemesterEnd}</span> )}
           </div>
         </EditModal>
       </>      
-      )}
-      <ToastContainer />        
+      )}             
     </div>
     );
   }
@@ -328,21 +333,27 @@ class PageSekolahSemesterSub extends React.Component{
       data: formData
     }).then(response => {
       if(response.data.status == true)
-      {        
+      {                
+        toast.success("Data semester "+semester+" berhasil ditambahkan");
         this.setState({showAdd:false,page:1},() => this.fetchData(this.semesterID));        
       }
     }).catch(error => {
       if(error.response.status == 401){
         this.logout();
       }
-      if(error.response.status == 400){       
-        toast.warn(error.response.data.message);  
+      if(error.response.status == 400){     
+        if(error.response.data.message["semester_end"]){   
+          this.setState({errorSemesterEnd:error.response.data.message["semester_end"]}); 
+        }   
+        if(error.response.data.message["semester_start"]){   
+          this.setState({errorSemesterStart:error.response.data.message["semester_start"]}); 
+        }        
       }
     });
   }
   /*--- Edit Data ---*/
   onEdit = (data) => {
-    this.setState({showEdit:true,singleData:data})
+    this.setState({showEdit:true,singleData:data,errorSemesterStart:"",errorSemesterEnd:""})
   }
   ubahData = () => {
     const {singleData} = this.state;
@@ -358,14 +369,20 @@ class PageSekolahSemesterSub extends React.Component{
     }).then(response => {
       if(response.data.status == true)
       {        
+        toast.success("Data semester "+singleData.semester+" berhasil diperbarui");
         this.setState({showEdit:false},() => this.fetchData(this.semesterID));        
       }
     }).catch(error => {
       if(error.response.status == 401){
         this.logout();
       }
-      if(error.response.status == 400){       
-        toast.warn(error.response.data.message);  
+      if(error.response.status == 400){
+        if(error.response.data.message["semester_end"]){   
+          this.setState({errorSemesterEnd:error.response.data.message["semester_end"]}); 
+        }   
+        if(error.response.data.message["semester_start"]){   
+          this.setState({errorSemesterStart:error.response.data.message["semester_start"]}); 
+        } 
       }
     });
   }
@@ -373,9 +390,9 @@ class PageSekolahSemesterSub extends React.Component{
   onDelete = (data) => {
     this.setState({showSingleDelete:true,singleData:data})
   }
-  singleDelete = (id) => {    
+  singleDelete = (data) => {    
     var formData = new FormData();
-    formData.append('delete', id);    
+    formData.append('delete', data.id);    
     axios({
       method: 'delete',
       url: window.location.origin +'/api/pendidik/sekolah/tahun/semester/'+this.semesterID,
@@ -383,6 +400,7 @@ class PageSekolahSemesterSub extends React.Component{
     }).then(response => {
       if(response.data.status == true)
       {        
+        toast.success("Data semester "+ data.semester +" berhasil dihapus");
         this.setState({showSingleDelete:false},() => this.fetchData(this.semesterID));        
       }
     }).catch(error => {
@@ -406,6 +424,7 @@ class PageSekolahSemesterSub extends React.Component{
     }).then(response => {
       if(response.data.status == true)
       {        
+        toast.success(selected.length +" data berhasil dihapus");
         this.setState({showDelete:false,selected:[]},() => this.fetchData(this.semesterID));        
       }
     }).catch(error => {

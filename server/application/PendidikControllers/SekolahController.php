@@ -205,9 +205,11 @@ class SekolahController extends ApiController
             $this->database->insert("sekolah_semestertahun",["nama" => $_POST["nama"]]);           
             echo $this->response->json_response(200, "berhasil");
         }else{
-            if($v->errors('nama')){
-                echo $this->response->json_response(400,"Input tahun ajaran kosong"); 
-            }               
+            $data = array();
+            if($v->errors("nama")){
+                $data["nama"] = "Input tahun ajaran kosong";                
+            }
+            echo $this->response->json_response(400,$data);                       
         }
     }
 
@@ -224,12 +226,14 @@ class SekolahController extends ApiController
                 echo $this->response->json_response(200,"berhasil");
             }
         }else{
-            if($v->errors('nama')){
-                echo $this->response->json_response(400,"Input tahun ajaran kosong"); 
-            }                                        
-            elseif($v->errors('id')){
-                echo $this->response->json_response(400,"id data kosong");
+            $data = array();
+            if($v->errors("nama")){
+                $data["nama"] = "Input tahun ajaran kosong";                
+            }
+            if($v->errors('id')){
+                $data["id"] = "id data kosong";                
             }            
+            echo $this->response->json_response(400, $data);         
         }
     }
 
@@ -281,17 +285,22 @@ class SekolahController extends ApiController
     {        
         $v = new Validator($_POST);
         $v->rule('required', ['semester','semester_start','semester_end']);
+        $v->rule('date', ['semester_start','semester_end']);
         if($v->validate()) {            
             $this->database->insert("sekolah_semesternama",["semester_tahun_id" => $id,"semester" => $_POST["semester"],"semester_start" => $_POST["semester_start"],"semester_end" => $_POST["semester_end"]]);            
             echo $this->response->json_response(200, "berhasil");
         }else{
-            if($v->errors('semester')){
-                echo $this->response->json_response(400,"pilih semester kosong"); 
-            }elseif($v->errors('semester_end')){
-                echo $this->response->json_response(400,"Tanggal semester awal kosong"); 
-            }elseif($v->errors('semester_start')){
-                echo $this->response->json_response(400,"Tanggal semester akhir kosong"); 
-            }            
+            $data = array();
+            if($v->errors("semester")){
+                $data["semester"] = "Input pilih semester kosong";                
+            }
+            if($v->errors('semester_end')){
+                $data["semester_end"] = "Tanggal semester akhir, kosong atau tidak valid";                 
+            }
+            if($v->errors('semester_start')){
+                $data["semester_start"] = "Tanggal semester awal, kosong atau tidak valid";                
+            }          
+            echo $this->response->json_response(400, $data);               
         }
     }
 
@@ -300,6 +309,7 @@ class SekolahController extends ApiController
         $_PATCH = RequestParser::parse()->params;
         $v = new Validator($_PATCH);
         $v->rule('required', ['id','semester','semester_start','semester_end']);
+        $v->rule('date', ['semester_start','semester_end']);
         if($v->validate()) {                      
             $update=$this->database->update("sekolah_semesternama",
                 ["semester" => $_PATCH["semester"],"semester_start" => $_PATCH["semester_start"],"semester_end" => $_PATCH["semester_end"]],
@@ -311,15 +321,20 @@ class SekolahController extends ApiController
                 echo $this->response->json_response(200,"berhasil");
             }
         }else{
-            if($v->errors('semester')){
-                echo $this->response->json_response(400,"pilih semester kosong"); 
-            }elseif($v->errors('semester_start')){
-                echo $this->response->json_response(400,"Tanggal semester awal kosong"); 
-            }elseif($v->errors('semester_end')){
-                echo $this->response->json_response(400,"Tanggal semester akhir kosong");
-            }elseif($v->errors('id')){
-                echo $this->response->json_response(400,"id data kosong");
+            $data = array();
+            if($v->errors("semester")){
+                $data["semester"] = "Input pilih semester kosong";                
+            }
+            if($v->errors('semester_end')){
+                $data["semester_end"] = "Tanggal semester akhir, kosong atau tidak valid";                 
+            }
+            if($v->errors('semester_start')){
+                $data["semester_start"] = "Tanggal semester awal, kosong atau tidak valid";                
+            } 
+            if($v->errors('id')){
+                $data["id"] = "id data kosong";                
             }            
+            echo $this->response->json_response(400, $data);         
         }
     }
 

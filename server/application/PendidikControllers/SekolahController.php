@@ -44,9 +44,11 @@ class SekolahController extends ApiController
             $this->database->insert("sekolah_kelastingkatan",["nama" => $_POST["nama"]]);           
             echo $this->response->json_response(200, "berhasil");
         }else{
+            $data = array();       
             if($v->errors('nama')){
-                echo $this->response->json_response(400,"Input nama kosong"); 
-            }            
+                $data['nama'] = "Input nama kosong";
+            }
+            echo $this->response->json_response(400,$data);     
         }
     }
 
@@ -63,12 +65,14 @@ class SekolahController extends ApiController
                 echo $this->response->json_response(200,"berhasil");
             }
         }else{
+            $data = array();
             if($v->errors('nama')){
-                echo $this->response->json_response(400,"Input nama kosong"); 
+                $data['nama'] = "Input nama kosong";                
             }
-            elseif($v->errors('id')){
-                echo $this->response->json_response(400,"id data kosong");
-            }            
+            if($v->errors('id')){
+                $data['nama'] = "id data kosong";                
+            } 
+            echo $this->response->json_response(400,$data);           
         }
     }
 
@@ -123,9 +127,11 @@ class SekolahController extends ApiController
             $this->database->insert("sekolah_kelasnama",["tingkatan_id" => $id,"nama" => $_POST["nama"]]);           
             echo $this->response->json_response(200, "berhasil");
         }else{
-            if($v->errors('nama')){
-                echo $this->response->json_response(400,"Input nama kosong"); 
-            }            
+            $data = array();
+            if($v->errors("nama")){
+                $data["nama"] = "Input nama kosong";                
+            }
+            echo $this->response->json_response(400,$data);             
         }
     }
 
@@ -142,12 +148,14 @@ class SekolahController extends ApiController
                 echo $this->response->json_response(200,"berhasil");
             }
         }else{
-            if($v->errors('nama')){
-                echo $this->response->json_response(400,"Input nama kosong"); 
+            $data = array();
+            if($v->errors("nama")){
+                $data["nama"] = "Input nama kosong";                
             }
-            elseif($v->errors('id')){
-                echo $this->response->json_response(400,"id data kosong");
-            }            
+            if($v->errors('id')){
+                $data["id"] = "id data kosong";          
+            }
+            echo $this->response->json_response(400,$data);        
         }
     }
 

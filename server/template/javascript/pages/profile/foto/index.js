@@ -4,7 +4,7 @@ import Cropper from "react-cropper";
 import { Helmet } from 'react-helmet';
 import { Cards } from '../../../components/forms';
 import {Breadcrumb} from '../../../components/menu';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 
 
 class PageProfileFoto extends React.Component{
@@ -30,8 +30,7 @@ class PageProfileFoto extends React.Component{
     const { croppedImageUrl, src ,errorSelect,uploadProgress,uploadDisable } = this.state; 
     const uploadClass = uploadProgress ? "progress-active":"";
     const uploadAction = croppedImageUrl ? "w-100 tc b f7 link br2 ba ph3 pv2 dib white bg-primary b--primary":"w-100 tc b f7 link br2 ba ph3 pv2 dib disable-primary bg-disableSecondary"
-    return (
-    <>
+    return (    
     <div className="konten"> 
         <Helmet>
           <title>Ganti foto - Nama Sekolah</title>
@@ -78,9 +77,7 @@ class PageProfileFoto extends React.Component{
             </div>  
           </Cards>         
         </div>
-    </div>
-    <ToastContainer />
-    </>
+    </div>    
     );
   }
   // ---------------------------- script 
@@ -127,6 +124,7 @@ class PageProfileFoto extends React.Component{
     }).then(response => {
       if(response.data.status == true)
       {
+        toast.success("Foto profil berhasil di perbarui");
         this.navigate('/profile');
       }
     }).catch(error => {

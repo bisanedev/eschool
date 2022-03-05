@@ -1,7 +1,7 @@
 import React from "react";
 import { Helmet } from "react-helmet";
 import axios from "axios";
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import Forbidden from "../../other/forbidden";
 import {Breadcrumb} from '../../../components/menu';
 import {InputSearch,InputText} from '../../../components/forms';
@@ -28,7 +28,8 @@ class PageSekolahKelas extends React.Component{
       showAdd:false,
       showEdit:false,
       singleData:[],
-      tingkat:""
+      tingkat:"",
+      errorTingkat:"",
     }    
     this.handleInputChange = this.handleInputChange.bind(this);
     this.navigate = this.props.navigate;
@@ -44,7 +45,7 @@ class PageSekolahKelas extends React.Component{
 
   render() {     
     const {tokenData} = this.props;
-    const {data,totalData,pages,currPage,total,cari,selected,showDelete,showSingleDelete,singleData,showAdd,showEdit,isLoading} = this.state;
+    const {data,totalData,pages,currPage,total,cari,selected,showDelete,showSingleDelete,singleData,showAdd,showEdit,isLoading,errorTingkat} = this.state;
     return (  
     <div className="konten"> 
       <Helmet>
@@ -63,7 +64,7 @@ class PageSekolahKelas extends React.Component{
         <Table>
           <Table.Header>
             <div className="w-50 ph2">
-              <button type="submit" style={{cursor: "pointer",borderColor:"#0191d7"}} className="link dim br1 ba pa2 dib white bg-primary" onClick={() => this.setState({showAdd:true})}>
+              <button type="submit" style={{cursor: "pointer",borderColor:"#0191d7"}} className="link dim br1 ba pa2 dib white bg-primary" onClick={() => this.setState({showAdd:true,errorTingkat:""})}>
                 <i className="material-icons-outlined" style={{fontSize:"20px"}}>add</i>
               </button>
             </div>
@@ -127,10 +128,10 @@ class PageSekolahKelas extends React.Component{
         <DeleteDialog show={showSingleDelete} 
           title="Hapus" subtitle={"Yakin hapus data "+singleData.nama+" ??"} 
           close={() => this.setState({showSingleDelete:false})}        
-          onClick={() => this.singleDelete(singleData.id)}
+          onClick={() => this.singleDelete(singleData)}
         />
         <AddModal show={showAdd}
-            height="200px"
+            height="220px"
             width="400px" 
             title="Menambahkan tingkat kelas" 
             close={() => this.setState({showAdd:false})}        
@@ -138,12 +139,12 @@ class PageSekolahKelas extends React.Component{
         >
           <div className="w-100 pa3">
             <label className="f5 fw4 db mb2">Tingkat kelas</label>
-            <InputText name="tingkat" placeholder="ketik disini" onChange={this.handleInputChange} />                      
+            <InputText name="tingkat" placeholder="ketik disini" onChange={this.handleInputChange} errorMessage={errorTingkat}/>                      
           </div>
         </AddModal>
         <EditModal
           show={showEdit}
-          height="200px"
+          height="220px"
           width="400px" 
           title="Mengubah data tingkat kelas" 
           close={() => this.setState({showEdit:false})}        
@@ -151,12 +152,11 @@ class PageSekolahKelas extends React.Component{
         >
           <div className="w-100 pa3">
             <label className="f5 fw4 db mb2">Tingkat kelas</label>
-            <InputText value={singleData.nama} placeholder="ketik disini" onChange={this.handleEditChange}/>                      
+            <InputText value={singleData.nama} placeholder="ketik disini" onChange={this.handleEditChange} errorMessage={errorTingkat}/>                      
           </div>
         </EditModal>        
       </>      
-      )}
-      <ToastContainer />        
+      )}          
     </div>
     );
   }
@@ -246,8 +246,8 @@ class PageSekolahKelas extends React.Component{
   }
   /*--- Menambahkan data ---*/
   tambahkan = () => {
-    const {tingkat} = this.state;
-    var formData = new FormData();
+    const {tingkat} = this.state;    
+    var formData = new FormData();    
     formData.append('nama', tingkat );
     axios({
       method: 'post',
@@ -256,23 +256,26 @@ class PageSekolahKelas extends React.Component{
     }).then(response => {
       if(response.data.status == true)
       {        
+        toast.success("Data "+tingkat+" berhasil ditambahkan");
         this.setState({showAdd:false,page:1},() => this.fetchData());        
       }
     }).catch(error => {
       if(error.response.status == 401){
         this.logout();
       }
-      if(error.response.status == 400){       
-        toast.warn(error.response.data.message);  
+      if(error.response.status == 400){    
+        if(error.response.data.message["nama"]){   
+          this.setState({errorTingkat:error.response.data.message["nama"]}); 
+        }       
       }
     });
   }
   /*--- Edit Data ---*/
   onEdit = (data) => {
-    this.setState({showEdit:true,singleData:data})
+    this.setState({showEdit:true,singleData:data,errorTingkat:""})
   }
   ubahData = () => {    
-    const {singleData} = this.state;
+    const {singleData} = this.state;    
     var formData = new FormData();
     formData.append('id', singleData.id );
     formData.append('nama', singleData.nama );
@@ -283,14 +286,17 @@ class PageSekolahKelas extends React.Component{
     }).then(response => {
       if(response.data.status == true)
       {        
+        toast.success("Data "+singleData.nama+" berhasil diperbarui");
         this.setState({showEdit:false},() => this.fetchData());        
       }
     }).catch(error => {
       if(error.response.status == 401){
         this.logout();
       }
-      if(error.response.status == 400){       
-        toast.warn(error.response.data.message);  
+      if(error.response.status == 400){   
+        if(error.response.data.message["nama"]){   
+          this.setState({errorTingkat:error.response.data.message["nama"]}); 
+        }         
       }
     });
   }
@@ -298,9 +304,9 @@ class PageSekolahKelas extends React.Component{
   onDelete = (data) => {
     this.setState({showSingleDelete:true,singleData:data})
   }
-  singleDelete = (id) => {        
+  singleDelete = (data) => {        
     var formData = new FormData();
-    formData.append('delete', id);    
+    formData.append('delete', data.id);    
     axios({
       method: 'delete',
       url: window.location.origin +'/api/pendidik/sekolah/tingkatan',
@@ -308,6 +314,7 @@ class PageSekolahKelas extends React.Component{
     }).then(response => {
       if(response.data.status == true)
       {        
+        toast.success("Data "+ data.nama +" berhasil dihapus");
         this.setState({showSingleDelete:false},() => this.fetchData());        
       }
     }).catch(error => {
@@ -331,6 +338,7 @@ class PageSekolahKelas extends React.Component{
     }).then(response => {
       if(response.data.status == true)
       {        
+        toast.success(selected.length +" data berhasil dihapus");
         this.setState({showDelete:false,selected:[]},() => this.fetchData());        
       }
     }).catch(error => {

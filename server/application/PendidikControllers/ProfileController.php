@@ -25,12 +25,15 @@ class ProfileController extends ApiController
         if($v->validate()) {
             $cekAuth = $this->database->select("sekolah_users",["password"],["id" => $id]);
             if(!$bcrypt->verify($_PATCH["curPassword"],  $cekAuth[0]['password'])){
-                $data = array("error" => "curpassword","data" => "Password saat ini tidak sesuai!" );
+                $data = array();
+                $data['curpassword'] = "Password saat ini tidak sesuai!";                
                 echo $this->response->json_response(400,$data);                
                 exit;
             }
             if($_PATCH["newPassword"] != $_PATCH["rePassword"]){
-                $data = array("error" => "newpassword","data" => "Password baru dan password konfirmasi tidak sama!" );
+                $data = array();
+                $data['newpassword'] = "Password baru dan password konfirmasi tidak sama!";
+                $data['rePassword'] = "Password baru dan password konfirmasi tidak sama!"; 
                 echo $this->response->json_response(400,$data);                
                 exit;
             }            
@@ -41,17 +44,18 @@ class ProfileController extends ApiController
             }else{
                 echo $this->response->json_response(200, "berhasil");
             }            
-        }else{        
+        }else{                  
+            $data = array();
             if($v->errors('curPassword')){
-                $data = array("error" => "curpassword","data" => "Input password saat ini kosong" );
-                echo $this->response->json_response(400,$data);                
-            }elseif($v->errors('newPassword')){
-                $data = array("error" => "newpassword","data" => "Input password baru kosong" );
-                echo $this->response->json_response(400,$data);                 
-            }elseif($v->errors('rePassword')){
-                $data = array("error" => "repassword","data" => "Input ketik ulang password baru kosong" );
-                echo $this->response->json_response(400,$data);             
-            }             
+                $data['curpassword'] = "Input password saat ini kosong";                         
+            }
+            if($v->errors('newPassword')){
+                $data['newpassword'] = "Input password baru kosong";                             
+            }
+            if($v->errors('rePassword')){
+                $data['repassword'] = "Input ketik ulang password baru kosong";                                     
+            } 
+            echo $this->response->json_response(400,$data);             
         } 
     }
 

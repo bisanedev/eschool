@@ -3,7 +3,7 @@ import { Helmet } from 'react-helmet';
 import axios from 'axios';
 import { Cards } from '../../components/forms';
 import { DeleteDialog } from '../../components/dialog';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 
 class PageProfile extends React.Component{
 
@@ -59,8 +59,7 @@ class PageProfile extends React.Component{
           title="Hapus" subtitle={"Yakin hapus foto profil ??"} 
           close={() => this.setState({showHapusFoto:false})}        
           onClick={() => this.profileFotoDelete()}
-        /> 
-        <ToastContainer />            
+        />                     
     </div>
     );
   }
@@ -75,7 +74,8 @@ class PageProfile extends React.Component{
       data: formData
     }).then(response => {
       if(response.data.status == true)
-      {            
+      {      
+        toast.success("Foto profil berhasil di hapus");      
         this.setState({showHapusFoto:false});
       }
     }).catch(error => {

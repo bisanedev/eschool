@@ -3,7 +3,6 @@ import axios from 'axios';
 import {Navigate,useNavigate } from "react-router-dom";
 import { InputText,InputPassword,Checkbox } from '../../components/forms';
 import { Helmet } from 'react-helmet';
-import { ToastContainer, toast } from 'react-toastify';
 
 class Login extends React.Component{
 
@@ -31,8 +30,7 @@ class Login extends React.Component{
   render() {
     const {isLogin,rememberMe,errorUsername,errorPassword} = this.state;
     if(isLogin){return <Navigate to={"/aplikasi"} />;} 
-    return (
-    <>
+    return (    
     <div className="login-page">
         <Helmet>
           <title>Login - Nama Sekolah</title>
@@ -55,9 +53,7 @@ class Login extends React.Component{
             <button type="submit" style={{cursor: "pointer"}} className="w4 tc ml4 f6 link dim br2 ba ph3 pv2 dib white bg-primary b--primary" onClick={this.SubmitLogin}>Login</button>
           </div>                 
         </div>
-    </div>
-    <ToastContainer />
-    </> 
+    </div>    
     );
   }
   // ---------------------------- script 
@@ -91,17 +87,14 @@ class Login extends React.Component{
           this.navigate("/aplikasi");
         }
     }).catch(error => {
-        if(error.response.status == 401){
-          if(error.response.data.message.error == "username"){            
-            this.setState({errorUsername:error.response.data.message.data});
+        if(error.response.status == 401){          
+          if(error.response.data.message["username"]){            
+            this.setState({errorUsername:error.response.data.message["username"]});
           }
-          else if(error.response.data.message.error == "password"){
-            this.setState({errorPassword:error.response.data.message.data});
+          if(error.response.data.message["password"]){
+            this.setState({errorPassword:error.response.data.message["password"]});
           }                  
-        }        
-        if(error.message === "Network Error"){ 
-          toast.error("Jaringan internet tidak tersambung");                    
-        }       
+        }    
     });
   }  
   // ---------------------------- end of script

@@ -4,6 +4,7 @@ import axios from 'axios';
 import jwt_decode from "jwt-decode";
 import Sidebar from "../sidebar";
 import {LogoutDialog} from "../dialog";
+import { ToastContainer } from 'react-toastify';
 
 function PrivateRoute(props) {
     const [show, setShow] = useState(false); 
@@ -31,6 +32,7 @@ function PrivateRoute(props) {
         <div id="main" className="main"> 
           <props.komponen authData={authData} tokenData={tokenData} params={params} navigate={navigate} />
         </div>
+        <ToastContainer hideProgressBar={true} autoClose={2000}/>
       </div>          
     ):(
       <Navigate to="/login" />

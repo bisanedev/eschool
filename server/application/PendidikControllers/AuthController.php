@@ -23,8 +23,8 @@ class AuthController
     {                                   
         $bcrypt = new Bcrypt();        
         $bcrypt_version = '2a';                       
-        $v = new Validator($_POST);
-        $v->rule('required', ['username', 'password']);
+        $v = new Validator($_POST);        
+        $v->rule('required', ['username','password']);        
         if($v->validate()) {      
         $cekAuth = $this->database->select("sekolah_users",["id","username","jenis","password","superuser","unique_token"],[
                 "username" => $_POST["username"]
@@ -71,22 +71,25 @@ class AuthController
                     echo $this->response->json_response(200,$token->toString());                    
                 }                 
             }else{
-                $data = array("error" => "password","data" => "Password Salah!" );
+                $data = array();
+                $data["password"] = "Password Salah";                
                 echo $this->response->json_response(401, $data);  
             }
         }else{
-            $data = array("error" => "username","data" => "Username tidak di temukan" );
+            $data = array();
+            $data["username"] = "Username tidak di temukan";
             echo $this->response->json_response(401, $data);  
         }
         } else { 
            // Errors  
+            $data = array();
             if($v->errors('username')){
-                $data = array("error" => "username","data" => "Input username kosong" );
-                echo $this->response->json_response(401,$data); 
-            }elseif($v->errors('password')){
-                $data = array("error" => "password","data" => "Input password kosong" );
-                echo $this->response->json_response(401,$data); 
-            }                                             
+                $data['username'] = "Input username kosong";                
+            }
+            if($v->errors('password')){
+                $data['password'] = "Input password kosong";                                
+            }
+            echo $this->response->json_response(401,$data);                                             
         }           
     }   
 }

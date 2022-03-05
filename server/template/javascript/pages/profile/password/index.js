@@ -3,7 +3,7 @@ import axios from 'axios';
 import { Helmet } from 'react-helmet';
 import { Breadcrumb } from '../../../components/menu';
 import { InputPassword,Cards } from '../../../components/forms';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 
 class PageProfilePassword extends React.Component{
 
@@ -18,17 +18,20 @@ class PageProfilePassword extends React.Component{
       rePasswordError:""
     }
     this.handleInputChange = this.handleInputChange.bind(this);
-    this.navigate = this.props.navigate;    
+    this.navigate = this.props.navigate;     
   }
 
   componentDidMount() {     
 
   }
+    
+  componentWillUnmount() {
+
+  }
 
   render() {
     const {curPasswordError,newPasswordError,rePasswordError} = this.state;       
-    return (
-    <>  
+    return (    
     <div className="konten"> 
         <Helmet>
           <title>Ganti password - Nama Sekolah</title>
@@ -59,9 +62,7 @@ class PageProfilePassword extends React.Component{
               </div>
           </Cards>
         </div>                              
-    </div>
-    <ToastContainer />
-    </>
+    </div>    
     );
   }
   // ---------------------------- script 
@@ -86,27 +87,25 @@ class PageProfilePassword extends React.Component{
         data: formData
     }).then(response => {                 
         if(response.data.status == true)
-        {                                
-          this.navigate('/profile');
+        {            
+          toast.success("Password berhasil di perbarui");
+          this.navigate('/profile');                          
         }
     }).catch(error => {                   
       if(error.response.status == 400){
-        if(error.response.data.message.error == "curpassword"){            
-          this.setState({curPasswordError:error.response.data.message.data});
+        if(error.response.data.message["curpassword"]){            
+          this.setState({curPasswordError:error.response.data.message["curpassword"]});
         }
-        else if(error.response.data.message.error == "newpassword"){
-          this.setState({newPasswordError:error.response.data.message.data});
-        }  
-        else if(error.response.data.message.error == "repassword"){
-          this.setState({rePasswordError:error.response.data.message.data});
+        if(error.response.data.message["newpassword"]){
+          this.setState({newPasswordError:error.response.data.message["newpassword"]});
+        }    
+        if(error.response.data.message["repassword"]){
+          this.setState({rePasswordError:error.response.data.message["repassword"]});
         }                                            
       }  
       if(error.response.status == 401){
         this.logout();
-      }                    
-      if(error.message === "Network Error"){ 
-        toast.error("Jaringan internet tidak tersambung");                    
-      }     
+      }    
     });
   }
 

@@ -8,7 +8,7 @@ import {InputSearch} from '../../../components/forms';
 import Table from "../../../components/table";
 import {DeleteDialog} from '../../../components/dialog';
 import {AddModal,EditModal} from '../../../components/modal';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import moment from "moment";
 import "moment/locale/id";
 
@@ -32,6 +32,7 @@ class PageSekolahSemesterSub extends React.Component{
       showEdit:false,
       singleData:[],
       kelas:"",
+      id:"",
       semester:1,
       semesterStart:"",
       semesterEnd:"",
@@ -74,7 +75,7 @@ class PageSekolahSemesterSub extends React.Component{
         <Table>
           <Table.Header>
             <div className="w-50 ph2">
-              <button type="submit" style={{cursor: "pointer",borderColor:"#0191d7"}} className="link dim br1 ba pa2 dib white bg-primary" onClick={() => this.setState({showAdd:true,errorSemesterStart:"",errorSemesterEnd:""})}>
+              <button type="submit" style={{cursor: "pointer",borderColor:"#0191d7"}} className="link dim br1 ba pa2 dib white bg-primary" onClick={() => this.setState({showAdd:true,semester:1,semesterStart:"",semesterEnd:"",errorSemesterStart:"",errorSemesterEnd:""})}>
                 <i className="material-icons-outlined" style={{fontSize:"20px"}}>add</i>
               </button>
             </div>
@@ -184,27 +185,27 @@ class PageSekolahSemesterSub extends React.Component{
         >
           <div className="w-100 pa3">
             <label className="f5 fw4 db mb2">Pilih semester</label>
-            <select className="pa2 db w-100 mb2" value={singleData.semester} onChange={this.handleSemesterEditChange}>
+            <select className="pa2 db w-100 mb2" value={semester} onChange={this.handleSemesterChange}>
                 <option label="Semester 1" value="1"/>
                 <option label="Semester 2" value="2"/>               
             </select>
             <label className="f5 fw4 db mb2">Tanggal awal semester</label>
             <DatePicker className={"input-reset ba b--black-20 pa2 db w-100 " + (errorSemesterStart != "" ? "error":"mb2") } 
-              dateFormat="dd/MM/yyyy" selected={moment(singleData.semester_start).toDate()} 
-              onChange={(date) => this.handleSemesterWaktuStartEditChange(date)}
+              dateFormat="dd/MM/yyyy" selected={semesterStart}               
+              onChange={(date) => this.setState({semesterStart:date})}
               selectsStart
-              startDate={moment(singleData.semester_start).toDate()}
-              endDate={moment(singleData.semester_end).toDate()}
+              startDate={semesterStart}
+              endDate={semesterEnd}
             />
             {errorSemesterStart != "" && ( <span className="pesan-error mb2">{errorSemesterStart}</span> )}
             <label className="f5 fw4 db mb2">Tanggal akhir semester</label>
             <DatePicker className={"input-reset ba b--black-20 pa2 db w-100 " + (errorSemesterEnd != "" ? "error":"mb2")}
-              dateFormat="dd/MM/yyyy" selected={moment(singleData.semester_end).toDate()} 
-              onChange={(date) => this.handleSemesterWaktuEndEditChange(date)}
+              dateFormat="dd/MM/yyyy" selected={semesterEnd} 
+              onChange={(date) => this.setState({semesterEnd:date})}
               selectsEnd
-              startDate={moment(singleData.semester_start).toDate()}
-              endDate={moment(singleData.semester_end).toDate()}
-              minDate={moment(singleData.semester_start).toDate()}
+              startDate={semesterStart}
+              endDate={semesterEnd}
+              minDate={semesterStart}
             />
             {errorSemesterEnd != "" && ( <span className="pesan-error mb2">{errorSemesterEnd}</span> )}
           </div>
@@ -226,31 +227,6 @@ class PageSekolahSemesterSub extends React.Component{
     this.setState({[name]: value});
   } 
 
-  handleSemesterEditChange = (e) => {
-    this.setState(prevState => ({
-      singleData: {
-          ...prevState.singleData,
-          semester: e.target.value
-      }
-    }));  
-  };
-
-  handleSemesterWaktuStartEditChange = (date) => {
-    this.setState(prevState => ({
-      singleData: {
-          ...prevState.singleData,
-          semester_start: moment(date).format('YYYY-MM-DD')
-      }
-    }));  
-  };
-  handleSemesterWaktuEndEditChange = (date) => {
-    this.setState(prevState => ({
-      singleData: {
-          ...prevState.singleData,
-          semester_end: moment(date).format('YYYY-MM-DD')
-      }
-    }));  
-  };
   /*--- select ALL ---*/
   selectAll = () => {    
     const {selected,data} =  this.state;   
@@ -353,15 +329,15 @@ class PageSekolahSemesterSub extends React.Component{
   }
   /*--- Edit Data ---*/
   onEdit = (data) => {
-    this.setState({showEdit:true,singleData:data,errorSemesterStart:"",errorSemesterEnd:""})
+    this.setState({showEdit:true,id:data.id,semester:data.semester,semesterStart:moment(data.semester_start).toDate(),semesterEnd:moment(data.semester_end).toDate(),errorSemesterStart:"",errorSemesterEnd:""})
   }
   ubahData = () => {
-    const {singleData} = this.state;
+    const {id,semester,semesterStart,semesterEnd} = this.state;
     var formData = new FormData();
-    formData.append('id', singleData.id );
-    formData.append('semester', singleData.semester );
-    formData.append('semester_start', moment(singleData.semester_start).format('YYYY-MM-DD'));
-    formData.append('semester_end', moment(singleData.semester_end).format('YYYY-MM-DD'));
+    formData.append('id', id );
+    formData.append('semester', semester );
+    formData.append('semester_start', moment(semesterStart).format('YYYY-MM-DD'));
+    formData.append('semester_end', moment(semesterEnd).format('YYYY-MM-DD'));
     axios({
       method: 'patch',
       url: window.location.origin +'/api/pendidik/sekolah/tahun/semester/'+this.semesterID,
@@ -369,7 +345,7 @@ class PageSekolahSemesterSub extends React.Component{
     }).then(response => {
       if(response.data.status == true)
       {        
-        toast.success("Data semester "+singleData.semester+" berhasil diperbarui");
+        toast.success("Data semester "+semester+" berhasil diperbarui");
         this.setState({showEdit:false},() => this.fetchData(this.semesterID));        
       }
     }).catch(error => {

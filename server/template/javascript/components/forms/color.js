@@ -1,8 +1,9 @@
 import React from 'react';
 import { CustomPicker} from 'react-color';
 import { Hue,Saturation} from "react-color/lib/components/common";
+import PropTypes from 'prop-types';
 
-function InputColor ({ hsl, hsv, onChange }) {
+function InputColor ({ hsl, hsv, onChange , errorMessage}) {
 
   const styles = {
     hue: {
@@ -30,9 +31,20 @@ function InputColor ({ hsl, hsv, onChange }) {
       </div>
       <div style={styles.hue}>
         <Hue hsl={hsl} onChange={onChange} pointer={HuePointter} />
-      </div>            
+      </div>  
+      {errorMessage != "" && (
+        <span className="pesan-error">{errorMessage}</span>
+      )}          
     </div>
   );
+};
+
+InputColor.propTypes = {
+  errorMessage: PropTypes.string    
+};
+
+InputColor.defaultProps = {
+  errorMessage: ""    
 };
 
 export default CustomPicker(InputColor);

@@ -7,7 +7,7 @@ import {InputSearch,InputText,InputColor} from '../../../components/forms';
 import Table from "../../../components/table";
 import {DeleteDialog} from '../../../components/dialog';
 import {AddModal,EditModal} from '../../../components/modal';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 
 class PageSekolahMapel extends React.Component{
 
@@ -29,7 +29,9 @@ class PageSekolahMapel extends React.Component{
       showEdit:false,
       singleData:[],
       mapel:"",
-      color:""
+      color:"",
+      errorMapel:"",
+      errorColor:""
     }    
     this.handleInputChange = this.handleInputChange.bind(this);
     this.navigate = this.props.navigate;
@@ -45,7 +47,7 @@ class PageSekolahMapel extends React.Component{
 
   render() {     
     const {tokenData} = this.props;
-    const {data,totalData,pages,currPage,total,cari,selected,showDelete,showSingleDelete,singleData,showAdd,showEdit,isLoading,color} = this.state;
+    const {data,totalData,pages,currPage,total,cari,selected,showDelete,showSingleDelete,singleData,showAdd,showEdit,isLoading,color,errorMapel,errorColor} = this.state;
     return (  
     <div className="konten"> 
       <Helmet>
@@ -64,7 +66,7 @@ class PageSekolahMapel extends React.Component{
         <Table>
           <Table.Header>
             <div className="w-50 ph2">
-              <button type="submit" style={{cursor: "pointer",borderColor:"#0191d7"}} className="link dim br1 ba pa2 dib white bg-primary" onClick={() => this.setState({showAdd:true})}>
+              <button type="submit" style={{cursor: "pointer",borderColor:"#0191d7"}} className="link dim br1 ba pa2 dib white bg-primary" onClick={() => this.setState({showAdd:true,mapel:"",color:"",errorMapel:"",errorColor:""})}>
                 <i className="material-icons-outlined" style={{fontSize:"20px"}}>add</i>
               </button>
             </div>
@@ -128,10 +130,10 @@ class PageSekolahMapel extends React.Component{
         <DeleteDialog show={showSingleDelete} 
           title="Hapus" subtitle={"Yakin hapus data "+singleData.nama+" ??"} 
           close={() => this.setState({showSingleDelete:false})}        
-          onClick={() => this.singleDelete(singleData.id)}
+          onClick={() => this.singleDelete(singleData)}
         />
         <AddModal show={showAdd}
-            height="410px"
+            height="445px"
             width="400px" 
             title="Menambahkan mata pelajaran" 
             close={() => this.setState({showAdd:false})}        
@@ -139,14 +141,14 @@ class PageSekolahMapel extends React.Component{
         >
           <div className="w-100 pa3">
             <label className="f5 fw4 db mb2">Mata pelajaran</label>
-            <InputText name="mapel" placeholder="ketik disini" onChange={this.handleInputChange} />
+            <InputText name="mapel" placeholder="ketik disini" onChange={this.handleInputChange} errorMessage={errorMapel}/>
             <label className="f5 fw4 db mb2 mt2 flex justify-between">Pilih warna <div style={{backgroundColor:color,padding:10}}/></label>
-            <InputColor color={color} onChangeComplete={this.handleChangeColor} />                         
+            <InputColor color={color} onChangeComplete={this.handleChangeColor} errorMessage={errorColor}/>                         
           </div>
         </AddModal>
         <EditModal
           show={showEdit}
-          height="410px"
+          height="445px"
           width="400px" 
           title="Mengubah data mata pelajaran" 
           close={() => this.setState({showEdit:false})}        
@@ -154,14 +156,13 @@ class PageSekolahMapel extends React.Component{
         >
           <div className="w-100 pa3">
             <label className="f5 fw4 db mb2">Mata pelajaran</label>
-            <InputText value={singleData.nama} placeholder="ketik disini" onChange={this.handleEditChange}/>
+            <InputText value={singleData.nama} placeholder="ketik disini" onChange={this.handleEditChange} errorMessage={errorMapel}/>
             <label className="f5 fw4 db mb2 mt2 flex justify-between">Pilih warna <div style={{backgroundColor:singleData.color,padding:10}}/></label>
-            <InputColor color={singleData.color} onChangeComplete={this.handleEditColor} />                       
+            <InputColor color={singleData.color} onChangeComplete={this.handleEditColor} errorMessage={errorColor}/>                       
           </div>
         </EditModal>        
       </>      
-      )}
-      <ToastContainer />        
+      )}      
     </div>
     );
   }
@@ -265,6 +266,7 @@ class PageSekolahMapel extends React.Component{
   /*--- Menambahkan data ---*/
   tambahkan = () => {
     const {mapel,color} = this.state;
+    this.setState({errorMapel:"",errorColor:""});
     var formData = new FormData();
     formData.append('nama', mapel );
     formData.append('color', color );
@@ -275,6 +277,7 @@ class PageSekolahMapel extends React.Component{
     }).then(response => {
       if(response.data.status == true)
       {        
+        toast.success("Data "+mapel+" berhasil ditambahkan");
         this.setState({showAdd:false,page:1},() => this.fetchData());        
       }
     }).catch(error => {
@@ -282,16 +285,22 @@ class PageSekolahMapel extends React.Component{
         this.logout();
       }
       if(error.response.status == 400){       
-        toast.warn(error.response.data.message);  
+        if(error.response.data.message["nama"]){   
+          this.setState({errorMapel:error.response.data.message["nama"]}); 
+        } 
+        if(error.response.data.message["color"]){   
+          this.setState({errorColor:error.response.data.message["color"]}); 
+        }     
       }
     });
   }
   /*--- Edit Data ---*/
   onEdit = (data) => {
-    this.setState({showEdit:true,singleData:data})
+    this.setState({showEdit:true,singleData:data,errorMapel:"",errorColor:""})
   }
   ubahData = () => {    
     const {singleData} = this.state;
+    this.setState({errorMapel:"",errorColor:""});
     var formData = new FormData();
     formData.append('id', singleData.id );
     formData.append('nama', singleData.nama );
@@ -303,6 +312,7 @@ class PageSekolahMapel extends React.Component{
     }).then(response => {
       if(response.data.status == true)
       {        
+        toast.success("Data "+singleData.nama+" berhasil diperbarui");
         this.setState({showEdit:false},() => this.fetchData());        
       }
     }).catch(error => {
@@ -310,7 +320,15 @@ class PageSekolahMapel extends React.Component{
         this.logout();
       }
       if(error.response.status == 400){       
-        toast.warn(error.response.data.message);  
+        if(error.response.data.message["nama"]){   
+          this.setState({errorMapel:error.response.data.message["nama"]}); 
+        } 
+        if(error.response.data.message["color"]){   
+          this.setState({errorColor:error.response.data.message["color"]}); 
+        }
+        if(error.response.data.message["id"]){   
+          this.setState({errorMapel:error.response.data.message["id"]}); 
+        }    
       }
     });
   }
@@ -318,9 +336,9 @@ class PageSekolahMapel extends React.Component{
   onDelete = (data) => {
     this.setState({showSingleDelete:true,singleData:data})
   }
-  singleDelete = (id) => {        
+  singleDelete = (data) => {        
     var formData = new FormData();
-    formData.append('delete', id);    
+    formData.append('delete', data.id);    
     axios({
       method: 'delete',
       url: window.location.origin +'/api/pendidik/sekolah/mapel',
@@ -328,6 +346,7 @@ class PageSekolahMapel extends React.Component{
     }).then(response => {
       if(response.data.status == true)
       {        
+        toast.success("Data "+ data.nama +" berhasil dihapus");
         this.setState({showSingleDelete:false},() => this.fetchData());        
       }
     }).catch(error => {
@@ -351,6 +370,7 @@ class PageSekolahMapel extends React.Component{
     }).then(response => {
       if(response.data.status == true)
       {        
+        toast.success(selected.length +" data berhasil dihapus");
         this.setState({showDelete:false,selected:[]},() => this.fetchData());        
       }
     }).catch(error => {

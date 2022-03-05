@@ -385,11 +385,14 @@ class SekolahController extends ApiController
             $this->database->insert("sekolah_mapel",["nama" => $_POST["nama"],"color" => $_POST["color"]]);           
             echo $this->response->json_response(200, "berhasil");
         }else{
-            if($v->errors('nama')){
-                echo $this->response->json_response(400,"Input nama kosong"); 
-            }elseif($v->errors('color')){
-                echo $this->response->json_response(400,"Input color kosong");
-            }              
+            $data = array();
+            if($v->errors("nama")){
+                $data["nama"] = "Input nama mata pelajaran kosong";                
+            }
+            if($v->errors("color")){
+                $data["color"] = "Input warna kosong";                 
+            }       
+            echo $this->response->json_response(400, $data);            
         }
     }
 
@@ -406,13 +409,17 @@ class SekolahController extends ApiController
                 echo $this->response->json_response(200,"berhasil");
             }
         }else{
-            if($v->errors('nama')){
-                echo $this->response->json_response(400,"Input nama kosong"); 
-            }elseif($v->errors('color')){
-                echo $this->response->json_response(400,"Input color kosong");
-            }elseif($v->errors('id')){
-                echo $this->response->json_response(400,"id data kosong");
-            }            
+            $data = array();
+            if($v->errors('id')){
+                $data["id"] = "Input id kosong"; 
+            } 
+            if($v->errors("nama")){
+                $data["nama"] = "Input nama mata pelajaran kosong";                
+            }
+            if($v->errors("color")){
+                $data["color"] = "Input warna kosong";                 
+            }       
+            echo $this->response->json_response(400, $data);                      
         }
     }
 

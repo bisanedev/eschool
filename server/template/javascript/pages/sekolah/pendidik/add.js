@@ -255,9 +255,8 @@ class PageSekolahPendidikAdd extends React.Component{
   /*--- post new user ----*/
   newUserPendidik = () => {         
     const {nama,jenis,mapel,username,password,rePassword,superuser,croppedImageUrl,src} = this.state;
-    this.setState({errorNama:"",errorUsername:"",errorPassword:"",errorRepassword:""});
-    var formData = new FormData();
-    this.setState({uploadProgress:true,uploadDisable:true});
+    this.setState({uploadProgress:true,uploadDisable:true,errorNama:"",errorUsername:"",errorPassword:"",errorRepassword:""});
+    var formData = new FormData();    
     if(src != null && src != "" && croppedImageUrl != ""){
       var blobFile = this.b64toBlob(croppedImageUrl); 
       formData.append('file',blobFile);

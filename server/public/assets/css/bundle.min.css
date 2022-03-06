@@ -220,8 +220,8 @@ fieldset[disabled] .rw-widget {
   border-color: #e9ecef;
 }
 .rw-list-option.rw-state-selected, .rw-state-selected.rw-list-option-create {
-  background-color: #0191d7;
-  border-color: #0191d7;
+  background-color: #1e9a5b;
+  border-color: #1e9a5b;
   color: #fff;
 }
 .rw-list-option.rw-state-disabled, .rw-state-disabled.rw-list-option-create {
@@ -627,8 +627,8 @@ fieldset[disabled] .rw-widget {
   background-color: #dee2e6;
 }
 .rw-cell.rw-state-selected {
-  background-color: #0191d7;
-  border-color: #0191d7;
+  background-color: #1e9a5b;
+  border-color: #1e9a5b;
   color: #fff;
 }
 .rw-calendar-month .rw-cell {
@@ -1875,7 +1875,7 @@ img {
 
 */
 .b--primary {
-  border-color: #0191d7;
+  border-color: #1e9a5b;
 }
 
 .b--black {
@@ -6219,11 +6219,11 @@ code, .code {
 */
 /* Text colors */
 .primary {
-  color: #0191d7;
+  color: #1e9a5b;
 }
 
 .secondary {
-  color: #085074;
+  color: #045c30;
 }
 
 .disable-primary {
@@ -6460,11 +6460,11 @@ code, .code {
 
 /* Background colors */
 .bg-primary {
-  background-color: #0191d7;
+  background-color: #1e9a5b;
 }
 
 .bg-secondary {
-  background-color: #085074;
+  background-color: #045c30;
 }
 
 .bg-disablePrimary {
@@ -6712,11 +6712,11 @@ code, .code {
 
  */
 .hover-primary:hover, .hover-primary:focus {
-  color: #0191d7;
+  color: #1e9a5b;
 }
 
 .hover-secondary:hover, .hover-secondary:focus {
-  color: #085074;
+  color: #045c30;
 }
 
 .hover-black:hover,
@@ -13102,7 +13102,7 @@ code, .code {
   display: none;
 }
 .wrapPaketSoal .checkbox-soal input:checked ~ .checkmark {
-  background-color: #0191d7;
+  background-color: #1e9a5b;
 }
 .wrapPaketSoal .checkbox-soal input:checked ~ .checkmark:after {
   display: block;
@@ -13367,7 +13367,7 @@ code, .code {
   justify-content: center;
   border-top-left-radius: 5px;
   border-bottom-left-radius: 5px;
-  background-color: #0191d7;
+  background-color: #1e9a5b;
 }
 .sidebar .nav .nav-item .nav-icon img {
   height: 48px;
@@ -13388,7 +13388,7 @@ code, .code {
 .loader {
   border: 5px solid #f3f3f3;
   border-radius: 50%;
-  border-top: 5px solid #0191d7;
+  border-top: 5px solid #1e9a5b;
   width: 50px;
   height: 50px;
   -webkit-animation: spin 1s linear infinite;
@@ -13542,7 +13542,7 @@ code, .code {
   transition: all 0.4s ease-in-out;
 }
 .modal .modal-header {
-  background-color: #0191d7;
+  background-color: #1e9a5b;
   color: white;
   display: flex;
   height: 55px;
@@ -13592,7 +13592,7 @@ code, .code {
 }
 
 .progress-active {
-  background-color: #149bdf;
+  background-color: #1e9a5b;
   background-image: -webkit-gradient(linear, 0 100%, 100% 0, color-stop(0.25, rgba(255, 255, 255, 0.15)), color-stop(0.25, transparent), color-stop(0.5, transparent), color-stop(0.5, rgba(255, 255, 255, 0.15)), color-stop(0.75, rgba(255, 255, 255, 0.15)), color-stop(0.75, transparent), to(transparent));
   background-image: -webkit-linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
   background-image: -moz-linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
@@ -13771,7 +13771,7 @@ div.wrapDataProfile .checkbox-profile .checkmark:after {
   display: none;
 }
 div.wrapDataProfile .checkbox-profile input:checked ~ .checkmark {
-  background-color: #0191d7;
+  background-color: #1e9a5b;
 }
 div.wrapDataProfile .checkbox-profile input:checked ~ .checkmark:after {
   display: block;
@@ -13841,7 +13841,7 @@ div.wrapDataSoal .editButton {
   bottom: 28px;
   border-radius: 20px;
   right: 25px;
-  background-color: #0191d7;
+  background-color: #1e9a5b;
   height: 22px;
   width: 22px;
 }
@@ -13877,7 +13877,7 @@ div.wrapDataSoal .checkbox-soal .checkmark:after {
   display: none;
 }
 div.wrapDataSoal .checkbox-soal input:checked ~ .checkmark {
-  background-color: #0191d7;
+  background-color: #1e9a5b;
 }
 div.wrapDataSoal .checkbox-soal input:checked ~ .checkmark:after {
   display: block;
@@ -13993,7 +13993,7 @@ div.wrapDataExam .data .body .tgl {
 div.wrapDataExam .data .body .title {
   font-size: 13px;
   font-weight: bold;
-  color: #0191d7;
+  color: #1e9a5b;
 }
 div.wrapDataExam .data .body .title .elipsis {
   overflow: hidden;
@@ -14053,7 +14053,7 @@ div.wrapDataExam .checkbox-exam .checkmark:after {
   display: none;
 }
 div.wrapDataExam .checkbox-exam input:checked ~ .checkmark {
-  background-color: #0191d7;
+  background-color: #1e9a5b;
 }
 div.wrapDataExam .checkbox-exam input:checked ~ .checkmark:after {
   display: block;
@@ -14097,7 +14097,7 @@ input[type=text]:disabled {
 }
 
 input[type=text]:focus {
-  border: 1px solid #0191d7;
+  border: 1px solid #1e9a5b;
 }
 
 input[type=number] {
@@ -14108,11 +14108,11 @@ input[type=number] {
 }
 
 input[type=number]:focus {
-  border: 1px solid #0191d7;
+  border: 1px solid #1e9a5b;
 }
 
 .input-password:focus-within {
-  border: 1px solid #0191d7;
+  border: 1px solid #1e9a5b;
 }
 
 .input-password {
@@ -14172,7 +14172,7 @@ select {
 }
 
 select:focus {
-  border: 1px solid #0191d7;
+  border: 1px solid #1e9a5b;
 }
 
 /* checkbox */
@@ -14218,7 +14218,7 @@ input[type=checkbox] {
 
 /* When the checkbox is checked, add a blue background */
 .checkbox-container input:checked ~ .checkmark {
-  background-color: #0191d7;
+  background-color: #1e9a5b;
 }
 
 /* Create the checkmark/indicator (hidden when not checked) */
@@ -14286,7 +14286,7 @@ input[type=checkbox] {
 }
 
 .dropdown:hover button {
-  background-color: #0191d7;
+  background-color: #1e9a5b;
 }
 .dropdown:hover button i {
   color: white !important;
@@ -14316,7 +14316,7 @@ input[type=checkbox] {
   width: 100%;
   height: 41px;
   text-align: center;
-  background: #0191d7;
+  background: #1e9a5b;
   transition: all 0.2s ease;
   border-radius: 5px;
 }
@@ -14498,11 +14498,11 @@ input[type=checkbox] {
 }
 
 input:checked + .slider {
-  background-color: #0191d7;
+  background-color: #1e9a5b;
 }
 
 input:focus + .slider {
-  box-shadow: 0 0 1px #0191d7;
+  box-shadow: 0 0 1px #1e9a5b;
 }
 
 input:checked + .slider:before {
@@ -14529,7 +14529,7 @@ input:checked + .slider:before {
 }
 
 .rw-widget-picker:focus {
-  border: 1px solid #0191d7;
+  border: 1px solid #1e9a5b;
 }
 
 .rw-dropdown-list-value {
@@ -14546,11 +14546,11 @@ input:checked + .slider:before {
 
 /* calendar */
 .react-datepicker__day--selected, .react-datepicker__day--in-selecting-range, .react-datepicker__day--in-range {
-  background-color: #0191d7 !important;
+  background-color: #1e9a5b !important;
 }
 
 .react-datepicker__time-container .react-datepicker__time .react-datepicker__time-box ul.react-datepicker__time-list li.react-datepicker__time-list-item--selected {
-  background-color: #0191d7 !important;
+  background-color: #1e9a5b !important;
 }
 
 /* input error message */
@@ -14592,13 +14592,13 @@ input:checked + .slider:before {
 }
 .headings .breadcrumb li:last-child a {
   cursor: default;
-  color: #0191d7;
+  color: #1e9a5b;
   font-weight: 500;
   pointer-events: none;
   cursor: default;
 }
 .headings .breadcrumb li:not(:last-child):hover::before, .headings .breadcrumb li:not(:last-child):hover::after {
-  background: #0191d7;
+  background: #1e9a5b;
 }
 .headings .breadcrumb li::before, .headings .breadcrumb li::after {
   content: "";
@@ -14639,7 +14639,7 @@ input:checked + .slider:before {
   box-sizing: content-box;
 }
 .headings .breadcrumb li:first-child:hover {
-  background-color: #0191d7;
+  background-color: #1e9a5b;
 }
 .headings .breadcrumb li:first-child::before, .headings .breadcrumb li:first-child::after {
   left: 5px;
@@ -14689,7 +14689,7 @@ div.wrapCard div.cardMenu .linkMenu .middle {
   text-align: center;
 }
 div.wrapCard div.cardMenu .linkMenu .text {
-  background-color: #0191d7;
+  background-color: #1e9a5b;
   color: white;
   font-size: 16px;
 }
@@ -14762,7 +14762,7 @@ div.wrapCard .menuText .jumlah {
   align-items: center;
   justify-content: center;
   display: flex;
-  background: #0191d7;
+  background: #1e9a5b;
 }
 .login-page .logo img {
   width: 200px;

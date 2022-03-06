@@ -23,7 +23,7 @@ function InputSearch(props) {
         <i className="material-icons-outlined" style={{fontSize:"20px"}}>search</i> 
     </button>    
     :
-    <button type="submit" style={{cursor: "pointer",borderColor:"#0191d7"}} className="link dim br1 ba pa2 dib white bg-primary" onClick={props.onClick}>
+    <button type="submit" className="pointer link dim br1 ba pa2 dib white bg-primary b--primary" onClick={props.onClick}>
         <i className="material-icons-outlined" style={{fontSize:"20px"}}>search</i> 
     </button>
     }

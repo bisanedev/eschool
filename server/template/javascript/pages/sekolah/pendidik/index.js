@@ -59,16 +59,16 @@ class PageSekolahPendidik extends React.Component{
         <Table>
           <Table.Header>
             <div className="w-50 ph2">
-              <a type="submit" href="#/sekolah/pendidik/add" style={{cursor: "pointer",borderColor:"#0191d7"}} className="link dim br1 ba pa2 dib white bg-primary">                
+              <a type="submit" href="#/sekolah/pendidik/add" className="pointer link dim br1 ba pa2 dib white bg-primary b--primary">                
                 <i className="material-icons-outlined" style={{fontSize:"20px"}}>add</i>
               </a>
             </div>
             <div className="w-50 ph2 flex" style={{justifyContent:"flex-end"}}>              
-              <button type="submit" style={{cursor: "pointer",fontSize:"13px",border:"1px solid rgba(0, 0, 0, 0.125)"}} className="link dim br1 ba pa2 dib bg-white" onClick={() => this.selectAll()}>
+              <button type="submit" style={{fontSize:"13px",border:"1px solid rgba(0, 0, 0, 0.125)"}} className="pointer link dim br1 ba pa2 dib bg-white" onClick={() => this.selectAll()}>
                 {data.length === selected.length ? "BATAL PILIH SEMUA":"PILIH SEMUA"}
               </button>
               <div className="dropdown">
-                <button style={{cursor: "pointer",border:"1px solid rgba(0, 0, 0, 0.125)"}} className="link dim br1 ba pa2 dib bg-white">
+                <button style={{border:"1px solid rgba(0, 0, 0, 0.125)"}} className="pointer link dim br1 ba pa2 dib bg-white">
                   <i className="material-icons-outlined" style={{fontSize:"25px",color:"#474747"}}>more_vert</i>
                 </button>
                 <div className="dropdown-content">                  

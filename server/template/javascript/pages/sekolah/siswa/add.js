@@ -4,7 +4,7 @@ import { Helmet } from 'react-helmet';
 import Forbidden from "../../other/forbidden";
 import { Breadcrumb } from '../../../components/menu';
 import { InputText,InputPassword,Cards } from '../../../components/forms';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import { DropdownList } from 'react-widgets';
 import Cropper from "react-cropper";
 
@@ -25,7 +25,13 @@ class PageSekolahSiswaAdd extends React.Component{
       rePassword:"",
       kelasData:[],      
       uploadProgress:false,
-      uploadDisable:false,       
+      uploadDisable:false,
+      errorNama:"",
+      errorKelas:"",
+      errorNoAbsen:"",
+      errorUsername:"",
+      errorPassword:"",
+      errorRepassword:""
     }
     this.handleInputChange = this.handleInputChange.bind(this);  
     this.cropper = React.createRef();   
@@ -42,7 +48,7 @@ class PageSekolahSiswaAdd extends React.Component{
 
   render() { 
     const {tokenData} = this.props;
-    const {jenis,kelasData,kelas,noAbsen,isLoading,src,croppedImageUrl,errorSelect,uploadProgress,uploadDisable} = this.state; 
+    const {jenis,kelasData,username,kelas,noAbsen,isLoading,src,croppedImageUrl,errorSelect,uploadProgress,uploadDisable,errorNama,errorKelas,errorNoAbsen,errorUsername,errorPassword,errorRepassword} = this.state; 
     let foto = <img src={jenis === "l" ? "assets/images/cowok.png":"assets/images/cewek.png"} />;  
     const uploadClass = uploadProgress ? "progress-active":"";   
     var NomorAbsens = []; 
@@ -71,7 +77,7 @@ class PageSekolahSiswaAdd extends React.Component{
               <div className="w-100 mb3 flex">
                 <div className="w-70">
                     <label className="f5 fw4 db mb2">Nama lengkap</label>
-                    <InputText name="nama" placeholder="ketik nama lengkap disini" onChange={this.handleInputChange}/>
+                    <InputText name="nama" placeholder="ketik nama lengkap disini" onChange={this.handleInputChange} errorMessage={errorNama}/>
                 </div>
                 <div className="w-30 ml2">
                     <label className="f5 fw4 db mb2">Jenis kelamin</label>
@@ -92,25 +98,31 @@ class PageSekolahSiswaAdd extends React.Component{
                   </span>
                 </header> 
                 )}
-                <DropdownList filter='contains' data={kelasData} value={kelas} onChange={value => this.handleSelectKelas(value)} textField="nama" dataKey="id" placeholder="Pilih kelas"/>
+                <DropdownList filter='contains' data={kelasData} containerClassName={errorKelas !="" ? "error":""} value={kelas} onChange={value => this.handleSelectKelas(value)} textField="nama" dataKey="id" placeholder="Pilih kelas"/>
+                {errorKelas != "" && (
+                  <span className="pesan-error">{errorKelas}</span>
+                )}
                 </div>
                 <div className="w-50 ml2">                
                 <label className="f5 fw4 db mb2">No urut absen</label>  
-                <DropdownList filter='contains' data={NomorAbsens} value={noAbsen} onChange={value => this.handleSelectAbsen(value)} textField="nomor" dataKey="id" placeholder="Pilih nomor"/>
+                <DropdownList filter='contains' data={NomorAbsens} containerClassName={errorNoAbsen !="" ? "error":""} value={noAbsen} onChange={value => this.handleSelectAbsen(value)} textField="nomor" dataKey="id" placeholder="Pilih nomor"/>
+                {errorNoAbsen != "" && (
+                  <span className="pesan-error">{errorNoAbsen}</span>
+                )}
                 </div>
               </div>            
               <div className="w-100 mb3">
                 <label className="f5 fw4 db mb2">Username / NISN (Nomor Induk Siswa Nasional)</label>
-                <InputText name="username" placeholder="ketik username yang di inginkan disini" onChange={this.handleInputChange}/>
+                <InputText name="username" value={username} placeholder="ketik username yang di inginkan disini" onChange={this.handleInputChange} errorMessage={errorUsername}/>
               </div>
               <div className="w-100 mb3 flex">
                 <div className="w-50">
                     <label className="f5 fw4 db mb2">Password</label>
-                    <InputPassword name="password" onChange={this.handleInputChange}/> 
+                    <InputPassword name="password" onChange={this.handleInputChange} errorMessage={errorPassword}/> 
                 </div>
                 <div className="w-50 ml2">
                     <label className="f5 fw4 db mb2">Ketik ulang password</label>
-                    <InputPassword name="rePassword" onChange={this.handleInputChange}/>   
+                    <InputPassword name="rePassword" onChange={this.handleInputChange} errorMessage={errorRepassword}/>   
                 </div>               
               </div>
               <div className="w-100 mb3">
@@ -153,7 +165,6 @@ class PageSekolahSiswaAdd extends React.Component{
         </div>                              
         </>
         )}
-        <ToastContainer />
     </div>           
     </>
     );
@@ -258,8 +269,8 @@ class PageSekolahSiswaAdd extends React.Component{
   /*--- post new user ----*/
   newUserPendidik = () => {         
     const {nama,jenis,kelas,noAbsen,username,password,rePassword,croppedImageUrl,src} = this.state;
+    this.setState({uploadProgress:true,uploadDisable:true,errorNama:"",errorKelas:"",errorNoAbsen:"",errorUsername:"",errorPassword:"",errorRepassword:""});
     var formData = new FormData();
-    this.setState({uploadProgress:true,uploadDisable:true});
     if(src != null && src != "" && croppedImageUrl != ""){
       var blobFile = this.b64toBlob(croppedImageUrl); 
       formData.append('file',blobFile);
@@ -279,12 +290,32 @@ class PageSekolahSiswaAdd extends React.Component{
         data: formData
     }).then(response => {                 
         if(response.data.status == true)
-        {                                          
+        {            
+          toast.success("Data "+nama+" berhasil ditambahkan");                               
           this.navigate("/sekolah/siswa"); 
         }
     }).catch(error => {                   
-      if(error.response.status == 400){                       
-        this.setState({uploadProgress:false,uploadDisable:false},() => toast.warn(error.response.data.message));
+      if(error.response.status == 400){   
+        this.setState({uploadProgress:false,uploadDisable:false},() => {          
+          if(error.response.data.message["nama"]){   
+            this.setState({errorNama:error.response.data.message["nama"]}); 
+          }
+          if(error.response.data.message["username"]){   
+            this.setState({errorUsername:error.response.data.message["username"]}); 
+          }
+          if(error.response.data.message["password"]){   
+            this.setState({errorPassword:error.response.data.message["password"]}); 
+          }
+          if(error.response.data.message["rePassword"]){   
+            this.setState({errorRepassword:error.response.data.message["rePassword"]}); 
+          }
+          if(error.response.data.message["kelas"]){   
+            this.setState({errorKelas:error.response.data.message["kelas"]}); 
+          }
+          if(error.response.data.message["absen"]){   
+            this.setState({errorNoAbsen:error.response.data.message["absen"]}); 
+          }
+        });        
       }  
       if(error.response.status == 401){
         this.logout();

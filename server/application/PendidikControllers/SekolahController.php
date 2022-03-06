@@ -60,7 +60,8 @@ class SekolahController extends ApiController
         if($v->validate()) {                      
             $update=$this->database->update("sekolah_kelastingkatan",["nama" => $_PATCH["nama"]],["id" => $_PATCH["id"]]);
             if($update->rowCount() === 0){
-                echo $this->response->json_response(400,"Data tidak ditemukan");
+                $data = array("nama" => "Tidak ada perubahan data");
+                echo $this->response->json_response(400,$data);
             }else{
                 echo $this->response->json_response(200,"berhasil");
             }
@@ -143,7 +144,8 @@ class SekolahController extends ApiController
         if($v->validate()) {
             $update=$this->database->update("sekolah_kelasnama",["nama" => $_PATCH["nama"]],["AND" => ["id" => $_PATCH["id"],"tingkatan_id" => $id]]);
             if($update->rowCount() === 0){
-                echo $this->response->json_response(400,"Data tidak ditemukan");
+                $data = array("nama" => "Tidak ada perubahan data");
+                echo $this->response->json_response(400,$data);                
             }else{
                 echo $this->response->json_response(200,"berhasil");
             }
@@ -220,8 +222,9 @@ class SekolahController extends ApiController
         $v->rule('required', ['id','nama']);
         if($v->validate()) {                      
             $update=$this->database->update("sekolah_semestertahun",["nama" => $_PATCH["nama"]],["id" => $_PATCH["id"]]);
-            if($update->rowCount() === 0){
-                echo $this->response->json_response(400,"Data tidak ditemukan");
+            if($update->rowCount() === 0){                
+                $data = array("nama" => "Tidak ada perubahan data");
+                echo $this->response->json_response(400,$data);
             }else{
                 echo $this->response->json_response(200,"berhasil");
             }
@@ -316,7 +319,8 @@ class SekolahController extends ApiController
                 ["AND" => ["id" => $_PATCH["id"],"semester_tahun_id" => $id]]
             );            
             if($update->rowCount() === 0){
-                echo $this->response->json_response(400,"Data tidak ditemukan");
+                $data = array("semester_start" => "Tidak ada perubahan data","semester_end" => "Tidak ada perubahan data");
+                echo $this->response->json_response(400,$data);                
             }else{
                 echo $this->response->json_response(200,"berhasil");
             }
@@ -404,7 +408,8 @@ class SekolahController extends ApiController
         if($v->validate()) {                      
             $update=$this->database->update("sekolah_mapel",["nama" => $_PATCH["nama"],"color" => $_PATCH["color"]],["id" => $_PATCH["id"]]);
             if($update->rowCount() === 0){
-                echo $this->response->json_response(400,"Data tidak ditemukan");
+                $data = array("nama" => "Tidak ada perubahan data","color" => "Tidak ada perubahan data");
+                echo $this->response->json_response(400,$data);                 
             }else{
                 echo $this->response->json_response(200,"berhasil");
             }
@@ -493,7 +498,7 @@ class SekolahController extends ApiController
         $v->rule('required', ['nama','jenis','username','password','rePassword','superuser']);
         if($v->validate()) { 
             if($_POST["password"] != $_POST["rePassword"]){                
-                $data = array("password" => "Password konfirmasi tidak sama","rePassword" => "Password konfirmasi tidak sama");
+                $data = array("password" => "Password tidak sama","rePassword" => "Password konfirmasi tidak sama");
                 echo $this->response->json_response(400, $data);
                 exit;
             }
@@ -580,7 +585,7 @@ class SekolahController extends ApiController
         $v->rule('required', ['id','nama','jenis','username','mapel_id','superuser']);
         if($v->validate()) {
             if( !empty($_POST["password"]) && $_POST["password"] != $_POST["rePassword"]){                
-                $data = array("password" => "Password konfirmasi tidak sama","rePassword" => "Password konfirmasi tidak sama");
+                $data = array("password" => "Password tidak sama","rePassword" => "Password konfirmasi tidak sama");
                 echo $this->response->json_response(400, $data);
                 exit;
             }
@@ -810,7 +815,8 @@ class SekolahController extends ApiController
         $v->rule('required', ['nama','jenis','kelas','absen','username','password','rePassword']);
         if($v->validate()) { 
             if($_POST["password"] != $_POST["rePassword"]){
-                echo $this->response->json_response(400,"Password konfirmasi tidak sama");
+                $data = array("password" => "Password tidak sama","rePassword" => "Password konfirmasi tidak sama");
+                echo $this->response->json_response(400, $data);
                 exit;
             }
             
@@ -823,16 +829,19 @@ class SekolahController extends ApiController
                 $file_type = $_FILES['file']['type'];
                 $allowed = array("image/jpeg","image/png");
                 $location = __DIR__ ."/../../public/data/siswa/".strtolower($_POST["username"]).".jpg";
-                if(!in_array($file_type, $allowed)) {
-                    echo $this->response->json_response(400, "Hanya file png, jpeg dan jpg yang bisa di upload");
+                if(!in_array($file_type, $allowed)) {                    
+                    $data = array("foto" => "Hanya file png, jpeg dan jpg yang bisa di upload");              
+                    echo $this->response->json_response(400, $data);
                     exit;
                 }
                 if ($_FILES["file"]["size"] > 2000000) {
-                    echo $this->response->json_response(400, "Ukuran gambar melebihi 2MB");
+                    $data = array("foto" => "Ukuran gambar file size melebihi 2MB");              
+                    echo $this->response->json_response(400, $data);
                     exit;      
                 }        
                 if ($width < "260" || $height < "320") {
-                    echo $this->response->json_response(400, "Gambar foto dimensi minimal 320x260");
+                    $data = array("foto" => "Gambar foto dimensi minimal 320x260");              
+                    echo $this->response->json_response(400, $data);
                     exit; 
                 }
                 if ($this->compressImage($_FILES['file']['tmp_name'],$location,60)) {
@@ -841,12 +850,14 @@ class SekolahController extends ApiController
                         ["nama" => $_POST["nama"],"jenis" => $_POST["jenis"],"username" => strtolower($_POST["username"]),"foto" => "1","password" => $ciphertext ,"kelas_id" => $_POST["kelas"],"no_absens" => $_POST["absen"]]
                     );
                     if($this->database->error){
-                        echo $this->response->json_response(400,"Username sudah ada");
+                        $data = array("username" => "Username tidak tersedia");
+                        echo $this->response->json_response(400, $data);
                         exit;
                     }
                     echo $this->response->json_response(200,"berhasil");
-                }else{                
-                    echo $this->response->json_response(400, "Maaf, terjadi kesalahan saat mengunggah file Anda");
+                }else{       
+                    $data = array("foto" => "Maaf, terjadi kesalahan saat mengunggah file Anda");              
+                    echo $this->response->json_response(400, $data);                    
                 }
             }else{
                 // insert new siswa to database       
@@ -854,33 +865,37 @@ class SekolahController extends ApiController
                     ["nama" => $_POST["nama"],"jenis" => $_POST["jenis"],"username" => strtolower($_POST["username"]),"password" => $ciphertext ,"kelas_id" => $_POST["kelas"],"no_absens" => $_POST["absen"]]
                 );  
                 if($this->database->error){
-                    echo $this->response->json_response(400,"Username sudah ada");
+                    $data = array("username" => "Username tidak tersedia");
+                    echo $this->response->json_response(400, $data);
                     exit;
                 }      
                 echo $this->response->json_response(200, "berhasil");
             }
         }else{
-            if($v->errors('nama')){
-                echo $this->response->json_response(400,"Input nama kosong"); 
-            }  
-            elseif($v->errors('jenis')){
-                echo $this->response->json_response(400,"Input jenis kosong");
-            } 
-            elseif($v->errors('username')){
-                echo $this->response->json_response(400,"Input username kosong");
+
+            $data = array();       
+            if($v->errors("nama")){
+                $data["nama"] = "Input nama kosong";                
             }
-            elseif($v->errors('password')){
-                echo $this->response->json_response(400,"Input password kosong");
+            if($v->errors("jenis")){
+                $data["jenis"] = "Input jenis kosong";                 
+            }    
+            if($v->errors("username")){
+                $data["username"] = "Input username kosong";                 
             } 
-            elseif($v->errors('rePassword')){
-                echo $this->response->json_response(400,"Input rePassword kosong");
+            if($v->errors("password")){
+                $data["password"] = "Input password kosong";                 
+            }     
+            if($v->errors("rePassword")){
+                $data["rePassword"] = "Input repassword kosong";                 
             }  
-            elseif($v->errors('kelas')){
-                echo $this->response->json_response(400,"Input kelas kosong");
+            if($v->errors("kelas")){
+                $data["kelas"] = "Input kelas kosong";                 
+            }  
+            if($v->errors("absen")){
+                $data["absen"] = "Input absen kosong";                 
             } 
-            elseif($v->errors('absen')){
-                echo $this->response->json_response(400,"Input nomor absens kosong");
-            }          
+            echo $this->response->json_response(400, $data);                     
         }
     }
 
@@ -890,8 +905,9 @@ class SekolahController extends ApiController
         $v = new Validator($_POST);
         $v->rule('required', ['id','nama','jenis','kelas','absen','username']);
         if($v->validate()) {
-            if( !empty($_POST["password"]) && $_POST["password"] != $_POST["rePassword"]){
-                echo $this->response->json_response(400,"Password konfirmasi tidak sama");
+            if( !empty($_POST["password"]) && $_POST["password"] != $_POST["rePassword"]){                
+                $data = array("password" => "Password tidak sama","rePassword" => "Password konfirmasi tidak sama");
+                echo $this->response->json_response(400, $data);
                 exit;
             }
             if($_POST["username"] != $_POST["lastUsername"]){
@@ -906,15 +922,18 @@ class SekolahController extends ApiController
                 $allowed = array("image/jpeg","image/png");
                 $location = __DIR__ ."/../../public/data/siswa/".strtolower($_POST["username"]).".jpg";
                 if(!in_array($file_type, $allowed)) {
-                    echo $this->response->json_response(400, "Hanya file png, jpeg dan jpg yang bisa di upload");
+                    $data = array("foto" => "Hanya file png, jpeg dan jpg yang bisa di upload");              
+                    echo $this->response->json_response(400, $data);                    
                     exit;
                 }
                 if ($_FILES["file"]["size"] > 2000000) {
-                    echo $this->response->json_response(400, "Ukuran gambar melebihi 2MB");
+                    $data = array("foto" => "Ukuran gambar file size melebihi 2MB");              
+                    echo $this->response->json_response(400, $data);
                     exit;      
                 }        
-                if ($width < "260" || $height < "320") {
-                    echo $this->response->json_response(400, "Gambar foto dimensi minimal 320x260");
+                if ($width < "260" || $height < "320") {                    
+                    $data = array("foto" => "Gambar foto dimensi minimal 320x260");              
+                    echo $this->response->json_response(400, $data);
                     exit; 
                 }
                 if ($this->compressImage($_FILES['file']['tmp_name'],$location,60)) {
@@ -925,7 +944,8 @@ class SekolahController extends ApiController
                             ["id" => $_POST["id"]]
                         );
                         if($this->database->error){
-                            echo $this->response->json_response(400,"Username sudah ada");                            
+                            $data = array("username" => "Username tidak tersedia");
+                            echo $this->response->json_response(400,$data);                            
                             exit;
                         }
                         echo $this->response->json_response(200, "berhasil");
@@ -935,14 +955,16 @@ class SekolahController extends ApiController
                             ["nama" => $_POST["nama"],"jenis" => $_POST["jenis"],"username" => strtolower($_POST["username"]),"foto" => "1","password" => $ciphertext,"kelas_id" => $_POST["kelas"],"no_absens" => $_POST["absen"]],
                             ["id" => $_POST["id"]]
                         );
-                        if($this->database->error){
-                            echo $this->response->json_response(400,"Username sudah ada");
+                        if($this->database->error){                            
+                            $data = array("username" => "Username tidak tersedia");
+                            echo $this->response->json_response(400,$data);
                             exit;
                         }
                         echo $this->response->json_response(200, "berhasil");
                     }
-                }else{                
-                    echo $this->response->json_response(400, "Maaf, terjadi kesalahan saat mengunggah file Anda");
+                }else{                    
+                    $data = array("foto" => "Maaf, terjadi kesalahan saat mengunggah file Anda");              
+                    echo $this->response->json_response(400, $data);
                 }
             }else{
                 // tanpa foto dan jika password kosong
@@ -951,8 +973,9 @@ class SekolahController extends ApiController
                         ["nama" => $_POST["nama"],"jenis" => $_POST["jenis"],"username" => strtolower($_POST["username"]),"kelas_id" => $_POST["kelas"],"no_absens" => $_POST["absen"]],
                         ["id" => $_POST["id"]]
                     );
-                    if($this->database->error){
-                        echo $this->response->json_response(400,"Username sudah ada");                        
+                    if($this->database->error){                                                
+                        $data = array("username" => "Username tidak tersedia");
+                        echo $this->response->json_response(400,$data);                       
                         exit;
                     }
                     echo $this->response->json_response(200, "berhasil");
@@ -962,36 +985,35 @@ class SekolahController extends ApiController
                         ["nama" => $_POST["nama"],"jenis" => $_POST["jenis"],"username" => strtolower($_POST["username"]),"password" => $ciphertext,"kelas_id" => $_POST["kelas"],"no_absens" => $_POST["absen"]],
                         ["id" => $_POST["id"]]
                     );
-                    if($this->database->error){
-                        echo $this->response->json_response(400,"Username sudah ada");
+                    if($this->database->error){                        
+                        $data = array("username" => "Username tidak tersedia");
+                        echo $this->response->json_response(400,$data);                        
                         exit;
                     }
                     echo $this->response->json_response(200, "berhasil");
                 }
             }                      
         }else{
-            if($v->errors('nama')){
-                echo $this->response->json_response(400,"Input nama kosong"); 
-            }
-            elseif($v->errors('id')){
-                echo $this->response->json_response(400,"id data kosong");
-            }
-            elseif($v->errors('jenis')){
-                echo $this->response->json_response(400,"Input jenis kosong");
+            $data = array();
+            if($v->errors('id')){
+                $data["id"] = "Input id kosong"; 
             } 
-            elseif($v->errors('username')){
-                echo $this->response->json_response(400,"Input username kosong");
+            if($v->errors("nama")){
+                $data["nama"] = "Input nama kosong";                
             }
-            elseif($v->errors('password')){
-                echo $this->response->json_response(400,"Input password kosong");
-            }             
-            elseif($v->errors('kelas')){
-                echo $this->response->json_response(400,"Input kelas kosong");
-            } 
-            elseif($v->errors('absen')){
-                echo $this->response->json_response(400,"Input nomor absens kosong");
-            } 
-                          
+            if($v->errors("jenis")){
+                $data["jenis"] = "Input jenis kosong";                 
+            }    
+            if($v->errors("username")){
+                $data["username"] = "Input username kosong";                 
+            }  
+            if($v->errors("kelas")){
+                $data["kelas"] = "Input kelas kosong";                 
+            }  
+            if($v->errors("absen")){
+                $data["absen"] = "Input nomor absens kosong";                 
+            }  
+            echo $this->response->json_response(400, $data);                            
         }
     }
 

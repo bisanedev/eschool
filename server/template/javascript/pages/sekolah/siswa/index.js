@@ -6,7 +6,7 @@ import {Breadcrumb} from '../../../components/menu';
 import {InputSearch} from '../../../components/forms';
 import Table from "../../../components/table";
 import {DeleteDialog} from '../../../components/dialog';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import {EditModal} from '../../../components/modal';
 import { DropdownList } from 'react-widgets';
 
@@ -66,7 +66,7 @@ class PageSekolahSiswa extends React.Component{
         <Table>
           <Table.Header>
             <div className="w-50 ph2 flex">
-              <a type="submit" href="#/sekolah/siswa/add" style={{cursor: "pointer",borderColor:"#0191d7"}} className="flex items-center justify-center link dim br1 ba pa2 dib white bg-primary mr2">                
+              <a type="submit" href="#/sekolah/siswa/add" className="pointer flex items-center justify-center link dim br1 ba pa2 dib white bg-primary b--primary mr2">                
                 <i className="material-icons-outlined" style={{fontSize:"20px"}}>add</i>
               </a>
               <div className="w-40">
@@ -74,11 +74,11 @@ class PageSekolahSiswa extends React.Component{
               </div>
             </div>
             <div className="w-50 ph2 flex" style={{justifyContent:"flex-end"}}>              
-              <button type="submit" style={{cursor: "pointer",fontSize:"13px",border:"1px solid rgba(0, 0, 0, 0.125)"}} className="link dim br1 ba pa2 dib bg-white" onClick={() => this.selectAll()}>
+              <button type="submit" style={{fontSize:"13px",border:"1px solid rgba(0, 0, 0, 0.125)"}} className="pointer link dim br1 ba pa2 dib bg-white" onClick={() => this.selectAll()}>
                 {data.length === selected.length ? "BATAL PILIH SEMUA":"PILIH SEMUA"}
               </button>
               <div className="dropdown">
-                <button style={{cursor: "pointer",border:"1px solid rgba(0, 0, 0, 0.125)"}} className="link dim br1 ba pa2 dib bg-white">                  
+                <button style={{border:"1px solid rgba(0, 0, 0, 0.125)"}} className="pointer link dim br1 ba pa2 dib bg-white">                  
                   <i className="material-icons-outlined" style={{fontSize:"25px",color:"#474747"}}>more_vert</i>
                 </button>
                 <div className="dropdown-content">                  
@@ -152,8 +152,7 @@ class PageSekolahSiswa extends React.Component{
           </div>
         </EditModal>             
       </>      
-      )} 
-      <ToastContainer />            
+      )}           
     </div>
     );
   }
@@ -293,6 +292,7 @@ class PageSekolahSiswa extends React.Component{
     }).then(response => {
       if(response.data.status == true)
       {        
+        toast.success("Data "+ data.nama +" berhasil dihapus");
         this.setState({showSingleDelete:false},() => this.fetchData());        
       }
     }).catch(error => {
@@ -317,6 +317,7 @@ class PageSekolahSiswa extends React.Component{
     }).then(response => {
       if(response.data.status == true)
       {        
+        toast.success(selected.length +" data berhasil dihapus");
         this.setState({showDelete:false,selected:[]},() => this.fetchData());        
       }
     }).catch(error => {

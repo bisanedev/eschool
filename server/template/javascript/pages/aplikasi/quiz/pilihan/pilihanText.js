@@ -8,7 +8,18 @@ function PilihanText(props) {
     const {checked, value, onChange, onChecked,onRemove,disRem} = props;   
 
     const handleEditorValue = (editorState) => {        
-        return onChange(encode(convertToHTML(editorState.getCurrentContent())));
+        
+        const content = editorState.getCurrentContent();
+        const isEditorEmpty = !content.hasText();    
+        const lengthOfTrimmedContent = content.getPlainText().trim().length;
+        const isContainOnlySpaces = !isEditorEmpty && !lengthOfTrimmedContent;
+        if(isEditorEmpty){      
+            return onChange("");
+        }else if(isContainOnlySpaces){
+            return onChange("");
+        }else{
+            return onChange(encode(convertToHTML(editorState.getCurrentContent())));
+        }
     }
 
     return (

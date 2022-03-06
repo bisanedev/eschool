@@ -482,24 +482,40 @@ class PageAplikasiQuizPilihanSoalEdit extends React.Component{
     formData.append('jawaban',jawabanJSON);
    
     formData.append('pertanyaan_text',encode(convertToHTML(editorState.getCurrentContent())));
-    /*--cek editorState if empty --*/
+    /*--cek editorState variable --*/
     const content = editorState.getCurrentContent();
     const isEditorEmpty = !content.hasText();    
     const lengthOfTrimmedContent = content.getPlainText().trim().length;
     const isContainOnlySpaces = !isEditorEmpty && !lengthOfTrimmedContent;
     if(isEditorEmpty){      
-      this.setState({uploadProgress:false,uploadDisable:false,errorPertanyaan:"Input pertanyaan kosong"}); 
+      formData.append('pertanyaan_text',"");
+    }else if(isContainOnlySpaces){
+      formData.append('pertanyaan_text',"");
+    }else{
+      formData.append('pertanyaan_text',encode(convertToHTML(editorState.getCurrentContent())));
+    }
+    /*--check pilihan ganda is empty --*/
+    if(pilihan.length === 0){
+      this.setState({uploadProgress:false,uploadDisable:false},() => toast.error("Pilihan ganda kosong !"));          
       return false;
     }
-    if(isContainOnlySpaces){
-      this.setState({uploadProgress:false,uploadDisable:false,errorPertanyaan:"Input pertanyaan kosong hanya ber-isi spasi"}); 
-      return false;
-    }
-    /*--loop check if empty --*/
+    /*--loop pilihan ganda check if data empty --*/
     for (var key in pilihan) {
-      if (pilihan.hasOwnProperty(key)) {        
-        if(pilihan[key].data === ""){
-          this.setState({uploadProgress:false,uploadDisable:false,errorPilihan:true},() => toast.error("Silahkan periksa kembali jawaban input text / file kosong !"));                  
+      if (pilihan.hasOwnProperty(key)) {
+        if(pilihan[key].data === "" && pilihan[key].type === "text"){
+          this.setState({uploadProgress:false,uploadDisable:false,errorPilihan:true},() => toast.error("Silahkan periksa kembali input text jawaban yang kosong !"));          
+          return false;
+        }       
+        if(pilihan[key].data === "" && pilihan[key].type === "image"){
+          this.setState({uploadProgress:false,uploadDisable:false,errorPilihan:true},() => toast.error("Silahkan periksa kembali input file gambar jawaban yang kosong !"));          
+          return false;
+        }
+        if(pilihan[key].data === "" && pilihan[key].type === "math"){
+          this.setState({uploadProgress:false,uploadDisable:false,errorPilihan:true},() => toast.error("Silahkan periksa kembali input math jawaban yang kosong !"));          
+          return false;
+        }
+        if(pilihan[key].data === "" && pilihan[key].type === "audio"){
+          this.setState({uploadProgress:false,uploadDisable:false,errorPilihan:true},() => toast.error("Silahkan periksa kembali input file audio jawaban yang kosong !"));          
           return false;
         }
       }

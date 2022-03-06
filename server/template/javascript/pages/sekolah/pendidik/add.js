@@ -4,7 +4,7 @@ import { Helmet } from 'react-helmet';
 import Forbidden from "../../other/forbidden";
 import { Breadcrumb } from '../../../components/menu';
 import { InputText,InputPassword,Cards,Switcher } from '../../../components/forms';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import Cropper from "react-cropper";
 
 class PageSekolahPendidikAdd extends React.Component{
@@ -24,7 +24,11 @@ class PageSekolahPendidikAdd extends React.Component{
       mapelData:[],
       superuser:false,
       uploadProgress:false,
-      uploadDisable:false,       
+      uploadDisable:false,
+      errorNama:"",
+      errorUsername:"",
+      errorPassword:"",
+      errorRepassword:""
     }
     this.handleInputChange = this.handleInputChange.bind(this);  
     this.cropper = React.createRef();
@@ -41,7 +45,7 @@ class PageSekolahPendidikAdd extends React.Component{
 
   render() { 
     const {tokenData} = this.props;
-    const {jenis,mapelData,superuser,isLoading,src,croppedImageUrl,errorSelect,uploadProgress,uploadDisable} = this.state; 
+    const {jenis,mapelData,superuser,isLoading,src,croppedImageUrl,errorSelect,uploadProgress,username,uploadDisable,errorNama,errorUsername,errorPassword,errorRepassword} = this.state; 
     let foto = <img src={jenis === "l" ? "assets/images/cowok.png":"assets/images/cewek.png"} />;  
     const uploadClass = uploadProgress ? "progress-active":"";    
     return (
@@ -66,7 +70,7 @@ class PageSekolahPendidikAdd extends React.Component{
               <div className="w-100 mb3 flex">
                 <div className="w-70">
                     <label className="f5 fw4 db mb2">Nama lengkap</label>
-                    <InputText name="nama" placeholder="ketik nama lengkap disini" onChange={this.handleInputChange}/>
+                    <InputText name="nama" placeholder="ketik nama lengkap disini" onChange={this.handleInputChange} errorMessage={errorNama}/>
                 </div>
                 <div className="w-30 ml2">
                     <label className="f5 fw4 db mb2">Jenis kelamin</label>
@@ -98,7 +102,7 @@ class PageSekolahPendidikAdd extends React.Component{
               <div className="w-100 mb3 flex">
                 <div className="w-70">
                   <label className="f5 fw4 db mb2">Username</label>
-                  <InputText name="username" placeholder="ketik username yang di inginkan disini" onChange={this.handleInputChange}/>
+                  <InputText name="username" value={username} placeholder="ketik username yang di inginkan disini" onChange={this.handleInputChange} errorMessage={errorUsername}/>
                 </div>
                 <div className="w-30 ml2">
                   <label className="f5 fw4 db mb2">Superuser akses</label>
@@ -108,11 +112,11 @@ class PageSekolahPendidikAdd extends React.Component{
               <div className="w-100 mb3 flex">
                 <div className="w-50">
                     <label className="f5 fw4 db mb2">Password</label>
-                    <InputPassword name="password" onChange={this.handleInputChange}/> 
+                    <InputPassword name="password" onChange={this.handleInputChange} errorMessage={errorPassword}/> 
                 </div>
                 <div className="w-50 ml2">
                     <label className="f5 fw4 db mb2">Ketik ulang password</label>
-                    <InputPassword name="rePassword" onChange={this.handleInputChange}/>   
+                    <InputPassword name="rePassword" onChange={this.handleInputChange} errorMessage={errorRepassword}/>   
                 </div>               
               </div> 
               <div className="w-100 mb3">
@@ -154,8 +158,7 @@ class PageSekolahPendidikAdd extends React.Component{
           </Cards>
         </div>                              
         </>
-        )}
-        <ToastContainer />
+        )}        
     </div>           
     </>
     );
@@ -252,6 +255,7 @@ class PageSekolahPendidikAdd extends React.Component{
   /*--- post new user ----*/
   newUserPendidik = () => {         
     const {nama,jenis,mapel,username,password,rePassword,superuser,croppedImageUrl,src} = this.state;
+    this.setState({errorNama:"",errorUsername:"",errorPassword:"",errorRepassword:""});
     var formData = new FormData();
     this.setState({uploadProgress:true,uploadDisable:true});
     if(src != null && src != "" && croppedImageUrl != ""){
@@ -273,12 +277,26 @@ class PageSekolahPendidikAdd extends React.Component{
         data: formData
     }).then(response => {                 
         if(response.data.status == true)
-        {                                
+        {                  
+          toast.success("Data "+nama+" berhasil ditambahkan");              
           this.navigate("/sekolah/pendidik");           
         }
     }).catch(error => {                   
       if(error.response.status == 400){                       
-        this.setState({uploadProgress:false,uploadDisable:false},() => toast.warn(error.response.data.message));
+        this.setState({uploadProgress:false,uploadDisable:false},() => {          
+          if(error.response.data.message["nama"]){   
+            this.setState({errorNama:error.response.data.message["nama"]}); 
+          }
+          if(error.response.data.message["username"]){   
+            this.setState({errorUsername:error.response.data.message["username"]}); 
+          }
+          if(error.response.data.message["password"]){   
+            this.setState({errorPassword:error.response.data.message["password"]}); 
+          }
+          if(error.response.data.message["rePassword"]){   
+            this.setState({errorRepassword:error.response.data.message["rePassword"]}); 
+          }
+        });
       }  
       if(error.response.status == 401){
         this.logout();

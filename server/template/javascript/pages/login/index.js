@@ -28,7 +28,7 @@ class Login extends React.Component{
   }
 
   render() {
-    const {isLogin,rememberMe,errorUsername,errorPassword} = this.state;
+    const {isLogin,username,rememberMe,errorUsername,errorPassword} = this.state;
     if(isLogin){return <Navigate to={"/aplikasi"} />;} 
     return (    
     <div className="login-page">
@@ -42,7 +42,7 @@ class Login extends React.Component{
           <h4 className="fw4" style={{fontSize:"22px",lineHeight:0}}>User & Pendidik Login</h4>
           <div className="w-100 ph3 mb2">
             <label className="f5 fw4 db mb2">Username</label>
-            <InputText name="username" onChange={this.handleInputChange} errorMessage={errorUsername} />                      
+            <InputText name="username" value={username} onChange={this.handleInputChange} errorMessage={errorUsername} />                      
           </div>
           <div className="w-100 ph3 pr3 mb3">
             <label className="f5 fw4 db mb2">Password</label>

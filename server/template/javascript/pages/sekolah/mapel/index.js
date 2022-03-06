@@ -142,7 +142,7 @@ class PageSekolahMapel extends React.Component{
           <div className="w-100 pa3">
             <label className="f5 fw4 db mb2">Mata pelajaran</label>
             <InputText name="mapel" placeholder="ketik disini" onChange={this.handleInputChange} errorMessage={errorMapel}/>
-            <label className="f5 fw4 db mb2 mt2 flex justify-between">Pilih warna <div style={{backgroundColor:color,padding:10}}/></label>
+            <label className="f5 fw4 db mb2 mt2 flex justify-between">Pilih warna <div style={{backgroundColor:color,padding:10}} className={errorColor != "" ? "error":""}/></label>
             <InputColor color={color} onChangeComplete={this.handleChangeColor} errorMessage={errorColor}/>                         
           </div>
         </AddModal>
@@ -157,7 +157,7 @@ class PageSekolahMapel extends React.Component{
           <div className="w-100 pa3">
             <label className="f5 fw4 db mb2">Mata pelajaran</label>
             <InputText value={singleData.nama} placeholder="ketik disini" onChange={this.handleEditChange} errorMessage={errorMapel}/>
-            <label className="f5 fw4 db mb2 mt2 flex justify-between">Pilih warna <div style={{backgroundColor:singleData.color,padding:10}}/></label>
+            <label className="f5 fw4 db mb2 mt2 flex justify-between">Pilih warna <div style={{backgroundColor:singleData.color,padding:10}} className={errorColor != "" ? "error":""}/></label>
             <InputColor color={singleData.color} onChangeComplete={this.handleEditColor} errorMessage={errorColor}/>                       
           </div>
         </EditModal>        

@@ -5,7 +5,7 @@ import Forbidden from "../../other/forbidden";
 import { Breadcrumb } from '../../../components/menu';
 import { InputText,InputPassword,Cards,Switcher } from '../../../components/forms';
 import {DeleteDialog} from '../../../components/dialog';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import Cropper from "react-cropper";
 
 class PageSekolahPendidikEdit extends React.Component{
@@ -29,7 +29,11 @@ class PageSekolahPendidikEdit extends React.Component{
       superuser:false,
       uploadProgress:false,
       uploadDisable:false,  
-      showHapusFoto:false,         
+      showHapusFoto:false, 
+      errorNama:"",
+      errorUsername:"",
+      errorPassword:"",
+      errorRepassword:""           
     }
     this.handleInputChange = this.handleInputChange.bind(this);  
     this.cropper = React.createRef(); 
@@ -47,7 +51,7 @@ class PageSekolahPendidikEdit extends React.Component{
 
   render() { 
     const {tokenData} = this.props;
-    const {jenis,mapelData,mapel,nama,username,superuser,isLoading,src,croppedImageUrl,errorSelect,uploadProgress,uploadDisable,rawUsername,showHapusFoto,foto} = this.state;    
+    const {jenis,mapelData,mapel,nama,username,superuser,isLoading,src,croppedImageUrl,errorSelect,uploadProgress,uploadDisable,rawUsername,showHapusFoto,foto,errorNama,errorUsername,errorPassword,errorRepassword} = this.state;    
     const uploadClass = uploadProgress ? "progress-active":"";    
     return (
     <>  
@@ -71,7 +75,7 @@ class PageSekolahPendidikEdit extends React.Component{
               <div className="w-100 mb3 flex">
                 <div className="w-70">
                   <label className="f5 fw4 db mb2">Nama lengkap</label>
-                  <InputText name="nama" value={nama} placeholder="ketik nama lengkap disini" onChange={this.handleInputChange}/>
+                  <InputText name="nama" value={nama} placeholder="ketik nama lengkap disini" onChange={this.handleInputChange} errorMessage={errorNama}/>
                 </div>
                 <div className="w-30 ml2">
                   <label className="f5 fw4 db mb2">Jenis kelamin</label>
@@ -103,7 +107,7 @@ class PageSekolahPendidikEdit extends React.Component{
               <div className="w-100 mb3 flex">
                 <div className="w-70">
                   <label className="f5 fw4 db mb2">Username</label>
-                  <InputText name="username" value={username} placeholder="ketik username yang di inginkan disini" onChange={this.handleInputChange}/>
+                  <InputText name="username" value={username} placeholder="ketik username yang di inginkan disini" onChange={this.handleInputChange} errorMessage={errorUsername}/>
                 </div>
                 <div className="w-30 ml2">
                   <label className="f5 fw4 db mb2">Superuser akses</label> 
@@ -113,11 +117,11 @@ class PageSekolahPendidikEdit extends React.Component{
               <div className="w-100 mb3 flex">
                 <div className="w-50">
                   <label className="f5 fw4 db mb2">Password (Opsional)</label>
-                  <InputPassword name="password" onChange={this.handleInputChange}/>
+                  <InputPassword name="password" onChange={this.handleInputChange} errorMessage={errorPassword}/>
                 </div>
                 <div className="w-50 ml2">
                   <label className="f5 fw4 db mb2">Ketik ulang password (Opsional)</label>
-                  <InputPassword name="rePassword" onChange={this.handleInputChange}/> 
+                  <InputPassword name="rePassword" onChange={this.handleInputChange} errorMessage={errorRepassword}/> 
                 </div>              
               </div>
               <div className="w-100 mb3">
@@ -174,8 +178,7 @@ class PageSekolahPendidikEdit extends React.Component{
           onClick={() => this.profileFotoDelete()}
         />                             
         </>
-        )}
-        <ToastContainer />
+        )}        
     </div>           
     </>
     );
@@ -294,6 +297,7 @@ class PageSekolahPendidikEdit extends React.Component{
   /*--- patch edit the user ----*/
   updateUserPendidik = () => {         
     const {nama,jenis,mapel,username,password,rePassword,superuser,croppedImageUrl,src,rawUsername} = this.state;
+    this.setState({errorNama:"",errorUsername:"",errorPassword:"",errorRepassword:""});
     var formData = new FormData();
     this.setState({uploadProgress:true,uploadDisable:true});
     if(src != null && src != "" && croppedImageUrl != ""){
@@ -318,11 +322,25 @@ class PageSekolahPendidikEdit extends React.Component{
     }).then(response => {                 
         if(response.data.status == true)
         {                       
+          toast.success("Data "+nama+" berhasil diperbarui");
           this.navigate("/sekolah/pendidik");                    
         }
     }).catch(error => {                   
       if(error.response.status == 400){                       
-        this.setState({uploadProgress:false,uploadDisable:false},() => toast.warn(error.response.data.message));
+        this.setState({uploadProgress:false,uploadDisable:false},() => {
+          if(error.response.data.message["nama"]){   
+            this.setState({errorNama:error.response.data.message["nama"]}); 
+          }
+          if(error.response.data.message["username"]){   
+            this.setState({errorUsername:error.response.data.message["username"]}); 
+          }
+          if(error.response.data.message["password"]){   
+            this.setState({errorPassword:error.response.data.message["password"]}); 
+          }
+          if(error.response.data.message["rePassword"]){   
+            this.setState({errorRepassword:error.response.data.message["rePassword"]}); 
+          }
+        });
       }  
       if(error.response.status == 401){
         this.logout();
@@ -344,6 +362,7 @@ class PageSekolahPendidikEdit extends React.Component{
     }).then(response => {
       if(response.data.status == true)
       {       
+        toast.success("Foto user "+ rawUsername +" berhasil dihapus");
         this.navigate("/sekolah/pendidik");           
       }
     }).catch(error => {

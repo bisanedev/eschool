@@ -6,7 +6,7 @@ import {Breadcrumb} from '../../../components/menu';
 import {InputSearch} from '../../../components/forms';
 import Table from "../../../components/table";
 import {DeleteDialog} from '../../../components/dialog';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 
 class PageSekolahPendidik extends React.Component{
 
@@ -130,8 +130,7 @@ class PageSekolahPendidik extends React.Component{
           onClick={this.multiDelete}
         />             
       </>      
-      )} 
-      <ToastContainer />            
+      )}              
     </div>
     );
   }
@@ -233,6 +232,7 @@ class PageSekolahPendidik extends React.Component{
     }).then(response => {
       if(response.data.status == true)
       {        
+        toast.success("Data "+ data.nama +" berhasil dihapus");
         this.setState({showSingleDelete:false},() => this.fetchData());        
       }
     }).catch(error => {
@@ -257,6 +257,7 @@ class PageSekolahPendidik extends React.Component{
     }).then(response => {
       if(response.data.status == true)
       {        
+        toast.success(selected.length +" data berhasil dihapus");
         this.setState({showDelete:false,selected:[]},() => this.fetchData());        
       }
     }).catch(error => {

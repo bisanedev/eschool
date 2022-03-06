@@ -6,7 +6,7 @@ import { Editor } from "react-draft-wysiwyg";
 import { EditorState} from 'draft-js';
 import { Breadcrumb } from '../../../../components/menu';
 import { Cards,SwitchMini} from '../../../../components/forms';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import { convertToHTML ,convertFromHTML} from 'draft-convert';
 import {encode,decode} from 'html-entities';
 import MathView from 'react-math-view';
@@ -50,7 +50,7 @@ class PageAplikasiQuizEssaySoalEdit extends React.Component{
   }
 
   render() {     
-    const {tingkatan,mapel,semester,editorState,uploadProgress,uploadDisable,mathValue,pertanyaaanImages,pertanyaaanAudio,rumusToggle} = this.state; 
+    const {tingkatan,mapel,semester,editorState,uploadProgress,uploadDisable,mathValue,pertanyaaanImages,pertanyaaanAudio,rumusToggle,errorPertanyaan} = this.state; 
     const uploadClass = uploadProgress ? "progress-active":"";     
     return (    
     <div className="konten"> 
@@ -85,6 +85,9 @@ class PageAplikasiQuizEssaySoalEdit extends React.Component{
                 }
               }}
             />
+            {errorPertanyaan != "" && (
+             <span className="pesan-error">{errorPertanyaan}</span>
+            )}
             </div>
             <div className="w-100 mb3">                
                 <div className="db mb2 flex justify-between">
@@ -135,8 +138,7 @@ class PageAplikasiQuizEssaySoalEdit extends React.Component{
             <button type="submit" className={`${uploadClass} dim pointer w-30 tc b f7 link br2 ba ph3 pv2 dib white bg-primary b--primary`} disabled={uploadDisable} onClick={this.updateSoal}>Perbarui data soal</button> 
           </div>          
           </Cards>                   
-        </div>
-        <ToastContainer />
+        </div>        
     </div>    
     );
   }
@@ -242,8 +244,8 @@ class PageAplikasiQuizEssaySoalEdit extends React.Component{
   }
   /*--- post new soal ----*/
   updateSoal = async () => {
-    const {mathValue,croppedImageUrl,editorState,srcAudio} = this.state;
-    this.setState({uploadProgress:true,uploadDisable:true});
+    const {mathValue,croppedImageUrl,editorState,srcAudio} = this.state;    
+    this.setState({uploadProgress:true,uploadDisable:true,errorPertanyaan:"",errorAudio:"",errorGambar:""});
     var formData = new FormData();
     
     if(croppedImageUrl != ""){
@@ -261,8 +263,19 @@ class PageAplikasiQuizEssaySoalEdit extends React.Component{
     }
     
     formData.append('id',this.soalID );
-    formData.append('pertanyaan_text',encode(convertToHTML(editorState.getCurrentContent())));
-    /*-- End Pilihan JSON --*/
+    /*--cek editorState variable --*/
+    const content = editorState.getCurrentContent();
+    const isEditorEmpty = !content.hasText();    
+    const lengthOfTrimmedContent = content.getPlainText().trim().length;
+    const isContainOnlySpaces = !isEditorEmpty && !lengthOfTrimmedContent;
+    if(isEditorEmpty){      
+      formData.append('pertanyaan_text',"");
+    }else if(isContainOnlySpaces){
+      formData.append('pertanyaan_text',"");
+    }else{
+      formData.append('pertanyaan_text',encode(convertToHTML(editorState.getCurrentContent())));
+    } 
+    /*-- End from variable --*/
     axios({
       method: 'post',
       url: `/api/pendidik/aplikasi/quiz/essay/${this.tingkatID}/${this.mapelID}/${this.semesterID}/update`,
@@ -273,12 +286,22 @@ class PageAplikasiQuizEssaySoalEdit extends React.Component{
     }).then(response => {                 
         if(response.data.status == true)
         {      
-          console.log("berhasil");                                    
+          toast.success("Data soal essay berhasil diperbarui");                                     
           this.navigate(-1); 
         }
     }).catch(error => {                   
-      if(error.response.status == 400){                       
-        this.setState({uploadProgress:false,uploadDisable:false},() => toast.warn(error.response.data.message));
+      if(error.response.status == 400){        
+        this.setState({uploadProgress:false,uploadDisable:false},() => {          
+          if(error.response.data.message["pertanyaan"]){   
+            this.setState({errorPertanyaan:error.response.data.message["pertanyaan"]}); 
+          }
+          if(error.response.data.message["gambar"]){   
+            this.setState({errorGambar:error.response.data.message["gambar"]}); 
+          }
+          if(error.response.data.message["audio"]){   
+            this.setState({errorAudio:error.response.data.message["audio"]}); 
+          }
+        });
       }  
       if(error.response.status == 401){
         this.logout();
@@ -291,7 +314,7 @@ class PageAplikasiQuizEssaySoalEdit extends React.Component{
   }   
   /*--- foto render --*/ 
   gambarRender = () => {
-    const {src,errorSelect,imageToggle} = this.state;
+    const {src,errorSelect,imageToggle,errorGambar} = this.state;
     return (
     <div className="w-100 mb3">         
       <div className="db mb2 flex justify-between">
@@ -322,12 +345,15 @@ class PageAplikasiQuizEssaySoalEdit extends React.Component{
       {src === null && (
         <h5 className="p-5" style={{display:"flex",alignItems:"center",justifyContent:"center"}}>{errorSelect}</h5>
       )}
+      {errorGambar != "" && (
+        <span className="pesan-error">{errorGambar}</span>
+      )}
     </div>
     );
   }
   /*--- audio render ---*/
   audioRender = () => {
-  const {srcAudio,audioToggle} = this.state;
+  const {srcAudio,audioToggle,errorAudio} = this.state;
   return (
   <div className="w-100 mb3">    
     <div className="db mb2 flex justify-between">
@@ -342,7 +368,10 @@ class PageAplikasiQuizEssaySoalEdit extends React.Component{
       </button>
     </div>
     )}
-    {srcAudio != "" && (<audio controls ref="audio_player" className="bg-primary w-100" src={srcAudio}/>)}                                 
+    {srcAudio != "" && (<audio controls ref="audio_player" className="w-100" src={srcAudio}/>)}
+    {errorAudio != "" && (
+      <span className="pesan-error">{errorAudio}</span>
+    )}
   </div> 
   );
   }

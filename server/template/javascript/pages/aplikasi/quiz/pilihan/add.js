@@ -6,7 +6,7 @@ import { Editor } from "react-draft-wysiwyg";
 import { EditorState } from 'draft-js';
 import { Breadcrumb } from '../../../../components/menu';
 import { Cards ,SwitchMini} from '../../../../components/forms';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import { convertToHTML } from 'draft-convert';
 import {encode} from 'html-entities';
 import MathView from 'react-math-view';
@@ -35,6 +35,12 @@ class PageAplikasiQuizPilihanSoalAdd extends React.Component{
       rumusToggle:false,       
       audioToggle:false,
       imageToggle:false,
+      errorPertanyaan:"",
+      errorJawaban:false,
+      errorPilihan:false,
+      errorAudio:"",
+      errorGambar:"",
+      errorFiles:false
     }
     this.handleInputChange = this.handleInputChange.bind(this);  
     this.tingkatID = this.props.params.tingkatID;
@@ -54,7 +60,7 @@ class PageAplikasiQuizPilihanSoalAdd extends React.Component{
   }
 
   render() {     
-    const {tingkatan,mapel,semester,src,srcAudio,editorState,errorSelect,uploadProgress,uploadDisable,mathValue,jawaban,pilihan,files,rumusToggle,audioToggle,imageToggle} = this.state; 
+    const {tingkatan,mapel,semester,src,srcAudio,editorState,errorSelect,uploadProgress,uploadDisable,mathValue,jawaban,pilihan,files,rumusToggle,audioToggle,imageToggle,errorPertanyaan,errorJawaban,errorPilihan,errorAudio,errorGambar,errorFiles} = this.state; 
     const uploadClass = uploadProgress ? "progress-active":"";     
     return (    
     <div className="konten"> 
@@ -81,7 +87,7 @@ class PageAplikasiQuizPilihanSoalAdd extends React.Component{
             <label className="f5 fw4 db mb2">Pertanyaan Teks</label>
             <Editor
               editorState={editorState} 
-              editorClassName="wysiwyg-editor"
+              editorClassName={"wysiwyg-editor " + (errorPertanyaan != "" ? "error":"")}
               onEditorStateChange={this.onEditorStateChange}              
               toolbar={{
                 options: ['inline', 'list','colorPicker','textAlign','emoji', 'remove', 'history'],
@@ -90,6 +96,9 @@ class PageAplikasiQuizPilihanSoalAdd extends React.Component{
                 }
               }}
             />
+            {errorPertanyaan != "" && (
+                <span className="pesan-error">{errorPertanyaan}</span>
+            )}
             </div>
             <div className="w-100 mb3">
                 <div className="db mb2 flex justify-between">
@@ -142,6 +151,9 @@ class PageAplikasiQuizPilihanSoalAdd extends React.Component{
                 {src === null && (
                   <h5 className="p-5" style={{display:"flex",alignItems:"center",justifyContent:"center"}}>{errorSelect}</h5>
                 )}
+                {errorGambar != "" && (
+                  <span className="pesan-error">{errorGambar}</span>
+                )}
             </div>
             <div className="w-100 mb3">           
                 <div className="db mb2 flex justify-between">
@@ -156,7 +168,10 @@ class PageAplikasiQuizPilihanSoalAdd extends React.Component{
                   </button>
                 </div>
                 )} 
-                {srcAudio != "" && (<audio controls ref="audio_player" className="w-100" src={srcAudio}/>)}                                 
+                {srcAudio != "" && (<audio controls ref="audio_player" className="w-100" src={srcAudio}/>)}
+                {errorAudio != "" && (
+                  <span className="pesan-error">{errorAudio}</span>
+                )}
             </div> 
           </div>                    
           <div className="flex items-center justify-center bg-near-white" style={{borderTop:"1px solid rgba(0, 0, 0, 0.125)",height:"58px"}}>            
@@ -182,12 +197,12 @@ class PageAplikasiQuizPilihanSoalAdd extends React.Component{
                 <i className="material-icons mr1" style={{fontSize:"18px"}}>calculate</i>
                 Math
               </span>
-            </div>  
+            </div> 
             {pilihan.length === 0 && 
               <div className="flex justify-center items-center pa3" style={{border:"3px dashed rgba(0, 0, 0, 0.125)",height:"125px"}}>
                 <span className="f4 gray">Jawaban pilihan ganda kosong</span>
               </div> 
-            }                
+            }                                   
             {pilihan.length > 0 && pilihan.map((row, idx) => {
             if(row.type === "text"){
               return <PilihanText 
@@ -197,7 +212,9 @@ class PageAplikasiQuizPilihanSoalAdd extends React.Component{
                 checked={jawaban.includes(idx) ? true:false}
                 onChange={(value) => this.updateValue(value, idx)} 
                 onChecked={() => this.onChecked(idx)}
-                onRemove={() => this.RemJawaban(idx)}           
+                onRemove={() => this.RemJawaban(idx)} 
+                errorCheck={errorJawaban && jawaban.length === 0 ? true:false} 
+                errorPilihan={errorPilihan && row.data === "" ? true:false}       
               />
             }           
             else if(row.type === "image"){
@@ -210,6 +227,8 @@ class PageAplikasiQuizPilihanSoalAdd extends React.Component{
                 onChange={(value) => this.updateValue(value, idx)} 
                 onChecked={() => this.onChecked(idx)}
                 onRemove={() => this.RemJawaban(idx)}
+                errorCheck={errorJawaban && jawaban.length === 0 ? true:false}
+                errorPilihan={errorPilihan && files[idx].raw === "" ? true:false}
               />
             }
             else if(row.type === "audio"){
@@ -221,7 +240,10 @@ class PageAplikasiQuizPilihanSoalAdd extends React.Component{
                 checked={jawaban.includes(idx) ? true:false}      
                 onChange={(value) => this.updateValue(value, idx)}           
                 onChecked={() => this.onChecked(idx)}
-                onRemove={() => this.RemJawaban(idx)}   
+                onRemove={() => this.RemJawaban(idx)} 
+                errorCheck={errorJawaban && jawaban.length === 0 ? true:false}
+                errorPilihan={errorPilihan && files[idx].raw === "" ? true:false}  
+                errorFile={errorFiles}
               />
             }
             else if(row.type === "math"){
@@ -232,13 +254,14 @@ class PageAplikasiQuizPilihanSoalAdd extends React.Component{
                 checked={jawaban.includes(idx) ? true:false}
                 onChange={(value) => this.updateValue(value, idx)}                       
                 onChecked={() => this.onChecked(idx)}
-                onRemove={() => this.RemJawaban(idx)}   
+                onRemove={() => this.RemJawaban(idx)} 
+                errorCheck={errorJawaban && jawaban.length === 0 ? true:false} 
+                errorPilihan={errorPilihan && row.data === "" ? true:false} 
               />
             }
             })}
           </div>
-        </div>
-        <ToastContainer />
+        </div>        
     </div>    
     );
   }
@@ -445,7 +468,7 @@ class PageAplikasiQuizPilihanSoalAdd extends React.Component{
   /*--- post new soal ----*/
   newSoal = async () => {
     const {croppedImageUrl,editorState,srcAudio,pilihan,files,jawaban,mathValue} = this.state;
-    this.setState({uploadProgress:true,uploadDisable:true});
+    this.setState({uploadProgress:true,uploadDisable:true,errorPertanyaan:"",errorJawaban:false,errorPilihan:false,errorAudio:"",errorGambar:"",errorFiles:false});
     var formData = new FormData();
     
     if(croppedImageUrl != ""){
@@ -466,11 +489,24 @@ class PageAplikasiQuizPilihanSoalAdd extends React.Component{
     formData.append('jawaban',jawabanJSON);
    
     formData.append('pertanyaan_text',encode(convertToHTML(editorState.getCurrentContent())));
+    /*--cek editorState if empty --*/
+    const content = editorState.getCurrentContent();
+    const isEditorEmpty = !content.hasText();    
+    const lengthOfTrimmedContent = content.getPlainText().trim().length;
+    const isContainOnlySpaces = !isEditorEmpty && !lengthOfTrimmedContent;
+    if(isEditorEmpty){      
+      this.setState({uploadProgress:false,uploadDisable:false,errorPertanyaan:"Input pertanyaan kosong"}); 
+      return false;
+    }
+    if(isContainOnlySpaces){
+      this.setState({uploadProgress:false,uploadDisable:false,errorPertanyaan:"Input pertanyaan kosong hanya ber-isi spasi"}); 
+      return false;
+    }  
     /*--loop check if empty --*/
     for (var key in pilihan) {
       if (pilihan.hasOwnProperty(key)) {        
-        if(pilihan[key].data === ""){
-          this.setState({uploadProgress:false,uploadDisable:false},() => toast.warn("Periksa file jawaban ada yang kosong !!"));          
+        if(pilihan[key].data === ""){           
+          this.setState({uploadProgress:false,uploadDisable:false,errorPilihan:true},() => toast.error("Silahkan periksa kembali jawaban input text / file kosong !"));
           return false;
         }
       }
@@ -498,12 +534,31 @@ class PageAplikasiQuizPilihanSoalAdd extends React.Component{
     }).then(response => {                 
         if(response.data.status == true)
         {      
-          console.log("berhasil");                                    
+          toast.success("Data soal pilihan ganda berhasil ditambahkan");                                      
           this.navigate(-1); 
         }
     }).catch(error => {                   
       if(error.response.status == 400){                       
-        this.setState({uploadProgress:false,uploadDisable:false},() => toast.warn(error.response.data.message));
+        this.setState({uploadProgress:false,uploadDisable:false},() => {
+          if(error.response.data.message["pertanyaan"]){   
+            this.setState({errorPertanyaan:error.response.data.message["pertanyaan"]}); 
+          }
+          if(error.response.data.message["jawaban"]){              
+            this.setState({errorJawaban:true},() => toast.error(error.response.data.message["jawaban"])); 
+          }
+          if(error.response.data.message["pilihan"]){               
+            this.setState({errorPilihan:true},() => toast.error(error.response.data.message["pilihan"])); 
+          }
+          if(error.response.data.message["gambar"]){   
+            this.setState({errorGambar:error.response.data.message["gambar"]}); 
+          }
+          if(error.response.data.message["audio"]){   
+            this.setState({errorAudio:error.response.data.message["audio"]}); 
+          }
+          if(error.response.data.message["files"]){   
+            this.setState({errorFiles:true},() => toast.error(error.response.data.message["files"])); 
+          }
+        });
       }  
       if(error.response.status == 401){
         this.logout();

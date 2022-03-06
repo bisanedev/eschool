@@ -180,24 +180,35 @@ class QuizController extends ApiController
     {
         $v = new Validator($_POST);
         $v->rule('required', ['pertanyaan_text','jawaban','pilihan']);
-        if($v->validate()) { 
+        if($v->validate()) {             
+            // filter pilihan minimal 2
+            $jumlahPilihan = json_decode($_POST['pilihan'], true);
+            if (count($jumlahPilihan) < 2){
+                $data = array("pilihan" => "Minimal 2 butir jawaban");
+                echo $this->response->json_response(400, $data);
+                exit;
+            }
             // filter file size
             if (isset($_FILES["pertanyaan_audio"]) && $_FILES["pertanyaan_audio"]["size"] > 2000000) {
-                echo $this->response->json_response(400, "Ukuran pertanyaan audio melebihi 2MB");
+                $data = array("audio" => "Ukuran pertanyaan audio melebihi 2MB");              
+                echo $this->response->json_response(400, $data);                
                 exit;      
             } 
             $allowedAudio = array("audio/mp3","audio/mpeg");            
             if(isset($_FILES["pertanyaan_audio"]) && !in_array($_FILES['pertanyaan_audio']['type'],$allowedAudio)) {
-                echo $this->response->json_response(400,"Pertanyaan audio hanya file audio/mp3 yang bisa di upload");
+                $data = array("audio" => "Pertanyaan audio hanya file audio/mp3 yang bisa di upload");              
+                echo $this->response->json_response(400, $data);                
                 exit;
             }
-            if (isset($_FILES["pertanyaan_images"]) && $_FILES["pertanyaan_images"]["size"] > 2000000) {
-                echo $this->response->json_response(400, "Ukuran pertanyaan gambar melebihi 2MB");
+            if (isset($_FILES["pertanyaan_images"]) && $_FILES["pertanyaan_images"]["size"] > 2000000) {                
+                $data = array("gambar" => "Ukuran pertanyaan gambar melebihi 2MB");              
+                echo $this->response->json_response(400, $data);
                 exit;      
             }
             $allowedImages = array("image/jpeg","image/png");
-            if(isset($_FILES["pertanyaan_images"]) && !in_array($_FILES['pertanyaan_images']['type'],$allowedImages )) {
-                echo $this->response->json_response(400, "Pertanyaan gambar hanya file png, jpeg dan jpg yang bisa di upload");
+            if(isset($_FILES["pertanyaan_images"]) && !in_array($_FILES['pertanyaan_images']['type'],$allowedImages )) {                
+                $data = array("gambar" => "Pertanyaan gambar hanya file png, jpeg dan jpg yang bisa di upload");              
+                echo $this->response->json_response(400, $data);
                 exit;
             }
             
@@ -206,8 +217,9 @@ class QuizController extends ApiController
                 $isMulti    = is_array($_FILES["files"]);                
                 $countfiles = $isMulti?count($_FILES["files"]):1;                                                           
                 for($i=0;$i<$countfiles;$i++){                                     
-                    if ($_FILES["files"]["size"][$i] > 2000000) {
-                        echo $this->response->json_response(400,"Ukuran data jawaban melebihi 2MB");
+                    if ($_FILES["files"]["size"][$i] > 2000000) {                                           
+                        $data = array("files" => "Ukuran data file jawaban ada yang melebihi 2MB");
+                        echo $this->response->json_response(400, $data);
                         exit;      
                     }       
                 }
@@ -245,22 +257,23 @@ class QuizController extends ApiController
                     $fileType = $_FILES["files"]["type"][$i];
                     if($fileType === "image/jpeg" || $fileType === "image/png" || $fileType === "audio/mp3"){
                         move_uploaded_file($_FILES['files']['tmp_name'][$i],$location."/".$filename);  
-                    }                  
-                                      
+                    }                                      
                 }
             }
             //berhasil
             echo $this->response->json_response(200, "berhasil");
         }else{
-            if($v->errors('pertanyaan_text')){
-                echo $this->response->json_response(400,"Input pertanyaan text kosong"); 
-            } 
-            elseif($v->errors('jawaban')){
-                echo $this->response->json_response(400,"Input jawaban kosong"); 
-            }  
-            elseif($v->errors('pilihan')){
-                echo $this->response->json_response(400,"Input pilihan kosong"); 
-            }                        
+            $data = array();
+            if($v->errors("pertanyaan_text")){
+                $data["pertanyaan"] = "Input pertanyaan text kosong";                 
+            }
+            if($v->errors("jawaban")){
+                $data["jawaban"] = "Silahkan centang jawaban pilih anda";                 
+            }
+            if($v->errors("pilihan")){
+                $data["pilihan"] = "Pilihan ganda kosong !";                 
+            }
+            echo $this->response->json_response(400, $data);
         }        
     }
 
@@ -279,23 +292,34 @@ class QuizController extends ApiController
         $v = new Validator($_POST);
         $v->rule('required', ['id','pertanyaan_text','jawaban','pilihan']);
         if($v->validate()) {
+            // filter pilihan minimal 2
+            $jumlahPilihan = json_decode($_POST['pilihan'], true);
+            if (count($jumlahPilihan) < 2){
+                $data = array("pilihan" => "Minimal 2 butir jawaban");
+                echo $this->response->json_response(400, $data);
+                exit;
+            }
             // filter file size
             if (isset($_FILES["pertanyaan_audio"]) && $_FILES["pertanyaan_audio"]["size"] > 2000000) {
-                echo $this->response->json_response(400, "Ukuran pertanyaan audio melebihi 2MB");
+                $data = array("audio" => "Ukuran pertanyaan audio melebihi 2MB");              
+                echo $this->response->json_response(400, $data);                
                 exit;      
             } 
             $allowedAudio = array("audio/mp3","audio/mpeg");            
-            if(isset($_FILES["pertanyaan_audio"]) && !in_array($_FILES['pertanyaan_audio']['type'],$allowedAudio)) {
-                echo $this->response->json_response(400,"Pertanyaan audio hanya file audio/mp3 yang bisa di upload");
+            if(isset($_FILES["pertanyaan_audio"]) && !in_array($_FILES['pertanyaan_audio']['type'],$allowedAudio)) {                
+                $data = array("audio" => "Pertanyaan audio hanya file audio/mp3 yang bisa di upload");              
+                echo $this->response->json_response(400, $data);
                 exit;
             }
-            if (isset($_FILES["pertanyaan_images"]) && $_FILES["pertanyaan_images"]["size"] > 2000000) {
-                echo $this->response->json_response(400, "Ukuran pertanyaan gambar melebihi 2MB");
+            if (isset($_FILES["pertanyaan_images"]) && $_FILES["pertanyaan_images"]["size"] > 2000000) {                
+                $data = array("gambar" => "Ukuran pertanyaan gambar melebihi 2MB");              
+                echo $this->response->json_response(400, $data);
                 exit;      
             }
             $allowedImages = array("image/jpeg","image/png");
-            if(isset($_FILES["pertanyaan_images"]) && !in_array($_FILES['pertanyaan_images']['type'],$allowedImages )) {
-                echo $this->response->json_response(400, "Pertanyaan gambar hanya file png, jpeg dan jpg yang bisa di upload");
+            if(isset($_FILES["pertanyaan_images"]) && !in_array($_FILES['pertanyaan_images']['type'],$allowedImages )) {                
+                $data = array("gambar" => "Pertanyaan gambar hanya file png, jpeg dan jpg yang bisa di upload");              
+                echo $this->response->json_response(400, $data);
                 exit;
             }
             
@@ -304,8 +328,9 @@ class QuizController extends ApiController
                 $isMulti    = is_array($_FILES["files"]);                
                 $countfiles = $isMulti?count($_FILES["files"]):1;                                                           
                 for($i=0;$i<$countfiles;$i++){                                     
-                    if ($_FILES["files"]["size"][$i] > 2000000) {
-                        echo $this->response->json_response(400,"Ukuran data jawaban melebihi 2MB");
+                    if ($_FILES["files"]["size"][$i] > 2000000) {                                                
+                        $data = array("files" => "Ukuran data file jawaban ada yang melebihi 2MB");
+                        echo $this->response->json_response(400, $data);
                         exit;      
                     }       
                 }
@@ -349,18 +374,20 @@ class QuizController extends ApiController
             //berhasil
             echo $this->response->json_response(200, "berhasil");
         }else{
-            if($v->errors('pertanyaan_text')){
-                echo $this->response->json_response(400,"Input pertanyaan text kosong"); 
-            } 
-            elseif($v->errors('jawaban')){
-                echo $this->response->json_response(400,"Input jawaban kosong"); 
-            }  
-            elseif($v->errors('id')){
-                echo $this->response->json_response(400,"Input id kosong"); 
-            }  
-            elseif($v->errors('pilihan')){
-                echo $this->response->json_response(400,"Input pilihan kosong"); 
-            }   
+            $data = array();
+            if($v->errors("id")){
+                $data["id"] = "Input id kosong";                 
+            }            
+            if($v->errors("pertanyaan_text")){
+                $data["pertanyaan"] = "Input pertanyaan text kosong";                 
+            }
+            if($v->errors("jawaban")){
+                $data["jawaban"] = "Silahkan centang jawaban pilih anda";                 
+            }
+            if($v->errors("pilihan")){
+                $data["pilihan"] = "Pilihan ganda kosong !";                 
+            }            
+            echo $this->response->json_response(400, $data);  
         }
     }
 

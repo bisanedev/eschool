@@ -12,11 +12,11 @@ function PilihanText(props) {
     }
 
     return (
-    <div className="flex flex-column w-100 mb3" style={{border:"1px solid rgba(0, 0, 0, 0.125)"}}>
+    <div className={"flex flex-column w-100 mb3 " + (props.errorPilihan ? "error":"")} style={{border:"1px solid rgba(0, 0, 0, 0.125)"}}>
         <div className="flex justify-between items-center bg-white">
             <label className="checkbox-container ml1">&nbsp;
                 <input type="checkbox" checked={checked} onChange={onChecked}/>
-                <span className="checkmark"></span>
+                <span className={"checkmark " + (props.errorCheck ? "error":"")}></span>
             </label>
             <span>Jawaban Teks</span>
             {disRem ? 

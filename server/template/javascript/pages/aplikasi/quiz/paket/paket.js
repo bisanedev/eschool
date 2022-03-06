@@ -5,7 +5,7 @@ import {Breadcrumb} from '../../../../components/menu';
 import {InputSearch} from '../../../../components/forms';
 import Table from "../../../../components/table";
 import {DeleteDialog} from '../../../../components/dialog';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 
 class PageAplikasiQuizPaketSoal extends React.Component{
 
@@ -65,7 +65,7 @@ class PageAplikasiQuizPaketSoal extends React.Component{
         <Table>
           <Table.Header>
             <div className="w-50 ph2">
-              <a href={`#/aplikasi/quiz/paket/${this.tingkatID}/${this.mapelID}/${this.semesterID}/add`} style={{borderColor:"#0191d7"}} className="pointer link dim br1 ba pa2 dib white bg-primary" onClick={() => this.setState({showAdd:true})}>                
+              <a href={`#/aplikasi/quiz/paket/${this.tingkatID}/${this.mapelID}/${this.semesterID}/add`} className="pointer link dim br1 ba pa2 dib white bg-primary b--primary" onClick={() => this.setState({showAdd:true})}>                
                 <i className="material-icons-outlined" style={{fontSize:"20px"}}>add</i>
               </a>
             </div>
@@ -133,9 +133,8 @@ class PageAplikasiQuizPaketSoal extends React.Component{
         <DeleteDialog show={showSingleDelete} 
           title="Hapus" subtitle={"Yakin hapus data "+singleData.nama+" ??"} 
           close={() => this.setState({showSingleDelete:false})}        
-          onClick={() => this.singleDelete(singleData.id)}
-        />           
-      <ToastContainer />        
+          onClick={() => this.singleDelete(singleData)}
+        />            
     </div>
     );
   }
@@ -232,9 +231,9 @@ class PageAplikasiQuizPaketSoal extends React.Component{
     this.setState({showSingleDelete:true,singleData:data})
   }
   
-  singleDelete = (id) => {    
+  singleDelete = (data) => {    
     var formData = new FormData();
-    formData.append('delete', id);    
+    formData.append('delete', data.id);    
     axios({
       method: 'delete',
       url: window.location.origin +'/api/pendidik/aplikasi/quiz/paket',
@@ -242,6 +241,7 @@ class PageAplikasiQuizPaketSoal extends React.Component{
     }).then(response => {
       if(response.data.status == true)
       {        
+        toast.success("Data "+ data.nama +" berhasil dihapus");
         this.setState({showSingleDelete:false},() => this.fetchData(this.tingkatID,this.mapelID,this.semesterID));        
       }
     }).catch(error => {
@@ -265,6 +265,7 @@ class PageAplikasiQuizPaketSoal extends React.Component{
     }).then(response => {
       if(response.data.status == true)
       {        
+        toast.success(selected.length +" data berhasil dihapus");
         this.setState({showDelete:false,selected:[]},() => this.fetchData(this.tingkatID,this.mapelID,this.semesterID));        
       }
     }).catch(error => {

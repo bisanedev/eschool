@@ -4,7 +4,7 @@ import Tab from "./tab";
 
 class Tabs extends Component {
   static propTypes = {
-    children: PropTypes.instanceOf(Array).isRequired,
+    children: PropTypes.instanceOf(Array).isRequired
   };
 
   constructor(props) {
@@ -30,13 +30,14 @@ class Tabs extends Component {
       <div className="tabs">
         <ol className="tab-list">
           {children.map((child) => {
-            const { label } = child.props;
+            const { label,isError } = child.props;
 
             return (
               <Tab
                 activeTab={activeTab}
                 key={label}
                 label={label}
+                isError={isError}                
                 onClick={onClickTabItem}
               />
             );

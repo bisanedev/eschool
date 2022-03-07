@@ -6,7 +6,7 @@ import { SwitchMini,InputText,InputNumber,InputSearch } from "../../../../compon
 import Tabs from "../../../../components/tabs";
 import Pagination from "../../../../components/table/pagination";
 import { DropdownList } from 'react-widgets';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import SoalItem from "./soalItem";
 import SoalSelected from "./soalSelected";
 
@@ -37,7 +37,13 @@ class PageAplikasiQuizPaketSoalEdit extends React.Component{
           cariEssay:undefined,          
           totalDataEssay:undefined,
           currPageEssay:undefined,
-          pagesEssay:1
+          pagesEssay:1,
+          errorNama:"",
+          errorBobotpilihan:"",
+          errorBobotessay:"",
+          errorBobot:"",
+          errorPaketpilihan:false,
+          errorPaketessay:false
       } 
 
       this.handleInputChange = this.handleInputChange.bind(this);   
@@ -58,7 +64,7 @@ class PageAplikasiQuizPaketSoalEdit extends React.Component{
 
     
   render() {     
-    const {uploadProgress,uploadDisable,tingkatan,nama,acak,mapel,semester,bobotPilihan,bobotEssay,paketPilihan,paketEssay,dataPilihan,dataEssay,semesterPickPilihan,semesterPickEssay,semesterData,cariPilihan,cariEssay,totalDataPilihan,totalDataEssay,pagesPilihan,currPagePilihan,pagesEssay,currPageEssay} = this.state; 
+    const {uploadProgress,uploadDisable,tingkatan,nama,acak,mapel,semester,bobotPilihan,bobotEssay,paketPilihan,paketEssay,dataPilihan,dataEssay,semesterPickPilihan,semesterPickEssay,semesterData,cariPilihan,cariEssay,totalDataPilihan,totalDataEssay,pagesPilihan,currPagePilihan,pagesEssay,currPageEssay,errorNama,errorBobot,errorBobotpilihan,errorBobotessay,errorPaketpilihan,errorPaketessay} = this.state; 
     const uploadClass = uploadProgress ? "progress-active":""; 
     const totalBobot = parseInt(bobotPilihan)+parseInt(bobotEssay);    
     return (  
@@ -94,7 +100,7 @@ class PageAplikasiQuizPaketSoalEdit extends React.Component{
         <div className="w-50 pa3">
           <div className="w-100 mb3">
             <label className="f5 fw4 db mb2">Nama paket soal</label>
-            <InputText name="nama" value={nama} placeholder="ketik nama paket soal disini" onChange={this.handleInputChange} />
+            <InputText name="nama" value={nama} placeholder="ketik nama paket soal disini" onChange={this.handleInputChange} errorMessage={errorNama}/>
           </div>
         </div>
         <div className="w-50 pa3">
@@ -102,17 +108,20 @@ class PageAplikasiQuizPaketSoalEdit extends React.Component{
             <label className="f5 fw4 db mb2">Bobot nilai (total bobot nilai pilihan ganda + essay = wajib 100)</label>
             <div className="flex">
             <div className="w-30">
-              <InputNumber name="bobotPilihan" value={bobotPilihan} placeholder="pilihan ganda" onChange={this.handleChangePilihan} />
+              <InputNumber name="bobotPilihan" value={bobotPilihan} placeholder="pilihan ganda" onChange={this.handleChangePilihan} errorMessage={errorBobotpilihan}/>
             </div>
             <div className="w-10 f3 flex items-center justify-center">+</div>
             <div className="w-30">
-              <InputNumber name="bobotEssay" value={bobotEssay} placeholder="essay" onChange={this.handleChangeEssay} />
+              <InputNumber name="bobotEssay" value={bobotEssay} placeholder="essay" onChange={this.handleChangeEssay} errorMessage={errorBobotessay}/>
             </div> 
             <div className="w-10 f3 flex items-center justify-center">=</div>
             <div className="w-20">
               <InputText value={isNaN(totalBobot) ? 0:totalBobot } readonly={true} style={{cursor:"not-allowed"}}/>
             </div>
-            </div>      
+            </div>
+            {errorBobot != "" && (
+              <span className="pesan-error">{errorBobot}</span>
+            )}      
           </div>
         </div>
         </div>
@@ -151,8 +160,8 @@ class PageAplikasiQuizPaketSoalEdit extends React.Component{
             </div>
           </div>
           <div className="w-60">
-          <Tabs>
-            <div label="Pilihan ganda">
+          <Tabs>            
+            <div label="Pilihan ganda" isError={errorPaketpilihan}>
             {parseInt(bobotPilihan) === 0 || bobotPilihan === "" ? (
                 <div className="flex justify-center items-center flex-column" style={{border:"3px dashed rgba(0, 0, 0, 0.125)",margin:10,width:"97%",height:"97%"}}>                  
                   <span className="f3 gray">Silahkan isi bobot soal pilihan ganda pada menu diatas</span>
@@ -202,8 +211,8 @@ class PageAplikasiQuizPaketSoalEdit extends React.Component{
               </div>
               </>
             )}                            
-            </div>
-            <div label="Essay">
+            </div>            
+            <div label="Essay" isError={errorPaketessay}>
             {parseInt(bobotEssay) === 0 || bobotEssay === "" ? (
                 <div className="flex justify-center items-center flex-column" style={{border:"3px dashed rgba(0, 0, 0, 0.125)",margin:10,width:"97%",height:"97%"}}>
                   <span className="f3 gray">Silahkan isi bobot nilai soal essay pada menu diatas</span>
@@ -260,8 +269,7 @@ class PageAplikasiQuizPaketSoalEdit extends React.Component{
         <div className="flex items-center justify-center bg-near-white mb3" style={{border:"1px solid rgba(0, 0, 0, 0.125)",height:"58px"}}>            
             <button type="submit" className={`${uploadClass} dim pointer w-30 tc b f7 link br2 ba ph3 pv2 dib white bg-primary b--primary`} disabled={uploadDisable} onClick={this.updatePaket}>Perbarui paket soal</button> 
         </div>
-        </div>
-        <ToastContainer />
+        </div>        
     </div>
     );
   }
@@ -451,19 +459,19 @@ class PageAplikasiQuizPaketSoalEdit extends React.Component{
   /*--- post data ---*/
   updatePaket = () => {
     const {id,nama,acak,bobotPilihan,bobotEssay,paketPilihan,paketEssay} = this.state;    
-    this.setState({uploadProgress:true,uploadDisable:true});  
+    this.setState({uploadProgress:true,uploadDisable:true,errorNama:"",errorBobotpilihan:"",errorBobotessay:"",errorBobot:"",errorPaketpilihan:false,errorPaketessay:false});
     var formData = new FormData();
     var jumlah = parseInt(bobotEssay === "" ? 0:bobotEssay,10) + parseInt(bobotPilihan === "" ? 0:bobotPilihan,10);
     if(jumlah > 100 || 100 > jumlah){      
-      this.setState({uploadProgress:false,uploadDisable:false},() => toast.warn("Kedua bobot tidak boleh melebihi atau kurang dari 100"));
+      this.setState({uploadProgress:false,uploadDisable:false,errorBobot:"Kedua bobot tidak boleh melebihi atau kurang dari 100"});
       return false;
     }
     if(paketPilihan.length > 0 && parseInt(bobotPilihan) === 0){
-      this.setState({uploadProgress:false,uploadDisable:false},() => toast.warn("Bobot soal pilihan ganda wajib di isi"));
+      this.setState({uploadProgress:false,uploadDisable:false,errorBobotpilihan:"Bobot soal ini wajib di isi"});
       return false;
     }
     if(paketEssay.length > 0 && parseInt(bobotEssay) === 0){
-      this.setState({uploadProgress:false,uploadDisable:false},() => toast.warn("Bobot soal essay wajib di isi"));
+      this.setState({uploadProgress:false,uploadDisable:false,errorBobotessay:"Bobot soal ini wajib di isi"});
       return false;
     }
     formData.append('id',id);
@@ -480,12 +488,20 @@ class PageAplikasiQuizPaketSoalEdit extends React.Component{
     }).then(response => {                 
         if(response.data.status == true)
         {      
-          console.log("berhasil");                                    
+          toast.success("Data paket soal berhasil diperbarui");                                     
           this.navigate(-1); 
         }
     }).catch(error => {                   
       if(error.response.status == 400){                       
-        this.setState({uploadProgress:false,uploadDisable:false},() => toast.warn(error.response.data.message));
+        if(error.response.data.message["nama"]){   
+          this.setState({uploadProgress:false,uploadDisable:false,errorNama:error.response.data.message["nama"]}); 
+        }
+        if(error.response.data.message["paket_pilihan"]){   
+          this.setState({uploadProgress:false,uploadDisable:false,errorPaketpilihan:true},() => toast.error(error.response.data.message["paket_pilihan"])); 
+        }
+        if(error.response.data.message["paket_essay"]){   
+          this.setState({uploadProgress:false,uploadDisable:false,errorPaketessay:true},() => toast.error(error.response.data.message["paket_essay"])); 
+        }
       }  
       if(error.response.status == 401){
         this.logout();

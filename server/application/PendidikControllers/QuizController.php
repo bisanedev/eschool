@@ -637,29 +637,44 @@ class QuizController extends ApiController
         $v = new Validator($_POST);
         $v->rule('required', ['nama','acak','bobot_pilihan','bobot_essay','paket_pilihan','paket_essay']);
         if($v->validate()) {
+            
             $pilihanTerpilih = $this->objectSoalToArray(json_decode($_POST["paket_pilihan"],true));
             $essayTerpilih = $this->objectSoalToArray(json_decode($_POST["paket_essay"],true));
+            // filter paket jika kosong
+            if (count(json_decode($_POST["paket_pilihan"],true)) === 0 && $_POST["bobot_pilihan"] != "0") {                
+                $data = array("paket_pilihan" => "Paket soal pilihan ganda kosong");              
+                echo $this->response->json_response(400, $data);
+                exit;      
+            }
+            if (count(json_decode($_POST["paket_essay"],true)) === 0 && $_POST["bobot_essay"] != "0") {                
+                $data = array("paket_essay" => "Paket soal essay kosong");              
+                echo $this->response->json_response(400, $data);
+                exit;      
+            }
+            //insert database
             $this->database->insert("quiz_paketsoal",["tingkatan_id" => $tingkatID,"mapel_id" => $mapelID,"semester_id" => $semesterID,"nama" => $_POST["nama"],"acak_soal" => $_POST["acak"],"bobot_pilihan" => $_POST["bobot_pilihan"],"bobot_essay" => $_POST["bobot_essay"],"pilihan_terpilih" =>  json_encode($pilihanTerpilih),"essay_terpilih" => json_encode($essayTerpilih)]);
             echo $this->response->json_response(200,"berhasil");
         }else{
-            if($v->errors('nama')){
-                echo $this->response->json_response(400,"Input nama paket kosong"); 
+            $data = array();                
+            if($v->errors("nama")){
+                $data["nama"] = "Input nama paket kosong";                 
+            }              
+            if($v->errors("acak")){
+                $data["acak"] = "Input acak kosong";                 
+            }
+            if($v->errors("bobot_pilihan")){
+                $data["bobot_pilihan"] = "Input bobot pilihan kosong";                 
+            }
+            if($v->errors("bobot_essay")){
+                $data["bobot_essay"] = "Input bobot essay kosong";                 
             } 
-            elseif($v->errors('acak')){
-                echo $this->response->json_response(400,"Input acak kosong"); 
-            }  
-            elseif($v->errors('bobot_pilihan')){
-                echo $this->response->json_response(400,"Input bobot pilihan kosong"); 
+            if($v->errors("paket_pilihan")){
+                $data["paket_pilihan"] = "Silahkan seleksi soal pilihan ganda";                 
             }
-            elseif($v->errors('bobot_essay')){
-                echo $this->response->json_response(400,"Input bobot essay kosong"); 
+            if($v->errors("paket_essay")){
+                $data["paket_essay"] = "Silahkan seleksi soal essay";                 
             }
-            elseif($v->errors('paket_pilihan')){
-                echo $this->response->json_response(400,"Input paket pilihan kosong"); 
-            }
-            elseif($v->errors('paket_essay')){
-                echo $this->response->json_response(400,"Input paket essay kosong"); 
-            }            
+            echo $this->response->json_response(400, $data);
         }
     }
 
@@ -683,30 +698,44 @@ class QuizController extends ApiController
         if($v->validate()) {
             $pilihanTerpilih = $this->objectSoalToArray(json_decode($_PATCH["paket_pilihan"],true));
             $essayTerpilih = $this->objectSoalToArray(json_decode($_PATCH["paket_essay"],true));
+            // filter paket jika kosong            
+            if (count(json_decode($_PATCH["paket_pilihan"],true)) === 0 && $_PATCH["bobot_pilihan"] != "0") {                
+                $data = array("paket_pilihan" => "Paket soal pilihan ganda kosong");              
+                echo $this->response->json_response(400, $data);
+                exit;      
+            }
+            if (count(json_decode($_PATCH["paket_essay"],true)) === 0 && $_PATCH["bobot_essay"] != "0") {                
+                $data = array("paket_essay" => "Paket soal essay kosong");              
+                echo $this->response->json_response(400, $data);
+                exit;      
+            }
+            //update database
             $this->database->update("quiz_paketsoal",["nama" => $_PATCH["nama"],"acak_soal" => $_PATCH["acak"],"bobot_pilihan" => $_PATCH["bobot_pilihan"],"bobot_essay" => $_PATCH["bobot_essay"],"pilihan_terpilih" =>  json_encode($pilihanTerpilih),"essay_terpilih" => json_encode($essayTerpilih)],["AND" =>["id" => $_PATCH["id"],"tingkatan_id" => $tingkatID,"mapel_id" => $mapelID,"semester_id" => $semesterID]]);                       
             echo $this->response->json_response(200,"berhasil");            
         }else{
-            if($v->errors('nama')){
-                echo $this->response->json_response(400,"Input nama paket kosong"); 
-            } 
-            elseif($v->errors('id')){
-                echo $this->response->json_response(400,"Input id kosong"); 
-            }
-            elseif($v->errors('acak')){
-                echo $this->response->json_response(400,"Input acak kosong"); 
-            }  
-            elseif($v->errors('bobot_pilihan')){
-                echo $this->response->json_response(400,"Input bobot pilihan kosong"); 
-            }
-            elseif($v->errors('bobot_essay')){
-                echo $this->response->json_response(400,"Input bobot essay kosong"); 
-            }
-            elseif($v->errors('paket_pilihan')){
-                echo $this->response->json_response(400,"Input paket pilihan kosong"); 
-            }
-            elseif($v->errors('paket_essay')){
-                echo $this->response->json_response(400,"Input paket essay kosong"); 
+            $data = array();
+            if($v->errors("id")){
+                $data["id"] = "Input id kosong";                 
             }            
+            if($v->errors("nama")){
+                $data["nama"] = "Input nama paket kosong";                 
+            }              
+            if($v->errors("acak")){
+                $data["acak"] = "Input acak kosong";                 
+            }
+            if($v->errors("bobot_pilihan")){
+                $data["bobot_pilihan"] = "Input bobot pilihan kosong";                 
+            }
+            if($v->errors("bobot_essay")){
+                $data["bobot_essay"] = "Input bobot essay kosong";                 
+            } 
+            if($v->errors("paket_pilihan")){
+                $data["paket_pilihan"] = "Silahkan seleksi soal pilihan ganda";                 
+            }
+            if($v->errors("paket_essay")){
+                $data["paket_essay"] = "Silahkan seleksi soal essay";                 
+            }
+            echo $this->response->json_response(400, $data);           
         }
     }
 

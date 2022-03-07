@@ -5,6 +5,7 @@ class Tab extends Component {
   static propTypes = {
     activeTab: PropTypes.string.isRequired,
     label: PropTypes.string.isRequired,
+    isError: PropTypes.bool,    
     onClick: PropTypes.func.isRequired,
   };
 
@@ -16,10 +17,10 @@ class Tab extends Component {
   render() {
     const {
       onClick,
-      props: { activeTab, label },
+      props: { activeTab, label ,isError },
     } = this;
 
-    let className = "tab-list-item pa3";
+    let className = isError ? "tab-list-item pa3 error":"tab-list-item pa3";
 
     if (activeTab === label) {
       className += " tab-list-active";

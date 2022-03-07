@@ -485,6 +485,12 @@ class PageAplikasiQuizPaketSoalAdd extends React.Component{
         if(error.response.data.message["nama"]){   
           this.setState({uploadProgress:false,uploadDisable:false,errorNama:error.response.data.message["nama"]}); 
         }
+        if(error.response.data.message["bobot_pilihan"]){   
+          this.setState({uploadProgress:false,uploadDisable:false,errorBobotpilihan:error.response.data.message["bobot_pilihan"]}); 
+        }
+        if(error.response.data.message["bobot_essay"]){   
+          this.setState({uploadProgress:false,uploadDisable:false,errorBobotessay:error.response.data.message["bobot_essay"]}); 
+        }
         if(error.response.data.message["paket_pilihan"]){   
           this.setState({uploadProgress:false,uploadDisable:false,errorPaketpilihan:true},() => toast.error(error.response.data.message["paket_pilihan"])); 
         }

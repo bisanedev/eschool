@@ -642,12 +642,12 @@ class QuizController extends ApiController
             $essayTerpilih = $this->objectSoalToArray(json_decode($_POST["paket_essay"],true));
             // filter paket jika kosong
             if (count(json_decode($_POST["paket_pilihan"],true)) === 0 && $_POST["bobot_pilihan"] != "0") {                
-                $data = array("paket_pilihan" => "Paket soal pilihan ganda kosong");              
+                $data = array("paket_pilihan" => "Paket kosong, silahkan seleksi soal pilihan ganda");              
                 echo $this->response->json_response(400, $data);
                 exit;      
             }
             if (count(json_decode($_POST["paket_essay"],true)) === 0 && $_POST["bobot_essay"] != "0") {                
-                $data = array("paket_essay" => "Paket soal essay kosong");              
+                $data = array("paket_essay" => "Paket kosong, silahkan seleksi soal essay");              
                 echo $this->response->json_response(400, $data);
                 exit;      
             }
@@ -669,10 +669,10 @@ class QuizController extends ApiController
                 $data["bobot_essay"] = "Input bobot essay kosong";                 
             } 
             if($v->errors("paket_pilihan")){
-                $data["paket_pilihan"] = "Silahkan seleksi soal pilihan ganda";                 
+                $data["paket_pilihan"] = "Paket kosong, silahkan seleksi soal pilihan ganda";                 
             }
             if($v->errors("paket_essay")){
-                $data["paket_essay"] = "Silahkan seleksi soal essay";                 
+                $data["paket_essay"] = "Paket kosong, silahkan seleksi soal essay";                 
             }
             echo $this->response->json_response(400, $data);
         }
@@ -700,12 +700,12 @@ class QuizController extends ApiController
             $essayTerpilih = $this->objectSoalToArray(json_decode($_PATCH["paket_essay"],true));
             // filter paket jika kosong            
             if (count(json_decode($_PATCH["paket_pilihan"],true)) === 0 && $_PATCH["bobot_pilihan"] != "0") {                
-                $data = array("paket_pilihan" => "Paket soal pilihan ganda kosong");              
+                $data = array("paket_pilihan" => "Paket kosong, silahkan seleksi soal pilihan ganda");              
                 echo $this->response->json_response(400, $data);
                 exit;      
             }
             if (count(json_decode($_PATCH["paket_essay"],true)) === 0 && $_PATCH["bobot_essay"] != "0") {                
-                $data = array("paket_essay" => "Paket soal essay kosong");              
+                $data = array("paket_essay" => "Paket kosong, silahkan seleksi soal essay");              
                 echo $this->response->json_response(400, $data);
                 exit;      
             }
@@ -730,10 +730,10 @@ class QuizController extends ApiController
                 $data["bobot_essay"] = "Input bobot essay kosong";                 
             } 
             if($v->errors("paket_pilihan")){
-                $data["paket_pilihan"] = "Silahkan seleksi soal pilihan ganda";                 
+                $data["paket_pilihan"] = "Paket kosong, silahkan seleksi soal pilihan ganda";                 
             }
             if($v->errors("paket_essay")){
-                $data["paket_essay"] = "Silahkan seleksi soal essay";                 
+                $data["paket_essay"] = "Paket kosong, silahkan seleksi soal essay";                 
             }
             echo $this->response->json_response(400, $data);           
         }

@@ -1,3 +1,4 @@
+/* Main variable */
 $font-stack: "Titillium Web", sans-serif;
 $font-color: #333;
 $backgroundColor: #f3f3f3;
@@ -8,6 +9,7 @@ $secondary-color : #045c30;
 $disable-primaryColor : #8c8c8c;
 $disable-secondaryColor : #b3b3b3;
 
+/* include stylesheet */
 @use "node_modules/react-widgets/scss/styles.scss" with (
     $list-selected-bg: $primary-color,
 );

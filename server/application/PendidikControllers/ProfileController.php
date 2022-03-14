@@ -25,8 +25,7 @@ class ProfileController extends ApiController
         if($v->validate()) {
             $cekAuth = $this->database->select("sekolah_users",["password"],["id" => $id]);
             if(!$bcrypt->verify($_PATCH["curPassword"],  $cekAuth[0]['password'])){
-                $data = array();
-                $data['curpassword'] = "Password saat ini tidak sesuai!";                
+                $data = array("curpassword" => "Password saat ini tidak sesuai!");                 
                 echo $this->response->json_response(400,$data);                
                 exit;
             }

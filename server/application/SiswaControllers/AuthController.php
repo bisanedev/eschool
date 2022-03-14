@@ -79,22 +79,23 @@ class AuthController
                     echo $this->response->json_response(200,$data);
                 }                 
             }else{
-                $data = array("error" => "password","data" => "Password Salah!" );
+                $data = array("password" => "Password Salah!" );
                 echo $this->response->json_response(401, $data); 
             }
         }else{
-            $data = array("error" => "username","data" => "Username tidak di temukan" );
+            $data = array("username" => "Username tidak di temukan" );
             echo $this->response->json_response(401, $data); 
         }
         } else {
             // Errors  
+            $data = array();
             if($v->errors('username')){
-                $data = array("error" => "username","data" => "Input username kosong" );
-                echo $this->response->json_response(401,$data); 
-            }elseif($v->errors('password')){
-                $data = array("error" => "password","data" => "Input password kosong" );
-                echo $this->response->json_response(401,$data); 
-            }       
+                $data['username'] = "Input username kosong";                
+            }
+            if($v->errors('password')){
+                $data['password'] = "Input password kosong";                                
+            }
+            echo $this->response->json_response(401,$data);     
         }           
     }   
 }

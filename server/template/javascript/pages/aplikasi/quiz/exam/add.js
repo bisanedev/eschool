@@ -28,7 +28,7 @@ class PageAplikasiQuizExamAdd extends React.Component{
       paketData:[],
       userData:[],
       mulai:new Date(),
-      selesai:new Date().setHours(new Date().getHours() + 1),
+      selesai:new Date().setHours(new Date().getHours() + 2),
       imageToggle:false,
       loading:true,
       akses:true,
@@ -101,7 +101,7 @@ class PageAplikasiQuizExamAdd extends React.Component{
               <div className="w-50">
                 <label className="f5 fw4 db mb2">Selesai ujian</label>
                 <DatePicker showTimeSelect className={errorSelesai != "" ? "error":""} selected={selesai} onChange={(date) => this.setState({selesai:date})} dateFormat="dd/MM/yyyy HH:mm"/>
-                {errorMulai != "" && ( <span className="pesan-error">{errorSelesai}</span> )}
+                {errorSelesai != "" && ( <span className="pesan-error">{errorSelesai}</span> )}
               </div>            
             </div>
             {this.tokenData.superuser && (
@@ -114,7 +114,7 @@ class PageAplikasiQuizExamAdd extends React.Component{
                 )}
                 <div className="flex flex-wrap">
                   {userData.length > 0 && userData.map((value,k) => (
-                    <PendidikItem key={k} data={value} checked={value.id === userID ? true:false} errorCheck={errorUserID} onChecked={() => this.onCheckedPengajar(value.id)} src={"data/users/"+value.username+".jpg?nocache="+Date.now()}/>                    
+                    <PendidikItem key={k} data={value} checked={value.id === userID ? true:false} errorCheck={errorUserID && userID ===""} onChecked={() => this.onCheckedPengajar(value.id)} src={"data/users/"+value.username+".jpg?nocache="+Date.now()}/>                    
                   ))}
                 </div>
               </div>
@@ -165,8 +165,8 @@ class PageAplikasiQuizExamAdd extends React.Component{
                   bobotEssay={value.bobot_essay}
                   acak={value.acak_soal}
                   checked={paketSoal.includes(value.id)}
-                  onChecked={() => this.onChecked(value.id)}
-                  errorCheck={errorPaketSoal}
+                  onChecked={() => this.onChecked(value.id)}                  
+                  errorCheck={errorPaketSoal && paketSoal.length === 0}
                 />                
               ))}
               {paketData.length === 0 && !loading &&

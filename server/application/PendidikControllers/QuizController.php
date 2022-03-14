@@ -909,10 +909,10 @@ class QuizController extends ApiController
                 $data["nilai"] = "Input nilai minimal kosong";                 
             }
             if($v->errors("mulai")){
-                $data["mulai"] = "Input waktu mulai kosong";                 
+                $data["mulai"] = "Input waktu mulai ujian , kosong atau tidak valid";                 
             } 
             if($v->errors("selesai")){
-                $data["selesai"] = "Input waktu selesai kosong";                 
+                $data["selesai"] = "Input waktu selesai ujian , kosong atau tidak valid";                 
             }
             if($v->errors("paket_soal")){
                 $data["paket_soal"] = "Paket soal kosong, silahkan pilih paket soal";                 

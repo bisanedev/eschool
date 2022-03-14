@@ -869,14 +869,17 @@ class QuizController extends ApiController
 
         $v = new Validator($_POST);        
         $v->rule('required', ['user_id','nama','nilai','mulai','selesai','paket_soal']);
+        $v->rule('date', ['mulai','selesai']);
         if($v->validate()) { 
             if (isset($_FILES["kisi"]) && $_FILES["kisi"]["size"] > 2000000) {
-                echo $this->response->json_response(400, "Ukuran pertanyaan gambar melebihi 2MB");
+                $data = array("gambar" => "Ukuran kisi-kisi gambar melebihi 2MB");              
+                echo $this->response->json_response(400, $data);                 
                 exit;      
             }
             $allowedImages = array("image/jpeg","image/png");
             if(isset($_FILES["kisi"]) && !in_array($_FILES['kisi']['type'],$allowedImages )) {
-                echo $this->response->json_response(400, "Pertanyaan gambar hanya file png, jpeg dan jpg yang bisa di upload");
+                $data = array("gambar" => "Pertanyaan gambar hanya file png, jpeg dan jpg yang bisa di upload");              
+                echo $this->response->json_response(400, $data);
                 exit;
             }           
             $this->database->insert("quiz_exam",["user_id" => $_POST["user_id"],"tingkatan_id" => $tingkatID,"mapel_id" => $mapelID,"semester_id" => $semesterID,"nama" => $_POST["nama"],"mulai" => $_POST["mulai"],"selesai" => $_POST["selesai"],"nilai_minimal" => $_POST["nilai"] ,"paket_soal" => $_POST["paket_soal"]]);
@@ -895,24 +898,26 @@ class QuizController extends ApiController
             }
             echo $this->response->json_response(200,"berhasil");
         }else{
-            if($v->errors('nama')){
-                echo $this->response->json_response(400,"Input nama ujian kosong"); 
-            }             
-            elseif($v->errors('user_id')){
-                echo $this->response->json_response(400,"Input userid kosong"); 
-            }  
-            elseif($v->errors('nilai')){
-                echo $this->response->json_response(400,"Input nilai minimal kosong"); 
-            }  
-            elseif($v->errors('mulai')){
-                echo $this->response->json_response(400,"Input waktu mulai kosong"); 
+            $data = array();          
+            if($v->errors("nama")){
+                $data["nama"] = "Input nama ujian kosong";                 
+            }              
+            if($v->errors("user_id")){
+                $data["user_id"] = "Pilih Pendidik kosong";                 
             }
-            elseif($v->errors('selesai')){
-                echo $this->response->json_response(400,"Input waktu selesai kosong"); 
+            if($v->errors("nilai")){
+                $data["nilai"] = "Input nilai minimal kosong";                 
             }
-            elseif($v->errors('paket_soal')){
-                echo $this->response->json_response(400,"Paket soal kosong"); 
-            }                 
+            if($v->errors("mulai")){
+                $data["mulai"] = "Input waktu mulai kosong";                 
+            } 
+            if($v->errors("selesai")){
+                $data["selesai"] = "Input waktu selesai kosong";                 
+            }
+            if($v->errors("paket_soal")){
+                $data["paket_soal"] = "Paket soal kosong, silahkan pilih paket soal";                 
+            }
+            echo $this->response->json_response(400, $data);                
         }
     }
 
@@ -945,14 +950,17 @@ class QuizController extends ApiController
         
         $v = new Validator($_POST);        
         $v->rule('required', ['id','nama','nilai','mulai','selesai','paket_soal','user_id']);
+        $v->rule('date', ['mulai','selesai']);
         if($v->validate()) { 
-            if (isset($_FILES["kisi"]) && $_FILES["kisi"]["size"] > 2000000) {
-                echo $this->response->json_response(400, "Ukuran pertanyaan gambar melebihi 2MB");
+            if (isset($_FILES["kisi"]) && $_FILES["kisi"]["size"] > 2000000) {                
+                $data = array("gambar" => "Ukuran kisi-kisi gambar melebihi 2MB");              
+                echo $this->response->json_response(400, $data); 
                 exit;      
             }
             $allowedImages = array("image/jpeg","image/png");
-            if(isset($_FILES["kisi"]) && !in_array($_FILES['kisi']['type'],$allowedImages )) {
-                echo $this->response->json_response(400, "Pertanyaan gambar hanya file png, jpeg dan jpg yang bisa di upload");
+            if(isset($_FILES["kisi"]) && !in_array($_FILES['kisi']['type'],$allowedImages )) {                
+                $data = array("gambar" => "Pertanyaan gambar hanya file png, jpeg dan jpg yang bisa di upload");              
+                echo $this->response->json_response(400, $data);
                 exit;
             }            
             $examID = $_POST["id"];
@@ -971,24 +979,29 @@ class QuizController extends ApiController
             $this->database->update("quiz_exam",["user_id" => $_POST["user_id"], "nama" => $_POST["nama"],"mulai" => $_POST["mulai"],"selesai" => $_POST["selesai"],"nilai_minimal" => $_POST["nilai"],"paket_soal" => $_POST["paket_soal"]],["AND" => ["tingkatan_id" => $tingkatID,"mapel_id" => $mapelID,"semester_id" => $semesterID,"id" => $examID]]);
             echo $this->response->json_response(200,"berhasil");
         }else{
-            if($v->errors('nama')){
-                echo $this->response->json_response(400,"Input nama ujian kosong"); 
-            } 
-            elseif($v->errors('user_id')){
-                echo $this->response->json_response(400,"Input userid kosong"); 
-            } 
-            elseif($v->errors('nilai')){
-                echo $this->response->json_response(400,"Input nilai minimal kosong"); 
-            }  
-            elseif($v->errors('mulai')){
-                echo $this->response->json_response(400,"Input waktu mulai kosong"); 
+            $data = array();
+            if($v->errors("id")){
+                $data["id"] = "Input id kosong";                 
+            }            
+            if($v->errors("nama")){
+                $data["nama"] = "Input nama ujian kosong";                 
+            }              
+            if($v->errors("user_id")){
+                $data["user_id"] = "Pilih Pendidik kosong";                 
             }
-            elseif($v->errors('selesai')){
-                echo $this->response->json_response(400,"Input waktu selesai kosong"); 
+            if($v->errors("nilai")){
+                $data["nilai"] = "Input nilai minimal kosong";                 
             }
-            elseif($v->errors('paket_soal')){
-                echo $this->response->json_response(400,"Paket soal kosong"); 
-            }                 
+            if($v->errors("mulai")){
+                $data["mulai"] = "Input waktu mulai kosong";                 
+            } 
+            if($v->errors("selesai")){
+                $data["selesai"] = "Input waktu selesai kosong";                 
+            }
+            if($v->errors("paket_soal")){
+                $data["paket_soal"] = "Paket soal kosong, silahkan pilih paket soal";                 
+            }
+            echo $this->response->json_response(400, $data);                           
         }        
     }
 

@@ -9,7 +9,7 @@ import DatePicker from "react-datepicker";
 import moment from "moment";
 import PaketItem from "./paketItem";
 import PendidikItem from "./pendidikItem";
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 
 class PageAplikasiQuizExamAdd extends React.Component{
   constructor(props) {
@@ -32,6 +32,12 @@ class PageAplikasiQuizExamAdd extends React.Component{
       imageToggle:false,
       loading:true,
       akses:true,
+      errorNama:"",
+      errorUserID:false,
+      errorNilai:"",
+      errorMulai:"",
+      errorSelesai:"",
+      errorPaketSoal:false
     }
     this.handleInputChange = this.handleInputChange.bind(this);  
     this.tingkatID = this.props.params.tingkatID;
@@ -51,7 +57,7 @@ class PageAplikasiQuizExamAdd extends React.Component{
   }
 
   render() {    
-    const {akses,tingkatan,mapel,semester,src,errorSelect,uploadProgress,uploadDisable,userID,userData,nama,mulai,selesai,nilai,paketSoal,paketData,imageToggle,loading} = this.state; 
+    const {akses,tingkatan,mapel,semester,src,errorSelect,uploadProgress,uploadDisable,userID,userData,nama,mulai,selesai,nilai,paketSoal,paketData,imageToggle,loading,errorNama,errorUserID,errorNilai,errorMulai,errorSelesai,errorPaketSoal} = this.state; 
     const uploadClass = uploadProgress ? "progress-active":"";    
     return (    
     <div className="konten"> 
@@ -79,21 +85,23 @@ class PageAplikasiQuizExamAdd extends React.Component{
             <div className="w-100 flex mb3">
               <div className="w-50 mr1">
                 <label className="f5 fw4 db mb2">Nama ujian</label>
-                <InputText name="nama" value={nama} placeholder="ketik nama ujian disini" onChange={this.handleInputChange} />
+                <InputText name="nama" value={nama} placeholder="ketik nama ujian disini" onChange={this.handleInputChange} errorMessage={errorNama}/>
               </div>
               <div className="w-50">
                 <label className="f5 fw4 db mb2">Kriteria Ketuntasan Minimal</label>
-                <InputNumber name="nilai" value={nilai} placeholder="ketik nilai angka minimum" onChange={this.handleChangeNilai} />
+                <InputNumber name="nilai" value={nilai} placeholder="ketik nilai angka minimum" onChange={this.handleChangeNilai} errorMessage={errorNilai}/>
               </div>
             </div>
             <div className="w-100 flex mb3">
               <div className="w-50 mr1">
                 <label className="f5 fw4 db mb2">Mulai ujian</label>
-                <DatePicker showTimeSelect selected={mulai} onChange={(date) => this.setState({mulai:date})} dateFormat="dd/MM/yyyy HH:mm"/>
+                <DatePicker showTimeSelect className={errorMulai != "" ? "error":""} selected={mulai} onChange={(date) => this.setState({mulai:date})} dateFormat="dd/MM/yyyy HH:mm"/>
+                {errorMulai != "" && ( <span className="pesan-error">{errorMulai}</span> )}
               </div>
               <div className="w-50">
                 <label className="f5 fw4 db mb2">Selesai ujian</label>
-                <DatePicker showTimeSelect selected={selesai} onChange={(date) => this.setState({selesai:date})} dateFormat="dd/MM/yyyy HH:mm"/>
+                <DatePicker showTimeSelect className={errorSelesai != "" ? "error":""} selected={selesai} onChange={(date) => this.setState({selesai:date})} dateFormat="dd/MM/yyyy HH:mm"/>
+                {errorMulai != "" && ( <span className="pesan-error">{errorSelesai}</span> )}
               </div>            
             </div>
             {this.tokenData.superuser && (
@@ -106,7 +114,7 @@ class PageAplikasiQuizExamAdd extends React.Component{
                 )}
                 <div className="flex flex-wrap">
                   {userData.length > 0 && userData.map((value,k) => (
-                    <PendidikItem key={k} data={value} checked={value.id === userID ? true:false} onChecked={() => this.onCheckedPengajar(value.id)} src={"data/users/"+value.username+".jpg?nocache="+Date.now()}/>                    
+                    <PendidikItem key={k} data={value} checked={value.id === userID ? true:false} errorCheck={errorUserID} onChecked={() => this.onCheckedPengajar(value.id)} src={"data/users/"+value.username+".jpg?nocache="+Date.now()}/>                    
                   ))}
                 </div>
               </div>
@@ -158,6 +166,7 @@ class PageAplikasiQuizExamAdd extends React.Component{
                   acak={value.acak_soal}
                   checked={paketSoal.includes(value.id)}
                   onChecked={() => this.onChecked(value.id)}
+                  errorCheck={errorPaketSoal}
                 />                
               ))}
               {paketData.length === 0 && !loading &&
@@ -180,8 +189,7 @@ class PageAplikasiQuizExamAdd extends React.Component{
           </Cards>          
         </div>
         </>
-        )}
-        <ToastContainer />
+        )}        
     </div>    
     );
   }
@@ -290,7 +298,7 @@ class PageAplikasiQuizExamAdd extends React.Component{
   /*--- post new ujian ----*/
   newExam = async () => {
     const {croppedImageUrl,userID,nama,nilai,mulai,selesai,paketSoal} = this.state;
-    this.setState({uploadProgress:true,uploadDisable:true});
+    this.setState({uploadProgress:true,uploadDisable:true,errorNama:"",errorUserID:false,errorNilai:"",errorMulai:"",errorSelesai:"",errorPaketSoal:false});
     var formData = new FormData();
     if(this.tokenData.superuser){
       formData.append('user_id',userID);
@@ -319,12 +327,31 @@ class PageAplikasiQuizExamAdd extends React.Component{
     }).then(response => {                 
         if(response.data.status == true)
         {      
-          console.log("berhasil");                                    
+          toast.success("Data ujian "+nama+" berhasil ditambahkan");                                           
           this.navigate(-1); 
         }
     }).catch(error => {                   
-      if(error.response.status == 400){                       
-        this.setState({uploadProgress:false,uploadDisable:false},() => toast.warn(error.response.data.message));
+      if(error.response.status == 400){         
+        this.setState({uploadProgress:false,uploadDisable:false},() => {
+          if(error.response.data.message["nama"]){   
+            this.setState({errorNama:error.response.data.message["nama"]}); 
+          }
+          if(error.response.data.message["user_id"]){              
+            this.setState({errorUserID:true},() => toast.error(error.response.data.message["user_id"])); 
+          }
+          if(error.response.data.message["paket_soal"]){               
+            this.setState({errorPaketSoal:true},() => toast.error(error.response.data.message["paket_soal"])); 
+          }
+          if(error.response.data.message["nilai"]){   
+            this.setState({errorNilai:error.response.data.message["nilai"]}); 
+          }
+          if(error.response.data.message["mulai"]){   
+            this.setState({errorMulai:error.response.data.message["mulai"]}); 
+          }
+          if(error.response.data.message["selesai"]){   
+            this.setState({errorSelesai:error.response.data.message["selesai"]}); 
+          }
+        });        
       }  
       if(error.response.status == 401){
         this.logout();

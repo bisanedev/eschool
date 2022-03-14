@@ -22,8 +22,8 @@ function PaketItem(props) {
             <div className="h2 flex pa1 dataAction">
                 <div className="pv1">
                     <label className="checkbox-container" style={{width:120}}>Pilih paket 
-                        <input type="checkbox" checked={props.checked} onChange={props.onChecked}/>
-                        <span className="checkmark"></span>
+                        <input type="checkbox" checked={props.checked} onChange={props.onChecked}/>                        
+                        <span className={"checkmark " + (props.errorCheck ? "error":"")}></span>
                     </label>                       
                 </div>    
             </div>

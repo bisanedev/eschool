@@ -12,7 +12,7 @@ function PendidikItem(props) {
             </a>
             <label className="checkbox-profile">            
                 <input type="checkbox" checked={props.checked} onChange={props.onChecked}/>
-                <span className="checkmark"></span>
+                <span className={"checkmark " + (props.errorCheck ? "error":"")}></span>                
             </label>                                
         </div>        
     );

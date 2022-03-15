@@ -24,7 +24,8 @@ class _LoginScreen extends State<LoginScreen> {
   bool isLoading = false;
   bool usernameError = false;
   bool passwordError = false;
-  String? errorMessage;
+  String? errorUsername;
+  String? errorPassword;
 
   @override  
   void initState() {        
@@ -42,13 +43,14 @@ class _LoginScreen extends State<LoginScreen> {
     final usernameInput = TextFormField(
       controller: username,
       keyboardType: TextInputType.text,
+      cursorColor: globals.baseColor,  
       autofocus: false,      
       decoration: InputDecoration(
         hintText: 'Username / NISN',
-        errorText: usernameError ? errorMessage:null,     
+        errorText: usernameError ? errorUsername:null,     
         fillColor: const Color(0xfff3f3f3),
         filled: true,
-        prefixIcon: const Icon(Icons.person),
+        prefixIcon: Icon(Icons.person,color: globals.baseColor),
         contentPadding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
         enabledBorder: OutlineInputBorder(
             borderSide: const BorderSide(width: 1, color: Color.fromRGBO(0, 0, 0, 0.125)),
@@ -76,12 +78,13 @@ class _LoginScreen extends State<LoginScreen> {
       controller: password,
       autofocus: false,      
       obscureText: _obscureText,
+      cursorColor: globals.baseColor,  
       decoration: InputDecoration(        
         hintText: 'Password',   
-        errorText: passwordError ? errorMessage:null,     
+        errorText: passwordError ? errorPassword:null,     
         fillColor: const Color(0xfff3f3f3), 
         filled: true,
-        prefixIcon: const Icon(Icons.lock),
+        prefixIcon: Icon(Icons.lock,color: globals.baseColor),
         contentPadding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
         enabledBorder: OutlineInputBorder(
             borderSide: const BorderSide(width: 1, color: Color.fromRGBO(0, 0, 0, 0.125)),
@@ -101,7 +104,7 @@ class _LoginScreen extends State<LoginScreen> {
         ),      
         suffixIcon: GestureDetector(
           onTap: () { setState(() { _obscureText = !_obscureText;}); },
-          child: Icon( _obscureText ? Icons.visibility : Icons.visibility_off,semanticLabel:_obscureText ? 'show password' : 'hide password'),
+          child: Icon( _obscureText ? Icons.visibility : Icons.visibility_off,semanticLabel:_obscureText ? 'show password' : 'hide password',color: globals.baseColor),
         ),
       ),
     );
@@ -118,7 +121,7 @@ class _LoginScreen extends State<LoginScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               SizedBox(
-                  child: CircularProgressIndicator(color: globals.baseColor),
+                  child: CircularProgressIndicator(backgroundColor:Colors.white,valueColor: AlwaysStoppedAnimation<Color>(globals.baseColor)),
                   height: 18.0,
                   width: 18.0,
               ),
@@ -128,7 +131,7 @@ class _LoginScreen extends State<LoginScreen> {
           )
           :
           const Text("Authentikasi",style:TextStyle(fontSize: 17,color: Colors.white,fontWeight: FontWeight.bold)), 
-          color: isLoading == true ? globals.baseColor.withOpacity(0.5):globals.baseColor,
+          color: isLoading == true ? globals.baseColor.withOpacity(0.8):globals.baseColor,
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
           onPressed: () async {
             setState(() {              
@@ -216,21 +219,21 @@ class _LoginScreen extends State<LoginScreen> {
     Map<String, dynamic> error = jsonDecode(response.body);
     if (response.statusCode == 200) {
       return LoginResponse.fromJson(jsonDecode(response.body));
-    }else{      
-      if(error['message']['error'] == "username"){        
+    }else{ 
+      if(error['message']['username'] != ""){
         setState(() { 
           isLoading = false; 
-          errorMessage = error['message']['data'];
-          usernameError = true;
-        });
-      }
-      if(error['message']['error'] == "password"){
-        setState(() { 
-          isLoading = false; 
-          errorMessage = error['message']['data'];
+          errorUsername = error['message']['username'];
           passwordError = true;
         });
-      }
+      }           
+      if(error['message']['password'] != ""){
+        setState(() { 
+          isLoading = false; 
+          errorPassword = error['message']['password'];
+          usernameError = true;
+        });
+      }   
       return LoginResponse(status: false,pesanError: "");      
     }       
   }

@@ -82,7 +82,7 @@ class _PasswordScreen extends State<PasswordScreen> {
                   shrinkWrap: true,
                   padding: const EdgeInsets.only(left: 24.0, right: 24.0),
                   children: <Widget>[
-                    InputPassword(label:"Password saat ini",errorMessage: "password error",placeholder:"Password dipakai saat ini",controller: curpassword),
+                    InputPassword(label:"Password saat ini",placeholder:"Password dipakai saat ini",controller: curpassword),
                     const SizedBox(height: 10.0),
                     InputPassword(label:"Password baru",errorMessage: "password error",placeholder:"kombinasi password baru disini",controller: newpassword),
                     const SizedBox(height: 10.0),
@@ -122,9 +122,9 @@ class _PasswordScreen extends State<PasswordScreen> {
       setState(() {
         isLoading = false;
       });
-      print(error['message']);
+      //print(error['message']);
     }else{      
-      print(error['message']);
+      //print(error['message']);
       setState(() {
         isLoading = false;
       });

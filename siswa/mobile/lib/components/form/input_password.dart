@@ -32,6 +32,7 @@ class _InputPassword extends State<InputPassword> {
           controller: widget.controller,
           autofocus: false,      
           obscureText: _obscureText,
+          cursorColor: globals.baseColor,          
           decoration: InputDecoration(        
             hintText: widget.placeholder,
             errorText: widget.errorMessage,
@@ -56,7 +57,7 @@ class _InputPassword extends State<InputPassword> {
             ),     
             suffixIcon: GestureDetector(
               onTap: () { setState(() { _obscureText = !_obscureText;}); },
-              child: Icon( _obscureText ? Icons.visibility : Icons.visibility_off,semanticLabel:_obscureText ? 'show password' : 'hide password'),
+              child: Icon( _obscureText ? Icons.visibility : Icons.visibility_off,semanticLabel:_obscureText ? 'show password' : 'hide password',color: globals.baseColor),
             ),
           ),
         )

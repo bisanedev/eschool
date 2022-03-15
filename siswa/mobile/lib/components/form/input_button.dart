@@ -17,7 +17,7 @@ class InputButton extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             SizedBox(
-                child: CircularProgressIndicator(color: color),
+                child: CircularProgressIndicator(backgroundColor:Colors.white,valueColor:AlwaysStoppedAnimation<Color>(color ?? Colors.grey)),
                 height: 18.0,
                 width: 18.0,
             ),            
@@ -27,7 +27,7 @@ class InputButton extends StatelessWidget {
         )
         :
         Text(label ?? "kosong",style:const TextStyle(fontSize: 17,color: Colors.white,fontWeight: FontWeight.bold)),
-      style: ElevatedButton.styleFrom(primary: isLoading == true ? color!.withOpacity(0.5):color, padding: padding),
+      style: ElevatedButton.styleFrom(primary: isLoading == true ? color!.withOpacity(0.8):color, padding: padding),
     );
   }
 }

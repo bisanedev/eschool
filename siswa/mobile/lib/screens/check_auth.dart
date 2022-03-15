@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:async';
+import '../globals.dart' as globals;
 
 class CheckAuth extends StatefulWidget {  
   const CheckAuth({Key? key}) : super(key: key);  
@@ -27,7 +28,7 @@ class _CheckAuth  extends State<CheckAuth> {
   @override 
   Widget build(BuildContext context) {      
     return Container(
-        child: const CircularProgressIndicator(),
+        child: CircularProgressIndicator(valueColor: new AlwaysStoppedAnimation<Color>(globals.baseColor)),
         color: Colors.white,
         alignment: Alignment.center,
     );

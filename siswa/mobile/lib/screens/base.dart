@@ -26,12 +26,6 @@ class _BaseScreen extends State<BaseScreen> {
     getToken();    
   }
 
-  final List<GlobalKey<NavigatorState>> _navigatorKeys = [
-    GlobalKey<NavigatorState>(),
-    GlobalKey<NavigatorState>(),
-    GlobalKey<NavigatorState>()
-  ];
-
   @override
   Widget build(BuildContext context) {
 

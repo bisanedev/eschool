@@ -12,11 +12,7 @@ class _TestScreen extends State<TestScreen> {
 
   @override
   void initState() {        
-    super.initState();
-    if(mounted){
-      print("wow");
-    }
-    print("Prestasi");
+    super.initState();   
   }
 
   @override

@@ -15,8 +15,7 @@ class _AplikasiScreen extends State<AplikasiScreen> {
 
   @override
   void initState() {        
-    super.initState();
-    print("Aplikasi");
+    super.initState();    
   }
 
   @override

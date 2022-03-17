@@ -28,7 +28,7 @@ class _CheckAuth  extends State<CheckAuth> {
   @override 
   Widget build(BuildContext context) {      
     return Container(
-        child: CircularProgressIndicator(valueColor: new AlwaysStoppedAnimation<Color>(globals.baseColor)),
+        child: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(globals.baseColor)),
         color: Colors.white,
         alignment: Alignment.center,
     );

@@ -12,10 +12,6 @@ class _PrestasiScreen extends State<PrestasiScreen> {
   @override
   void initState() {        
     super.initState();
-    if(mounted){
-      print("wow");
-    }
-    print("Prestasi");
   }
 
   @override

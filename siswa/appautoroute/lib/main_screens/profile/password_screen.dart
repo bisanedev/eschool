@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
-import '../components/form/tombol.dart';
 
-class TestScreen extends StatefulWidget {
+class PasswordScreen extends StatefulWidget {
   final String? userToken;    
-  const TestScreen({Key? key,this.userToken}) : super(key: key);
+  const PasswordScreen({Key? key,this.userToken}) : super(key: key);
 
   @override
-  _TestScreen createState() => _TestScreen();
+  _PasswordScreen createState() => _PasswordScreen();
 }
 
-class _TestScreen extends State<TestScreen> {
+class _PasswordScreen extends State<PasswordScreen> {
 
   @override
   void initState() {        
@@ -22,14 +21,13 @@ class _TestScreen extends State<TestScreen> {
       body: Center(
         child: Column(
           children: [
-            const Text('Hello to Test Screen'),
+            const Text('Hello to password Screen'),
             Text(widget.userToken ?? "meow"),
-            SimpleElevatedButton(
+            ElevatedButton(
               onPressed: () {
                 Navigator.pop(context);
               },
-              child: const Text('Go back'),
-              color: Colors.green,
+              child: const Text('Go back'),              
             ),
           ]
         ),

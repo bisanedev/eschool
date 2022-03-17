@@ -24,12 +24,11 @@ class _PasswordScreen extends State<PasswordScreen> {
 
   @override
   void initState() {        
-    super.initState();    
+    super.initState();        
   }   
 
   @override
-  Widget build(BuildContext context) {
-
+  Widget build(BuildContext context) {    
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
 

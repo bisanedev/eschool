@@ -33,8 +33,7 @@ class _BaseScreen extends State<BaseScreen> {
   ];
 
   @override
-  Widget build(BuildContext context) {
-
+  Widget build(BuildContext context) { 
     return Scaffold(
         body: Stack(          
           children: [

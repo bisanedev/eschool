@@ -26,20 +26,21 @@ class _BaseScreen extends State<BaseScreen> {
     getToken();    
   }
 
+  final List<GlobalKey<NavigatorState>> _navigatorKeys = [
+    GlobalKey<NavigatorState>(),
+    GlobalKey<NavigatorState>(),
+    GlobalKey<NavigatorState>()
+  ];
+
   @override
   Widget build(BuildContext context) {
 
     return Scaffold(
-        body: IndexedStack(
-          index: _selectedIndex,
+        body: Stack(          
           children: [
-            AplikasiScreen(userToken: userToken,onNext: _next,),
-            PrestasiScreen(userToken: userToken),
-            ProfileScreen(
-              userToken: userToken,
-              userData: userData,
-              logOut: logOut,
-            ),
+            _buildOffstageNavigator(0),
+            _buildOffstageNavigator(1),
+            _buildOffstageNavigator(2),
           ],
         ),
         bottomNavigationBar: BottomNavigationBar(
@@ -72,6 +73,39 @@ class _BaseScreen extends State<BaseScreen> {
     });     
   }
 
+  Map<String, WidgetBuilder> _routeBuilders(BuildContext context, int index) {
+    return {
+      '/': (context) {
+        return [
+          AplikasiScreen(userToken: userToken,onNext: _next),
+          PrestasiScreen(userToken: userToken),
+          ProfileScreen(
+            userToken: userToken,
+            userData: userData,
+            logOut: logOut,
+          ),
+        ].elementAt(index);
+      },
+    };
+  }
+
+  
+  Widget _buildOffstageNavigator(int index) {
+    var routeBuilders = _routeBuilders(context, index);
+
+    return Offstage(
+      offstage: _selectedIndex != index,
+      child: Navigator(
+        key: _navigatorKeys[index],
+        onGenerateRoute: (routeSettings) {
+          return MaterialPageRoute(
+            builder: (context) => routeBuilders[routeSettings.name]!(context),
+          );
+        },
+      ),
+    );
+  }
+
   void getToken() async {        
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -92,7 +126,7 @@ class _BaseScreen extends State<BaseScreen> {
   }
 
   void _next() {
-    Navigator.push(context, MaterialPageRoute(builder: (context) => const TestScreen()));
+    Navigator.push(context, MaterialPageRoute(builder: (context) => TestScreen(userToken: userToken)));
   }
 
   @override

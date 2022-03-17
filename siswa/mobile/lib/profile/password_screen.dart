@@ -24,7 +24,8 @@ class _PasswordScreen extends State<PasswordScreen> {
 
   @override
   void initState() {        
-    super.initState();        
+    super.initState(); 
+    print("password page");
   }   
 
   @override

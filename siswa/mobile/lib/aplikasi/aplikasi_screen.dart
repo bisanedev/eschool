@@ -3,10 +3,21 @@ import '../components/form/tombol.dart';
 import '../../components/widget/custom_bars.dart';
 import '../globals.dart' as globals;
 
-
-class AplikasiScreen extends StatelessWidget { 
+class AplikasiScreen extends StatefulWidget { 
   final String? userToken;    
-  const AplikasiScreen({Key? key,this.userToken}) : super(key: key);    
+  final Function? onNext;
+  const AplikasiScreen({Key? key,this.userToken,this.onNext}) : super(key: key);
+  @override
+  _AplikasiScreen createState() => _AplikasiScreen();
+}
+
+class _AplikasiScreen extends State<AplikasiScreen> {
+
+  @override
+  void initState() {        
+    super.initState();
+    print("Aplikasi");
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -15,12 +26,8 @@ class AplikasiScreen extends StatelessWidget {
         body: Center(
           child: Column(children: [
             const Text('Hello to Aplikasi Screen'),
-            SimpleElevatedButton( child: const Text("CobaScreen"), color: globals.baseColor,onPressed:() {
-              // Navigator.push(context, MaterialPageRoute(
-              //   builder: (context) => CobaScreen(userToken: userToken,)
-              // ));
-            }),
-            Text(userToken ?? "hahaha")
+            SimpleElevatedButton( child: const Text("CobaScreen"), color: globals.baseColor,onPressed:widget.onNext),
+            Text(widget.userToken ?? "hahaha")
           ],),
         ),
     );

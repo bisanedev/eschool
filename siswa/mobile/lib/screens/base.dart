@@ -5,7 +5,7 @@ import '../aplikasi/aplikasi_screen.dart';
 import '../prestasi/prestasi_screen.dart';
 import '../profile/profile_screen.dart';
 import '../components/models/user_model.dart';
-//import './coba.dart';
+import './test_screen.dart';
 import 'dart:convert';
 
 class BaseScreen extends StatefulWidget {
@@ -22,7 +22,7 @@ class _BaseScreen extends State<BaseScreen> {
 
   @override  
   void initState() {        
-    super.initState();   
+    super.initState();      
     getToken();    
   }
 
@@ -36,11 +36,16 @@ class _BaseScreen extends State<BaseScreen> {
   Widget build(BuildContext context) {
 
     return Scaffold(
-        body: Stack(
+        body: IndexedStack(
+          index: _selectedIndex,
           children: [
-            _createOffstageNavigator(0),
-            _createOffstageNavigator(1),
-            _createOffstageNavigator(2),
+            AplikasiScreen(userToken: userToken,onNext: _next,),
+            PrestasiScreen(userToken: userToken),
+            ProfileScreen(
+              userToken: userToken,
+              userData: userData,
+              logOut: logOut,
+            ),
           ],
         ),
         bottomNavigationBar: BottomNavigationBar(
@@ -73,39 +78,7 @@ class _BaseScreen extends State<BaseScreen> {
     });     
   }
 
-  Map<String, WidgetBuilder> _routeBuilders(BuildContext context, int index) {
-    return {
-      '/': (context) {
-        return [
-          AplikasiScreen(userToken: userToken),
-          PrestasiScreen(userToken: userToken),
-          ProfileScreen(
-            userToken: userToken,
-            userData: userData,
-            logOut: logOut,
-          ),
-        ].elementAt(index);
-      },
-    };
-  }
-
-  Widget _createOffstageNavigator(int index) {
-    var routeBuilders = _routeBuilders(context, index);
-
-    return Offstage(
-      offstage: _selectedIndex != index,
-      child: Navigator(
-        key: _navigatorKeys[index],
-        onGenerateRoute: (routeSettings) {
-          return MaterialPageRoute(
-            builder: (context) => routeBuilders[routeSettings.name]!(context),
-          );
-        },
-      ),
-    );
-  }
-
-  void getToken() async {    
+  void getToken() async {        
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       Map<String, dynamic> userMap = jsonDecode(prefs.getString('userData') ?? "");
@@ -124,9 +97,9 @@ class _BaseScreen extends State<BaseScreen> {
     Navigator.pushReplacementNamed(context, '/login');   
   }
 
-  // void _next() {
-  //   Navigator.push(context, MaterialPageRoute(builder: (context) => const CobaScreen()));
-  // }
+  void _next() {
+    Navigator.push(context, MaterialPageRoute(builder: (context) => const TestScreen()));
+  }
 
   @override
   void dispose() {    

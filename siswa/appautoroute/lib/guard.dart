@@ -5,9 +5,7 @@ class CheckIfAuthenticated extends AutoRouteGuard {
   @override
   void onNavigation(NavigationResolver resolver, StackRouter router) async {    
     SharedPreferences prefs = await SharedPreferences.getInstance();    
-    //prefs.setString('userToken', "kontol");  
     String? userToken = prefs.getString('userToken') ?? "null";  
-    //print(userToken); 
     if(userToken != "null"){    
       resolver.next(true);
     }else{

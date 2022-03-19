@@ -6,6 +6,7 @@ import 'main_screens/login/login_screen.dart';
 import 'main_screens/prestasi/prestasi_screen.dart';
 import 'main_screens/profile/profile_screen.dart';
 import 'main_screens/profile/password_screen.dart';
+import 'main_screens/profile/foto_screen.dart';
 import 'aplikasi/ujian.dart';
 
 @AdaptiveAutoRouter(
@@ -30,18 +31,24 @@ import 'aplikasi/ujian.dart';
           page: PrestasiScreen
         ),
         AutoRoute(
-          path: "profile",
-          name: "ProfileRouter",
+          path: "profile", 
+          name: "ProfileIndex",          
           page: EmptyRouterPage,          
           children: [
             AutoRoute(
-              path: '',              
-              page: ProfileScreen,                  
+              path: '',
+              name: "ProfileRouter",                                          
+              page: ProfileScreen,              
             ),
             AutoRoute(
               path: "password",
               name: "PasswordRouter",
               page: PasswordScreen,    
+            ),
+            AutoRoute(
+              path: "foto",
+              name: "FotoRouter",
+              page: FotoScreen,    
             ),
           ]
         ),     

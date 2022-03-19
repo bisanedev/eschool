@@ -11,7 +11,8 @@ class _UjianScreen extends State<UjianScreen> {
 
   @override
   void initState() {        
-    super.initState();      
+    super.initState(); 
+    print("ujian");
   }
 
   @override

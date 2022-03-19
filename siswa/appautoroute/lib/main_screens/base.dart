@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:get_it/get_it.dart';
 import '../routes.gr.dart';
@@ -14,19 +15,20 @@ class BaseScreen extends StatefulWidget {
 
 class _BaseScreen extends State<BaseScreen> {
   final router = getIt<AppRouter>();
+  
 
   @override
-  void initState() {        
-    super.initState();      
+  void initState() {            
+    super.initState();         
   }
 
   @override
   Widget build(BuildContext context) {      
     return AutoTabsScaffold(
-        routes: const [
+        routes: [
           AplikasiRouter(),
           PrestasiRouter(),
-          ProfileRouter()
+          ProfileIndex()
         ],
         bottomNavigationBuilder: (_, tabsRouter) {
           return BottomNavigationBar(
@@ -50,5 +52,4 @@ class _BaseScreen extends State<BaseScreen> {
         },
     );
   }
-
 }

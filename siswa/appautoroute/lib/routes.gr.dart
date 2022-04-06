@@ -96,7 +96,12 @@ class AppRouter extends _i6.RootStackRouter {
                     path: 'password', parent: ProfileIndex.name),
                 _i6.RouteConfig(FotoRouter.name,
                     path: 'foto', parent: ProfileIndex.name)
-              ])
+              ]),
+          _i6.RouteConfig('*#redirect',
+              path: '*',
+              parent: BaseRouter.name,
+              redirectTo: '/',
+              fullMatch: true)
         ]),
         _i6.RouteConfig(UjianRouter.name,
             path: '/ujian', guards: [checkIfAuthenticated])

@@ -50,7 +50,7 @@ class _LoginScreen extends State<LoginScreen> {
       cursorColor: globals.baseColor,  
       autofocus: false,      
       decoration: InputDecoration(
-        hintText: 'Username / NISN',
+        hintText: 'NISN',
         errorText: usernameError ? errorUsername:null,     
         fillColor: const Color(0xfff3f3f3),
         filled: true,
@@ -164,7 +164,7 @@ class _LoginScreen extends State<LoginScreen> {
           simpanToken(snapshot.data!.message!.token ?? "");
           simpanUserData(snapshot.data!.message!.user);          
           /* --- Navigate route apps --- */  
-            router.replace(const BaseRouter(children: [AplikasiRouter()]));
+            router.push(const BaseRouter(children: [AplikasiRouter()]));
           }else{ 
             /* --- response ketika salah input ,username & password  ---*/             
             return Center(

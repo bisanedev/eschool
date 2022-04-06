@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import '../../globals.dart' as globals;
 
-class CurvePainter extends CustomPainter {
+class ProfilePainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     var paint = Paint();
     paint.color = globals.baseColor;
-    paint.style = PaintingStyle.fill; 
+    paint.style = PaintingStyle.fill;
 
     var path = Path();
 
-    path.moveTo(0, size.height * 0.6);
-    path.quadraticBezierTo(size.width / 2, size.height, size.width, size.height * 0.5);
+    path.moveTo(0, size.height );
+    path.quadraticBezierTo(size.height, size.height * 0.9, size.width* 2, size.width * 0.4);
     path.lineTo(size.width, 0);
     path.lineTo(0, 0);
 

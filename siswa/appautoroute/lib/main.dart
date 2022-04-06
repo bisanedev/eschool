@@ -17,7 +17,6 @@ class MyApp extends StatefulWidget{
 }
 
 class _MyAppState  extends State<MyApp> {  
-  bool isLoggedIn = false;
   
   @override
   void initState() {
@@ -32,6 +31,11 @@ class _MyAppState  extends State<MyApp> {
       title: 'eSchool Siswa',      
       routerDelegate: AutoRouterDelegate(router),        
       routeInformationParser: router.defaultRouteParser(includePrefixMatches: true),
+      theme: ThemeData(      
+        primarySwatch: Colors.green,        
+        visualDensity: VisualDensity.adaptivePlatformDensity,
+        fontFamily: 'TitilliumWeb',                    
+      ),
     );
   }
   

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-
 import 'package:auto_route/auto_route.dart';
 import 'package:get_it/get_it.dart';
 import '../routes.gr.dart';
+import '../globals.dart' as globals;
 
 GetIt getIt = GetIt.instance;
 
@@ -25,7 +25,7 @@ class _BaseScreen extends State<BaseScreen> {
   @override
   Widget build(BuildContext context) {      
     return AutoTabsScaffold(
-        routes: [
+        routes: const [
           AplikasiRouter(),
           PrestasiRouter(),
           ProfileIndex()
@@ -34,6 +34,7 @@ class _BaseScreen extends State<BaseScreen> {
           return BottomNavigationBar(
             currentIndex: tabsRouter.activeIndex,
             onTap: tabsRouter.setActiveIndex,
+            selectedItemColor: globals.baseColor,
             items: const <BottomNavigationBarItem>[
               BottomNavigationBarItem(
                 icon: Icon(Icons.apps),

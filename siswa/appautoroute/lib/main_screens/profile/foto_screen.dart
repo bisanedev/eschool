@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
+import '../../routes.gr.dart';
 import '../../components/widget/header_bars.dart';
 import '../../components/paint/curve_painter.dart';
+
+GetIt getIt = GetIt.instance;
 
 class FotoScreen extends StatefulWidget {
   final String? userToken; 
@@ -10,6 +14,8 @@ class FotoScreen extends StatefulWidget {
 } 
 
 class _FotoScreen extends State<FotoScreen> {  
+
+  final router = getIt<AppRouter>();
 
   @override
   void initState() {        
@@ -25,14 +31,14 @@ class _FotoScreen extends State<FotoScreen> {
     final headerTitle = Stack(
       children: [
         SizedBox(          
-          height: 180,
+          height: height*0.23,
           width: width,
           child: CustomPaint(
             painter: CurvePainter(),
           ),
         ),     
         SizedBox(
-          height: 180,
+          height: height*0.23,
           width: width,          
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
@@ -56,7 +62,7 @@ class _FotoScreen extends State<FotoScreen> {
     return Scaffold(
       appBar: HeaderBars(
         textBack:"Profil",          
-        onBack:() { Navigator.pop(context);}
+        onBack:() { router.popAndPush(ProfileRouter()); }
       ),
       body: Container(
         width: width,

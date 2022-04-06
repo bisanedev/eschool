@@ -38,12 +38,12 @@ import 'aplikasi/ujian.dart';
             AutoRoute(
               path: '',
               name: "ProfileRouter",                                          
-              page: ProfileScreen,              
+              page: ProfileScreen,                         
             ),
             AutoRoute(
               path: "password",
               name: "PasswordRouter",
-              page: PasswordScreen,    
+              page: PasswordScreen                                       
             ),
             AutoRoute(
               path: "foto",
@@ -51,7 +51,8 @@ import 'aplikasi/ujian.dart';
               page: FotoScreen,    
             ),
           ]
-        ),     
+        ),
+        RedirectRoute(path: '*', redirectTo: '/')     
       ]
     ),
     AutoRoute(path: "/ujian",name: "UjianRouter",page: UjianScreen,guards: [CheckIfAuthenticated]),

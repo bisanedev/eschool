@@ -5,8 +5,7 @@ import 'dart:convert';
 import '../../routes.gr.dart';
 import '../../globals.dart' as globals;
 import '../../components/models/user_model.dart';
-import '../../components/models/user_model.dart';
-import './menu_button.dart';
+import '../../components/paint/profile_painter.dart';
 
 GetIt getIt = GetIt.instance;
 
@@ -33,16 +32,83 @@ class _ProfileScreen extends State<ProfileScreen> {
   Widget build(BuildContext context) {
 
   double width = MediaQuery.of(context).size.width;
-  double height = MediaQuery.of(context).size.height;
+  double height = MediaQuery.of(context).size.height;  
 
-  final cardProfile = Positioned(
-    top: height/4,
-    child: Container(
-      height: 150,
+  final logoutButton = Positioned(
+    top:20,
+    right: 10,
+    child: InkWell(
+      onTap: () => showDialog<String> (
+        context: context,
+        builder: (BuildContext context) => AlertDialog( 
+          title: const Text('Logout'),
+          content: const Text('Apakah anda yakin logout ??'),
+          actions: <Widget>[
+           TextButton(
+            onPressed: () => Navigator.pop(context, 'Cancel'),
+            style: ButtonStyle(backgroundColor: MaterialStateProperty.all(const Color(0xFFe9e9ed))),
+            child: Text('Batal',style: TextStyle(color: globals.fontColor)),
+           ),   
+           TextButton(
+            onPressed: logOut,
+            style: ButtonStyle(backgroundColor: MaterialStateProperty.all(const Color(0xFFFF0000))),
+            child: const Text('Logout',style: TextStyle(color: Colors.white)),
+           ),
+          ],
+        ),
+      ),
+      child: Container(
+        padding: const EdgeInsets.all(5.0),
+        decoration: const BoxDecoration(
+          color:Colors.white,
+          borderRadius: BorderRadius.all(Radius.circular(50)),       
+        ),
+        child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,       
+        children:[
+          const Icon(Icons.power_settings_new,color: Color(0xFFFF0000),size: 20.0),
+          const SizedBox(width: 2),          
+          Text("Logout",style: TextStyle(color:globals.fontColor,fontWeight: FontWeight.normal,fontSize:14)),
+        ],
+      ),
+      ),
+    ),
+  );
+
+  final passwordButton = Positioned(
+    top:20,
+    right: 90,
+    child: InkWell(
+      onTap: () => router.push(PasswordRouter(userToken: userToken)),
+      child: Container(
+        padding: const EdgeInsets.all(5.0),
+        decoration: const BoxDecoration(
+          color:Colors.white,
+          borderRadius:  BorderRadius.all(Radius.circular(50)),       
+        ),
+        child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,       
+        children:[
+          Icon(Icons.lock,color: globals.baseColor,size: 20.0),
+          const SizedBox(width: 2),          
+          Text("Ganti password",style: TextStyle(color:globals.fontColor,fontWeight: FontWeight.normal,fontSize:14)),
+        ],
+      ),
+      ),
+    ),
+  );
+
+  final fotoProfil = Positioned(
+    top:height/5,    
+    child:Container(
+      height: height*0.342,
+      padding: const EdgeInsets.all(5.0),
       decoration: BoxDecoration(
-      color:Colors.white,             
-      borderRadius: const BorderRadius.all(Radius.circular(2)),
-      boxShadow: [
+        color:Colors.white,
+        borderRadius: const BorderRadius.all(Radius.circular(2)),
+        boxShadow: [
           BoxShadow(
           color: Colors.grey[300]!,
           blurRadius: 5.0,
@@ -50,166 +116,89 @@ class _ProfileScreen extends State<ProfileScreen> {
           offset: const Offset(0,5),
           ),
         ],
-      ),              
-      width: width-70,
-      child: Row(
-        children: [
-          Stack(
-            children:[
-              Image.network(userImageUrl()),
-              Positioned(
-                bottom: 5,
-                left: 5,
-                child: Container(                  
-                  padding: const EdgeInsets.only(bottom: 3.0,top: 3.0,left: 6.0,right: 6.0),
-                  alignment: Alignment.center,
-                  decoration: const BoxDecoration(
-                    color:Colors.white,             
-                    borderRadius: BorderRadius.all(Radius.circular(2)),             
-                  ), 
-                  child:  Text("${userData?.noAbsens}",style: const TextStyle(fontSize:14)),
-                )
-              )             
-            ]            
-          ),
-          Expanded(
-            child:Padding(
-              padding: const EdgeInsets.all(8.0),
-              child:Stack(
-                children: [
-                  Align(
-                    alignment: Alignment.center,
-                    child:Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Text("${userData?.nama}",overflow: TextOverflow.ellipsis,style: TextStyle(color:globals.fontColor,fontWeight: FontWeight.bold,fontSize:18)),
-                          Text("${userData?.username}",style: const TextStyle(color:Colors.grey,fontSize:16)),
-                        ],
-                    ),
-                  ),
-                  Positioned(
-                    bottom: 3,
-                    right: 3,
-                    child: Container(                  
-                      padding: const EdgeInsets.only(bottom: 3.0,top: 3.0,left: 6.0,right: 6.0),
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                        color: globals.fontColor,             
-                        borderRadius: const BorderRadius.all(Radius.circular(2)),             
-                      ), 
-                      child: Text("${userData?.kelas}",style: const TextStyle(color:Colors.white,fontSize:14)),
-                    )
-                  )
-                ]
-              ),
-            )         
-          )                  
-        ],
-      ),
-    )
+      ),   
+      child: Image.network(userImageUrl()),
+    ),
   );
 
-  final headerTitle = Stack(
-    children: [    
-      Container(     
-        decoration: BoxDecoration(          
-          color: globals.baseColor,
-        ),        
-        width: double.infinity,
-        height: double.infinity,
-        child: const Padding(
-          padding: EdgeInsets.only(top:40.0),
-          child: Align(
-            alignment: Alignment.topCenter,
-            child: Text("PROFIL",style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize:20)),
-          )
-        )  
-      )
-    ],
+  final namaSiswa = Container(
+    margin: const EdgeInsets.symmetric(horizontal: 20.0),
+    child: Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text("Nama :",style: TextStyle(color:globals.fontColor,fontWeight: FontWeight.normal,fontSize:14)),
+        Text("${userData?.nama}",overflow: TextOverflow.ellipsis,style: TextStyle(color:globals.fontColor,fontWeight: FontWeight.bold,fontSize:18)),
+      ],
+    ),
   );
 
-  final bodyMenu = ListView(
-    shrinkWrap: true,
-    padding: const EdgeInsets.all(20.0),
-    children: [
-      MenuButton(
-        onPressed:() {
-          router.navigate(FotoRouter(userToken: userToken));
-        },
-        color: globals.baseColor,
-        iconData: Icons.photo_camera,
-        textData: "Ganti foto profil"
-      ),  
-      const SizedBox(height: 15.0),
-      MenuButton(
-        onPressed:() {
-          router.navigate(PasswordRouter(userToken: userToken));
-        },
-        color: globals.baseColor,
-        iconData: Icons.lock,
-        textData: "Ganti password"
-      ), 
-      const SizedBox(height: 15.0),
-      MenuButton(
-        onPressed:() {
-          showDialog<String>(
-                context: context,
-                builder: (BuildContext context) => AlertDialog(
-                  title: const Text('Logout'),
-                  content: const Text('Apakah anda yakin logout ??'),
-                  actions: <Widget>[
-                    TextButton(
-                      onPressed: () => Navigator.pop(context, 'Cancel'),
-                      style: ButtonStyle(backgroundColor: MaterialStateProperty.all(const Color(0xFFe9e9ed))),
-                      child: Text('Batal',style: TextStyle(color: globals.fontColor)),
-                    ),   
-                    TextButton(
-                      onPressed: logOut,
-                      style: ButtonStyle(backgroundColor: MaterialStateProperty.all(const Color(0xFFFF0000))),
-                      child: const Text('Logout',style: TextStyle(color: Colors.white)),
-                    ),
-                  ],
-                ),
-          );
-        },
-        color: const Color(0xFFFF0000),
-        iconData: Icons.power_settings_new,
-        textData: "Logout"
-      ),         
-    ]
+  final userName = Container(
+    margin: const EdgeInsets.symmetric(horizontal: 20.0),
+    child: Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text("Nomor Induk Siswa Nasional (NISN) :",style: TextStyle(color:globals.fontColor,fontWeight: FontWeight.normal,fontSize:14)),
+        Text("${userData?.username}",overflow: TextOverflow.ellipsis,style: TextStyle(color:globals.fontColor,fontWeight: FontWeight.bold,fontSize:18)),
+      ],
+    ),
+  );
+
+  final kelas = Container(
+    margin: const EdgeInsets.symmetric(horizontal: 20.0),
+    child: Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text("Kelas :",style: TextStyle(color:globals.fontColor,fontWeight: FontWeight.normal,fontSize:14)),
+        Text("${userData?.kelas}",overflow: TextOverflow.ellipsis,style: TextStyle(color:globals.fontColor,fontWeight: FontWeight.bold,fontSize:18)),
+      ],
+    ),
   );
 
   return Scaffold(      
-      body: Stack(
-        alignment: Alignment.center,
-        children:<Widget>[                 
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Flexible(
-                flex: 2,
-                child: headerTitle 
-              ),
-              Flexible(
-                flex: 3,
-                child: Container(
-                  padding: const EdgeInsets.all(8.0),                 
-                  color:  Colors.white,
-                  width: double.infinity,
-                  height: double.infinity,
-                  child: Center(child:bodyMenu),
+      body: Container(
+        width: width,
+        height: height,
+        color: Colors.white,
+        child: Stack(
+          alignment: Alignment.center,
+          children: [           
+            Column(
+              children: [
+                SizedBox(          
+                  height: height*0.4,
+                  width: width,
+                  child: CustomPaint(
+                    painter: ProfilePainter(),
+                  ),
                 ),
-
-              )
-            ],
-          ),
-          cardProfile
-        ]
-      ),
+                const SizedBox( height:40),              
+                Expanded(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,                    
+                    children: [
+                      namaSiswa,
+                      const SizedBox(height: 10),
+                      userName,                      
+                      const SizedBox(height: 10),
+                      kelas
+                    ],
+                  )
+                )
+              ]
+            ),
+            fotoProfil,
+            logoutButton,
+            passwordButton
+          ],
+        ),
+      )
     );
   }
+
   /*--- Script here ---*/
   String userImageUrl(){
     int noCacheProfile = 0;
@@ -239,7 +228,7 @@ class _ProfileScreen extends State<ProfileScreen> {
   void logOut() async {  
     SharedPreferences prefs = await SharedPreferences.getInstance();           
     await prefs.clear();    
-    router.navigate(const LoginRouter()); 
+    router.push(const LoginRouter()); 
   }
 
   @override

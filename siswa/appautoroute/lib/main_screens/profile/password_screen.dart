@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:get_it/get_it.dart';
+import '../../routes.gr.dart';
 import '../../components/widget/header_bars.dart';
 import '../../components/paint/curve_painter.dart';
 import '../../components/form/input_password.dart';
@@ -7,6 +9,7 @@ import '../../components/form/input_button.dart';
 import '../../globals.dart' as globals;
 import 'dart:convert';
 
+GetIt getIt = GetIt.instance;
 
 class PasswordScreen extends StatefulWidget {
   final String? userToken; 
@@ -17,6 +20,7 @@ class PasswordScreen extends StatefulWidget {
 
 class _PasswordScreen extends State<PasswordScreen> {  
 
+  final router = getIt<AppRouter>();
   final curpassword = TextEditingController();
   final newpassword = TextEditingController();
   final repassword = TextEditingController();
@@ -35,14 +39,14 @@ class _PasswordScreen extends State<PasswordScreen> {
     final headerTitle = Stack(
       children: [
         SizedBox(          
-          height: 180,
+          height: height*0.23,
           width: width,
           child: CustomPaint(
             painter: CurvePainter(),
           ),
         ),        
         SizedBox(
-          height: 180,
+          height: height*0.23,
           width: width,          
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
@@ -58,15 +62,14 @@ class _PasswordScreen extends State<PasswordScreen> {
               )              
             ],
           ),
-        )         
-
+        )
       ],
     );
 
     return Scaffold(
       appBar: HeaderBars(
         textBack:"Profil",          
-        onBack:() { Navigator.pop(context);}
+        onBack:() { router.popAndPush(ProfileRouter()); }
       ),
       body: Container(
         width: width,

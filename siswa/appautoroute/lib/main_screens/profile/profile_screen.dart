@@ -101,23 +101,56 @@ class _ProfileScreen extends State<ProfileScreen> {
   );
 
   final fotoProfil = Positioned(
-    top:height/5,    
-    child:Container(
-      height: height*0.342,
-      padding: const EdgeInsets.all(5.0),
-      decoration: BoxDecoration(
-        color:Colors.white,
-        borderRadius: const BorderRadius.all(Radius.circular(2)),
-        boxShadow: [
-          BoxShadow(
-          color: Colors.grey[300]!,
-          blurRadius: 5.0,
-          spreadRadius: 0,
-          offset: const Offset(0,5),
-          ),
-        ],
-      ),   
-      child: Image.network(userImageUrl()),
+    top:height*0.212,    
+    child:Stack(
+      children: [
+        Container(
+          height: height*0.342,
+          padding: const EdgeInsets.all(5.0),
+          decoration: BoxDecoration(
+            color:Colors.white,
+            borderRadius: const BorderRadius.all(Radius.circular(2)),
+            boxShadow: [
+              BoxShadow(
+              color: Colors.grey[300]!,
+              blurRadius: 5.0,
+              spreadRadius: 0,
+              offset: const Offset(0,5),
+              ),
+            ],
+          ),   
+          child: Image.network(userImageUrl()),
+        ),
+        Positioned(
+          right: 0,
+          child: InkWell(
+            onTap: () => {print("hapus")},
+            child: Container(
+              padding: const EdgeInsets.all(2.0),
+              decoration: const BoxDecoration(
+                color:Color(0xFFFF0000),
+                borderRadius:  BorderRadius.all(Radius.circular(50)),       
+              ),
+              child: const Icon(Icons.close,color: Colors.white,size: 14.0)
+            )
+          )
+        ),
+        Positioned(
+          left: 10,
+          bottom: 10,
+          child: InkWell(
+            onTap: () => {print("camera")},
+            child: Container(
+              padding: const EdgeInsets.all(5.0),
+              decoration: BoxDecoration(
+                color:globals.baseColor,
+                borderRadius:  const BorderRadius.all(Radius.circular(50)),       
+              ),
+              child: const Icon(Icons.camera_alt,color: Colors.white,size: 18.0)
+            )
+          )
+        )
+      ]
     ),
   );
 
@@ -145,14 +178,28 @@ class _ProfileScreen extends State<ProfileScreen> {
     ),
   );
 
-  final kelas = Container(
+  final kelasAbsen = Container(
     margin: const EdgeInsets.symmetric(horizontal: 20.0),
-    child: Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.start,
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Text("Kelas :",style: TextStyle(color:globals.fontColor,fontWeight: FontWeight.normal,fontSize:14)),
-        Text("${userData?.kelas}",overflow: TextOverflow.ellipsis,style: TextStyle(color:globals.fontColor,fontWeight: FontWeight.bold,fontSize:18)),
+        Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text("Kelas :",style: TextStyle(color:globals.fontColor,fontWeight: FontWeight.normal,fontSize:14)),
+            Text("${userData?.kelas}",overflow: TextOverflow.ellipsis,style: TextStyle(color:globals.fontColor,fontWeight: FontWeight.bold,fontSize:18)),
+          ],
+        ),        
+        Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text("Nomor urut absensi :",style: TextStyle(color:globals.fontColor,fontWeight: FontWeight.normal,fontSize:14)),
+            Text("${userData?.noAbsens}",overflow: TextOverflow.ellipsis,style: TextStyle(color:globals.fontColor,fontWeight: FontWeight.bold,fontSize:18)),
+          ],
+        )
       ],
     ),
   );
@@ -184,7 +231,7 @@ class _ProfileScreen extends State<ProfileScreen> {
                       const SizedBox(height: 10),
                       userName,                      
                       const SizedBox(height: 10),
-                      kelas
+                      kelasAbsen
                     ],
                   )
                 )

@@ -124,7 +124,25 @@ class _ProfileScreen extends State<ProfileScreen> {
         Positioned(
           right: 0,
           child: InkWell(
-            onTap: () => {print("hapus")},
+            onTap: () => showDialog<String> (
+              context: context,
+              builder: (BuildContext context) => AlertDialog( 
+                title: const Text('Hapus'),
+                content: const Text('Apakah anda yakin hapus foto profil ??'),
+                actions: <Widget>[
+                TextButton(
+                  onPressed: () => Navigator.pop(context, 'Cancel'),
+                  style: ButtonStyle(backgroundColor: MaterialStateProperty.all(const Color(0xFFe9e9ed))),
+                  child: Text('Batal',style: TextStyle(color: globals.fontColor)),
+                ),   
+                TextButton(
+                  onPressed: hapusFoto,
+                  style: ButtonStyle(backgroundColor: MaterialStateProperty.all(const Color(0xFFFF0000))),
+                  child: const Text('Hapus',style: TextStyle(color: Colors.white)),
+                ),
+                ],
+              ),
+            ),
             child: Container(
               padding: const EdgeInsets.all(2.0),
               decoration: const BoxDecoration(
@@ -139,7 +157,7 @@ class _ProfileScreen extends State<ProfileScreen> {
           left: 10,
           bottom: 10,
           child: InkWell(
-            onTap: () => {print("camera")},
+            onTap: () => router.push(FotoRouter(userToken: userToken)),
             child: Container(
               padding: const EdgeInsets.all(5.0),
               decoration: BoxDecoration(
@@ -270,6 +288,10 @@ class _ProfileScreen extends State<ProfileScreen> {
       userToken = prefs.getString('userToken') ?? '';
       userData = UserData.fromJson(userMap); 
     });           
+  }
+
+  void hapusFoto() {
+    print("hapus foto");
   }
 
   void logOut() async {  

@@ -192,9 +192,9 @@ fieldset[disabled] .rw-widget {
 
 .rw-webkit-autofill .rw-widget-container,
 .rw-input:-webkit-autofill {
-  background-color: #e8f0fe !important;
+  background-color: rgb(232, 240, 254) !important;
   background-image: none !important;
-  color: black !important;
+  color: rgb(0, 0, 0) !important;
 }
 
 .rw-list {
@@ -14402,7 +14402,7 @@ input[type=checkbox] {
 }
 
 .wysiwyg-editor {
-  border: 1px solid #f1f1f1;
+  border: 1px solid rgb(241, 241, 241);
   background-color: #f7f7f7;
   height: 130px !important;
   padding: 5px !important;
@@ -14410,7 +14410,7 @@ input[type=checkbox] {
 }
 
 .wysiwyg-editor-small {
-  border: 1px solid #f1f1f1;
+  border: 1px solid rgb(241, 241, 241);
   background-color: #f7f7f7;
   padding: 2px !important;
   scrollbar-width: thin;
@@ -14418,7 +14418,7 @@ input[type=checkbox] {
 }
 
 .wysiwyg-editor-essay {
-  border: 1px solid #f1f1f1;
+  border: 1px solid rgb(241, 241, 241);
   background-color: #f7f7f7;
   height: 230px !important;
   padding: 5px !important;
@@ -14867,14 +14867,14 @@ body {
 }
 
 /*!
- * Cropper.js v1.5.12
- * https://fengyuanchen.github.io/cropperjs
- *
- * Copyright 2015-present Chen Fengyuan
- * Released under the MIT license
- *
- * Date: 2021-06-12T08:00:11.623Z
- */
+* Cropper.js v1.5.12
+* https://fengyuanchen.github.io/cropperjs
+*
+* Copyright 2015-present Chen Fengyuan
+* Released under the MIT license
+*
+* Date: 2021-06-12T08:00:11.623Z
+*/
 .cropper-container {
   direction: ltr;
   font-size: 0;

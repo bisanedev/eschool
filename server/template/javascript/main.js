@@ -1,9 +1,11 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';;
 import RouterApp from './router';
 import "../sass/main.scss";
 import "cropperjs/dist/cropper.css";
 import "react-datepicker/dist/react-datepicker.css";
 
 // dooooommmm
-ReactDOM.render(<RouterApp/>, document.getElementById('root'));
+const container = document.getElementById('root');
+const root = createRoot(container);
+root.render(<RouterApp/>);

@@ -111,7 +111,7 @@ class PageSekolahSiswaEdit extends React.Component{
                 </div>
                 <div className="w-50 ml2">
                 <label className="f5 fw4 db mb2">No urut absen</label> 
-                <DropdownList filter='contains' data={NomorAbsens} ontainerClassName={errorNoAbsen !="" ? "error":""} value={noAbsen} onChange={value => this.handleSelectAbsen(value)} textField="nomor" dataKey="id" placeholder="Pilih nomor"/> 
+                <DropdownList filter='contains' data={NomorAbsens} containerClassName={errorNoAbsen !="" ? "error":""} value={noAbsen} onChange={value => this.handleSelectAbsen(value)} textField="nomor" dataKey="id" placeholder="Pilih nomor"/> 
                 {errorNoAbsen != "" && (
                   <span className="pesan-error">{errorNoAbsen}</span>
                 )}

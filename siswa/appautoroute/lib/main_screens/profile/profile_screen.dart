@@ -35,7 +35,7 @@ class _ProfileScreen extends State<ProfileScreen> {
   double height = MediaQuery.of(context).size.height;  
 
   final logoutButton = Positioned(
-    top:20,
+    top:28,
     right: 10,
     child: InkWell(
       onTap: () => showDialog<String> (
@@ -77,7 +77,7 @@ class _ProfileScreen extends State<ProfileScreen> {
   );
 
   final passwordButton = Positioned(
-    top:20,
+    top:28,
     right: 90,
     child: InkWell(
       onTap: () => router.push(PasswordRouter(userToken: userToken)),

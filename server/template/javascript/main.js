@@ -1,5 +1,5 @@
 import React from 'react';
-import { createRoot } from 'react-dom/client';;
+import { createRoot } from 'react-dom/client';
 import RouterApp from './router';
 import "../sass/main.scss";
 import "cropperjs/dist/cropper.css";

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 08, 2022 at 03:55 AM
+-- Generation Time: Jun 20, 2022 at 10:45 AM
 -- Server version: 10.4.19-MariaDB
 -- PHP Version: 8.0.7
 
@@ -44,7 +44,7 @@ CREATE TABLE `quiz_banksoal_essay` (
 
 INSERT INTO `quiz_banksoal_essay` (`id`, `tingkatan_id`, `mapel_id`, `semester_id`, `pertanyaan_text`, `pertanyaan_images`, `pertanyaan_tex`, `pertanyaan_audio`) VALUES
 (7, 2, 9, 1, '&lt;p&gt;Pisang sangat bermanfaat bagi kehidupan manusia. Buah kuning ini mengandung zat yang sangat berguna seperti potasium, potasium, gula dan lainnya. Zat ini sangat bermanfaat dalam tubuh. Sebagai contoh, banyak gula dapat digunakan sebagai sumber energi bagi tubuh. Pisang ditanam di tanah subur dan memiliki sumber air. Pisang tidak hanya mengandung zat-zat bermanfaat, mereka juga menghasilkan hormon endorphin.Hormon-hormon ini memberikan kenyamanan bagi mereka yang mengkonsumsinya. &lt;/p&gt;&lt;p&gt;Kalimat-kalimat sumbang ada dalam kalimat? &lt;/p&gt;', '', '', ''),
-(15, 2, 9, 1, '&lt;p&gt;Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it&lt;br/&gt; over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure &lt;br/&gt;Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the &lt;br/&gt;undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of &amp;quot;de Finibus Bonorum et Malorum&amp;quot; (The Extremes of Good and Evil) by &lt;br/&gt;Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, &amp;quot;Lorem ipsum dolor sit amet..&amp;quot;, comes from a line in section 1.10.32. &lt;/p&gt;', 'pertanyaan.jpg', '\\sum_{n\\mathop=0}^{\\infty}\\sqrt{2}4', 'pertanyaan.mp3');
+(15, 2, 9, 1, '&lt;p&gt;Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it&lt;br/&gt; over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure &lt;br/&gt;Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the &lt;br/&gt;undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of &amp;quot;de Finibus Bonorum et Malorum&amp;quot; (The Extremes of Good and Evil) by &lt;br/&gt;Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, &amp;quot;Lorem ipsum dolor sit amet..&amp;quot;, comes from a line in section 1.10.32.&lt;/p&gt;', 'pertanyaan.jpg', '\\sum_{n\\mathop=0}^{\\infty}\\sqrt{2}4', 'pertanyaan.mp3');
 
 -- --------------------------------------------------------
 
@@ -94,7 +94,8 @@ INSERT INTO `quiz_banksoal_pilihan` (`id`, `tingkatan_id`, `mapel_id`, `semester
 (103, 2, 1, 1, '&lt;p&gt;Sebuah taman yang berbentuk lingkaran kelilingnya 3.850 m. Maka jika dihitung diameter dari taman tersebut ialah …. &lt;/p&gt;', '', '', '', '[{\"type\":\"text\",\"data\":\"&lt;p&gt;1200 m &lt;/p&gt;\"},{\"type\":\"text\",\"data\":\"&lt;p&gt;1.220 m &lt;/p&gt;\"},{\"type\":\"text\",\"data\":\"&lt;p&gt;1.225 m &lt;/p&gt;\"},{\"type\":\"text\",\"data\":\"&lt;p&gt;1.230 m &lt;/p&gt;\"}]', '[1]'),
 (104, 2, 1, 1, '&lt;p&gt;Kinanti menjahit taplak meja bentuknya bundar dengan d = 1,4 m. Setelah &lt;br/&gt;selesai jika diukur berapa keliling lingkaran taplak meja tersebut … &lt;/p&gt;', '', '', '', '[{\"type\":\"text\",\"data\":\"&lt;p&gt;3,5 m &lt;/p&gt;\"},{\"type\":\"text\",\"data\":\"&lt;p&gt;3,75 m &lt;/p&gt;\"},{\"type\":\"text\",\"data\":\"&lt;p&gt;4,4 m &lt;/p&gt;\"},{\"type\":\"text\",\"data\":\"&lt;p&gt;4.15 m &lt;/p&gt;\"}]', '[2]'),
 (106, 2, 9, 1, '&lt;p&gt;test image / audio / math&lt;/p&gt;', 'pertanyaan.jpg', '\\int_0^{\\infty}\\frac{\\differentialD2}{\\differentialD x}2', 'pertanyaan.mp3', '[{\"type\":\"text\",\"data\":\"&lt;p&gt;hollaaa&lt;/p&gt;\"},{\"type\":\"text\",\"data\":\"&lt;p&gt;test&lt;/p&gt;\"},{\"type\":\"text\",\"data\":\"&lt;p&gt;baong&lt;/p&gt;\"}]', '[0]'),
-(107, 2, 9, 1, '&lt;p&gt;asdsadsasadsadas&lt;/p&gt;', 'pertanyaan.jpg', '', 'pertanyaan.mp3', '[{\"type\":\"text\",\"data\":\"&lt;p&gt;ssss&lt;/p&gt;\"},{\"type\":\"text\",\"data\":\"&lt;p&gt;wwwww&lt;/p&gt;\"}]', '[1]');
+(107, 2, 9, 1, '&lt;p&gt;asdsadsasadsadas&lt;/p&gt;', 'pertanyaan.jpg', '', 'pertanyaan.mp3', '[{\"type\":\"text\",\"data\":\"&lt;p&gt;ssss&lt;/p&gt;\"},{\"type\":\"text\",\"data\":\"&lt;p&gt;wwwww&lt;/p&gt;\"}]', '[1]'),
+(109, 2, 9, 1, '&lt;p&gt;baooong &lt;/p&gt;', '', '', '', '[{\"type\":\"text\",\"data\":\"&lt;p&gt;dddd&lt;/p&gt;\"},{\"type\":\"text\",\"data\":\"&lt;p&gt;eeee&lt;/p&gt;\"}]', '[0]');
 
 -- --------------------------------------------------------
 
@@ -244,14 +245,14 @@ CREATE TABLE `sekolah_mapel` (
 --
 
 INSERT INTO `sekolah_mapel` (`id`, `nama`, `color`) VALUES
-(1, 'Matematika', '#426131'),
+(1, 'Matematika', '#2d471f'),
 (2, 'IPA', '#a02ba5'),
 (3, 'Fisika', '#5f4d92'),
 (6, 'Biologi', '#1047c2'),
 (7, 'Kimia', '#1acf5d'),
 (8, 'Bahasa Inggris', '#11d2cd'),
-(9, 'Bahasa Indonesia', '#9fd211'),
-(10, 'Seni dan Prakarya', '#d24811');
+(9, 'Bahasa Indonesia', '#7aa30c'),
+(10, 'Seni dan Prakarya', '#8b320d');
 
 -- --------------------------------------------------------
 
@@ -273,7 +274,7 @@ CREATE TABLE `sekolah_semesternama` (
 
 INSERT INTO `sekolah_semesternama` (`id`, `semester_tahun_id`, `semester`, `semester_start`, `semester_end`) VALUES
 (1, 3, 1, '2021-07-01', '2021-12-25'),
-(2, 3, 2, '2022-01-01', '2022-07-10');
+(2, 3, 2, '2022-01-01', '2022-07-11');
 
 -- --------------------------------------------------------
 
@@ -318,10 +319,10 @@ CREATE TABLE `sekolah_siswa` (
 --
 
 INSERT INTO `sekolah_siswa` (`id`, `nama`, `jenis`, `username`, `foto`, `no_absens`, `kelas_id`, `password`, `expired_token`, `unique_token`, `device_token`) VALUES
-(1, 'Adisty Titania', 'p', 'adisty', 1, 1, 1, '$2a$10$pR9ZEuPIIpEgBBMyD8G79uXZplUN5zB39xmlNni//KgajnGEwvW02', 1675770053, '620105452451a', ''),
-(2, 'Auristela Allisya Lesham Shaenette Wahono Wahyudi', 'p', 'auristela', 1, 2, 1, '$2a$10$Y.rlT1vKIWPpkb68XsS7ZeJTrw3gJL3nsCIHI5A6.EBMPyIUOZpdW', 1675771488, '62010ae0b7bd8', NULL),
-(3, 'Mastah Mandeliman', 'l', 'mandeliman', 1, 1, 19, '$2a$10$eSAZXak6xEZFFFBBS6Y6fuAu1VN4Ac2cHx5gFcYAm/qEQTrTPiQ4u', 1675770538, '6201072a70856', NULL),
-(4, 'Moho Man', 'l', 'moho', 1, 2, 19, '$2a$10$Q66RXXyIgvFpCa2V5iFk0uR/2JJZZ15Ls6pkrQtnr8I4GGxTtp2cu', 1675768792, '62010058ccb36', NULL);
+(1, 'Adisty Titania', 'p', 'adisty', 1, 1, 1, '$2a$10$pR9ZEuPIIpEgBBMyD8G79uXZplUN5zB39xmlNni//KgajnGEwvW02', 1681004760, '6250e5588a426', ''),
+(2, 'Auristela Allisya Lesham Shaenette ', 'p', 'auristela', 1, 2, 1, '$2a$10$Y.rlT1vKIWPpkb68XsS7ZeJTrw3gJL3nsCIHI5A6.EBMPyIUOZpdW', 1681102151, '625261c7c9975', NULL),
+(3, 'Mastah Mandeliman', 'l', 'mandeliman', 1, 1, 19, '$2a$10$eSAZXak6xEZFFFBBS6Y6fuAu1VN4Ac2cHx5gFcYAm/qEQTrTPiQ4u', 1676612304, '620ddf50d00fc', NULL),
+(4, 'Moho Man', 'l', 'moho', 1, 2, 19, '$2a$10$W90EH2Fcxx4uHMigr181DucbwQNmti5BbiuLyCTkiL5mlTIeQy7lK', 1677697196, '621e6d2c24562', NULL);
 
 -- --------------------------------------------------------
 
@@ -348,9 +349,9 @@ CREATE TABLE `sekolah_users` (
 --
 
 INSERT INTO `sekolah_users` (`id`, `nama`, `jenis`, `username`, `password`, `foto`, `mapel_id`, `superuser`, `expired_token`, `unique_token`, `device_token`) VALUES
-(1, 'Administrator', 'l', 'admin', '$2a$10$uJWzRaqj52lXZGP6yeG0..g6S8EfynirIddkDM3XdmbfGY5x5vrti', 1, '[\"9\"]', 1, 1674036384, '61e69120784c0', ''),
-(2, 'Marbuah Almakaroni', 'p', 'marbuah', '$2a$12$K/vRFyhWiIwitDqY5fcqQOIZvWGlfplnOJPbkOYuJm8RshDC5V9gG', 1, '[\"9\",\"1\"]', 0, 1674933449, '61f4414942806', ''),
-(15, 'Adhisti Arisha ', 'p', 'adhisti', '$2a$10$F/T0Q2n9I6blfK4YsY9FYO6xQxOOnoYdmLAnlZKnwBUmLCz8Psc7.', 1, '[\"3\",\"6\"]', 0, 1674925503, '61f4223f18438', NULL),
+(1, 'Administrator', 'l', 'admin', '$2a$10$uQdj8W5R62l3g2wOUvqYXe0UrpEpyB6vLx7eIL7elg6wRPt58NZvC', 1, '[\"9\"]', 1, 1678070851, '622420c3c87c9', ''),
+(2, 'Marbuah Almakaroni', 'p', 'marbuah', '$2a$12$K/vRFyhWiIwitDqY5fcqQOIZvWGlfplnOJPbkOYuJm8RshDC5V9gG', 1, '[\"9\",\"1\"]', 1, 1681566841, '625978f9d5944', ''),
+(15, 'Adhisti Arisha ', 'p', 'adhisti', '$2a$10$F/T0Q2n9I6blfK4YsY9FYO6xQxOOnoYdmLAnlZKnwBUmLCz8Psc7.', 1, '[\"3\",\"6\"]', 0, 1681016115, '625111b392805', NULL),
 (25, 'Meong Ganas', 'p', 'meow', '$2a$12$K/vRFyhWiIwitDqY5fcqQOIZvWGlfplnOJPbkOYuJm8RshDC5V9gG', 1, '[\"9\"]', 0, 1674933449, '61f4414942806', '');
 
 --
@@ -458,19 +459,19 @@ ALTER TABLE `sekolah_users`
 -- AUTO_INCREMENT for table `quiz_banksoal_essay`
 --
 ALTER TABLE `quiz_banksoal_essay`
-  MODIFY `id` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT for table `quiz_banksoal_pilihan`
 --
 ALTER TABLE `quiz_banksoal_pilihan`
-  MODIFY `id` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=109;
+  MODIFY `id` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=132;
 
 --
 -- AUTO_INCREMENT for table `quiz_exam`
 --
 ALTER TABLE `quiz_exam`
-  MODIFY `id` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT for table `quiz_exam_jawabansiswa`
@@ -482,49 +483,49 @@ ALTER TABLE `quiz_exam_jawabansiswa`
 -- AUTO_INCREMENT for table `quiz_paketsoal`
 --
 ALTER TABLE `quiz_paketsoal`
-  MODIFY `id` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT for table `sekolah_kelasnama`
 --
 ALTER TABLE `sekolah_kelasnama`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 
 --
 -- AUTO_INCREMENT for table `sekolah_kelastingkatan`
 --
 ALTER TABLE `sekolah_kelastingkatan`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT for table `sekolah_mapel`
 --
 ALTER TABLE `sekolah_mapel`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `sekolah_semesternama`
 --
 ALTER TABLE `sekolah_semesternama`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `sekolah_semestertahun`
 --
 ALTER TABLE `sekolah_semestertahun`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT for table `sekolah_siswa`
 --
 ALTER TABLE `sekolah_siswa`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `sekolah_users`
 --
 ALTER TABLE `sekolah_users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
 -- Constraints for dumped tables

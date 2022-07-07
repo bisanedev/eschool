@@ -7,7 +7,8 @@ import {InputSearch,InputText} from '../../../components/forms';
 import Table from "../../../components/table";
 import {DeleteDialog} from '../../../components/dialog';
 import {AddModal,EditModal} from '../../../components/modal';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
+import { Link } from "react-router-dom";
 
 class PageSekolahSemester extends React.Component{
 
@@ -56,8 +57,8 @@ class PageSekolahSemester extends React.Component{
         <div className="headings">
           <div className="title">Semester</div>
           <div className="subtitle">Halaman informasi untuk semester</div>
-          <Breadcrumb homeUrl="/sekolah" homeText="Sekolah"> 
-            <li><a href="#/sekolah/semester"><span>Semester</span></a></li>                                             
+          <Breadcrumb homeUrl="/sekolah" homeText="Sekolah">            
+            <li><Link to="/sekolah/semester"><span>Semester</span></Link></li>                                             
           </Breadcrumb>    
         </div>                       
         <div className="mw9 center cf ph3 mb3">
@@ -100,7 +101,7 @@ class PageSekolahSemester extends React.Component{
           <Table.Body>
           {data.length > 0 && !isLoading && data.map((value,k) => (
               <Table.DataSimple link={true} key={k} title={value.nama}
-              href={`#/sekolah/semester/${value.id}`} 
+              href={`/sekolah/semester/${value.id}`} 
               checked={selected.includes(value.id)} 
               onChecked={() => this.onChecked(value.id)}
               onDelete={() => this.onDelete(value)}

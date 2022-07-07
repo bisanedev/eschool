@@ -1,6 +1,7 @@
 import React from 'react';
 import {decode} from 'html-entities';
 import MathView from 'react-math-view';
+import { Link } from "react-router-dom";
 
 function DataSoal(props) {  
     return (  
@@ -13,9 +14,9 @@ function DataSoal(props) {
         <div onClick={() => props.onDelete()} className="link dim deleteButton flex justify-center items-center">
            <i className="material-icons-outlined" style={{fontSize:"14px"}}>close</i>
         </div>
-        <a className="editButton link dim" href={props.linkEdit}>
+        <Link className="editButton link dim" to={props.linkEdit}>
             <i className="material-icons" style={{fontSize:"14px"}}>edit</i>
-        </a>
+        </Link>
         <div className="pertanyaaanOpsional flex justify-center items-center">
             {props.dataValue.pertanyaan_tex === "" ? 
             <span className="mr1 link br2 pa1 dib disable-primary bg-disableSecondary" style={{fontSize: "13px"}}>Math</span>

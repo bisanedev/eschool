@@ -74,7 +74,7 @@ class ApiController
 
     public function hasSuperuser()
     {
-        if($this->user["superuser"] != "1"){        
+        if($this->user["superuser"] != 1){        
             echo $this->response->json_response(401, "Akses Superuser Dibutuhkan");
             exit;
         }

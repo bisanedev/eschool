@@ -6,6 +6,7 @@ import { Breadcrumb } from '../../../components/menu';
 import { InputText,InputPassword,Cards,Switcher } from '../../../components/forms';
 import { toast } from 'react-toastify';
 import Cropper from "react-cropper";
+import { Link } from "react-router-dom";
 
 class PageSekolahPendidikAdd extends React.Component{
 
@@ -46,7 +47,7 @@ class PageSekolahPendidikAdd extends React.Component{
   render() { 
     const {tokenData} = this.props;
     const {jenis,mapelData,superuser,isLoading,src,croppedImageUrl,errorSelect,uploadProgress,username,uploadDisable,errorNama,errorUsername,errorPassword,errorRepassword} = this.state; 
-    let foto = <img src={jenis === "l" ? "assets/images/cowok.png":"assets/images/cewek.png"} />;  
+    let foto = <img src={jenis === "l" ? "/assets/images/cowok.png":"/assets/images/cewek.png"} />;  
     const uploadClass = uploadProgress ? "progress-active":"";    
     return (
     <>  
@@ -60,8 +61,8 @@ class PageSekolahPendidikAdd extends React.Component{
           <div className="title">Users & Pendidik</div>
           <div className="subtitle">Halaman informasi untuk users & pendidik</div>
           <Breadcrumb homeUrl="/sekolah" homeText="Sekolah">
-            <li><a href="#/sekolah/pendidik"><span>Users & pendidik</span></a></li>   
-            <li><a href="#/sekolah/pendidik/add"><span>Users & pendidik baru</span></a></li>              
+            <li><Link to="/sekolah/pendidik"><span>Users & pendidik</span></Link></li>     
+            <li><Link to="/sekolah/pendidik/add"><span>Users & pendidik baru</span></Link></li>            
           </Breadcrumb>     
         </div>
         <div className="mw9 center cf ph3 mb3">

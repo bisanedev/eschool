@@ -10,6 +10,7 @@ import { toast } from 'react-toastify';
 import { convertToHTML ,convertFromHTML} from 'draft-convert';
 import {encode,decode} from 'html-entities';
 import MathView from 'react-math-view';
+import { Link } from "react-router-dom";
 
 class PageAplikasiQuizEssaySoalEdit extends React.Component{
 
@@ -61,11 +62,11 @@ class PageAplikasiQuizEssaySoalEdit extends React.Component{
           <div className="title">Essay</div>
           <div className="subtitle">Data bank soal untuk tingkatan {tingkatan != null ? tingkatan.nama:"memuat..."}, mata pelajaran {mapel != null ? mapel.nama:"memuat..."} dan {semester != null ? semester.tahun+" (semester "+semester.semester+")":"memuat..."}</div>
           <Breadcrumb homeUrl="/aplikasi" homeText="Aplikasi"> 
-            <li><a href="#/aplikasi/quiz"><span>Kuis platform</span></a></li>   
-            <li><a href="#/aplikasi/quiz/essay"><span>Essay</span></a></li>               
-            <li><a href={"#/aplikasi/quiz/essay/"+this.tingkatID}><span>{tingkatan != null ? tingkatan.nama:"memuat..."}</span></a></li>  
-            <li><a href={"#/aplikasi/quiz/essay/"+this.tingkatID+"/"+this.mapelID}><span>{mapel != null ? mapel.nama:"memuat..."}</span></a></li>
-            <li><a href={"#/aplikasi/quiz/essay/"+this.tingkatID+"/"+this.mapelID+"/"+this.semesterID}><span>{semester != null ? semester.tahun+" (semester "+semester.semester+")":"memuat..."}</span></a></li>            
+            <li><Link to="/aplikasi/quiz"><span>Kuis platform</span></Link></li>   
+            <li><Link to="/aplikasi/quiz/essay"><span>Essay</span></Link></li>               
+            <li><Link to={"/aplikasi/quiz/essay/"+this.tingkatID}><span>{tingkatan != null ? tingkatan.nama:"memuat..."}</span></Link></li>  
+            <li><Link to={"/aplikasi/quiz/essay/"+this.tingkatID+"/"+this.mapelID}><span>{mapel != null ? mapel.nama:"memuat..."}</span></Link></li>
+            <li><Link to={"/aplikasi/quiz/essay/"+this.tingkatID+"/"+this.mapelID+"/"+this.semesterID}><span>{semester != null ? semester.tahun+" (semester "+semester.semester+")":"memuat..."}</span></Link></li>            
             <li><a href="#"><span>Mengubah soal</span></a></li>   
           </Breadcrumb>   
         </div>
@@ -116,7 +117,7 @@ class PageAplikasiQuizEssaySoalEdit extends React.Component{
               <label className="f5 fw4 db mb2">Pertanyaan Gambar (Opsional)</label>
               <div className="relative">
                 <div className="link dim deleteFotoPertanyaan flex justify-center items-center" onClick={() => {this.setState({pertanyaaanImages:""})}}>Ganti foto<i className="material-icons-outlined" style={{fontSize: "14px"}}>close</i></div>
-                    <img src={`data/quiz/soal/essay/${this.soalID}/${pertanyaaanImages}?&nocache=`+Date.now()} style={{width:"100%",height:"100%"}}/>
+                    <img src={`/data/quiz/soal/essay/${this.soalID}/${pertanyaaanImages}?&nocache=`+Date.now()} style={{width:"100%",height:"100%"}}/>
               </div>              
             </div>
             ):(
@@ -127,7 +128,7 @@ class PageAplikasiQuizEssaySoalEdit extends React.Component{
                <label className="f5 fw4 db mb2">Pertanyaan Audio (Opsional)</label>
                <div className="relative pv3">
                <div className="link dim deleteFotoPertanyaan flex justify-center items-center" onClick={() => {this.setState({pertanyaaanAudio:""})}}>Ganti Audio<i className="material-icons-outlined" style={{fontSize: "14px"}}>close</i></div>
-                <audio controls className="w-100" src={`data/quiz/soal/essay/${this.soalID}/${pertanyaaanAudio}`}/>                 
+                <audio controls className="w-100" src={`/data/quiz/soal/essay/${this.soalID}/${pertanyaaanAudio}`}/>                 
                </div>              
               </div>
             ):(

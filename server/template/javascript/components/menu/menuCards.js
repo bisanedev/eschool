@@ -1,25 +1,17 @@
 import React from 'react';
+import { Link } from "react-router-dom";
 
-export default class MenuCard extends React.Component{
-
-  constructor(props) {
-    super(props);    
-  }
-
-  componentDidMount() {
-
-  }
-
-  render() {
-    return(
+function MenuCard(props) {
+  return (
     <div className="wrapCard">
-        <div className="bg-white tc pa3 cardMenu br2" style={this.props.style}>                   
-            <a className="linkMenu" href={"#"+this.props.url}>
-                <img src={this.props.icon}/>
-                <span className="pt1">{this.props.text}</span>               
-            </a>
+        <div className="bg-white tc pa3 cardMenu br2" style={props.style}>   
+            <Link className="linkMenu" to={props.url}>            
+              <img src={props.icon}/>
+              <span className="pt1">{props.text}</span>            
+            </Link>
         </div>
     </div>
-    );
-  }
+  );
 }
+
+export default MenuCard;

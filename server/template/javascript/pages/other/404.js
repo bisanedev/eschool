@@ -1,5 +1,6 @@
 import React from 'react';
 import { useLocation , useNavigate} from "react-router";
+import { Link } from "react-router-dom";
 
 function Page404() {     
     let location = useLocation();
@@ -16,9 +17,15 @@ function Page404() {
         </header>
         <p className="fw1 i tc mt3 f4 f3-l">Apakah anda mencari salah satunya? </p>
         <ul className="list tc pl0 w-100 mt3">                  
-          <li className="dib"><a className="f5 f4-ns link black db pv2 ph3 hover-primary" href="#/aplikasi">Aplikasi</a></li>
-          <li className="dib"><a className="f5 f4-ns link black db pv2 ph3 hover-primary" href="#/sekolah">Sekolah</a></li>
-          <li className="dib"><a className="f5 f4-ns link black db pv2 ph3 hover-primary" href="#/login">Login</a></li> 
+          <li className="dib">            
+            <Link className="f5 f4-ns link black db pv2 ph3 hover-primary" to="/aplikasi">Aplikasi</Link>
+          </li>
+          <li className="dib">            
+            <Link className="f5 f4-ns link black db pv2 ph3 hover-primary" to="/sekolah">Sekolah</Link>
+          </li>
+          <li className="dib">            
+            <Link className="f5 f4-ns link black db pv2 ph3 hover-primary" to="/login">Login</Link>
+          </li> 
         </ul>
         <button className="w4 tc f6 link dim br2 ba ph3 pv2 dib white bg-primary b--primary pointer" onClick={goBack}>Kembali</button>                
         </div>

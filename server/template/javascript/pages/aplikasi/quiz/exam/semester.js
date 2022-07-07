@@ -3,6 +3,7 @@ import { Helmet } from 'react-helmet';
 import axios from "axios";
 import {Breadcrumb,MenuText,MenuLoading} from '../../../../components/menu';
 import NotFound from "../../../other/notfound";
+import { Link } from "react-router-dom";
 
 class PageAplikasiQuizExamSemester extends React.Component{
 
@@ -37,11 +38,11 @@ class PageAplikasiQuizExamSemester extends React.Component{
         <div className="headings">
           <div className="title">Kuis platform</div>
           <div className="subtitle">Halaman informasi ujian</div>
-          <Breadcrumb homeUrl="/aplikasi" homeText="Aplikasi">                                            
-            <li><a href="#/aplikasi/quiz"><span>Kuis platform</span></a></li>   
-            <li><a href="#/aplikasi/quiz/exam"><span>Ujian</span></a></li>               
-            <li><a href={"#/aplikasi/quiz/exam/"+this.tingkatID}><span>{tingkatan != null ? tingkatan.nama:"memuat..."}</span></a></li>  
-            <li><a href={"#/aplikasi/quiz/exam/"+this.tingkatID+"/"+this.mapelID}><span>{mapel != null ? mapel.nama:"memuat..."}</span></a></li>                  
+          <Breadcrumb homeUrl="/aplikasi" homeText="Aplikasi">  
+            <li><Link to="/aplikasi/quiz"><span>Kuis platform</span></Link></li>
+            <li><Link to="/aplikasi/quiz/exam"><span>Ujian</span></Link></li>
+            <li><Link to={"/aplikasi/quiz/exam/"+this.tingkatID}><span>{tingkatan != null ? tingkatan.nama:"memuat..."}</span></Link></li>            
+            <li><Link to={"/aplikasi/quiz/exam/"+this.tingkatID+"/"+this.mapelID}><span>{mapel != null ? mapel.nama:"memuat..."}</span></Link></li>                  
           </Breadcrumb>
         </div>        
         <div className="mw9 center">

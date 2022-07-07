@@ -6,6 +6,7 @@ import {InputSearch} from '../../../../components/forms';
 import Table from "../../../../components/table";
 import {DeleteDialog} from '../../../../components/dialog';
 import { toast } from 'react-toastify';
+import { Link } from "react-router-dom";
 
 class PageAplikasiQuizEssaySoal extends React.Component{
 
@@ -54,18 +55,18 @@ class PageAplikasiQuizEssaySoal extends React.Component{
           <div className="title">Essay</div>
           <div className="subtitle">Data bank soal untuk tingkatan {tingkatan != null ? tingkatan.nama:"memuat..."}, mata pelajaran {mapel != null ? mapel.nama:"memuat..."} dan {semester != null ? semester.tahun+" (semester "+semester.semester+")":"memuat..."}</div>
           <Breadcrumb homeUrl="/aplikasi" homeText="Aplikasi"> 
-            <li><a href="#/aplikasi/quiz"><span>Kuis platform</span></a></li>   
-            <li><a href="#/aplikasi/quiz/essay"><span>Essay</span></a></li>               
-            <li><a href={"#/aplikasi/quiz/essay/"+this.tingkatID}><span>{tingkatan != null ? tingkatan.nama:"memuat..."}</span></a></li>  
-            <li><a href={"#/aplikasi/quiz/essay/"+this.tingkatID+"/"+this.mapelID}><span>{mapel != null ? mapel.nama:"memuat..."}</span></a></li>
-            <li><a href={"#/aplikasi/quiz/essay/"+this.tingkatID+"/"+this.mapelID+"/"+this.semesterID}><span>{semester != null ? semester.tahun+" (semester "+semester.semester+")":"memuat..."}</span></a></li>            
+          <li><Link to="/aplikasi/quiz"><span>Kuis platform</span></Link></li>   
+            <li><Link to="/aplikasi/quiz/essay"><span>Essay</span></Link></li>               
+            <li><Link to={"/aplikasi/quiz/essay/"+this.tingkatID}><span>{tingkatan != null ? tingkatan.nama:"memuat..."}</span></Link></li>  
+            <li><Link to={"/aplikasi/quiz/essay/"+this.tingkatID+"/"+this.mapelID}><span>{mapel != null ? mapel.nama:"memuat..."}</span></Link></li>
+            <li><Link to={"/aplikasi/quiz/essay/"+this.tingkatID+"/"+this.mapelID+"/"+this.semesterID}><span>{semester != null ? semester.tahun+" (semester "+semester.semester+")":"memuat..."}</span></Link></li>                     
           </Breadcrumb>
         </div>                
         <div className="mw9 center cf ph3 mb3">
         <Table>
           <Table.Header>
             <div className="w-50 ph2">
-              <a href={`#/aplikasi/quiz/essay/${this.tingkatID}/${this.mapelID}/${this.semesterID}/add`} className="pointer link dim br1 ba pa2 dib white bg-primary b--primary" onClick={() => this.setState({showAdd:true})}>                
+              <a href={`/aplikasi/quiz/essay/${this.tingkatID}/${this.mapelID}/${this.semesterID}/add`} className="pointer link dim br1 ba pa2 dib white bg-primary b--primary" onClick={() => this.setState({showAdd:true})}>                
                 <i className="material-icons-outlined" style={{fontSize:"20px"}}>add</i>
               </a>
             </div>
@@ -104,10 +105,10 @@ class PageAplikasiQuizEssaySoal extends React.Component{
                 checked={selected.includes(value.id)} 
                 onChecked={() => this.onChecked(value.id)}
                 onDelete={() => this.onDelete(value)}
-                linkEdit={`#/aplikasi/quiz/essay/${this.tingkatID}/${this.mapelID}/${this.semesterID}/${value.id}`}
+                linkEdit={`/aplikasi/quiz/essay/${this.tingkatID}/${this.mapelID}/${this.semesterID}/${value.id}`}
                 dataValue={value}                   
-                linkImages={`data/quiz/soal/essay/${value.id}/${value.pertanyaan_images}?nocache=`+Date.now()}
-                linkAudio={`data/quiz/soal/essay/${value.id}/${value.pertanyaan_audio}`}
+                linkImages={`/data/quiz/soal/essay/${value.id}/${value.pertanyaan_images}?nocache=`+Date.now()}
+                linkAudio={`/data/quiz/soal/essay/${value.id}/${value.pertanyaan_audio}`}
                 />     
             ))} 
             {isLoading && <Table.Loading nama="soal" /> } 

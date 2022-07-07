@@ -7,6 +7,7 @@ import { InputText,InputPassword,Cards } from '../../../components/forms';
 import { toast } from 'react-toastify';
 import { DropdownList } from 'react-widgets';
 import Cropper from "react-cropper";
+import { Link } from "react-router-dom";
 
 class PageSekolahSiswaAdd extends React.Component{
 
@@ -49,7 +50,7 @@ class PageSekolahSiswaAdd extends React.Component{
   render() { 
     const {tokenData} = this.props;
     const {jenis,kelasData,username,kelas,noAbsen,isLoading,src,croppedImageUrl,errorSelect,uploadProgress,uploadDisable,errorNama,errorKelas,errorNoAbsen,errorUsername,errorPassword,errorRepassword} = this.state; 
-    let foto = <img src={jenis === "l" ? "assets/images/cowok.png":"assets/images/cewek.png"} />;  
+    let foto = <img src={jenis === "l" ? "/assets/images/cowok.png":"/assets/images/cewek.png"} />;  
     const uploadClass = uploadProgress ? "progress-active":"";   
     var NomorAbsens = []; 
     for (var x = 0; x < 100; x++) {
@@ -66,9 +67,9 @@ class PageSekolahSiswaAdd extends React.Component{
         <div className="headings">    
           <div className="title">Siswa</div>
           <div className="subtitle">Halaman informasi untuk siswa</div>
-          <Breadcrumb homeUrl="/sekolah" homeText="Sekolah">
-            <li><a href="#/sekolah/siswa"><span>Siswa</span></a></li>   
-            <li><a href="#/sekolah/siswa/add"><span>Siswa baru</span></a></li>            
+          <Breadcrumb homeUrl="/sekolah" homeText="Sekolah">            
+            <li><Link to="/sekolah/siswa"><span>Siswa</span></Link></li> 
+            <li><Link to="/sekolah/siswa/add"><span>Siswa baru</span></Link></li>                      
           </Breadcrumb>     
         </div>
         <div className="mw9 center cf ph3 mb3">

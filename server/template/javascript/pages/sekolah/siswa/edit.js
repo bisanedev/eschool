@@ -8,6 +8,7 @@ import { DeleteDialog } from '../../../components/dialog';
 import { toast } from 'react-toastify';
 import { DropdownList } from 'react-widgets';
 import Cropper from "react-cropper";
+import { Link } from "react-router-dom";
 
 class PageSekolahSiswaEdit extends React.Component{
 
@@ -72,9 +73,9 @@ class PageSekolahSiswaEdit extends React.Component{
         <div className="headings">    
           <div className="title">Siswa</div>
           <div className="subtitle">Halaman informasi untuk siswa</div>          
-          <Breadcrumb homeUrl="/sekolah" homeText="Sekolah">
-            <li><a href="#/sekolah/siswa"><span>Siswa</span></a></li>   
-            <li><a href={"#/sekolah/siswa/edit/"+this.userID}><span style={{textTransform:"capitalize"}}>{rawUsername === "" ? "memuat":rawUsername}</span></a></li>            
+          <Breadcrumb homeUrl="/sekolah" homeText="Sekolah">           
+            <li><Link to="/sekolah/siswa"><span>Siswa</span></Link></li>
+            <li><Link to={"/sekolah/siswa/edit/"+this.userID}><span style={{textTransform:"capitalize"}}>{rawUsername === "" ? "memuat":rawUsername}</span></Link></li>                     
           </Breadcrumb>     
         </div>
         <div className="mw9 center cf ph3 mb3">
@@ -169,10 +170,10 @@ class PageSekolahSiswaEdit extends React.Component{
                     <div className="link dim deleteFotoButton" onClick={() => this.setState({showHapusFoto:true})}>
                       <i className="material-icons-outlined" style={{fontSize: "14px"}}>close</i>
                     </div>
-                    <img src={"data/siswa/"+rawUsername+".jpg?nocache="+Date.now()}/>
+                    <img src={"/data/siswa/"+rawUsername+".jpg?nocache="+Date.now()}/>
                   </div>
                   :
-                  <img src={jenis==="l" ? "assets/images/cowok.png":"assets/images/cewek.png"}/> 
+                  <img src={jenis==="l" ? "/assets/images/cowok.png":"/assets/images/cewek.png"}/> 
                 )}
               </div>
               <button type="submit" style={{cursor: "pointer"}} className={`${uploadClass} dim w-100 tc b f7 link br2 ba ph3 pv2 dib white bg-primary b--primary`} disabled={uploadDisable} onClick={this.updateSiswa}>Perbarui data</button>

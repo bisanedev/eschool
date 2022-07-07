@@ -1,5 +1,6 @@
 import React from 'react';
 import { useLocation } from 'react-router-dom';
+import { Link } from "react-router-dom";
 
 export default class Sidebar extends React.Component{
 
@@ -14,12 +15,12 @@ export default class Sidebar extends React.Component{
   }
 
   render() {
-    let foto = <img src={"data/users/"+this.props.username+".jpg?nocache="+Date.now()} onError={(e)=>{e.target.onerror = null; e.target.src=this.props.jenis==="l" ? "assets/images/cowok.png":"assets/images/cewek.png"}} />;
+    let foto = <img src={"/data/users/"+this.props.username+".jpg?nocache="+Date.now()} onError={(e)=>{e.target.onerror = null; e.target.src=this.props.jenis==="l" ? "/assets/images/cowok.png":"/assets/images/cewek.png"}} />;
     let sekolah = this.props.superuser ? <NavItem url="/sekolah" title="Sekolah" ico={<i className="material-icons-outlined" style={{fontSize:"25px",color:"white"}}>school</i>}/>:<NavItemDisabled title="Sekolah" ico={<i className="material-icons-outlined" style={{fontSize:"25px",color:"white"}}>school</i>} />;    
     return (
     <div id="menu" className="sidebar">
       <div className="logo">
-        <img src="assets/images/logo_harizontal.png"/>
+        <img src="/assets/images/logo_harizontal.png"/>
       </div>
       <ul className="nav"> 
         <NavItem url="/aplikasi" title="Aplikasi" ico={<i className="material-icons-outlined" style={{fontSize:"25px",color:"white"}}>apps</i>}/>
@@ -62,14 +63,14 @@ function NavItem(props){
       {props.ico}
       </div>
     }     
-    <a className="nav-button" href={"#"+props.url}>      
+    <Link className="nav-button" to={props.url}>     
       <span className="text">{props.title}</span>       
       {props.subtext &&
         <span className="subtext">
          {props.subtext}
         </span>
-      }
-    </a>
+      }    
+    </Link>
     </li>
   );
 }

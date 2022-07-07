@@ -1,6 +1,7 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
 import {Breadcrumb,MenuCard} from '../../../components/menu';
+import { Link } from "react-router-dom";
 
 class PageAplikasiQuiz extends React.Component{
 
@@ -25,15 +26,15 @@ class PageAplikasiQuiz extends React.Component{
           <div className="title">Kuis platform</div>
           <div className="subtitle">Halaman modul kuis untuk ujian kelas , bank soal & paket soal</div>
           <Breadcrumb homeUrl="/aplikasi" homeText="Aplikasi">                                            
-            <li><a href="#/aplikasi/quiz"><span>Kuis platform</span></a></li>            
+            <li><Link to="/aplikasi/quiz"><span>Kuis platform</span></Link></li>            
           </Breadcrumb>
         </div>        
         <div className="mw9 center">
         <div className="cf ph3 mb3 flex flex-wrap">
-          <MenuCard url="/aplikasi/quiz/exam" icon="assets/images/menuButton.png" text="Ujian Kelas"/>
-          <MenuCard url="/aplikasi/quiz/pilihan" icon="assets/images/menuButton.png" text="Bank Soal (Pilihan Ganda)"/>          
-          <MenuCard url="/aplikasi/quiz/essay" icon="assets/images/menuButton.png" text="Bank Soal (Essay)"/>          
-          <MenuCard url="/aplikasi/quiz/paket" icon="assets/images/menuButton.png" text="Paket Soal"/>             
+          <MenuCard url="/aplikasi/quiz/exam" icon="/assets/images/menuButton.png" text="Ujian Kelas"/>
+          <MenuCard url="/aplikasi/quiz/pilihan" icon="/assets/images/menuButton.png" text="Bank Soal (Pilihan Ganda)"/>          
+          <MenuCard url="/aplikasi/quiz/essay" icon="/assets/images/menuButton.png" text="Bank Soal (Essay)"/>          
+          <MenuCard url="/aplikasi/quiz/paket" icon="/assets/images/menuButton.png" text="Paket Soal"/>             
         </div>
         </div>
     </div>

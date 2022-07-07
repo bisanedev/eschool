@@ -14,6 +14,7 @@ import PilihanText from './pilihanText';
 import PilihanImage from './pilihanImage';
 import PilihanAudio from './pilihanAudio';
 import PilihanMath from './pilihanMath';
+import { Link } from "react-router-dom";
 
 class PageAplikasiQuizPilihanSoalAdd extends React.Component{
 
@@ -71,12 +72,12 @@ class PageAplikasiQuizPilihanSoalAdd extends React.Component{
           <div className="title">Pilihan ganda</div>
           <div className="subtitle">Data bank soal untuk tingkatan {tingkatan != null ? tingkatan.nama:"memuat..."}, mata pelajaran {mapel != null ? mapel.nama:"memuat..."} dan {semester != null ? semester.tahun+" (semester "+semester.semester+")":"memuat..."}</div>
           <Breadcrumb homeUrl="/aplikasi" homeText="Aplikasi"> 
-            <li><a href="#/aplikasi/quiz"><span>Kuis platform</span></a></li>   
-            <li><a href="#/aplikasi/quiz/pilihan"><span>Pilihan ganda</span></a></li>               
-            <li><a href={"#/aplikasi/quiz/pilihan/"+this.tingkatID}><span>{tingkatan != null ? tingkatan.nama:"memuat..."}</span></a></li>  
-            <li><a href={"#/aplikasi/quiz/pilihan/"+this.tingkatID+"/"+this.mapelID}><span>{mapel != null ? mapel.nama:"memuat..."}</span></a></li>
-            <li><a href={"#/aplikasi/quiz/pilihan/"+this.tingkatID+"/"+this.mapelID+"/"+this.semesterID}><span>{semester != null ? semester.tahun+" (semester "+semester.semester+")":"memuat..."}</span></a></li>            
-            <li><a href="#"><span>Menambahkan soal</span></a></li>   
+            <li><Link to="/aplikasi/quiz"><span>Kuis platform</span></Link></li>   
+            <li><Link to="/aplikasi/quiz/pilihan"><span>Pilihan ganda</span></Link></li>               
+            <li><Link to={"/aplikasi/quiz/pilihan/"+this.tingkatID}><span>{tingkatan != null ? tingkatan.nama:"memuat..."}</span></Link></li>  
+            <li><Link to={"/aplikasi/quiz/pilihan/"+this.tingkatID+"/"+this.mapelID}><span>{mapel != null ? mapel.nama:"memuat..."}</span></Link></li>
+            <li><Link to={"/aplikasi/quiz/pilihan/"+this.tingkatID+"/"+this.mapelID+"/"+this.semesterID}><span>{semester != null ? semester.tahun+" (semester "+semester.semester+")":"memuat..."}</span></Link></li>            
+            <li><Link to="#"><span>Menambahkan soal</span></Link></li>   
           </Breadcrumb>   
         </div>
         <div className="mw9 center cf ph3 flex" style={{marginBottom:300}}>

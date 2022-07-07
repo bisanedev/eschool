@@ -8,6 +8,7 @@ import Table from "../../../components/table";
 import {DeleteDialog} from '../../../components/dialog';
 import {AddModal,EditModal} from '../../../components/modal';
 import { toast } from 'react-toastify';
+import { Link } from "react-router-dom";
 
 class PageSekolahKelasSub extends React.Component{
 
@@ -59,8 +60,8 @@ class PageSekolahKelasSub extends React.Component{
           <div className="title">Kelas</div>
           <div className="subtitle">Halaman informasi untuk kelas</div>
           <Breadcrumb homeUrl="/sekolah" homeText="Sekolah">
-            <li><a href="#/sekolah/kelas"><span>Tingkatan kelas</span></a></li>
-            <li><a href={"#/sekolah/kelas/"+this.kelasID}><span>{tingkatanNama !="" ? tingkatanNama:"memuat..."}</span></a></li>              
+            <li><Link to="/sekolah/kelas"><span>Tingkatan kelas</span></Link></li>            
+            <li><Link to={"/sekolah/kelas/"+this.kelasID}><span>{tingkatanNama !="" ? tingkatanNama:"memuat..."}</span></Link></li>            
           </Breadcrumb>
         </div>                
         <div className="mw9 center cf ph3 mb3">

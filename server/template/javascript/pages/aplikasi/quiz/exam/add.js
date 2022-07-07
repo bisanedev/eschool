@@ -10,6 +10,7 @@ import moment from "moment";
 import PaketItem from "./paketItem";
 import PendidikItem from "./pendidikItem";
 import { toast } from 'react-toastify';
+import { Link } from "react-router-dom";
 
 class PageAplikasiQuizExamAdd extends React.Component{
   constructor(props) {
@@ -70,11 +71,11 @@ class PageAplikasiQuizExamAdd extends React.Component{
           <div className="title">Ujian</div>
           <div className="subtitle">Data ujian untuk tingkatan {tingkatan != null ? tingkatan.nama:"memuat..."}, mata pelajaran {mapel != null ? mapel.nama:"memuat..."} dan {semester != null ? semester.tahun+" (semester "+semester.semester+")":"memuat..."}</div>
           <Breadcrumb homeUrl="/aplikasi" homeText="Aplikasi"> 
-            <li><a href="#/aplikasi/quiz"><span>Kuis platform</span></a></li>   
-            <li><a href="#/aplikasi/quiz/exam"><span>Ujian</span></a></li>               
-            <li><a href={"#/aplikasi/quiz/exam/"+this.tingkatID}><span>{tingkatan != null ? tingkatan.nama:"memuat..."}</span></a></li>  
-            <li><a href={"#/aplikasi/quiz/exam/"+this.tingkatID+"/"+this.mapelID}><span>{mapel != null ? mapel.nama:"memuat..."}</span></a></li>
-            <li><a href={"#/aplikasi/quiz/exam/"+this.tingkatID+"/"+this.mapelID+"/"+this.semesterID}><span>{semester != null ? semester.tahun+" (semester "+semester.semester+")":"memuat..."}</span></a></li>            
+            <li><Link to="/aplikasi/quiz"><span>Kuis platform</span></Link></li>   
+            <li><Link to="/aplikasi/quiz/exam"><span>Ujian</span></Link></li>               
+            <li><Link to={"/aplikasi/quiz/exam/"+this.tingkatID}><span>{tingkatan != null ? tingkatan.nama:"memuat..."}</span></Link></li>  
+            <li><Link to={"/aplikasi/quiz/exam/"+this.tingkatID+"/"+this.mapelID}><span>{mapel != null ? mapel.nama:"memuat..."}</span></Link></li>
+            <li><Link to={"/aplikasi/quiz/exam/"+this.tingkatID+"/"+this.mapelID+"/"+this.semesterID}><span>{semester != null ? semester.tahun+" (semester "+semester.semester+")":"memuat..."}</span></Link></li>            
             <li><a href="#"><span>Menambahkan ujian</span></a></li>   
           </Breadcrumb>   
         </div>
@@ -114,7 +115,7 @@ class PageAplikasiQuizExamAdd extends React.Component{
                 )}
                 <div className="flex flex-wrap">
                   {userData.length > 0 && userData.map((value,k) => (
-                    <PendidikItem key={k} data={value} checked={value.id === userID ? true:false} errorCheck={errorUserID && userID ===""} onChecked={() => this.onCheckedPengajar(value.id)} src={"data/users/"+value.username+".jpg?nocache="+Date.now()}/>                    
+                    <PendidikItem key={k} data={value} checked={value.id === userID ? true:false} errorCheck={errorUserID && userID ===""} onChecked={() => this.onCheckedPengajar(value.id)} src={"/data/users/"+value.username+".jpg?nocache="+Date.now()}/>                    
                   ))}
                 </div>
               </div>

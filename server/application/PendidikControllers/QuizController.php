@@ -103,7 +103,7 @@ class QuizController extends ApiController
     public function IndexMapelExam($tingkatID)
     {          
         $mapelList = json_decode($this->user["mapel_id"],true);
-        if($this->user["superuser"] === "1"){      
+        if($this->user["superuser"] === 1){      
             $tingkatan = $this->database->select("sekolah_kelastingkatan",["id","nama"],["id" => $tingkatID]); 
             $mapel = $this->database->select("sekolah_mapel",["id","nama","color"]);      
             $newData = $this->reMapExamMapelJumlah($mapel,$tingkatID);
@@ -123,7 +123,7 @@ class QuizController extends ApiController
     public function IndexSemesterExam($tingkatID,$mapelID)
     {           
         $mapelList = json_decode($this->user["mapel_id"],true);
-        if($this->user["superuser"] === "1"){
+        if($this->user["superuser"] === 1){
             $tingkatan = $this->database->select("sekolah_kelastingkatan",["id","nama"],["id" => $tingkatID]); 
             $mapel = $this->database->select("sekolah_mapel",["id","nama"],["id" => $mapelID]); 
             $semester = $this->database->select("sekolah_semesternama",["[>]sekolah_semestertahun" => ["semester_tahun_id" => "id"]],["sekolah_semesternama.id","sekolah_semestertahun.nama(tahun)","sekolah_semesternama.semester"]);        
@@ -812,7 +812,7 @@ class QuizController extends ApiController
         $userID = $this->token->claims()->get('uid');
         $mapelList = json_decode($this->user["mapel_id"],true);
         
-        if($this->user["superuser"] === "1"){
+        if($this->user["superuser"] === 1){            
             $totalRow = $this->database->count("quiz_exam",["AND" => ["tingkatan_id" => $tingkatID,"mapel_id" => $mapelID ,"semester_id" => $semesterID]]);
             if(isset($_GET['cari'])){
                 $soal = $this->database->select("quiz_exam",["[>]sekolah_users" => ["user_id" => "id"]],["quiz_exam.id","quiz_exam.nama","quiz_exam.mulai","quiz_exam.selesai","sekolah_users.nama(pendidik)","sekolah_users.jenis","sekolah_users.username"],["AND" => ["quiz_exam.tingkatan_id" => $tingkatID,"quiz_exam.mapel_id" => $mapelID ,"quiz_exam.semester_id" => $semesterID],"quiz_exam.nama[~]" => $cari]);
@@ -824,7 +824,7 @@ class QuizController extends ApiController
                 $data = array("data" => $soal,"totaldata" => $totalRow,"tingkatan" => $tingkatan[0] , "mapel" => $mapel[0] , "semester" => $semester[0],"pages" => $pages,"current" => $page,"nextpage"=> $nextpage );            
             }  
             echo $this->response->json_response(200, $data);
-        }else if(count($mapelList) > 0 && in_array($mapelID,$mapelList)){
+        }else if(count($mapelList) > 0 && in_array($mapelID,$mapelList)){            
             $totalRow = $this->database->count("quiz_exam",["AND" => ["user_id" => $userID,"tingkatan_id" => $tingkatID,"mapel_id" => $mapelID ,"semester_id" => $semesterID]]);
             if(isset($_GET['cari'])){
                 $soal = $this->database->select("quiz_exam",["[>]sekolah_users" => ["user_id" => "id"]],["quiz_exam.id","quiz_exam.nama","quiz_exam.mulai","quiz_exam.selesai","sekolah_users.nama(pendidik)","sekolah_users.jenis","sekolah_users.username"],["AND" => ["quiz_exam.user_id" => $userID,"quiz_exam.tingkatan_id" => $tingkatID,"quiz_exam.mapel_id" => $mapelID ,"quiz_exam.semester_id" => $semesterID],"quiz_exam.nama[~]" => $cari]);
@@ -844,7 +844,7 @@ class QuizController extends ApiController
     public function ExamAddInfo($tingkatID,$mapelID,$semesterID)
     {
         $mapelList = json_decode($this->user["mapel_id"],true);
-        if($this->user["superuser"] != "1" && !in_array($mapelID,$mapelList)){
+        if($this->user["superuser"] != 1 && !in_array($mapelID,$mapelList)){
             echo $this->response->json_response(400, "Anda bukan Pendidik atau Administrator jadi gak punya IZIN");
             exit;
         }
@@ -862,7 +862,7 @@ class QuizController extends ApiController
     public function ExamAdd($tingkatID,$mapelID,$semesterID)
     {
         $mapelList = json_decode($this->user["mapel_id"],true);
-        if($this->user["superuser"] != "1" && !in_array($mapelID,$mapelList)){
+        if($this->user["superuser"] != 1 && !in_array($mapelID,$mapelList)){
             echo $this->response->json_response(400, "Anda bukan Pendidik atau Administrator jadi gak punya IZIN");
             exit;
         }
@@ -924,7 +924,7 @@ class QuizController extends ApiController
     public function ExamEdit($tingkatID,$mapelID,$semesterID,$examID)
     {
         $mapelList = json_decode($this->user["mapel_id"],true);
-        if($this->user["superuser"] != "1" && !in_array($mapelID,$mapelList)){
+        if($this->user["superuser"] != 1 && !in_array($mapelID,$mapelList)){
             echo $this->response->json_response(400, "Anda bukan Pendidik atau Administrator jadi gak punya IZIN");
             exit;
         }
@@ -943,7 +943,7 @@ class QuizController extends ApiController
     public function ExamUpdate($tingkatID,$mapelID,$semesterID)
     {
         $mapelList = json_decode($this->user["mapel_id"],true);
-        if($this->user["superuser"] != "1" && !in_array($mapelID,$mapelList)){
+        if($this->user["superuser"] != 1 && !in_array($mapelID,$mapelList)){
             echo $this->response->json_response(400, "Anda bukan Pendidik atau Administrator jadi gak punya IZIN");
             exit;
         }
@@ -1017,7 +1017,7 @@ class QuizController extends ApiController
             $location = __DIR__ ."/../../public/data/quiz/exam/".$deleteID;  
             $this->rrmdir($location);  
             // permission delete
-            if($this->user["superuser"] === "1"){                    
+            if($this->user["superuser"] === 1){                    
                 $hapus=$this->database->delete("quiz_exam",["AND" => ["id" => $deleteID]]);
                 if($hapus->rowCount() === 0){ 
                     echo $this->response->json_response(400,"Data tidak ditemukan");
@@ -1262,7 +1262,7 @@ class QuizController extends ApiController
                 $object = new stdClass();  
                 $object->id = $val["id"];               
                 $object->nama = $val["nama"];
-                if($this->user["superuser"] === "1"){
+                if($this->user["superuser"] === 1){
                     $object->jumlah = $this->database->count("quiz_exam",["tingkatan_id" => $val["id"]]);
                 }else{
                     $object->jumlah = $this->database->count("quiz_exam",["AND" => ["tingkatan_id" => $val["id"],"user_id" => $userID]]);
@@ -1285,7 +1285,7 @@ class QuizController extends ApiController
                 $object->id = $val["id"];               
                 $object->nama = $val["nama"];   
                 $object->color = $val["color"];
-                if($this->user["superuser"] === "1"){                    
+                if($this->user["superuser"] === 1){                    
                     $object->jumlah = $this->database->count("quiz_exam",["AND" => ["tingkatan_id" => $tingkatID,"mapel_id" => $val["id"]]]);    
                 }else{
                     $object->jumlah = $this->database->count("quiz_exam",["AND" => ["user_id" => $userID,"tingkatan_id" => $tingkatID,"mapel_id" => $val["id"]]]);                    
@@ -1308,7 +1308,7 @@ class QuizController extends ApiController
                 $object->id = $val["id"];               
                 $object->semester = $val["semester"];   
                 $object->tahun = $val["tahun"];                              
-                if($this->user["superuser"] === "1"){                      
+                if($this->user["superuser"] === 1){                      
                     $object->jumlah = $this->database->count("quiz_exam",["AND" => ["tingkatan_id" => $tingkatID,"mapel_id" => $mapelID,"semester_id" => $val["id"]]]);
                 }else{
                     $object->jumlah = $this->database->count("quiz_exam",["AND" => ["user_id" => $userID,"tingkatan_id" => $tingkatID,"mapel_id" => $mapelID,"semester_id" => $val["id"]]]);                    

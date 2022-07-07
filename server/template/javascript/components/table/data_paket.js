@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from "react-router-dom";
 
 function DataPaket(props) {     
     return (        
@@ -29,9 +30,9 @@ function DataPaket(props) {
                     </div>                    
                 </div>                
                 <div className="flex w-50" style={{justifyContent:"flex-end"}}>
-                    <a  href={props.onEdit} style={{border:"1px solid rgba(0,0,0,.125)"}} className="pointer link dim pa1 dib primary bg-light-gray">
-                        <i className="material-icons" style={{fontSize:"16px"}}>edit</i> 
-                    </a>
+                    <Link to={props.onEdit} style={{border:"1px solid rgba(0,0,0,.125)"}} className="pointer link dim pa1 dib primary bg-light-gray">
+                        <i className="material-icons" style={{fontSize:"16px"}}>edit</i>
+                    </Link>
                     <button type="button" onClick={() => props.onDelete()} style={{border:"1px solid rgba(0,0,0,.125)"}} className="pointer ml1 link dim pa1 dib red bg-light-gray">
                         <i className="material-icons-sharp" style={{fontSize:"16px"}}>delete</i>
                     </button>

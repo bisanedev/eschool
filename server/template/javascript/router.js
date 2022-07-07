@@ -1,5 +1,5 @@
 import React from 'react';
-import {HashRouter,Routes,Route,Navigate} from "react-router-dom";
+import {BrowserRouter,Routes,Route,Navigate} from "react-router-dom";
 import Modal from 'react-modal';
 import PrivateRoute from './components/privateRouter';
 /* pages */
@@ -54,7 +54,7 @@ Modal.setAppElement('#root');
 
 export default function RouterApp() {    
   return (
-    <HashRouter>
+    <BrowserRouter>
         <Routes>
           <Route path="/login" element={<PageLogin />}/> 
           <Route path="/" element={<CheckAuth/>}/> 
@@ -109,7 +109,7 @@ export default function RouterApp() {
           {/* 404 page */}             
           <Route path="*" element={<Page404 />}/>                      
         </Routes>
-    </HashRouter>
+    </BrowserRouter>
   );
 }
 

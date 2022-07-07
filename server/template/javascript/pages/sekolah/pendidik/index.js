@@ -7,6 +7,7 @@ import {InputSearch} from '../../../components/forms';
 import Table from "../../../components/table";
 import {DeleteDialog} from '../../../components/dialog';
 import { toast } from 'react-toastify';
+import { Link } from "react-router-dom";
 
 class PageSekolahPendidik extends React.Component{
 
@@ -52,16 +53,16 @@ class PageSekolahPendidik extends React.Component{
           <div className="title">Users & Pendidik</div>
           <div className="subtitle">Halaman informasi untuk users & pendidik</div>
           <Breadcrumb homeUrl="/sekolah" homeText="Sekolah">
-            <li><a href="#/sekolah/pendidik"><span>Users & pendidik</span></a></li>               
+            <li><Link to="/sekolah/pendidik"><span>Users & pendidik</span></Link></li>                   
           </Breadcrumb>    
         </div>                
         <div className="mw9 center cf ph3 mb3">
         <Table>
           <Table.Header>
             <div className="w-50 ph2">
-              <a type="submit" href="#/sekolah/pendidik/add" className="pointer link dim br1 ba pa2 dib white bg-primary b--primary">                
-                <i className="material-icons-outlined" style={{fontSize:"20px"}}>add</i>
-              </a>
+              <Link to="/sekolah/pendidik/add" className="pointer link dim br1 ba pa2 dib white bg-primary b--primary">                            
+                <i className="material-icons-outlined" style={{fontSize:"20px"}}>add</i>              
+              </Link>
             </div>
             <div className="w-50 ph2 flex" style={{justifyContent:"flex-end"}}>              
               <button type="submit" style={{fontSize:"13px",border:"1px solid rgba(0, 0, 0, 0.125)"}} className="pointer link dim br1 ba pa2 dib bg-white" onClick={() => this.selectAll()}>
@@ -95,8 +96,8 @@ class PageSekolahPendidik extends React.Component{
           <Table.Body>
           {data.length > 0 && !isLoading && data.map((value,k) => (
               <Table.DataProfile key={k} data={value} superuser={value.id === "1" ? true:false}
-                src={"data/users/"+value.username+".jpg?nocache="+Date.now()}
-                href={`#/sekolah/pendidik/edit/${value.id}`}
+                src={"/data/users/"+value.username+".jpg?nocache="+Date.now()}
+                href={`/sekolah/pendidik/edit/${value.id}`}
                 checked={selected.includes(value)} 
                 onChecked={() => this.onChecked(value)}   
                 onDelete={() => this.onDelete(value)}                         

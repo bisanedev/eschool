@@ -9,6 +9,7 @@ import Table from "../../../components/table";
 import {DeleteDialog} from '../../../components/dialog';
 import {AddModal,EditModal} from '../../../components/modal';
 import { toast } from 'react-toastify';
+import { Link } from "react-router-dom";
 import moment from "moment";
 import "moment/locale/id";
 
@@ -66,9 +67,9 @@ class PageSekolahSemesterSub extends React.Component{
         <div className="headings">
           <div className="title">Semester</div>
           <div className="subtitle">Halaman informasi untuk semester</div>
-          <Breadcrumb homeUrl="/sekolah" homeText="Sekolah">
-            <li><a href="#/sekolah/semester"><span>Semester</span></a></li>   
-            <li><a href={"#/sekolah/semester/"+this.semesterID}><span>{tahunAjaran !="" ? tahunAjaran:"memuat..."}</span></a></li>            
+          <Breadcrumb homeUrl="/sekolah" homeText="Sekolah">            
+            <li><Link to="/sekolah/semester"><span>Semester</span></Link></li>
+            <li><Link to={"#/sekolah/semester/"+this.semesterID}><span>{tahunAjaran !="" ? tahunAjaran:"memuat..."}</span></Link></li>            
           </Breadcrumb>
         </div>                
         <div className="mw9 center cf ph3 mb3">

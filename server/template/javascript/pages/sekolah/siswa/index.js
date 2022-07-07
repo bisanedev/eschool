@@ -9,6 +9,7 @@ import {DeleteDialog} from '../../../components/dialog';
 import { toast } from 'react-toastify';
 import {EditModal} from '../../../components/modal';
 import { DropdownList } from 'react-widgets';
+import { Link } from "react-router-dom";
 
 class PageSekolahSiswa extends React.Component{
 
@@ -59,16 +60,16 @@ class PageSekolahSiswa extends React.Component{
           <div className="title">Siswa</div>
           <div className="subtitle">Halaman informasi untuk siswa</div>
           <Breadcrumb homeUrl="/sekolah" homeText="Sekolah">
-            <li><a href="#/sekolah/siswa"><span>Siswa</span></a></li>             
+            <li><Link to="/sekolah/siswa"><span>Siswa</span></Link></li>                        
           </Breadcrumb>    
         </div>                
         <div className="mw9 center cf ph3 mb3">
         <Table>
           <Table.Header>
             <div className="w-50 ph2 flex">
-              <a type="submit" href="#/sekolah/siswa/add" className="pointer flex items-center justify-center link dim br1 ba pa2 dib white bg-primary b--primary mr2">                
-                <i className="material-icons-outlined" style={{fontSize:"20px"}}>add</i>
-              </a>
+              <Link to="/sekolah/siswa/add" className="pointer link dim br1 ba pa2 dib white bg-primary b--primary mr2">                            
+                <i className="material-icons-outlined" style={{fontSize:"20px"}}>add</i>              
+              </Link>
               <div className="w-40">
                 <DropdownList filter='contains' data={kelasData} value={kelas} onChange={value => this.handleSelectKelas(value)} textField="nama" dataKey="id" placeholder="Pilih kelas"/>           
               </div>
@@ -105,9 +106,9 @@ class PageSekolahSiswa extends React.Component{
           <Table.Body>
           {data.length > 0 && !isLoading && data.map((value,k) => (
               <Table.DataProfile key={k} data={value}
-                src={"data/siswa/"+value.username+".jpg?nocache="+Date.now()}
+                src={"/data/siswa/"+value.username+".jpg?nocache="+Date.now()}
                 noAbsen={value.absen}
-                href={`#/sekolah/siswa/edit/${value.id}`}
+                href={`/sekolah/siswa/edit/${value.id}`}
                 checked={selected.includes(value)} 
                 onChecked={() => this.onChecked(value)}   
                 onDelete={() => this.onDelete(value)}                         

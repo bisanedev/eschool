@@ -1,5 +1,6 @@
 import React from 'react';
 import moment from "moment";
+import { Link } from "react-router-dom";
 import "moment/locale/id";
 
 function DataExam(props) {     
@@ -13,8 +14,8 @@ function DataExam(props) {
                     {props.data.pendidik}               
                 </span>
             </div>
-            <div className="data">                
-                <a className="body link dim flex flex-column justify-center items-center ph1" href={props.onEdit}>
+            <div className="data"> 
+                <Link className="body link dim flex flex-column justify-center items-center ph1" to={props.onEdit}>
                     <div className="title flex items-center justify-center pa1 mb2">
                         <span className="elipsis">{props.nama}</span>
                     </div>
@@ -32,11 +33,11 @@ function DataExam(props) {
                         </div>
                         <span className="tgl">{moment(props.data.selesai).format('dddd')}, {moment(props.data.selesai).format('DD/MM/YYYY')}</span>
                     </div>
-                </a>
-                {moment().isAfter(props.data.selesai) ?                  
-                    <a className="pa2 link dim pointer primary footer" style={{fontSize:11}} href={props.onLihat}>
+                </Link>
+                {moment().isAfter(props.data.selesai) ? 
+                    <Link className="pa2 link dim pointer primary footer" style={{fontSize:11}} to={props.onLihat}>
                         <i className="material-icons" style={{fontSize:"11px"}}>leaderboard</i>&nbsp; Lihat nilai
-                    </a> 
+                    </Link>       
                 :
                     <div className="pa2 disable-secondary footer" style={{fontSize:11}}>
                         <i className="material-icons" style={{fontSize:"11px"}}>leaderboard</i>&nbsp; Lihat nilai

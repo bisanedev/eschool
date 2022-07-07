@@ -1,15 +1,16 @@
 import React from 'react';
+import { Link } from "react-router-dom";
 
 function DataSimple(props) {     
     return (        
         <div className="wrapDataSimple bg-white tc br2">
             {props.link ?
-            <a className="pa2 flex items-center justify-center bg-primary relative dataInfo link pointer" href={props.href} style={props.style}>
+            <Link className="pa2 flex items-center justify-center bg-primary relative dataInfo link pointer" style={props.style} to={props.href}>
                 <span className="f4 white">{props.title}</span>   
                 <div className="absolute pa1 top-0 right-0">                
-                    <i className="material-icons-outlined" style={{fontSize:"25px",color:"white"}}>folder_open</i>
+                <i className="material-icons-outlined" style={{fontSize:"25px",color:"white"}}>folder_open</i>
                 </div>
-            </a>
+            </Link>
             :
             <div className="pa2 flex items-center justify-center bg-primary relative dataInfo link flex-column" style={props.style}>
                 <span className="f4 white">{props.title}</span>               

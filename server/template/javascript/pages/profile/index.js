@@ -4,6 +4,7 @@ import axios from 'axios';
 import { Cards } from '../../components/forms';
 import { DeleteDialog } from '../../components/dialog';
 import { toast } from 'react-toastify';
+import { Link } from "react-router-dom";
 
 class PageProfile extends React.Component{
 
@@ -40,15 +41,15 @@ class PageProfile extends React.Component{
                  <div className="link dim deleteFotoButton flex justify-center items-center" onClick={() => this.setState({showHapusFoto:true})}>
                   <i className="material-icons-outlined" style={{fontSize: "14px"}}>close</i>
                  </div>
-                 <img src={"data/users/"+this.tokenData.username+".jpg?nocache="+Date.now()} onError={(e)=>{e.target.onerror = null;this.setState({foto:false})}}/>
+                 <img src={"/data/users/"+this.tokenData.username+".jpg?nocache="+Date.now()} onError={(e)=>{e.target.onerror = null;this.setState({foto:false})}}/>
                 </div>
                 :
-                <img src={this.tokenData.jenis === "l" ? "assets/images/cowok.png":"assets/images/cewek.png"}/> 
+                <img src={this.tokenData.jenis === "l" ? "/assets/images/cowok.png":"/assets/images/cewek.png"}/> 
               }
             </div>
-            <div className="profile-button">                
-              <a href="#/profile/foto" className="w-100 tc f7 link dim br2 ba ph3 pv2 dib black bg-light-gray mb1 ba b--light-silver" role="button">Ganti foto</a>
-              <a href="#/profile/password" className="w-100 tc f7 link dim br2 ba ph3 pv2 dib black bg-light-gray ba b--light-silver" role="button">Ganti password</a>
+            <div className="profile-button">  
+              <Link to="/profile/foto" className="w-100 tc f7 link dim br2 ba ph3 pv2 dib black bg-light-gray mb1 ba b--light-silver" role="button">Ganti foto</Link>
+              <Link to="/profile/password" className="w-100 tc f7 link dim br2 ba ph3 pv2 dib black bg-light-gray ba b--light-silver" role="button">Ganti password</Link>              
             </div>
           </Cards>  
           <Cards custom="profile-analisis" title="Analisis belajar & kehadiran siswa didikan anda"> 

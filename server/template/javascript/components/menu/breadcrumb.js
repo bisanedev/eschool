@@ -1,27 +1,19 @@
 import React from 'react';
+import { Link } from "react-router-dom";
 
-export default class Breadcrumb extends React.Component{
-
-  constructor(props) {
-    super(props);    
-  }
-
-  componentDidMount() {     
-
-  }
-
-  render() {      
-    return (
+function Breadcrumb(props) {
+  return (
     <nav aria-label="breadcrumb">
       <ol className="breadcrumb">                
         <li>
-          <a href={"#"+this.props.homeUrl}>          
-          <span>{this.props.homeText}</span>
-          </a>
+          <Link to={props.homeUrl}>                    
+            <span>{props.homeText}</span>          
+          </Link>
         </li>
-        {this.props.children}                 
+        {props.children}                 
       </ol>   
     </nav>
-    );
-  }
+  );
 }
+
+export default Breadcrumb;

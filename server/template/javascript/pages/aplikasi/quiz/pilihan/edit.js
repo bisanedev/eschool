@@ -14,6 +14,7 @@ import PilihanText from './pilihanText';
 import PilihanImage from './pilihanImage';
 import PilihanAudio from './pilihanAudio';
 import PilihanMath from './pilihanMath';
+import { Link } from "react-router-dom";
 
 class PageAplikasiQuizPilihanSoalEdit extends React.Component{
 
@@ -73,12 +74,12 @@ class PageAplikasiQuizPilihanSoalEdit extends React.Component{
         <div className="headings">    
           <div className="title">Pilihan ganda</div>
           <div className="subtitle">Data bank soal untuk tingkatan {tingkatan != null ? tingkatan.nama:"memuat..."}, mata pelajaran {mapel != null ? mapel.nama:"memuat..."} dan {semester != null ? semester.tahun+" (semester "+semester.semester+")":"memuat..."}</div>
-          <Breadcrumb homeUrl="/aplikasi" homeText="Aplikasi"> 
-            <li><a href="#/aplikasi/quiz"><span>Kuis platform</span></a></li>   
-            <li><a href="#/aplikasi/quiz/pilihan"><span>Pilihan ganda</span></a></li>               
-            <li><a href={"#/aplikasi/quiz/pilihan/"+this.tingkatID}><span>{tingkatan != null ? tingkatan.nama:"memuat..."}</span></a></li>  
-            <li><a href={"#/aplikasi/quiz/pilihan/"+this.tingkatID+"/"+this.mapelID}><span>{mapel != null ? mapel.nama:"memuat..."}</span></a></li>
-            <li><a href={"#/aplikasi/quiz/pilihan/"+this.tingkatID+"/"+this.mapelID+"/"+this.semesterID}><span>{semester != null ? semester.tahun+" (semester "+semester.semester+")":"memuat..."}</span></a></li>            
+          <Breadcrumb homeUrl="/aplikasi" homeText="Aplikasi">
+            <li><Link to="/aplikasi/quiz"><span>Kuis platform</span></Link></li>   
+            <li><Link to="/aplikasi/quiz/pilihan"><span>Pilihan ganda</span></Link></li>               
+            <li><Link to={"/aplikasi/quiz/pilihan/"+this.tingkatID}><span>{tingkatan != null ? tingkatan.nama:"memuat..."}</span></Link></li>  
+            <li><Link to={"/aplikasi/quiz/pilihan/"+this.tingkatID+"/"+this.mapelID}><span>{mapel != null ? mapel.nama:"memuat..."}</span></Link></li>
+            <li><Link to={"/aplikasi/quiz/pilihan/"+this.tingkatID+"/"+this.mapelID+"/"+this.semesterID}><span>{semester != null ? semester.tahun+" (semester "+semester.semester+")":"memuat..."}</span></Link></li>            
             <li><a href="#"><span>Mengubah soal</span></a></li>   
           </Breadcrumb>   
         </div>
@@ -130,7 +131,7 @@ class PageAplikasiQuizPilihanSoalEdit extends React.Component{
               <label className="f5 fw4 db mb2">Pertanyaan Gambar (Opsional)</label>
               <div className="relative">
                 <div className="link dim deleteFotoPertanyaan flex justify-center items-center" onClick={() => {this.setState({pertanyaaanImages:""})}}>Ganti foto<i className="material-icons-outlined" style={{fontSize: "14px"}}>close</i></div>
-                    <img src={`data/quiz/soal/pilihan/${this.soalID}/${pertanyaaanImages}?&nocache=`+Date.now()} style={{width:"100%",height:"100%"}}/>
+                    <img src={`/data/quiz/soal/pilihan/${this.soalID}/${pertanyaaanImages}?&nocache=`+Date.now()} style={{width:"100%",height:"100%"}}/>
               </div>              
             </div>
             ):(
@@ -141,7 +142,7 @@ class PageAplikasiQuizPilihanSoalEdit extends React.Component{
                <label className="f5 fw4 db mb2">Pertanyaan Audio (Opsional)</label>
                <div className="relative pv3">
                <div className="link dim deleteFotoPertanyaan flex justify-center items-center" onClick={() => {this.setState({pertanyaaanAudio:""})}}>Ganti Audio<i className="material-icons-outlined" style={{fontSize: "14px"}}>close</i></div>
-                <audio controls className="w-100" src={`data/quiz/soal/pilihan/${this.soalID}/${pertanyaaanAudio}`}/>                 
+                <audio controls className="w-100" src={`/data/quiz/soal/pilihan/${this.soalID}/${pertanyaaanAudio}`}/>                 
                </div>              
               </div>
             ):(

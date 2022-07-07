@@ -9,6 +9,7 @@ import { DropdownList } from 'react-widgets';
 import { toast } from 'react-toastify';
 import SoalItem from "./soalItem";
 import SoalSelected from "./soalSelected";
+import { Link } from "react-router-dom";
 
 class PageAplikasiQuizPaketSoalEdit extends React.Component{
 
@@ -75,13 +76,13 @@ class PageAplikasiQuizPaketSoalEdit extends React.Component{
         <div className="headings">    
           <div className="title">Paket soal</div>
           <div className="subtitle">Data Paket soal untuk tingkatan {tingkatan != null ? tingkatan.nama:"memuat..."}, mata pelajaran {mapel != null ? mapel.nama:"memuat..."} dan {semester != null ? semester.tahun+" (semester "+semester.semester+")":"memuat..."}</div>
-          <Breadcrumb homeUrl="/aplikasi" homeText="Aplikasi"> 
-            <li><a href="#/aplikasi/quiz"><span>Kuis platform</span></a></li>   
-            <li><a href="#/aplikasi/quiz/paket"><span>Paket soal</span></a></li>               
-            <li><a href={"#/aplikasi/quiz/paket/"+this.tingkatID}><span>{tingkatan != null ? tingkatan.nama:"memuat..."}</span></a></li>  
-            <li><a href={"#/aplikasi/quiz/paket/"+this.tingkatID+"/"+this.mapelID}><span>{mapel != null ? mapel.nama:"memuat..."}</span></a></li>
-            <li><a href={"#/aplikasi/quiz/paket/"+this.tingkatID+"/"+this.mapelID+"/"+this.semesterID}><span>{semester != null ? semester.tahun+" (semester "+semester.semester+")":"memuat..."}</span></a></li>            
-            <li><a href="#"><span>Mengubah paket soal</span></a></li>   
+          <Breadcrumb homeUrl="/aplikasi" homeText="Aplikasi">             
+            <li><Link to="/aplikasi/quiz"><span>Kuis platform</span></Link></li>   
+            <li><Link to="/aplikasi/quiz/paket"><span>Paket soal</span></Link></li>               
+            <li><Link to={"/aplikasi/quiz/paket/"+this.tingkatID}><span>{tingkatan != null ? tingkatan.nama:"memuat..."}</span></Link></li>  
+            <li><Link to={"/aplikasi/quiz/paket/"+this.tingkatID+"/"+this.mapelID}><span>{mapel != null ? mapel.nama:"memuat..."}</span></Link></li>
+            <li><Link to={"/aplikasi/quiz/paket/"+this.tingkatID+"/"+this.mapelID+"/"+this.semesterID}><span>{semester != null ? semester.tahun+" (semester "+semester.semester+")":"memuat..."}</span></Link></li>            
+            <li><Link to="#"><span>Mengubah paket soal</span></Link></li>  
           </Breadcrumb>   
         </div>
         <div className="mw9 center cf ph3 flex flex-column">
@@ -144,8 +145,8 @@ class PageAplikasiQuizPaketSoalEdit extends React.Component{
                   <SoalSelected key={k} nomor={k+1} text={value.pertanyaan_text}
                     onDelete={() => this.onDeletePilihan(value)}
                     dataValue={value}    
-                    linkImages={`data/quiz/soal/pilihan/${value.id}/${value.pertanyaan_images}`}
-                    linkAudio={`data/quiz/soal/pilihan/${value.id}/${value.pertanyaan_audio}`}
+                    linkImages={`/data/quiz/soal/pilihan/${value.id}/${value.pertanyaan_images}`}
+                    linkAudio={`/data/quiz/soal/pilihan/${value.id}/${value.pertanyaan_audio}`}
                   />                
               ))}
               {paketEssay.length > 0 && (<div className="f6 b pv1 db bb b--primary mb3 primary bw1 mb2 flex justify-between"><span>Essay</span><span>{paketEssay.length} soal</span></div>)}
@@ -153,8 +154,8 @@ class PageAplikasiQuizPaketSoalEdit extends React.Component{
               <SoalSelected key={k} nomor={k+1} text={value.pertanyaan_text}
                 onDelete={() => this.onDeleteEssay(value)}
                 dataValue={value}    
-                linkImages={`data/quiz/soal/essay/${value.id}/${value.pertanyaan_images}`}
-                linkAudio={`data/quiz/soal/essay/${value.id}/${value.pertanyaan_audio}`}
+                linkImages={`/data/quiz/soal/essay/${value.id}/${value.pertanyaan_images}`}
+                linkAudio={`/data/quiz/soal/essay/${value.id}/${value.pertanyaan_audio}`}
               />
               ))}
             </div>
@@ -192,8 +193,8 @@ class PageAplikasiQuizPaketSoalEdit extends React.Component{
                     checked={paketPilihan.some(item => item.id === value.id)}
                     onChecked={() => this.onCheckedPilihan(value)}
                     dataValue={value}    
-                    linkImages={`data/quiz/soal/pilihan/${value.id}/${value.pertanyaan_images}`}
-                    linkAudio={`data/quiz/soal/pilihan/${value.id}/${value.pertanyaan_audio}`}
+                    linkImages={`/data/quiz/soal/pilihan/${value.id}/${value.pertanyaan_images}`}
+                    linkAudio={`/data/quiz/soal/pilihan/${value.id}/${value.pertanyaan_audio}`}
                   />
                 ))}
               </div> 
@@ -243,8 +244,8 @@ class PageAplikasiQuizPaketSoalEdit extends React.Component{
                   checked={paketEssay.some(item => item.id === value.id)}  
                   onChecked={() => this.onCheckedEssay(value)}
                   dataValue={value}    
-                  linkImages={`data/quiz/soal/essay/${value.id}/${value.pertanyaan_images}`}
-                  linkAudio={`data/quiz/soal/essay/${value.id}/${value.pertanyaan_audio}`}
+                  linkImages={`/data/quiz/soal/essay/${value.id}/${value.pertanyaan_images}`}
+                  linkAudio={`/data/quiz/soal/essay/${value.id}/${value.pertanyaan_audio}`}
                 />
               ))}
               </div>

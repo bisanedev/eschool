@@ -6,6 +6,7 @@ import {InputSearch} from '../../../../components/forms';
 import Table from "../../../../components/table";
 import {DeleteDialog} from '../../../../components/dialog';
 import { toast } from 'react-toastify';
+import { Link } from "react-router-dom";
 
 class PageAplikasiQuizPaketSoal extends React.Component{
 
@@ -54,20 +55,20 @@ class PageAplikasiQuizPaketSoal extends React.Component{
           <div className="title">Paket soal</div>
           <div className="subtitle">Data Paket soal untuk tingkatan {tingkatan != null ? tingkatan.nama:"memuat..."}, mata pelajaran {mapel != null ? mapel.nama:"memuat..."} dan {semester != null ? semester.tahun+" (semester "+semester.semester+")":"memuat..."}</div>
           <Breadcrumb homeUrl="/aplikasi" homeText="Aplikasi"> 
-            <li><a href="#/aplikasi/quiz"><span>Kuis platform</span></a></li>   
-            <li><a href="#/aplikasi/quiz/paket"><span>Paket soal</span></a></li>               
-            <li><a href={"#/aplikasi/quiz/paket/"+this.tingkatID}><span>{tingkatan != null ? tingkatan.nama:"memuat..."}</span></a></li>  
-            <li><a href={"#/aplikasi/quiz/paket/"+this.tingkatID+"/"+this.mapelID}><span>{mapel != null ? mapel.nama:"memuat..."}</span></a></li>
-            <li><a href={"#/aplikasi/quiz/paket/"+this.tingkatID+"/"+this.mapelID+"/"+this.semesterID}><span>{semester != null ? semester.tahun+" (semester "+semester.semester+")":"memuat..."}</span></a></li>            
+            <li><Link to="/aplikasi/quiz"><span>Kuis platform</span></Link></li>   
+            <li><Link to="/aplikasi/quiz/paket"><span>Paket soal</span></Link></li>               
+            <li><Link to={"/aplikasi/quiz/paket/"+this.tingkatID}><span>{tingkatan != null ? tingkatan.nama:"memuat..."}</span></Link></li>  
+            <li><Link to={"/aplikasi/quiz/paket/"+this.tingkatID+"/"+this.mapelID}><span>{mapel != null ? mapel.nama:"memuat..."}</span></Link></li>
+            <li><Link to={"/aplikasi/quiz/paket/"+this.tingkatID+"/"+this.mapelID+"/"+this.semesterID}><span>{semester != null ? semester.tahun+" (semester "+semester.semester+")":"memuat..."}</span></Link></li>            
           </Breadcrumb>
         </div>                
         <div className="mw9 center cf ph3 mb3">
         <Table>
           <Table.Header>
             <div className="w-50 ph2">
-              <a href={`#/aplikasi/quiz/paket/${this.tingkatID}/${this.mapelID}/${this.semesterID}/add`} className="pointer link dim br1 ba pa2 dib white bg-primary b--primary" onClick={() => this.setState({showAdd:true})}>                
+              <Link to={`/aplikasi/quiz/paket/${this.tingkatID}/${this.mapelID}/${this.semesterID}/add`} className="pointer link dim br1 ba pa2 dib white bg-primary b--primary" onClick={() => this.setState({showAdd:true})}>                
                 <i className="material-icons-outlined" style={{fontSize:"20px"}}>add</i>
-              </a>
+              </Link>
             </div>
             <div className="w-50 ph2 flex" style={{justifyContent:"flex-end"}}>              
               <button type="submit" style={{fontSize:"13px",border:"1px solid rgba(0, 0, 0, 0.125)"}} className="pointer link dim br1 ba pa2 dib bg-white" onClick={() => this.selectAll()}>
@@ -109,7 +110,7 @@ class PageAplikasiQuizPaketSoal extends React.Component{
                 checked={selected.includes(value.id)} 
                 onChecked={() => this.onChecked(value.id)}
                 onDelete={() => this.onDelete(value)}
-                onEdit={`#/aplikasi/quiz/paket/${this.tingkatID}/${this.mapelID}/${this.semesterID}/${value.id}`}
+                onEdit={`/aplikasi/quiz/paket/${this.tingkatID}/${this.mapelID}/${this.semesterID}/${value.id}`}
               /> 
             ))} 
             {isLoading && <Table.Loading nama="paket soal" /> } 

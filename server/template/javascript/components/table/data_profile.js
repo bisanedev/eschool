@@ -1,16 +1,17 @@
 import React from 'react';
+import { Link } from "react-router-dom";
 
 function DataProfile(props) {
-    let foto = <img src={props.src} onError={(e)=>{e.target.onerror = null; e.target.src=props.data.jenis==="l" ? "assets/images/cowok.png":"assets/images/cewek.png"}} />;     
+    let foto = <img src={props.src} onError={(e)=>{e.target.onerror = null; e.target.src=props.data.jenis==="l" ? "/assets/images/cowok.png":"/assets/images/cewek.png"}} />;     
     return (        
         <div className="wrapDataProfile bg-white tc br2">
             <div className="foto">
                 {foto}
-            </div>            
-            <a className="menu dim" href={props.href}>
+            </div>  
+            <Link className="menu dim" to={props.href}>
                 <span className="nama">{props.data.nama}</span>
-                <span className="info">{props.children}</span>                               
-            </a>
+                <span className="info">{props.children}</span>
+            </Link>
             {!props.superuser &&
             <>
             <label className="checkbox-profile">            

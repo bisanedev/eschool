@@ -2,6 +2,7 @@ import React from 'react';
 import { Helmet } from 'react-helmet';
 import axios from "axios";
 import {Breadcrumb,MenuText,MenuLoading} from '../../../../components/menu';
+import { Link } from "react-router-dom";
 
 class PageAplikasiQuizPaket extends React.Component{
 
@@ -32,9 +33,9 @@ class PageAplikasiQuizPaket extends React.Component{
         <div className="headings">
           <div className="title">Kuis platform</div>
           <div className="subtitle">Halaman informasi paket soal</div>
-          <Breadcrumb homeUrl="/aplikasi" homeText="Aplikasi">                                            
-            <li><a href="#/aplikasi/quiz"><span>Kuis platform</span></a></li>   
-            <li><a href="#/aplikasi/quiz/paket"><span>Paket soal</span></a></li>                   
+          <Breadcrumb homeUrl="/aplikasi" homeText="Aplikasi">                                             
+            <li><Link to="/aplikasi/quiz"><span>Kuis platform</span></Link></li>   
+            <li><Link to="/aplikasi/quiz/paket"><span>Paket soal</span></Link></li>                        
           </Breadcrumb>
         </div>        
         <div className="mw9 center">

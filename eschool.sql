@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 07, 2022 at 03:14 PM
+-- Generation Time: Jul 07, 2022 at 03:21 PM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 8.1.6
 
@@ -169,8 +169,8 @@ CREATE TABLE `quiz_paketsoal` (
 --
 
 INSERT INTO `quiz_paketsoal` (`id`, `tingkatan_id`, `mapel_id`, `semester_id`, `nama`, `acak_soal`, `bobot_pilihan`, `bobot_essay`, `pilihan_terpilih`, `essay_terpilih`) VALUES
-(4, 2, 9, 1, 'Paket A', 1, 80, 20, '[\"72\",\"74\",\"73\",\"76\",\"75\",\"78\",\"80\",\"79\",\"82\",\"81\"]', '[\"15\",\"7\"]'),
-(5, 2, 9, 1, 'Paket B', 1, 80, 20, '[\"87\",\"86\",\"107\",\"106\",\"85\",\"80\",\"79\",\"77\",\"78\",\"72\"]', '[\"15\",\"7\"]');
+(4, 2, 9, 1, 'Paket A', 1, 80, 20, '[72,74,73,76,75,78,80,79,82,81]', '[15,7]'),
+(5, 2, 9, 1, 'Paket B', 1, 80, 20, '[87,86,107,106,85,80,79,77,78,72]', '[15,7]');
 
 -- --------------------------------------------------------
 
@@ -349,7 +349,7 @@ INSERT INTO `sekolah_users` (`id`, `nama`, `jenis`, `username`, `password`, `fot
 (1, 'Administrator', 'l', 'admin', '$2a$10$vT.Id0Ra2.PWpl.xBTXsreraBSXwOPZi04G.CfZqXAhV0tMblgJD6', 1, '[9]', 1, 1688735225, '62c6da79c9a57', ''),
 (2, 'Marbuah Almakaroni', 'p', 'marbuah', '$2a$12$K/vRFyhWiIwitDqY5fcqQOIZvWGlfplnOJPbkOYuJm8RshDC5V9gG', 1, '[9,1]', 1, 1688735380, '62c6db14d0515', ''),
 (15, 'Adhisti Arisha ', 'p', 'adhisti', '$2a$10$F/T0Q2n9I6blfK4YsY9FYO6xQxOOnoYdmLAnlZKnwBUmLCz8Psc7.', 1, '[3,6]', 0, 1681016115, '625111b392805', NULL),
-(25, 'Meong Ganas', 'p', 'meow', '$2a$12$K/vRFyhWiIwitDqY5fcqQOIZvWGlfplnOJPbkOYuJm8RshDC5V9gG', 1, '[9,8]', 0, 1688735320, '62c6dad804e50', '');
+(25, 'Meong Ganas', 'p', 'meow', '$2a$12$K/vRFyhWiIwitDqY5fcqQOIZvWGlfplnOJPbkOYuJm8RshDC5V9gG', 1, '[9]', 0, 1688735320, '62c6dad804e50', '');
 
 --
 -- Indexes for dumped tables
@@ -480,7 +480,7 @@ ALTER TABLE `quiz_exam_jawabansiswa`
 -- AUTO_INCREMENT for table `quiz_paketsoal`
 --
 ALTER TABLE `quiz_paketsoal`
-  MODIFY `id` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT for table `sekolah_kelasnama`

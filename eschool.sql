@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.1
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 20, 2022 at 10:45 AM
--- Server version: 10.4.19-MariaDB
--- PHP Version: 8.0.7
+-- Generation Time: Jul 07, 2022 at 03:14 PM
+-- Server version: 10.4.24-MariaDB
+-- PHP Version: 8.1.6
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -122,10 +122,7 @@ CREATE TABLE `quiz_exam` (
 --
 
 INSERT INTO `quiz_exam` (`id`, `user_id`, `tingkatan_id`, `mapel_id`, `semester_id`, `nama`, `mulai`, `selesai`, `nilai_minimal`, `paket_soal`, `kisi_exam`) VALUES
-(14, 2, 2, 9, 1, 'Remidial Ujian Semester', '2022-02-03 07:00:00', '2022-02-04 09:30:00', '50', '[\"4\",\"5\"]', ''),
-(15, 25, 2, 9, 1, 'Ujian Mid Semester', '2022-01-31 14:46:00', '2022-01-31 15:46:00', '65', '[\"4\",\"5\"]', ''),
-(16, 1, 2, 9, 1, 'Ujian Harian ke 1', '2022-02-03 06:03:00', '2022-02-03 07:03:00', '50', '[\"4\",\"5\"]', ''),
-(17, 25, 2, 9, 1, 'Ujian Semester', '2022-02-06 14:46:00', '2022-02-06 15:46:00', '65', '[\"4\",\"5\"]', '');
+(17, 25, 2, 9, 1, 'Ujian Semester', '2022-02-06 14:46:00', '2022-02-07 15:46:00', '65', '[4,5]', '');
 
 -- --------------------------------------------------------
 
@@ -349,10 +346,10 @@ CREATE TABLE `sekolah_users` (
 --
 
 INSERT INTO `sekolah_users` (`id`, `nama`, `jenis`, `username`, `password`, `foto`, `mapel_id`, `superuser`, `expired_token`, `unique_token`, `device_token`) VALUES
-(1, 'Administrator', 'l', 'admin', '$2a$10$uQdj8W5R62l3g2wOUvqYXe0UrpEpyB6vLx7eIL7elg6wRPt58NZvC', 1, '[\"9\"]', 1, 1678070851, '622420c3c87c9', ''),
-(2, 'Marbuah Almakaroni', 'p', 'marbuah', '$2a$12$K/vRFyhWiIwitDqY5fcqQOIZvWGlfplnOJPbkOYuJm8RshDC5V9gG', 1, '[\"9\",\"1\"]', 1, 1681566841, '625978f9d5944', ''),
-(15, 'Adhisti Arisha ', 'p', 'adhisti', '$2a$10$F/T0Q2n9I6blfK4YsY9FYO6xQxOOnoYdmLAnlZKnwBUmLCz8Psc7.', 1, '[\"3\",\"6\"]', 0, 1681016115, '625111b392805', NULL),
-(25, 'Meong Ganas', 'p', 'meow', '$2a$12$K/vRFyhWiIwitDqY5fcqQOIZvWGlfplnOJPbkOYuJm8RshDC5V9gG', 1, '[\"9\"]', 0, 1674933449, '61f4414942806', '');
+(1, 'Administrator', 'l', 'admin', '$2a$10$vT.Id0Ra2.PWpl.xBTXsreraBSXwOPZi04G.CfZqXAhV0tMblgJD6', 1, '[9]', 1, 1688735225, '62c6da79c9a57', ''),
+(2, 'Marbuah Almakaroni', 'p', 'marbuah', '$2a$12$K/vRFyhWiIwitDqY5fcqQOIZvWGlfplnOJPbkOYuJm8RshDC5V9gG', 1, '[9,1]', 1, 1688735380, '62c6db14d0515', ''),
+(15, 'Adhisti Arisha ', 'p', 'adhisti', '$2a$10$F/T0Q2n9I6blfK4YsY9FYO6xQxOOnoYdmLAnlZKnwBUmLCz8Psc7.', 1, '[3,6]', 0, 1681016115, '625111b392805', NULL),
+(25, 'Meong Ganas', 'p', 'meow', '$2a$12$K/vRFyhWiIwitDqY5fcqQOIZvWGlfplnOJPbkOYuJm8RshDC5V9gG', 1, '[9,8]', 0, 1688735320, '62c6dad804e50', '');
 
 --
 -- Indexes for dumped tables
@@ -471,7 +468,7 @@ ALTER TABLE `quiz_banksoal_pilihan`
 -- AUTO_INCREMENT for table `quiz_exam`
 --
 ALTER TABLE `quiz_exam`
-  MODIFY `id` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `id` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT for table `quiz_exam_jawabansiswa`
@@ -483,7 +480,7 @@ ALTER TABLE `quiz_exam_jawabansiswa`
 -- AUTO_INCREMENT for table `quiz_paketsoal`
 --
 ALTER TABLE `quiz_paketsoal`
-  MODIFY `id` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT for table `sekolah_kelasnama`
@@ -519,13 +516,13 @@ ALTER TABLE `sekolah_semestertahun`
 -- AUTO_INCREMENT for table `sekolah_siswa`
 --
 ALTER TABLE `sekolah_siswa`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `sekolah_users`
 --
 ALTER TABLE `sekolah_users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 
 --
 -- Constraints for dumped tables

@@ -2,7 +2,7 @@ library appautoroute.globals;
 import 'package:flutter/material.dart';
 
 // bool isLoggedIn = true;
-String serverIP = "192.168.7.250";
+String serverIP = "192.168.7.2";
 String protokol = "http://";
 String crsf = "wjjZOsdIaEmaNMCnP3ZE";
 // Color baseColor = const Color(0xff0191d7);

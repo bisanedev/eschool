@@ -151,7 +151,7 @@ class _LoginScreen extends State<LoginScreen> {
 
     final futureBuilder = FutureBuilder<LoginResponse>(
         future: futureLogin,
-        builder: (context, snapshot)  {
+        builder: (context, snapshot)  {                   
         if (snapshot.hasError){
           /* --- response ketika koneksi tak terhubung ---*/        
           return const Center(
@@ -160,7 +160,7 @@ class _LoginScreen extends State<LoginScreen> {
         }
         else if (snapshot.connectionState == ConnectionState.done && snapshot.hasData) {                       
         /* --- simpan token & userData ---*/        
-          if(snapshot.data!.status == true){           
+          if(snapshot.data!.status == true){          
           simpanToken(snapshot.data!.message!.token ?? "");
           simpanUserData(snapshot.data!.message!.user);          
           /* --- Navigate route apps --- */  
@@ -219,8 +219,8 @@ class _LoginScreen extends State<LoginScreen> {
       },     
     );
     Map<String, dynamic> error = jsonDecode(response.body);
-    if (response.statusCode == 200) {
-      return LoginResponse.fromJson(jsonDecode(response.body));
+    if (response.statusCode == 200) {     
+    return LoginResponse.fromJson(jsonDecode(response.body));    
     }else{ 
       if(error['message']['username'] != ""){
         setState(() { 

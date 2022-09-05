@@ -38,7 +38,7 @@ class AuthController
                 $objectUserData->jenis = $cekAuth[0]["jenis"];
                 $objectUserData->foto = $cekAuth[0]["foto"];
                 $objectUserData->kelas = $cekAuth[0]["kelas"];
-                $objectUserData->no_absens = $cekAuth[0]["no_absens"];                
+                $objectUserData->no_absens = strval($cekAuth[0]["no_absens"]);                
                 // create token                
                 $now = new DateTimeImmutable(); 
                 $uniqueToken = uniqid();                       

@@ -29,9 +29,9 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  auto_route: ^4.2.1
+  auto_route: ^5.0.1
   shared_preferences: ^2.0.15
-  http: ^0.13.4
+  http: ^0.13.5
   get_it: ^7.2.0
   image_cropper: ^2.0.3
   html_unescape: ^2.0.0
@@ -45,7 +45,7 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  auto_route_generator: ^4.2.0
+  auto_route_generator: ^5.0.2
   build_runner: ^2.2.0
 
   # The "flutter_lints" package below contains a set of recommended lints to

@@ -151,28 +151,33 @@ class _LoginScreen extends State<LoginScreen> {
 
     final futureBuilder = FutureBuilder<LoginResponse>(
         future: futureLogin,
-        builder: (context, snapshot)  {                   
-        if (snapshot.hasError){
-          /* --- response ketika koneksi tak terhubung ---*/        
-          return const Center(
-            child:Text("Jaringan tidak terhubung ke server",style: TextStyle(color: Colors.red))
-          );
-        }
-        else if (snapshot.connectionState == ConnectionState.done && snapshot.hasData) {                       
-        /* --- simpan token & userData ---*/        
-          if(snapshot.data!.status == true){          
-          simpanToken(snapshot.data!.message!.token ?? "");
-          simpanUserData(snapshot.data!.message!.user);          
-          /* --- Navigate route apps --- */  
-            router.push(const BaseRouter(children: [AplikasiRouter()]));
-          }else{ 
-            /* --- response ketika salah input ,username & password  ---*/             
-            return Center(
-              child:Text("${snapshot.data?.pesanError}",style: const TextStyle(color: Colors.red))
-            );                     
-          } 
-        }     
-        return const SizedBox(width: 20,height: 20);        
+        builder: (BuildContext context, AsyncSnapshot<LoginResponse> snapshot)  {                 
+          switch (snapshot.connectionState) {            
+            case ConnectionState.waiting:              
+              return Center(child:Text("Proses Authentikasi...",style: TextStyle(color: globals.fontColor)));
+            default:
+              if (snapshot.connectionState == ConnectionState.done && snapshot.hasData) {                       
+              /* --- simpan token & userData ---*/                                     
+                if(snapshot.data!.status == true){        
+                simpanToken(snapshot.data!.message.token);
+                simpanUserData(snapshot.data!.message.user);                 
+                /* --- Navigate route apps --- */  
+                  router.push(const BaseRouter(children: [AplikasiRouter()]));
+                }else{ 
+                  /* --- response ketika salah input ,username & password  ---*/             
+                  return Center(
+                    child:Text("${snapshot.data?.pesanError}",style: const TextStyle(color: Colors.red))
+                  );                     
+                } 
+              }
+              else if (snapshot.hasError){                
+                /* --- response ketika koneksi tak terhubung ---*/        
+                return const Center(
+                  child:Text("Jaringan tidak terhubung ke server",style: TextStyle(color: Colors.red))
+                );
+              }
+              return const SizedBox(width: 20,height: 20);                            
+          }      
         },
     );         
 
@@ -218,9 +223,9 @@ class _LoginScreen extends State<LoginScreen> {
         'remember': 'Yes'       
       },     
     );
-    Map<String, dynamic> error = jsonDecode(response.body);
+    Map<String, dynamic> error = jsonDecode(response.body);    
     if (response.statusCode == 200) {     
-    return LoginResponse.fromJson(jsonDecode(response.body));    
+      return LoginResponse.fromJson(jsonDecode(response.body));    
     }else{ 
       if(error['message']['username'] != ""){
         setState(() { 
@@ -235,8 +240,8 @@ class _LoginScreen extends State<LoginScreen> {
           errorPassword = error['message']['password'];
           usernameError = true;
         });
-      }   
-      return LoginResponse(status: false,pesanError: "");      
+      }      
+      return LoginResponse.withoutMessage(status: false,pesanError: "");
     }       
   }
   //----

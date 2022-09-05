@@ -25,7 +25,7 @@ class _BaseScreen extends State<BaseScreen> {
   @override
   Widget build(BuildContext context) {      
     return AutoTabsScaffold(
-        routes: const [
+        routes: [
           AplikasiRouter(),
           PrestasiRouter(),
           ProfileIndex()

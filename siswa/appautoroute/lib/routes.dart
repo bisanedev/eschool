@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:flutter/widgets.dart';
 import './guard.dart';
 import 'main_screens/base.dart';
 import 'main_screens/aplikasi/aplikasi_screen.dart';
@@ -16,23 +17,23 @@ import 'aplikasi/ujian.dart';
     AutoRoute(
       path: "/",
       name: "BaseRouter",
-      page: BaseScreen,
-      guards: [CheckIfAuthenticated],
+      page: BaseScreen,   
       initial: true,
+       guards: [CheckIfAuthenticated],
       children:[
         AutoRoute(
           path: "aplikasi",
-          name: "AplikasiRouter",
+          name: "AplikasiRouter",         
           page: AplikasiScreen         
         ),
         AutoRoute(
           path: "prestasi",
-          name: "PrestasiRouter", 
+          name: "PrestasiRouter",           
           page: PrestasiScreen
         ),
         AutoRoute(
           path: "profile", 
-          name: "ProfileIndex",          
+          name: "ProfileIndex",                 
           page: EmptyRouterPage,          
           children: [
             AutoRoute(
@@ -59,3 +60,7 @@ import 'aplikasi/ujian.dart';
   ],
 )
 class $AppRouter {}
+
+class EmptyRouterPage extends AutoRouter {
+  const EmptyRouterPage({Key? key}) : super(key: key);
+}

@@ -285,9 +285,10 @@ class _ProfileScreen extends State<ProfileScreen> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     Map<String, dynamic> userMap = jsonDecode(prefs.getString('userData') ?? "");
     setState((){      
-      userToken = prefs.getString('userToken') ?? '';
-      userData = UserData.fromJson(userMap); 
-    });           
+     userToken = prefs.getString('userToken') ?? '';
+     userData = UserData.fromJson(userMap); 
+    });   
+    print(userMap);        
   }
 
   void hapusFoto() {

@@ -27,7 +27,7 @@ class InputButton extends StatelessWidget {
         )
         :
         Text(label ?? "kosong",style:const TextStyle(fontSize: 17,color: Colors.white,fontWeight: FontWeight.bold)),
-      style: ElevatedButton.styleFrom(primary: isLoading == true ? color!.withOpacity(0.8):color, padding: padding),
+      style: ElevatedButton.styleFrom(backgroundColor: isLoading == true ? color!.withOpacity(0.8):color, padding: padding),
     );
   }
 }

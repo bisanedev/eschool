@@ -1,6 +1,6 @@
 # eschool
 Platform Penunjang Sekolah
-# discontinued project
+discontinued project
 
 # Screenshot web
 ![](https://github.com/bisanedev/eschool/blob/main/screenshoot/1.png?raw=true)
@@ -12,8 +12,8 @@ Platform Penunjang Sekolah
 ![](https://github.com/bisanedev/eschool/blob/main/screenshoot/7.png?raw=true)
 
 # Screenshot mobile
-<img src="https://github.com/bisanedev/smartAbsensi/blob/main/screenshoot/mobile1.png?raw=true" width="280">
-<img src="https://github.com/bisanedev/smartAbsensi/blob/main/screenshoot/mobile2.png?raw=true" width="280">
-<img src="https://github.com/bisanedev/smartAbsensi/blob/main/screenshoot/mobile3.png?raw=true" width="280">
-<img src="https://github.com/bisanedev/smartAbsensi/blob/main/screenshoot/mobile4.png?raw=true" width="280">
-<img src="https://github.com/bisanedev/smartAbsensi/blob/main/screenshoot/mobile5.png?raw=true" width="280">
+<img src="https://github.com/bisanedev/eschool/blob/main/screenshoot/mobile1.png?raw=true" width="280">
+<img src="https://github.com/bisanedev/eschool/blob/main/screenshoot/mobile2.png?raw=true" width="280">
+<img src="https://github.com/bisanedev/eschool/blob/main/screenshoot/mobile3.png?raw=true" width="280">
+<img src="https://github.com/bisanedev/eschool/blob/main/screenshoot/mobile4.png?raw=true" width="280">
+<img src="https://github.com/bisanedev/eschool/blob/main/screenshoot/mobile5.png?raw=true" width="280">
